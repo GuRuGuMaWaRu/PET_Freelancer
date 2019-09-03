@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const ProjectSchema = new Schema({
   client: {
-    type: String,
-    required: true
+    type: Schema.Types.ObjectId,
+    ref: "Client"
   },
   projectNr: {
     type: String,
