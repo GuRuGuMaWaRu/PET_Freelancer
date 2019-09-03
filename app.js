@@ -1,10 +1,20 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const mongoose = require("mongoose");
 
 const projectsRouter = require("./routes/projects");
 const clientsRouter = require("./routes/clients");
 const authRouter = require("./routes/auth");
+
+// Set environament variables
+require("dotenv").config({ path: "process.env" });
+
+// Connect to mongo DB
+mongoose.connect(process.env.DB, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
 const app = express();
 
