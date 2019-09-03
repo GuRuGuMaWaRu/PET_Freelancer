@@ -11,10 +11,12 @@ const authRouter = require("./routes/auth");
 require("dotenv").config({ path: "process.env" });
 
 // Connect to mongo DB
-mongoose.connect(process.env.DB, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true
-});
+if (process.env.NODE_ENV === "development") {
+  mongoose.connect(process.env.DB, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+  });
+}
 
 const app = express();
 

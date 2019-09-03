@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "SET NODE_ENV=test & nodemon --exec \"mocha --recursive -R min\""
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -15,6 +16,7 @@
   },
   "devDependencies": {
     "mocha": "^6.2.0",
+    "nodemon": "^1.19.1",
     "supertest": "^4.0.2"
   }
 }
