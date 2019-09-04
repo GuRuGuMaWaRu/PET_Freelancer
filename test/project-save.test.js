@@ -8,8 +8,7 @@ describe("Project controller", () => {
   it("should save a new project with a new client on POST request to /api/projects", done => {
     const data = {
       client: {
-        name: "Client 1",
-        description: "My very first client."
+        name: "Client 1"
       },
       project: {
         projectNr: "ABC123",

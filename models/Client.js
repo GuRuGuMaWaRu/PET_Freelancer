@@ -5,9 +5,6 @@ const ClientSchema = new Schema({
   name: {
     type: String,
     required: true
-  },
-  description: {
-    type: String
   }
 });
 
