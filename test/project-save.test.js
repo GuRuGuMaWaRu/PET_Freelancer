@@ -8,8 +8,8 @@ describe("Project controller", () => {
   it("should save a new project with a new client on POST request to /api/projects", done => {
     const data = {
       newClient: "Client 1",
-      client: "Cosmos",
       project: {
+        client: "b54g54tg45gt5345",
         projectNr: "ABC123",
         payment: 1000
       }
@@ -18,7 +18,7 @@ describe("Project controller", () => {
     Promise.all([Project.countDocuments(), Client.countDocuments()]).then(
       counts => {
         request(app)
-          .post("/api/projects")
+          .post("/projects")
           .send(data)
           .expect(200)
           .end((err, res) => {
@@ -37,33 +37,39 @@ describe("Project controller", () => {
   });
 
   it("should save a new project with an old client on POST request to /api/projects", done => {
-    const data = {
-      newClient: "",
-      client: "Cosmos",
-      project: {
-        projectNr: "ABC123",
-        payment: 1000
-      }
-    };
+    const client = new Client({
+      name: "Cosmos"
+    });
 
-    Promise.all([Project.countDocuments(), Client.countDocuments()]).then(
-      counts => {
-        request(app)
-          .post("/api/projects")
-          .send(data)
-          .expect(200)
-          .end((err, res) => {
-            Promise.all([Project.countDocuments(), Client.countDocuments()])
-              .then(newCounts => {
-                assert(newCounts[0] === counts[0] + 1);
-                assert(newCounts[1] === counts[1]);
-                done();
-              })
-              .catch(err => {
-                console.log(err);
-              });
-          });
-      }
-    );
+    Client.create(client).then(() => {
+      const data = {
+        newClient: "",
+        project: {
+          client: client._id,
+          projectNr: "ABC123",
+          payment: 1000
+        }
+      };
+
+      Promise.all([Project.countDocuments(), Client.countDocuments()]).then(
+        counts => {
+          request(app)
+            .post("/projects")
+            .send(data)
+            .expect(200)
+            .end((err, res) => {
+              Promise.all([Project.countDocuments(), Client.countDocuments()])
+                .then(newCounts => {
+                  assert(newCounts[0] === counts[0] + 1);
+                  assert(newCounts[1] === counts[1]);
+                  done();
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            });
+        }
+      );
+    });
   });
 });
