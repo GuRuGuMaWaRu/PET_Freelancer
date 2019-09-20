@@ -1,1 +1,3 @@
-[] - write a route for saving a project
+[+] - Write a route for saving a project
+[ ] - Write test & route for getting projects for the current year.
+Should return a list of sums for every month in the current year.
