@@ -3,7 +3,7 @@ const router = express.Router();
 
 /* Authorization. */
 router.get("/", function(req, res, next) {
-  res.send("authorization");
+  res.status(200).json({ message: "authorization" });
 });
 
 module.exports = router;
