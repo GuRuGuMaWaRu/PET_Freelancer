@@ -20,7 +20,7 @@ describe("Project controller", () => {
         request(app)
           .post("/projects")
           .send(data)
-          .expect(200)
+          .expect(201)
           .end((err, res) => {
             Promise.all([Project.countDocuments(), Client.countDocuments()])
               .then(newCounts => {
@@ -56,7 +56,7 @@ describe("Project controller", () => {
           request(app)
             .post("/projects")
             .send(data)
-            .expect(200)
+            .expect(201)
             .end((err, res) => {
               Promise.all([Project.countDocuments(), Client.countDocuments()])
                 .then(newCounts => {
