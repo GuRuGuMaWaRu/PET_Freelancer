@@ -5,7 +5,7 @@ const Project = require("../models/Project");
 const Client = require("../models/Client");
 
 describe("Project controller", () => {
-  it("should save a new project with a new client on POST request to /api/projects", done => {
+  it("should save a new project with a new client on POST request to /projects", done => {
     const data = {
       newClient: "Client 1",
       project: {
@@ -36,7 +36,7 @@ describe("Project controller", () => {
     );
   });
 
-  it("should save a new project with an old client on POST request to /api/projects", done => {
+  it("should save a new project with an old client on POST request to /projects", done => {
     const client = new Client({
       name: "Cosmos"
     });
