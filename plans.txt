@@ -5,3 +5,4 @@
 ===LATER IMPROVEMENTS===
 [] - Write test & route for getting projects for the given year.
 Should return a list of sums for every month in the given year.
+[] - Add authentication layer
