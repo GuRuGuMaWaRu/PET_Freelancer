@@ -1,3 +1,7 @@
 [+] - Write a route for saving a project
-[ ] - Write test & route for getting projects for the given year.
+[] - Write test to get all projects
+[] - Write route to get all projects
+
+===LATER IMPROVEMENTS===
+[] - Write test & route for getting projects for the given year.
 Should return a list of sums for every month in the given year.
