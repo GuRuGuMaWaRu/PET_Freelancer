@@ -5,11 +5,12 @@ const mongoose = require("mongoose");
 
 const projectsRouter = require("./routes/projects");
 const clientsRouter = require("./routes/clients");
+const authRouter = require("./routes/auth");
 
 // Set environament variables
 require("dotenv").config({ path: "process.env" });
 
-// Connect to MongoDB
+// Connect to mongo DB
 if (process.env.NODE_ENV === "development") {
   mongoose.connect(process.env.DB, {
     useUnifiedTopology: true,
@@ -37,5 +38,6 @@ app.use((req, res, next) => {
 
 app.use("/projects", projectsRouter);
 app.use("/clients", clientsRouter);
+app.use("/", authRouter);
 
 module.exports = app;
