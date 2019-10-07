@@ -11,7 +11,7 @@ require("dotenv").config({ path: "process.env" });
 
 // Connect to mongo DB
 if (process.env.NODE_ENV === "development") {
-  mongoose.connect(process.env.DB, {
+  mongoose.connect(process.env.DB_MAIN, {
     useUnifiedTopology: true,
     useNewUrlParser: true
   });

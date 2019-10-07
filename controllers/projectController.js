@@ -17,6 +17,6 @@ module.exports = {
 
     await Project.create(shopData.project);
 
-    res.status(201).json({ message: "All is good." });
+    res.status(201).json({ message: "Project saved." });
   }
 };

@@ -9,7 +9,7 @@ describe("Project controller", () => {
     const data = {
       newClient: "Client 1",
       project: {
-        client: "b54g54tg45gt5345",
+        client: "",
         projectNr: "ABC123",
         payment: 1000
       }
