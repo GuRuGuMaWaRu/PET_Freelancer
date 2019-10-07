@@ -1,6 +1,6 @@
 [+] - Write a route for saving a project
-[] - Write test to get all projects
-[] - Write route to get all projects
+[+] - Write test to get all projects
+[+] - Write route to get all projects
 [] - Write test to get all clients
 [] - Write route to get all clients
 
