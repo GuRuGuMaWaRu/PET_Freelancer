@@ -17,6 +17,13 @@ module.exports = {
 
     await Project.create(shopData.project);
 
-    res.status(201).json({ message: "All is good." });
+    res.status(201).json({ message: "Project saved." });
+  },
+  index: async (req, res) => {
+    const projects = await Project.find()
+      .populate("client")
+      .sort({ date: -1 });
+
+    res.status(200).json(projects);
   }
 };

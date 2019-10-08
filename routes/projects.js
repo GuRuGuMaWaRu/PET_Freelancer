@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const projectController = require("../controllers/projectController");
 
-/* SAVE a new project */
 router.post("/", projectController.create);
+router.get("/", projectController.index);
 
 module.exports = router;
