@@ -1,6 +1,12 @@
 import React, { Fragment } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink
+} from "react-router-dom";
 import "./App.css";
 
 const StyledTitle = styled.h1`
@@ -23,24 +29,62 @@ function App() {
   }, []);
 
   return (
-    projects && (
-      <Fragment>
-        <StyledTitle>Freelancer</StyledTitle>
-        <div>
-          {projects.map(project => (
-            <StyledProject key={project._id}>
-              Client: {project.client.name}
-              <br />
-              Project Nr: {project.projectNr}
-              <br />
-              Payment: {project.payment}
-              <br />
-              Date: {project.date}
-            </StyledProject>
-          ))}
-        </div>
-      </Fragment>
-    )
+    <Router>
+      <StyledTitle>Freelancer</StyledTitle>
+
+      <nav>
+        <ul>
+          <li>
+            <NavLink
+              exact
+              to="/"
+              activeStyle={{
+                fontWeight: "bold",
+                color: "red"
+              }}
+            >
+              Projects
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/add"
+              activeStyle={{
+                fontWeight: "bold",
+                color: "red"
+              }}
+            >
+              Add Project
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+
+      <Switch>
+        <Route path="/add" render={() => <div>Add Project Form</div>}></Route>
+        <Route
+          exact
+          path="/"
+          render={() =>
+            projects && (
+              <div>
+                {projects.map(project => (
+                  <StyledProject key={project._id}>
+                    Client: {project.client.name}
+                    <br />
+                    Project Nr: {project.projectNr}
+                    <br />
+                    Payment: {project.payment}
+                    <br />
+                    Date: {project.date}
+                  </StyledProject>
+                ))}
+              </div>
+            )
+          }
+        ></Route>
+      </Switch>
+    </Router>
   );
 }
 
