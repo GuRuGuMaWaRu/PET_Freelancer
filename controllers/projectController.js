@@ -23,7 +23,7 @@ module.exports = {
     const projects = await Project.find()
       .populate("client")
       .sort({ date: -1 });
-
+    console.log(projects);
     res.status(200).json(projects);
   }
 };
