@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import axios from "axios";
 import styled from "styled-components";
 import {
@@ -18,14 +18,20 @@ const StyledProject = styled.div`
 
 function App() {
   const [projects, setProjects] = React.useState(null);
+  const [clients, setClients] = React.useState(null);
 
   React.useEffect(() => {
-    axios
-      .get("/projects")
-      .then(res => {
-        setProjects(res.data);
-      })
-      .catch(err => console.log(err));
+    const getProjects = async () => {
+      const { data: projects } = await axios.get("/projects");
+      setProjects(projects);
+    };
+    const getClients = async () => {
+      const { data: clients } = await axios.get("/clients");
+      setClients(clients);
+    };
+
+    getProjects();
+    getClients();
   }, []);
 
   return (
@@ -66,16 +72,44 @@ function App() {
           render={() => (
             <Formik
               initialValues={{
-                date: Date.now()
+                date: Date.now(),
+                client: "",
+                newClient: "",
+                projectNr: "",
+                currency: "USD",
+                payment: 0
               }}
               onSubmit={async (values, actions) => {
-                await axios.post("/projects", values);
-                actions.setSubmitting(false);
+                try {
+                  await axios.post("/projects", values);
+                  actions.setSubmitting(false);
+                } catch (err) {
+                  actions.setSubmitting(false);
+                  actions.setStatus({ msg: "Something went wrong" });
+                }
               }}
               render={({ errors, status, touched, isSubmitting }) => (
                 <Form>
                   <Field type="date" name="date" />
                   <ErrorMessage name="date" component="div" />
+                  <Field name="client" component="select">
+                    {clients &&
+                      clients.map(client => (
+                        <option key={client._id} value={client._id}>
+                          {client.name}
+                        </option>
+                      ))}
+                  </Field>
+                  <ErrorMessage name="client" component="div" />
+                  <Field type="text" name="newClient" />
+                  <ErrorMessage name="newClient" component="div" />
+                  <Field type="text" name="projectNr" />
+                  <ErrorMessage name="projectNr" component="div" />
+                  <Field type="text" name="currency" />
+                  <ErrorMessage name="currency" component="div" />
+                  <Field type="number" name="payment" />
+                  <ErrorMessage name="payment" component="div" />
+                  {status && status.msg && <div>{status.msg}</div>}
                   <button type="submit" disabled={isSubmitting}>
                     Add
                   </button>
