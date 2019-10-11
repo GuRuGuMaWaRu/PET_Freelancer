@@ -3,16 +3,25 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
-  // const [projects, setProjects] = React.useState(null);
+  const [projects, setProjects] = React.useState(null);
+
   React.useEffect(() => {
     axios
       .get("/projects")
       .then(res => {
-        console.log(res);
+        setProjects(res.data);
       })
       .catch(err => console.log(err));
   }, []);
-  return <div>Hello!</div>;
+  return (
+    projects && (
+      <div>
+        {projects.map(project => (
+          <div key={project._id}>{project.projectNr}</div>
+        ))}
+      </div>
+    )
+  );
 }
 
 export default App;
