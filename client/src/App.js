@@ -7,7 +7,7 @@ import {
   Route,
   NavLink
 } from "react-router-dom";
-import "./App.css";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const StyledTitle = styled.h1`
   text-align: center;
@@ -61,7 +61,29 @@ function App() {
       </nav>
 
       <Switch>
-        <Route path="/add" render={() => <div>Add Project Form</div>}></Route>
+        <Route
+          path="/add"
+          render={() => (
+            <Formik
+              initialValues={{
+                date: Date.now()
+              }}
+              onSubmit={async (values, actions) => {
+                await axios.post("/projects", values);
+                actions.setSubmitting(false);
+              }}
+              render={({ errors, status, touched, isSubmitting }) => (
+                <Form>
+                  <Field type="date" name="date" />
+                  <ErrorMessage name="date" component="div" />
+                  <button type="submit" disabled={isSubmitting}>
+                    Add
+                  </button>
+                </Form>
+              )}
+            />
+          )}
+        ></Route>
         <Route
           exact
           path="/"
