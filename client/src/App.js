@@ -104,6 +104,7 @@ function App() {
                 validationSchema={formSchema}
                 onSubmit={async (values, actions) => {
                   try {
+                    console.log(values);
                     await axios.post("/projects", values);
                     actions.setSubmitting(false);
                   } catch (err) {

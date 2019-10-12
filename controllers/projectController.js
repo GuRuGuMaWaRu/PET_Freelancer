@@ -4,7 +4,7 @@ const Project = require("../models/Project");
 module.exports = {
   create: async (req, res) => {
     const shopData = req.body;
-
+    console.log(shopData);
     if (shopData.newClient.length > 0) {
       const newClient = new Client({
         name: shopData.newClient
@@ -23,7 +23,7 @@ module.exports = {
     const projects = await Project.find()
       .populate("client")
       .sort({ date: -1 });
-    console.log(projects);
+
     res.status(200).json(projects);
   }
 };
