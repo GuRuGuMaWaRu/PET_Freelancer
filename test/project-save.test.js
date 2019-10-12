@@ -8,11 +8,9 @@ describe("Project controller", () => {
   it("should save a new project with a new client on POST request to /projects", done => {
     const data = {
       newClient: "Client 1",
-      project: {
-        client: "",
-        projectNr: "ABC123",
-        payment: 1000
-      }
+      client: "",
+      projectNr: "ABC123",
+      payment: 1000
     };
 
     Promise.all([Project.countDocuments(), Client.countDocuments()]).then(
@@ -44,11 +42,9 @@ describe("Project controller", () => {
     Client.create(client).then(() => {
       const data = {
         newClient: "",
-        project: {
-          client: client._id,
-          projectNr: "ABC123",
-          payment: 1000
-        }
+        client: client._id,
+        projectNr: "ABC123",
+        payment: 1000
       };
 
       Promise.all([Project.countDocuments(), Client.countDocuments()]).then(

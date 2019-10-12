@@ -15,12 +15,10 @@ const ProjectSchema = new Schema({
     required: true
   },
   currency: {
-    type: String,
-    default: "USD"
+    type: String
   },
   date: {
-    type: Date,
-    default: Date.now()
+    type: Date
   }
 });
 

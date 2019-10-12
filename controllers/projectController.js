@@ -10,20 +10,19 @@ module.exports = {
         name: shopData.newClient
       });
 
-      shopData.project.client = newClient._id;
+      shopData.client = newClient._id;
 
       await newClient.save();
     }
 
-    await Project.create(shopData.project);
-
+    await Project.create(shopData);
     res.status(201).json({ message: "Project saved." });
   },
   index: async (req, res) => {
     const projects = await Project.find()
       .populate("client")
       .sort({ date: -1 });
-    console.log(projects);
+
     res.status(200).json(projects);
   }
 };
