@@ -119,7 +119,10 @@ function App() {
                   </div>
                   <div>
                     <label htmlFor="currency">Currency:</label>
-                    <Field type="text" name="currency" />
+                    <Field name="currency" component="select">
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                    </Field>
                     <ErrorMessage name="currency" component="div" />
                   </div>
                   <div>
