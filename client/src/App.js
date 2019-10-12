@@ -8,6 +8,7 @@ import {
   NavLink
 } from "react-router-dom";
 import moment from "moment";
+import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const GlobalStyle = createGlobalStyle`
@@ -25,6 +26,15 @@ const StyledTitle = styled.h1`
 const StyledProject = styled.div`
   margin-bottom: 1rem;
 `;
+
+const formSchema = Yup.object().shape({
+  date: Yup.date().required("Required"),
+  client: Yup.string().required("Required"),
+  newClient: Yup.string(),
+  projectNr: Yup.string().required("Required"),
+  currency: Yup.string().required("Required"),
+  payment: Yup.number().required("Required")
+});
 
 function App() {
   const [projects, setProjects] = React.useState(null);
@@ -91,6 +101,7 @@ function App() {
                   currency: "USD",
                   payment: 0
                 }}
+                validationSchema={formSchema}
                 onSubmit={async (values, actions) => {
                   try {
                     await axios.post("/projects", values);
