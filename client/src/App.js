@@ -90,25 +90,43 @@ function App() {
               }}
               render={({ errors, status, touched, isSubmitting }) => (
                 <Form>
-                  <Field type="date" name="date" />
-                  <ErrorMessage name="date" component="div" />
-                  <Field name="client" component="select">
-                    {clients &&
-                      clients.map(client => (
-                        <option key={client._id} value={client._id}>
-                          {client.name}
-                        </option>
-                      ))}
-                  </Field>
-                  <ErrorMessage name="client" component="div" />
-                  <Field type="text" name="newClient" />
-                  <ErrorMessage name="newClient" component="div" />
-                  <Field type="text" name="projectNr" />
-                  <ErrorMessage name="projectNr" component="div" />
-                  <Field type="text" name="currency" />
-                  <ErrorMessage name="currency" component="div" />
-                  <Field type="number" name="payment" />
-                  <ErrorMessage name="payment" component="div" />
+                  <div>
+                    <label htmlFor="date">Date:</label>
+                    <Field type="date" name="date" />
+                    <ErrorMessage name="date" component="div" />
+                  </div>
+                  <div>
+                    <label htmlFor="client">Client:</label>
+                    <Field name="client" component="select">
+                      {clients &&
+                        clients.map(client => (
+                          <option key={client._id} value={client._id}>
+                            {client.name}
+                          </option>
+                        ))}
+                    </Field>
+                    <ErrorMessage name="client" component="div" />
+                  </div>
+                  <div>
+                    <label htmlFor="newClient">New client:</label>
+                    <Field type="text" name="newClient" />
+                    <ErrorMessage name="newClient" component="div" />
+                  </div>
+                  <div>
+                    <label htmlFor="projectNr">Project Nr:</label>
+                    <Field type="text" name="projectNr" />
+                    <ErrorMessage name="projectNr" component="div" />
+                  </div>
+                  <div>
+                    <label htmlFor="currency">Currency:</label>
+                    <Field type="text" name="currency" />
+                    <ErrorMessage name="currency" component="div" />
+                  </div>
+                  <div>
+                    <label htmlFor="payment">Payment:</label>
+                    <Field type="number" name="payment" />
+                    <ErrorMessage name="payment" component="div" />
+                  </div>
                   {status && status.msg && <div>{status.msg}</div>}
                   <button type="submit" disabled={isSubmitting}>
                     Add
