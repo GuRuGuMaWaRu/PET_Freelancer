@@ -7,6 +7,7 @@ import {
   Route,
   NavLink
 } from "react-router-dom";
+import moment from "moment";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const StyledTitle = styled.h1`
@@ -72,7 +73,7 @@ function App() {
           render={() => (
             <Formik
               initialValues={{
-                date: Date.now(),
+                date: moment().format("YYYY-MM-DD"),
                 client: "",
                 newClient: "",
                 projectNr: "",
