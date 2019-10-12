@@ -4,19 +4,18 @@ const Project = require("../models/Project");
 module.exports = {
   create: async (req, res) => {
     const shopData = req.body;
-    console.log(shopData);
+
     if (shopData.newClient.length > 0) {
       const newClient = new Client({
         name: shopData.newClient
       });
 
-      shopData.project.client = newClient._id;
+      shopData.client = newClient._id;
 
       await newClient.save();
     }
 
-    await Project.create(shopData.project);
-
+    await Project.create(shopData);
     res.status(201).json({ message: "Project saved." });
   },
   index: async (req, res) => {
