@@ -12,6 +12,9 @@ import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0
+  }
   input,
   button,
   textarea,
@@ -124,25 +127,11 @@ function App() {
                         <label htmlFor="client">Client:</label>
                         <Field name="client" component="select">
                           {clients &&
-                            clients.map((client, i) => {
-                              if (i === 0) {
-                                return (
-                                  <option
-                                    key={client._id}
-                                    value={client._id}
-                                    defaultValue
-                                  >
-                                    {client.name}
-                                  </option>
-                                );
-                              } else {
-                                return (
-                                  <option key={client._id} value={client._id}>
-                                    {client.name}
-                                  </option>
-                                );
-                              }
-                            })}
+                            clients.map((client, i) => (
+                              <option key={client._id} value={client._id}>
+                                {client.name}
+                              </option>
+                            ))}
                         </Field>
                         <ErrorMessage name="client" component="div" />
                       </div>
@@ -159,9 +148,7 @@ function App() {
                       <div>
                         <label htmlFor="currency">Currency:</label>
                         <Field name="currency" component="select">
-                          <option value="USD" defaultValue>
-                            USD
-                          </option>
+                          <option value="USD">USD</option>
                           <option value="EUR">EUR</option>
                         </Field>
                         <ErrorMessage name="currency" component="div" />
