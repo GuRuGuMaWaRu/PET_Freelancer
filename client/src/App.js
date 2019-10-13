@@ -184,9 +184,9 @@ function App() {
                       <br />
                       Project Nr: {project.projectNr}
                       <br />
-                      Payment: {project.payment}
+                      Payment: {project.payment} {project.currency}
                       <br />
-                      Date: {project.date}
+                      Date: {moment(project.date).format("YYYY-MM-DD")}
                     </StyledProject>
                   ))}
                 </div>
