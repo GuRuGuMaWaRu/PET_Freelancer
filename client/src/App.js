@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import axios from "axios";
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,6 +10,18 @@ import {
 import moment from "moment";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+
+const theme = {
+  darkPrimary: "#E64A19",
+  lightPrimary: "#FFCCBC",
+  primary: "#FF5722",
+  text: "#FFFFFF",
+  accent: "#607D8B",
+  primaryText: "#212121",
+  secondaryText: "#757575",
+  divider: "#BDBDBD",
+  mediumseagreen: "mediumseagreen"
+};
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -29,6 +41,10 @@ const GlobalStyle = createGlobalStyle`
 
 const StyledTitle = styled.h1`
   text-align: center;
+  padding: 0.8rem 0;
+  margin-top: 0;
+  color: ${props => props.theme.text};
+  background-color: ${props => props.theme.darkPrimary};
 `;
 const StyledProject = styled.div`
   margin-bottom: 1rem;
@@ -65,7 +81,9 @@ function App() {
     <Fragment>
       <GlobalStyle />
       <Router>
-        <StyledTitle>Freelancer</StyledTitle>
+        <ThemeProvider theme={theme}>
+          <StyledTitle>Freelancer</StyledTitle>
+        </ThemeProvider>
 
         <nav>
           <ul>
