@@ -13,7 +13,11 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const GlobalStyle = createGlobalStyle`
   body {
-    margin: 0
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+  }
+  h1, h2, h3, h4, li {
+    font-family: 'Quattrocento', serif;
   }
   input,
   button,
