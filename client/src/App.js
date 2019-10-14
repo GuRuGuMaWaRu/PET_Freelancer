@@ -11,6 +11,8 @@ import moment from "moment";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
+import Navbar from "./layout/Navbar";
+
 const theme = {
   darkPrimary: "#E64A19",
   lightPrimary: "#FFCCBC",
@@ -85,33 +87,7 @@ function App() {
           <StyledTitle>Freelancer</StyledTitle>
         </ThemeProvider>
 
-        <nav>
-          <ul>
-            <li>
-              <NavLink
-                exact
-                to="/"
-                activeStyle={{
-                  fontWeight: "bold",
-                  color: "red"
-                }}
-              >
-                Projects
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/add"
-                activeStyle={{
-                  fontWeight: "bold",
-                  color: "red"
-                }}
-              >
-                Add Project
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
+        <Navbar />
 
         <Switch>
           <Route
