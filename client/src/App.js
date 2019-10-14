@@ -41,12 +41,16 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const StyledTitle = styled.h1`
-  text-align: center;
-  padding: 0.8rem 0;
-  margin-top: 0;
+const StyledTitleBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: ${props => props.theme.text};
   background-color: ${props => props.theme.darkPrimary};
+`;
+const StyledH1 = styled.h1`
+  padding: 0.8rem 0;
+  margin: 0;
 `;
 const StyledProject = styled.div`
   margin-bottom: 1rem;
@@ -84,10 +88,11 @@ function App() {
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
-          <StyledTitle>Freelancer</StyledTitle>
+          <StyledTitleBar>
+            <StyledH1>Freelancer</StyledH1>
+            <Navbar />
+          </StyledTitleBar>
         </ThemeProvider>
-
-        <Navbar />
 
         <Switch>
           <Route
