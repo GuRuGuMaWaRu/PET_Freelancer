@@ -16,6 +16,7 @@ const theme = {
   primaryText: "#212121",
   secondaryText: "#757575",
   divider: "#BDBDBD",
+  container: "#eee",
   mediumseagreen: "mediumseagreen"
 };
 
@@ -37,12 +38,17 @@ const GlobalStyle = createGlobalStyle`
   select {
     font: inherit
   }
+  #root {
+    min-height: 100vh;
+    background-color: #fff;
+  }
 `;
 
 const StyledTitleBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 80px; /* helps with container 100% height */
   color: ${props => props.theme.text};
   background-color: ${props => props.theme.darkPrimary};
 `;
@@ -51,7 +57,12 @@ const StyledH1 = styled.h1`
   margin: 0;
 `;
 const StyledContainer = styled.div`
-  margin: 1rem 10%;
+  min-height: calc(
+    100vh - 80px
+  ); /* set 100% height considering header 80px height */
+  margin: 0 10%;
+  color: {$props => props.theme.primaryText};
+  background-color: ${props => props.theme.container};
 `;
 
 function App() {
@@ -75,16 +86,18 @@ function App() {
             <StyledH1>Freelancer</StyledH1>
             <Navbar />
           </StyledTitleBar>
-        </ThemeProvider>
 
-        <StyledContainer>
-          <Switch>
-            <Route path="/add" component={ProjectForm}></Route>
-            <Route exact path="/">
-              <ProjectList projects={projects} />
-            </Route>
-          </Switch>
-        </StyledContainer>
+          <StyledContainer>
+            <Switch>
+              <Route path="/add">
+                <ProjectForm />
+              </Route>
+              <Route exact path="/">
+                <ProjectList projects={projects} />
+              </Route>
+            </Switch>
+          </StyledContainer>
+        </ThemeProvider>
       </Router>
     </Fragment>
   );
