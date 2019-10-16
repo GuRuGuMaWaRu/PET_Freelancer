@@ -50,7 +50,7 @@ const StyledH1 = styled.h1`
   padding: 0.8rem 0;
   margin: 0;
 `;
-const StyledMain = styled.div`
+const StyledContainer = styled.div`
   margin: 1rem 10%;
 `;
 const StyledProject = styled.div`
@@ -80,7 +80,7 @@ function App() {
           </StyledTitleBar>
         </ThemeProvider>
 
-        <StyledMain>
+        <StyledContainer>
           <Switch>
             <Route path="/add" component={ProjectForm}></Route>
             <Route
@@ -105,7 +105,7 @@ function App() {
               }
             ></Route>
           </Switch>
-        </StyledMain>
+        </StyledContainer>
       </Router>
     </Fragment>
   );
