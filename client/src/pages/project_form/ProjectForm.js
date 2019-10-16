@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import moment from "moment";
+import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
@@ -12,6 +13,34 @@ const formSchema = Yup.object().shape({
   currency: Yup.string().required("Required"),
   payment: Yup.number().required("Required")
 });
+
+const StyledForm = styled(Form)`
+  padding: 1rem 2rem;
+`;
+const StyledTitle = styled.h1`
+  font-size: 2.5rem;
+  text-align: center;
+  padding-top: 1rem;
+  margin-top: 0;
+`;
+const StyledFormGroup = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0.5rem;
+`;
+const StyledLabel = styled.label`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 0.5rem;
+`;
+const StyledField = styled(Field)`
+  padding: 0.2rem;
+`;
+const StyledSubmitButton = styled.button`
+  display: block;
+  margin: 1rem auto 0;
+`;
 
 export default function ProjectForm() {
   const [clients, setClients] = React.useState(null);
@@ -30,11 +59,11 @@ export default function ProjectForm() {
       <Formik
         initialValues={{
           date: moment().format("YYYY-MM-DD"),
-          client: clients[0],
+          client: "",
           newClient: "",
           projectNr: "",
           currency: "USD",
-          payment: 0
+          payment: ""
         }}
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
@@ -48,52 +77,54 @@ export default function ProjectForm() {
           }
         }}
         render={({ errors, status, touched, isSubmitting }) => (
-          <Form>
-            <div>
-              <label htmlFor="date">Date:</label>
-              <Field type="date" name="date" />
+          <StyledForm>
+            <StyledTitle>Add Project</StyledTitle>
+            <StyledFormGroup>
+              <StyledLabel htmlFor="date">* Date:</StyledLabel>
+              <StyledField type="date" name="date" />
               <ErrorMessage name="date" component="div" />
-            </div>
-            <div>
-              <label htmlFor="client">Client:</label>
-              <Field name="client" component="select">
+            </StyledFormGroup>
+            <StyledFormGroup>
+              <StyledLabel htmlFor="client">* Client:</StyledLabel>
+              <StyledField name="client" component="select">
+                <option value="">--- Choose client ---</option>
                 {clients &&
                   clients.map((client, i) => (
                     <option key={client._id} value={client._id}>
                       {client.name}
                     </option>
                   ))}
-              </Field>
+              </StyledField>
               <ErrorMessage name="client" component="div" />
-            </div>
-            <div>
-              <label htmlFor="newClient">New client:</label>
-              <Field type="text" name="newClient" />
+            </StyledFormGroup>
+            <StyledFormGroup>
+              <StyledLabel htmlFor="newClient">New client:</StyledLabel>
+              <StyledField type="text" name="newClient" />
               <ErrorMessage name="newClient" component="div" />
-            </div>
-            <div>
-              <label htmlFor="projectNr">Project Nr:</label>
-              <Field type="text" name="projectNr" />
+            </StyledFormGroup>
+            <StyledFormGroup>
+              <StyledLabel htmlFor="projectNr">* Project Nr:</StyledLabel>
+              <StyledField type="text" name="projectNr" />
               <ErrorMessage name="projectNr" component="div" />
-            </div>
-            <div>
-              <label htmlFor="currency">Currency:</label>
-              <Field name="currency" component="select">
+            </StyledFormGroup>
+            <StyledFormGroup>
+              <StyledLabel htmlFor="currency">Currency:</StyledLabel>
+              <StyledField name="currency" component="select">
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
-              </Field>
+              </StyledField>
               <ErrorMessage name="currency" component="div" />
-            </div>
-            <div>
-              <label htmlFor="payment">Payment:</label>
-              <Field type="number" name="payment" />
+            </StyledFormGroup>
+            <StyledFormGroup>
+              <StyledLabel htmlFor="payment">* Payment:</StyledLabel>
+              <StyledField type="number" name="payment" />
               <ErrorMessage name="payment" component="div" />
-            </div>
+            </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
-            <button type="submit" disabled={isSubmitting}>
+            <StyledSubmitButton type="submit" disabled={isSubmitting}>
               Add
-            </button>
-          </Form>
+            </StyledSubmitButton>
+          </StyledForm>
         )}
       />
     )
