@@ -2,10 +2,10 @@ import React, { Fragment } from "react";
 import axios from "axios";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import moment from "moment";
 
 import Navbar from "./layout/Navbar";
 import ProjectForm from "./pages/project_form/ProjectForm";
+import ProjectList from "./pages/project_list/ProjectList";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -53,9 +53,6 @@ const StyledH1 = styled.h1`
 const StyledContainer = styled.div`
   margin: 1rem 10%;
 `;
-const StyledProject = styled.div`
-  margin-bottom: 1rem;
-`;
 
 function App() {
   const [projects, setProjects] = React.useState(null);
@@ -83,27 +80,9 @@ function App() {
         <StyledContainer>
           <Switch>
             <Route path="/add" component={ProjectForm}></Route>
-            <Route
-              exact
-              path="/"
-              render={() =>
-                projects && (
-                  <div>
-                    {projects.map(project => (
-                      <StyledProject key={project._id}>
-                        Client: {project.client.name}
-                        <br />
-                        Project Nr: {project.projectNr}
-                        <br />
-                        Payment: {project.payment} {project.currency}
-                        <br />
-                        Date: {moment(project.date).format("YYYY-MM-DD")}
-                      </StyledProject>
-                    ))}
-                  </div>
-                )
-              }
-            ></Route>
+            <Route exact path="/">
+              <ProjectList projects={projects} />
+            </Route>
           </Switch>
         </StyledContainer>
       </Router>
