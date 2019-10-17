@@ -6,13 +6,19 @@ module.exports = {
     const shopData = req.body;
 
     if (shopData.newClient.length > 0) {
-      const newClient = new Client({
-        name: shopData.newClient
-      });
+      const oldClient = await Client.findOne({ name: shopData.newClient });
 
-      shopData.client = newClient._id;
+      if (oldClient.name !== shopData.newClient) {
+        const newClient = new Client({
+          name: shopData.newClient
+        });
 
-      await newClient.save();
+        shopData.client = newClient._id;
+
+        await newClient.save();
+      }
+
+      shopData.client = oldClient._id;
     }
 
     await Project.create(shopData);
