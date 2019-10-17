@@ -4,6 +4,7 @@ import moment from "moment";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -68,7 +69,8 @@ export default function ProjectForm() {
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
           try {
-            console.log(values);
+            values.newClient = values.newClient.trim();
+            values.projectNr = values.projectNr.trim();
             await axios.post("/projects", values);
             actions.setSubmitting(false);
           } catch (err) {
