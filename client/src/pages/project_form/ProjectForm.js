@@ -7,7 +7,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
-  client: Yup.string().required("Required"),
+  client: Yup.string(),
   newClient: Yup.string(),
   projectNr: Yup.string().required("Required"),
   currency: Yup.string().required("Required"),
@@ -68,7 +68,8 @@ export default function ProjectForm() {
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
           try {
-            console.log(values);
+            values.newClient = values.newClient.trim();
+            values.projectNr = values.projectNr.trim();
             await axios.post("/projects", values);
             actions.setSubmitting(false);
           } catch (err) {
