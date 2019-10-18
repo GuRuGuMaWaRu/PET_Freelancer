@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import axios from "axios";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -65,18 +64,7 @@ const StyledContainer = styled.div`
   background-color: ${props => props.theme.container};
 `;
 
-function App() {
-  const [projects, setProjects] = React.useState(null);
-
-  React.useEffect(() => {
-    const getProjects = async () => {
-      const { data: projects } = await axios.get("/projects");
-      setProjects(projects);
-    };
-
-    getProjects();
-  }, []);
-
+const App = () => {
   return (
     <Fragment>
       <GlobalStyle />
@@ -89,11 +77,12 @@ function App() {
 
           <StyledContainer>
             <Switch>
-              <Route path="/add">
-                <ProjectForm />
-              </Route>
+              <Route
+                path="/add"
+                render={props => <ProjectForm {...props} />}
+              ></Route>
               <Route exact path="/">
-                <ProjectList projects={projects} />
+                <ProjectList />
               </Route>
             </Switch>
           </StyledContainer>
@@ -101,6 +90,6 @@ function App() {
       </Router>
     </Fragment>
   );
-}
+};
 
 export default App;

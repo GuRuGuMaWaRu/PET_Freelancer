@@ -42,7 +42,7 @@ const StyledSubmitButton = styled.button`
   margin: 1rem auto 0;
 `;
 
-export default function ProjectForm() {
+const ProjectForm = ({ history }) => {
   const [clients, setClients] = React.useState(null);
 
   React.useEffect(() => {
@@ -72,6 +72,7 @@ export default function ProjectForm() {
             values.projectNr = values.projectNr.trim();
             await axios.post("/projects", values);
             actions.setSubmitting(false);
+            history.push("/");
           } catch (err) {
             actions.setSubmitting(false);
             actions.setStatus({ msg: "Something went wrong" });
@@ -130,4 +131,6 @@ export default function ProjectForm() {
       />
     )
   );
-}
+};
+
+export default ProjectForm;
