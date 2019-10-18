@@ -1,13 +1,24 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
+import axios from "axios";
 import moment from "moment";
 
 const StyledProject = styled.div`
   margin-bottom: 1rem;
 `;
 
-const ProjectList = ({ projects }) => {
+const ProjectList = () => {
+  const [projects, setProjects] = React.useState(null);
+
+  React.useEffect(() => {
+    const getProjects = async () => {
+      const { data: projects } = await axios.get("/projects");
+      setProjects(projects);
+    };
+
+    getProjects();
+  }, []);
+
   return (
     projects && (
       <div>
@@ -25,10 +36,6 @@ const ProjectList = ({ projects }) => {
       </div>
     )
   );
-};
-
-ProjectList.propTypes = {
-  projects: PropTypes.array
 };
 
 export default ProjectList;
