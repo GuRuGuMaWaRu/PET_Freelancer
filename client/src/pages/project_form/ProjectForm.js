@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import Spinner from "../../layout/Spinner";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -43,16 +44,24 @@ const StyledSubmitButton = styled.button`
 `;
 
 const ProjectForm = ({ history }) => {
-  const [clients, setClients] = React.useState(null);
+  const [clients, setClients] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    setLoading(true);
+
     const getClients = async () => {
       const { data: clients } = await axios.get("/clients");
       setClients(clients);
+      setLoading(false);
     };
 
     getClients();
   }, []);
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   return (
     clients && (
