@@ -8,7 +8,7 @@ module.exports = {
     if (shopData.newClient.length > 0) {
       const oldClient = await Client.findOne({ name: shopData.newClient });
 
-      if (oldClient.name !== shopData.newClient) {
+      if (!oldClient) {
         const newClient = new Client({
           name: shopData.newClient
         });
@@ -16,9 +16,9 @@ module.exports = {
         shopData.client = newClient._id;
 
         await newClient.save();
+      } else {
+        shopData.client = oldClient._id;
       }
-
-      shopData.client = oldClient._id;
     }
 
     await Project.create(shopData);
