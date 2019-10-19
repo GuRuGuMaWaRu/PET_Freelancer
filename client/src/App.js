@@ -69,7 +69,7 @@ const App = () => {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("This is an alert!");
 
-  const showAlert = ({ message }) => {
+  const showAlert = message => {
     console.log(message);
     setAlertMessage(message);
     setAlert(true);
@@ -95,10 +95,7 @@ const App = () => {
               <Route
                 path="/add"
                 render={props => (
-                  <ProjectForm
-                    {...props}
-                    showAlert={message => showAlert(message)}
-                  />
+                  <ProjectForm {...props} showAlert={showAlert} />
                 )}
               ></Route>
               <Route exact path="/">
