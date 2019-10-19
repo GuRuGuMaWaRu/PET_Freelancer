@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import axios from "axios";
 import moment from "moment";
 import styled from "styled-components";
@@ -43,7 +44,7 @@ const StyledSubmitButton = styled.button`
   margin: 1rem auto 0;
 `;
 
-const ProjectForm = ({ history }) => {
+const ProjectForm = ({ history, showAlert }) => {
   const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -81,6 +82,9 @@ const ProjectForm = ({ history }) => {
             values.projectNr = values.projectNr.trim();
             await axios.post("/projects", values);
             actions.setSubmitting(false);
+            showAlert(
+              `Added new project (${values.projectNr}) from ${values.client}`
+            );
             history.push("/");
           } catch (err) {
             actions.setSubmitting(false);
@@ -140,6 +144,10 @@ const ProjectForm = ({ history }) => {
       />
     )
   );
+};
+
+ProjectForm.propTypes = {
+  showAlert: PropTypes.func.isRequired
 };
 
 export default ProjectForm;

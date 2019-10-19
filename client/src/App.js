@@ -1,10 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./layout/Navbar";
 import ProjectForm from "./pages/project_form/ProjectForm";
 import ProjectList from "./pages/project_list/ProjectList";
+import Alert from "./layout/Alert";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -65,6 +66,19 @@ const StyledContainer = styled.div`
 `;
 
 const App = () => {
+  const [alert, setAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("This is an alert!");
+
+  const showAlert = ({ message }) => {
+    console.log(message);
+    setAlertMessage(message);
+    setAlert(true);
+  };
+
+  const hideAlert = () => {
+    setAlert(false);
+  };
+
   return (
     <Fragment>
       <GlobalStyle />
@@ -76,10 +90,16 @@ const App = () => {
           </StyledTitleBar>
 
           <StyledContainer>
+            {alert && <Alert message={alertMessage} hideAlert={hideAlert} />}
             <Switch>
               <Route
                 path="/add"
-                render={props => <ProjectForm {...props} />}
+                render={props => (
+                  <ProjectForm
+                    {...props}
+                    showAlert={message => showAlert(message)}
+                  />
+                )}
               ></Route>
               <Route exact path="/">
                 <ProjectList />
