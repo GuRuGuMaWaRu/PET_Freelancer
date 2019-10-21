@@ -66,11 +66,10 @@ const StyledContainer = styled.div`
 `;
 
 const App = () => {
-  const [alert, setAlert] = useState(true);
+  const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("This is an alert!");
 
   const showAlert = message => {
-    console.log(message);
     setAlertMessage(message);
     setAlert(true);
   };

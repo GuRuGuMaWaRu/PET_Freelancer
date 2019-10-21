@@ -23,17 +23,21 @@ const StyledCloseIcon = styled.i`
   }
 `;
 
-const Alert = ({ message }) => {
+const Alert = ({ message, hideAlert }) => {
   return (
     <StyledAlert>
       <p>{message}</p>
-      <StyledCloseIcon className="far fa-times-circle"></StyledCloseIcon>
+      <StyledCloseIcon
+        onClick={hideAlert}
+        className="far fa-times-circle"
+      ></StyledCloseIcon>
     </StyledAlert>
   );
 };
 
 Alert.propTypes = {
-  message: PropTypes.string.isRequired
+  message: PropTypes.string.isRequired,
+  hideAlert: PropTypes.func.isRequired
 };
 
 export default Alert;

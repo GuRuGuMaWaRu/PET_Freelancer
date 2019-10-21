@@ -83,7 +83,7 @@ const ProjectForm = ({ history, showAlert }) => {
             await axios.post("/projects", values);
             actions.setSubmitting(false);
             showAlert(
-              `Added new project (${values.projectNr}) from ${
+              `Added new project "${values.projectNr}" from ${
                 clients.filter(client => client._id === values.client)[0].name
               }`
             );
