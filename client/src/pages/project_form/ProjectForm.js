@@ -41,7 +41,16 @@ const StyledField = styled(Field)`
 `;
 const StyledSubmitButton = styled.button`
   display: block;
-  margin: 1rem auto 0;
+  padding: 0.6rem 1.5rem;
+  margin: 2rem auto 0;
+  border: none;
+  color: ${props => props.theme.text};
+  background-color: ${props => props.theme.accent};
+  cursor: pointer;
+  transition: 0.2s all;
+  &:hover {
+    color: ${props => props.theme.lightPrimary};
+  }
 `;
 
 const ProjectForm = ({ history, showAlert, hideAlert }) => {
