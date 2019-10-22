@@ -94,7 +94,7 @@ const App = () => {
               <Route
                 path="/add"
                 render={props => (
-                  <ProjectForm {...props} showAlert={showAlert} />
+                  <ProjectForm {...props} showAlert={showAlert} hideAlert={hideAlert} />
                 )}
               ></Route>
               <Route exact path="/">

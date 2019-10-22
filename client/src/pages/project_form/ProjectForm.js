@@ -44,11 +44,12 @@ const StyledSubmitButton = styled.button`
   margin: 1rem auto 0;
 `;
 
-const ProjectForm = ({ history, showAlert }) => {
+const ProjectForm = ({ history, showAlert, hideAlert }) => {
   const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    hideAlert();
     setLoading(true);
 
     const getClients = async () => {
@@ -149,7 +150,8 @@ const ProjectForm = ({ history, showAlert }) => {
 };
 
 ProjectForm.propTypes = {
-  showAlert: PropTypes.func.isRequired
+  showAlert: PropTypes.func.isRequired,
+  hideAlert: PropTypes.func.isRequired
 };
 
 export default ProjectForm;
