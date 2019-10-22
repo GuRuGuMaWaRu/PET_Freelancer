@@ -39,6 +39,11 @@ const StyledLabel = styled.label`
 const StyledField = styled(Field)`
   padding: 0.2rem;
 `;
+const StyledErrorMessage = styled(ErrorMessage)`
+  grid-column-start: 2;
+  margin-top: 0.4rem;
+  color: ${props => props.theme.darkPrimary};
+`;
 const StyledSubmitButton = styled.button`
   display: block;
   padding: 0.6rem 1.5rem;
@@ -109,7 +114,7 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
             <StyledFormGroup>
               <StyledLabel htmlFor="date">* Date:</StyledLabel>
               <StyledField type="date" name="date" />
-              <ErrorMessage name="date" component="div" />
+              <StyledErrorMessage name="date" component="div" />
             </StyledFormGroup>
             <StyledFormGroup>
               <StyledLabel htmlFor="client">* Client:</StyledLabel>
@@ -122,17 +127,17 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
                     </option>
                   ))}
               </StyledField>
-              <ErrorMessage name="client" component="div" />
+              <StyledErrorMessage name="client" component="div" />
             </StyledFormGroup>
             <StyledFormGroup>
               <StyledLabel htmlFor="newClient">New client:</StyledLabel>
               <StyledField type="text" name="newClient" />
-              <ErrorMessage name="newClient" component="div" />
+              <StyledErrorMessage name="newClient" component="div" />
             </StyledFormGroup>
             <StyledFormGroup>
               <StyledLabel htmlFor="projectNr">* Project Nr:</StyledLabel>
               <StyledField type="text" name="projectNr" />
-              <ErrorMessage name="projectNr" component="div" />
+              <StyledErrorMessage name="projectNr" component="div" />
             </StyledFormGroup>
             <StyledFormGroup>
               <StyledLabel htmlFor="currency">Currency:</StyledLabel>
@@ -140,12 +145,12 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
               </StyledField>
-              <ErrorMessage name="currency" component="div" />
+              <StyledErrorMessage name="currency" component="div" />
             </StyledFormGroup>
             <StyledFormGroup>
               <StyledLabel htmlFor="payment">* Payment:</StyledLabel>
               <StyledField type="number" name="payment" />
-              <ErrorMessage name="payment" component="div" />
+              <StyledErrorMessage name="payment" component="div" />
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
             <StyledSubmitButton type="submit" disabled={isSubmitting}>
