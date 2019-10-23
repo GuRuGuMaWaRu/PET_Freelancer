@@ -63,16 +63,31 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
+
     hideAlert();
     setLoading(true);
 
     const getClients = async () => {
-      const { data: clients } = await axios.get("/clients");
-      setClients(clients);
-      setLoading(false);
+      try {
+        const { data: clients } = await axios.get("/clients", {
+          cancelToken: source.token
+        });
+        setClients(clients);
+        setLoading(false);
+      } catch (err) {
+        if (axios.isCancel(err)) {
+          console.log("Error:", err.message);
+        }
+        setLoading(false);
+      }
     };
 
     getClients();
+
+    return () => {
+      source.cancel("cancelled request at ProjectForm!");
+    };
   }, []);
 
   if (loading) {

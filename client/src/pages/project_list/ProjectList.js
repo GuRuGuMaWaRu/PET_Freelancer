@@ -13,15 +13,30 @@ const ProjectList = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
+
     setLoading(true);
 
     const getProjects = async () => {
-      const { data: projects } = await axios.get("/projects");
-      setProjects(projects);
-      setLoading(false);
+      try {
+        const { data: projects } = await axios.get("/projects", {
+          cancelToken: source.token
+        });
+        setProjects(projects);
+        setLoading(false);
+      } catch (err) {
+        if (axios.isCancel(err)) {
+          console.log("Error:", err.message);
+        }
+        setLoading(false);
+      }
     };
 
     getProjects();
+
+    return () => {
+      source.cancel("cancelled request at ProjectList!");
+    };
   }, []);
 
   if (loading) {
