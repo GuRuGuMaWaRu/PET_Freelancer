@@ -108,17 +108,22 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
           try {
-            values.newClient = values.newClient.trim();
             values.projectNr = values.projectNr.trim();
+
+            let client;
+            if (values.newClient.length > 0) {
+              client = values.newClient.trim();
+            } else {
+              client = clients.filter(client => client._id === values.client)[0]
+                .name;
+            }
+
             await axios.post("/projects", values);
             actions.setSubmitting(false);
-            showAlert(
-              `Added new project "${values.projectNr}" from ${
-                clients.filter(client => client._id === values.client)[0].name
-              }`
-            );
+            showAlert(`Added new project "${values.projectNr}" from ${client}`);
             history.push("/");
           } catch (err) {
+            console.log(err);
             actions.setSubmitting(false);
             actions.setStatus({ msg: "Something went wrong" });
           }

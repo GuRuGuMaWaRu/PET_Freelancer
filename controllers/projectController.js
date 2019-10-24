@@ -20,7 +20,6 @@ module.exports = {
         shopData.client = oldClient._id;
       }
     }
-
     await Project.create(shopData);
     res.status(201).json({ message: "Project saved." });
   },
