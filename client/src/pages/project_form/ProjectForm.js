@@ -88,6 +88,7 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
     return () => {
       source.cancel("cancelled request at ProjectForm!");
     };
+    // eslint-disable-next-line
   }, []);
 
   if (loading) {

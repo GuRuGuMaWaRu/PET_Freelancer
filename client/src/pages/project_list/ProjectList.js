@@ -5,7 +5,12 @@ import moment from "moment";
 import Spinner from "../../layout/Spinner";
 
 const StyledProject = styled.div`
+  padding-bottom: 1rem;
+  border-bottom: dotted 2px ${props => props.theme.divider};
   margin-bottom: 1rem;
+  &:first-child {
+    padding-top: 1rem;
+  }
 `;
 
 const ProjectList = () => {
@@ -37,6 +42,7 @@ const ProjectList = () => {
     return () => {
       source.cancel("cancelled request at ProjectList!");
     };
+    // eslint-disable-next-line
   }, []);
 
   if (loading) {
