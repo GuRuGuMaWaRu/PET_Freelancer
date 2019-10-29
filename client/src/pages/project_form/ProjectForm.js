@@ -52,7 +52,7 @@ const StyledSubmitButton = styled.button`
   color: ${props => props.theme.text};
   background-color: ${props => props.theme.accent};
   cursor: pointer;
-  transition: 0.2s all;
+  transition: 0.2s color;
   &:hover {
     color: ${props => props.theme.lightPrimary};
   }
