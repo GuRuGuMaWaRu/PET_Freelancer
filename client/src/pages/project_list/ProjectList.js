@@ -5,6 +5,9 @@ import moment from "moment";
 import Spinner from "../../layout/Spinner";
 
 const StyledProject = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-bottom: 1rem;
   border-bottom: dotted 2px ${props => props.theme.divider};
   margin-bottom: 1rem;
@@ -54,13 +57,18 @@ const ProjectList = () => {
       <div>
         {projects.map(project => (
           <StyledProject key={project._id}>
-            Client: {project.client.name}
-            <br />
-            Project Nr: {project.projectNr}
-            <br />
-            Payment: {project.payment} {project.currency}
-            <br />
-            Date: {moment(project.date).format("YYYY-MM-DD")}
+            <div>
+              Client: {project.client.name}
+              <br />
+              Project Nr: {project.projectNr}
+              <br />
+              Payment: {project.payment} {project.currency}
+              <br />
+              Date: {moment(project.date).format("YYYY-MM-DD")}
+            </div>
+            <div>
+              <button>Delete</button>
+            </div>
           </StyledProject>
         ))}
       </div>
