@@ -6,6 +6,7 @@ import Navbar from "./layout/Navbar";
 import ProjectForm from "./pages/project_form/ProjectForm";
 import ProjectList from "./pages/project_list/ProjectList";
 import Alert from "./layout/Alert";
+import StyledDialogue from "./layout/DeleteDialogue";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -46,8 +47,11 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const StyledModal = styled.div`
-  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
+  opacity: 1;
   z-index: 1;
   top: 0;
   left: 0;
@@ -101,7 +105,11 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
-          {modal && <StyledModal onClick={handleModal} />}
+          {modal && (
+            <StyledModal onClick={handleModal}>
+              <StyledDialogue />
+            </StyledModal>
+          )}
           <StyledTitleBar>
             <StyledH1>Freelancer</StyledH1>
             <Navbar />
