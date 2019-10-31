@@ -81,6 +81,7 @@ const StyledContainer = styled.div`
 const App = () => {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("This is an alert!");
+  const [modal, setModal] = useState(false);
 
   const showAlert = message => {
     setAlertMessage(message);
@@ -96,7 +97,7 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
-          <StyledModal />
+          {modal && <StyledModal />}
           <StyledTitleBar>
             <StyledH1>Freelancer</StyledH1>
             <Navbar />
