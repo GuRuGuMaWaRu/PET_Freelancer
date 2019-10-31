@@ -92,12 +92,16 @@ const App = () => {
     setAlert(false);
   };
 
+  const handleModal = () => {
+    setModal(false);
+  };
+
   return (
     <Fragment>
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
-          {modal && <StyledModal />}
+          {modal && <StyledModal onClick={handleModal} />}
           <StyledTitleBar>
             <StyledH1>Freelancer</StyledH1>
             <Navbar />
@@ -116,7 +120,7 @@ const App = () => {
                 )}
               ></Route>
               <Route exact path="/">
-                <ProjectList />
+                <ProjectList setModal={setModal} />
               </Route>
             </Switch>
           </StyledContainer>

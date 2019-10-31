@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import axios from "axios";
 import moment from "moment";
@@ -20,7 +21,7 @@ const StyledProjectDetails = styled.div`
   margin-left: 2rem;
 `;
 
-const StyledDeleteIcons = styled.i`
+const StyledDeleteIcon = styled.i`
   font-size: 1.2rem;
   padding: 0.5rem;
   margin-right: 2rem;
@@ -32,7 +33,7 @@ const StyledDeleteIcons = styled.i`
   }
 `;
 
-const ProjectList = () => {
+const ProjectList = ({ setModal }) => {
   const [projects, setProjects] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -64,6 +65,10 @@ const ProjectList = () => {
     // eslint-disable-next-line
   }, []);
 
+  const handleDeleteModal = () => {
+    setModal(true);
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -82,12 +87,19 @@ const ProjectList = () => {
               <br />
               Date: {moment(project.date).format("YYYY-MM-DD")}
             </StyledProjectDetails>
-            <StyledDeleteIcons className="far fa-trash-alt"></StyledDeleteIcons>
+            <StyledDeleteIcon
+              onClick={handleDeleteModal}
+              className="far fa-trash-alt"
+            ></StyledDeleteIcon>
           </StyledProject>
         ))}
       </div>
     )
   );
+};
+
+ProjectList.propTypes = {
+  setModal: PropTypes.func.isRequired
 };
 
 export default ProjectList;
