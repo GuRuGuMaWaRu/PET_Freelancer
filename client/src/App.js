@@ -17,6 +17,7 @@ const theme = {
   secondaryText: "#757575",
   divider: "#BDBDBD",
   container: "#eee",
+  modal_bg_color: "hsla(200, 40%, 10%, 0.4)",
   mediumseagreen: "mediumseagreen"
 };
 
@@ -44,6 +45,18 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const StyledModal = styled.div`
+  opacity: 1;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: ${props => props.theme.modal_bg_color};
+  transition: opacity 0.4s, z-index 0.4s;
+`;
 const StyledTitleBar = styled.div`
   display: flex;
   justify-content: space-between;
@@ -83,18 +96,22 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
+          <StyledModal />
           <StyledTitleBar>
             <StyledH1>Freelancer</StyledH1>
             <Navbar />
           </StyledTitleBar>
-
           <StyledContainer>
             {alert && <Alert message={alertMessage} hideAlert={hideAlert} />}
             <Switch>
               <Route
                 path="/add"
                 render={props => (
-                  <ProjectForm {...props} showAlert={showAlert} hideAlert={hideAlert} />
+                  <ProjectForm
+                    {...props}
+                    showAlert={showAlert}
+                    hideAlert={hideAlert}
+                  />
                 )}
               ></Route>
               <Route exact path="/">
