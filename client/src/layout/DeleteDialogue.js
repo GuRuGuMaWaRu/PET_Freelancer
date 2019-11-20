@@ -1,8 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const StyledDialogue = styled.div`
+  position: relative;
   padding: 2rem 3rem;
   background-color: ${props => props.theme.container};
   z-index: 100;
@@ -32,8 +32,12 @@ const StyledYesButton = styled(StyledButton)`
 `;
 
 const DeleteDialogue = () => {
+  const handlePropagation = e => {
+    e.stopPropagation();
+  };
+
   return (
-    <StyledDialogue>
+    <StyledDialogue onClick={handlePropagation}>
       <StyledHeading>Delete this project?</StyledHeading>
       <StyledActions>
         <StyledYesButton>Yes</StyledYesButton>
