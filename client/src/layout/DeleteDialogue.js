@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const StyledDialogue = styled.div`
@@ -31,7 +32,7 @@ const StyledYesButton = styled(StyledButton)`
   background-color: ${props => props.theme.primary};
 `;
 
-const DeleteDialogue = () => {
+const DeleteDialogue = ({ closeModal }) => {
   const handlePropagation = e => {
     e.stopPropagation();
   };
@@ -41,10 +42,14 @@ const DeleteDialogue = () => {
       <StyledHeading>Delete this project?</StyledHeading>
       <StyledActions>
         <StyledYesButton>Yes</StyledYesButton>
-        <StyledButton>No</StyledButton>
+        <StyledButton onClick={closeModal}>No</StyledButton>
       </StyledActions>
     </StyledDialogue>
   );
+};
+
+DeleteDialogue.propTypes = {
+  closeModal: PropTypes.func.isRequired
 };
 
 export default DeleteDialogue;

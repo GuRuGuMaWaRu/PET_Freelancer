@@ -107,7 +107,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
           {modal && (
             <StyledModal onClick={handleModal}>
-              <StyledDialogue />
+              <StyledDialogue closeModal={handleModal} />
             </StyledModal>
           )}
           <StyledTitleBar>
