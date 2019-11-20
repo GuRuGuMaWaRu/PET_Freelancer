@@ -32,16 +32,20 @@ const StyledYesButton = styled(StyledButton)`
   background-color: ${props => props.theme.primary};
 `;
 
-const DeleteDialogue = ({ closeModal }) => {
+const DeleteDialogue = ({ deleteProject, closeModal }) => {
   const handlePropagation = e => {
     e.stopPropagation();
+  };
+
+  const handleDelete = () => {
+    console.log(deleteProject);
   };
 
   return (
     <StyledDialogue onClick={handlePropagation}>
       <StyledHeading>Delete this project?</StyledHeading>
       <StyledActions>
-        <StyledYesButton>Yes</StyledYesButton>
+        <StyledYesButton onClick={handleDelete}>Yes</StyledYesButton>
         <StyledButton onClick={closeModal}>No</StyledButton>
       </StyledActions>
     </StyledDialogue>
@@ -49,6 +53,7 @@ const DeleteDialogue = ({ closeModal }) => {
 };
 
 DeleteDialogue.propTypes = {
+  deleteProject: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired
 };
 

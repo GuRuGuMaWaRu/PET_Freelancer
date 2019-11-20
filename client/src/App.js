@@ -85,7 +85,7 @@ const StyledContainer = styled.div`
 const App = () => {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("This is an alert!");
-  const [modal, setModal] = useState(false);
+  const [deleteProject, setDeleteProject] = useState(null);
 
   const showAlert = message => {
     setAlertMessage(message);
@@ -97,7 +97,7 @@ const App = () => {
   };
 
   const handleModal = () => {
-    setModal(false);
+    setDeleteProject(null);
   };
 
   return (
@@ -105,9 +105,12 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
-          {modal && (
+          {deleteProject && (
             <StyledModal onClick={handleModal}>
-              <StyledDialogue closeModal={handleModal} />
+              <StyledDialogue
+                deleteProject={deleteProject}
+                closeModal={handleModal}
+              />
             </StyledModal>
           )}
           <StyledTitleBar>
@@ -128,7 +131,7 @@ const App = () => {
                 )}
               ></Route>
               <Route exact path="/">
-                <ProjectList setModal={setModal} />
+                <ProjectList setDeleteProject={setDeleteProject} />
               </Route>
             </Switch>
           </StyledContainer>

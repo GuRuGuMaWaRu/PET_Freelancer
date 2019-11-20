@@ -33,7 +33,7 @@ const StyledDeleteIcon = styled.i`
   }
 `;
 
-const ProjectList = ({ setModal }) => {
+const ProjectList = ({ setDeleteProject }) => {
   const [projects, setProjects] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -65,10 +65,6 @@ const ProjectList = ({ setModal }) => {
     // eslint-disable-next-line
   }, []);
 
-  const handleDeleteModal = () => {
-    setModal(true);
-  };
-
   if (loading) {
     return <Spinner />;
   }
@@ -88,7 +84,7 @@ const ProjectList = ({ setModal }) => {
               Date: {moment(project.date).format("YYYY-MM-DD")}
             </StyledProjectDetails>
             <StyledDeleteIcon
-              onClick={handleDeleteModal}
+              onClick={() => setDeleteProject(project._id)}
               className="far fa-trash-alt"
             ></StyledDeleteIcon>
           </StyledProject>
@@ -99,7 +95,7 @@ const ProjectList = ({ setModal }) => {
 };
 
 ProjectList.propTypes = {
-  setModal: PropTypes.func.isRequired
+  setDeleteProject: PropTypes.func.isRequired
 };
 
 export default ProjectList;
