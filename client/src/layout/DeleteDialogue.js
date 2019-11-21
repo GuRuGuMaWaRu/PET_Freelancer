@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 import styled from "styled-components";
 
 const StyledDialogue = styled.div`
@@ -37,8 +38,9 @@ const DeleteDialogue = ({ deleteProject, closeModal }) => {
     e.stopPropagation();
   };
 
-  const handleDelete = () => {
-    console.log(deleteProject);
+  const handleDelete = async () => {
+    await axios.delete(`/projects/${deleteProject}`);
+    closeModal();
   };
 
   return (

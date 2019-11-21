@@ -84,7 +84,7 @@ const StyledContainer = styled.div`
 
 const App = () => {
   const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("This is an alert!");
+  const [alertMessage, setAlertMessage] = useState(null);
   const [deleteProject, setDeleteProject] = useState(null);
 
   const showAlert = message => {

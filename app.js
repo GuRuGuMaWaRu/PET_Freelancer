@@ -13,7 +13,8 @@ require("dotenv").config({ path: "process.env" });
 if (process.env.NODE_ENV === "development") {
   mongoose.connect(process.env.DB_MAIN, {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useFindAndModify: false
   });
 }
 
