@@ -29,5 +29,15 @@ module.exports = {
       .sort({ date: -1 });
 
     res.status(200).json(projects);
+  },
+  delete: async (req, res) => {
+    const projectId = req.params.id;
+
+    try {
+      await Project.updateOne({ id: projectId }, { deleted: true });
+      res.status(200).json({ message: "Project deleted." });
+    } catch (err) {
+      res.status(500).json({ error: err });
+    }
   }
 };
