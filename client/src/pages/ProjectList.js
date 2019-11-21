@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import axios from "axios";
 import moment from "moment";
-import Spinner from "../../layout/Spinner";
+import Spinner from "../layout/Spinner";
 
 const StyledProject = styled.div`
   display: flex;

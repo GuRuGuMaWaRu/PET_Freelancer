@@ -5,7 +5,7 @@ import moment from "moment";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Spinner from "../../layout/Spinner";
+import Spinner from "../layout/Spinner";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),

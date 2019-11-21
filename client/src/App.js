@@ -3,8 +3,8 @@ import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./layout/Navbar";
-import ProjectForm from "./pages/project_form/ProjectForm";
-import ProjectList from "./pages/project_list/ProjectList";
+import ProjectForm from "./pages/ProjectForm";
+import ProjectList from "./pages/ProjectList";
 import Alert from "./layout/Alert";
 import StyledDialogue from "./layout/DeleteDialogue";
 
