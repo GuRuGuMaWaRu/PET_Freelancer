@@ -110,9 +110,9 @@ const App = () => {
           {deleteProject && (
             <StyledModal onClick={handleModal}>
               <DeleteDialogue
-                setLoading={setLoading}
                 projects={projects}
                 setProjects={setProjects}
+                showAlert={showAlert}
                 deleteProject={deleteProject}
                 closeModal={handleModal}
               />
