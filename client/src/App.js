@@ -111,6 +111,7 @@ const App = () => {
             <StyledModal onClick={handleModal}>
               <DeleteDialogue
                 setLoading={setLoading}
+                projects={projects}
                 setProjects={setProjects}
                 deleteProject={deleteProject}
                 closeModal={handleModal}

@@ -35,6 +35,7 @@ const StyledYesButton = styled(StyledButton)`
 
 const DeleteDialogue = ({
   setLoading,
+  projects,
   setProjects,
   deleteProject,
   closeModal
@@ -47,14 +48,14 @@ const DeleteDialogue = ({
     await axios.delete(`/projects/${deleteProject}`);
     closeModal();
 
-    try {
-      setLoading(true);
-      const { data: projects } = await axios.get("/projects");
-      setProjects(projects);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-    }
+    setProjects(projects.filter(project => project._id !== deleteProject));
+    // try {
+    //   setLoading(true);
+    //   const { data: projects } = await axios.get("/projects");
+    //   setLoading(false);
+    // } catch (err) {
+    //   setLoading(false);
+    // }
   };
 
   return (
@@ -70,6 +71,7 @@ const DeleteDialogue = ({
 
 DeleteDialogue.propTypes = {
   setLoading: PropTypes.func.isRequired,
+  projects: PropTypes.array,
   setProjects: PropTypes.func.isRequired,
   deleteProject: PropTypes.string.isRequired,
   closeModal: PropTypes.func.isRequired
