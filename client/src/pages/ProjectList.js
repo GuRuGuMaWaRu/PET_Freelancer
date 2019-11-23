@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import axios from "axios";
@@ -33,10 +33,13 @@ const StyledDeleteIcon = styled.i`
   }
 `;
 
-const ProjectList = ({ setDeleteProject }) => {
-  const [projects, setProjects] = useState(null);
-  const [loading, setLoading] = useState(false);
-
+const ProjectList = ({
+  loading,
+  setLoading,
+  projects,
+  setProjects,
+  setDeleteProject
+}) => {
   useEffect(() => {
     const source = axios.CancelToken.source();
 
@@ -71,7 +74,7 @@ const ProjectList = ({ setDeleteProject }) => {
 
   return (
     projects && (
-      <div>
+      <Fragment>
         {projects.map(project => (
           <StyledProject key={project._id}>
             <StyledProjectDetails>
@@ -89,12 +92,16 @@ const ProjectList = ({ setDeleteProject }) => {
             ></StyledDeleteIcon>
           </StyledProject>
         ))}
-      </div>
+      </Fragment>
     )
   );
 };
 
 ProjectList.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  setLoading: PropTypes.func.isRequired,
+  projects: PropTypes.array,
+  setProjects: PropTypes.func.isRequired,
   setDeleteProject: PropTypes.func.isRequired
 };
 

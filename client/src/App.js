@@ -6,7 +6,7 @@ import Navbar from "./layout/Navbar";
 import ProjectForm from "./pages/ProjectForm";
 import ProjectList from "./pages/ProjectList";
 import Alert from "./layout/Alert";
-import StyledDialogue from "./layout/DeleteDialogue";
+import DeleteDialogue from "./layout/DeleteDialogue";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -86,6 +86,8 @@ const App = () => {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
   const [deleteProject, setDeleteProject] = useState(null);
+  const [projects, setProjects] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const showAlert = message => {
     setAlertMessage(message);
@@ -107,7 +109,9 @@ const App = () => {
         <ThemeProvider theme={theme}>
           {deleteProject && (
             <StyledModal onClick={handleModal}>
-              <StyledDialogue
+              <DeleteDialogue
+                setLoading={setLoading}
+                setProjects={setProjects}
                 deleteProject={deleteProject}
                 closeModal={handleModal}
               />
@@ -131,7 +135,13 @@ const App = () => {
                 )}
               ></Route>
               <Route exact path="/">
-                <ProjectList setDeleteProject={setDeleteProject} />
+                <ProjectList
+                  loading={loading}
+                  setLoading={setLoading}
+                  projects={projects}
+                  setProjects={setProjects}
+                  setDeleteProject={setDeleteProject}
+                />
               </Route>
             </Switch>
           </StyledContainer>
