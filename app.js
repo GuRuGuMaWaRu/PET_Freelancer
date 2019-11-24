@@ -1,5 +1,5 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
+// const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 
@@ -38,5 +38,17 @@ app.use((req, res, next) => {
 
 app.use("/projects", projectsRouter);
 app.use("/clients", clientsRouter);
+
+// Handle 404 errors
+app.use((req, res, next) => {
+  const error = new Error("Not found!");
+  error.status = 404;
+  next(error);
+});
+// Handle all errors
+app.use((error, req, res) => {
+  res.status(error.status || 500);
+  res.json({ msg: error.message });
+});
 
 module.exports = app;
