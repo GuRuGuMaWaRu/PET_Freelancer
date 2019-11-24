@@ -24,10 +24,25 @@ module.exports = {
     res.status(201).json({ message: "Project saved." });
   },
   index: async (req, res) => {
-    const projects = await Project.find()
-      .populate("client")
-      .sort({ date: -1 });
+    try {
+      const projects = await Project.find({ deleted: { $ne: true } })
+        .populate("client")
+        .sort({ date: -1 });
 
-    res.status(200).json(projects);
+      res.status(200).json(projects);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }
+  },
+  delete: async (req, res) => {
+    const projectId = req.params.id;
+    try {
+      await Project.findOneAndUpdate({ _id: projectId }, { deleted: true });
+      res.status(200).json({ message: "Project deleted." });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }
   }
 };

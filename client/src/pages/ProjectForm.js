@@ -5,7 +5,7 @@ import moment from "moment";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import Spinner from "../../layout/Spinner";
+import Spinner from "../layout/Spinner";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -52,7 +52,7 @@ const StyledSubmitButton = styled.button`
   color: ${props => props.theme.text};
   background-color: ${props => props.theme.accent};
   cursor: pointer;
-  transition: 0.2s all;
+  transition: 0.2s color;
   &:hover {
     color: ${props => props.theme.lightPrimary};
   }
@@ -88,6 +88,7 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
     return () => {
       source.cancel("cancelled request at ProjectForm!");
     };
+    // eslint-disable-next-line
   }, []);
 
   if (loading) {

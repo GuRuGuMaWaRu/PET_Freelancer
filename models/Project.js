@@ -19,6 +19,10 @@ const ProjectSchema = new Schema({
   },
   date: {
     type: Date
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   }
 });
 

@@ -3,9 +3,10 @@ import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./layout/Navbar";
-import ProjectForm from "./pages/project_form/ProjectForm";
-import ProjectList from "./pages/project_list/ProjectList";
+import ProjectForm from "./pages/ProjectForm";
+import ProjectList from "./pages/ProjectList";
 import Alert from "./layout/Alert";
+import DeleteDialogue from "./layout/DeleteDialogue";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -17,6 +18,7 @@ const theme = {
   secondaryText: "#757575",
   divider: "#BDBDBD",
   container: "#eee",
+  modal_bg_color: "hsla(200, 40%, 10%, 0.4)",
   mediumseagreen: "mediumseagreen"
 };
 
@@ -44,6 +46,21 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const StyledModal = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  opacity: 1;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: ${props => props.theme.modal_bg_color};
+  transition: opacity 0.4s, z-index 0.4s;
+`;
 const StyledTitleBar = styled.div`
   display: flex;
   justify-content: space-between;
@@ -67,7 +84,10 @@ const StyledContainer = styled.div`
 
 const App = () => {
   const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState("This is an alert!");
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [deleteProject, setDeleteProject] = useState(null);
+  const [projects, setProjects] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const showAlert = message => {
     setAlertMessage(message);
@@ -78,27 +98,51 @@ const App = () => {
     setAlert(false);
   };
 
+  const handleModal = () => {
+    setDeleteProject(null);
+  };
+
   return (
     <Fragment>
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
+          {deleteProject && (
+            <StyledModal onClick={handleModal}>
+              <DeleteDialogue
+                projects={projects}
+                setProjects={setProjects}
+                showAlert={showAlert}
+                deleteProject={deleteProject}
+                closeModal={handleModal}
+              />
+            </StyledModal>
+          )}
           <StyledTitleBar>
             <StyledH1>Freelancer</StyledH1>
             <Navbar />
           </StyledTitleBar>
-
           <StyledContainer>
             {alert && <Alert message={alertMessage} hideAlert={hideAlert} />}
             <Switch>
               <Route
                 path="/add"
                 render={props => (
-                  <ProjectForm {...props} showAlert={showAlert} hideAlert={hideAlert} />
+                  <ProjectForm
+                    {...props}
+                    showAlert={showAlert}
+                    hideAlert={hideAlert}
+                  />
                 )}
               ></Route>
               <Route exact path="/">
-                <ProjectList />
+                <ProjectList
+                  loading={loading}
+                  setLoading={setLoading}
+                  projects={projects}
+                  setProjects={setProjects}
+                  setDeleteProject={setDeleteProject}
+                />
               </Route>
             </Switch>
           </StyledContainer>
