@@ -45,10 +45,17 @@ const DeleteDialogue = ({
   };
 
   const handleDelete = async () => {
-    await axios.delete(`/projects/${deleteProject}`);
-    closeModal();
-    showAlert(`Deleted a project.`);
-    setProjects(projects.filter(project => project._id !== deleteProject));
+    try {
+      await axios.delete(`/projects/${deleteProject}`);
+      closeModal();
+      showAlert(`Deleted a project.`);
+      setProjects(projects.filter(project => project._id !== deleteProject));
+    } catch (err) {
+      console.log(err);
+      closeModal();
+      showAlert(`There was an error deleting a project!`);
+      setProjects(projects.filter(project => project._id !== deleteProject));
+    }
   };
 
   return (
