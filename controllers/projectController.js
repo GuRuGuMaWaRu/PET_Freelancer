@@ -37,13 +37,8 @@ module.exports = {
   },
   delete: async (req, res) => {
     const projectId = req.params.id;
-    console.log(projectId);
     try {
-      const project = await Project.findById(projectId);
-      console.log(project);
       await Project.findOneAndUpdate({ _id: projectId }, { deleted: true });
-      const updatedProject = await Project.findById(projectId);
-      console.log(updatedProject);
       res.status(200).json({ message: "Project deleted." });
     } catch (err) {
       console.log(err);
