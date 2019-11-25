@@ -6,6 +6,7 @@ module.exports = {
     try {
       const projects = await Project.find({ deleted: { $ne: true } })
         .populate("client")
+        .select("client currency date payment projectNr _id")
         .sort({ date: -1 });
 
       res.status(200).json(projects);
@@ -39,7 +40,9 @@ module.exports = {
     const projectId = req.params.id;
 
     try {
-      const project = await Project.findById(projectId);
+      const project = await Project.findById(projectId).select(
+        "client currency date payment projectNr _id"
+      );
       res.status(200).json(project);
     } catch (err) {
       console.log(err);
