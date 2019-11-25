@@ -103,6 +103,13 @@ const ProjectForm = ({
 
     return () => {
       source.cancel("cancelled request at ProjectForm!");
+      setEditProject({
+        client: null,
+        currency: null,
+        date: null,
+        payment: null,
+        projectNr: null
+      });
     };
     // eslint-disable-next-line
   }, []);
