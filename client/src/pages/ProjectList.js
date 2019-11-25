@@ -80,7 +80,7 @@ const ProjectList = ({
   }, []);
 
   const handleSetEditProject = async id => {
-    const data = await axios.get(`projects/${id}`);
+    const data = await axios.get(`/projects/${id}`);
     console.log(data);
   };
 

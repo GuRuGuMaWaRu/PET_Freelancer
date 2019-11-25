@@ -2,6 +2,18 @@ const Client = require("../models/Client");
 const Project = require("../models/Project");
 
 module.exports = {
+  index: async (req, res) => {
+    try {
+      const projects = await Project.find({ deleted: { $ne: true } })
+        .populate("client")
+        .sort({ date: -1 });
+
+      res.status(200).json(projects);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }
+  },
   create: async (req, res) => {
     const shopData = req.body;
 
@@ -23,13 +35,12 @@ module.exports = {
     await Project.create(shopData);
     res.status(201).json({ message: "Project saved." });
   },
-  index: async (req, res) => {
-    try {
-      const projects = await Project.find({ deleted: { $ne: true } })
-        .populate("client")
-        .sort({ date: -1 });
+  read: async (req, res) => {
+    const projectId = req.params.id;
 
-      res.status(200).json(projects);
+    try {
+      const project = await Project.findById(projectId);
+      res.status(200).json(project);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: err });
