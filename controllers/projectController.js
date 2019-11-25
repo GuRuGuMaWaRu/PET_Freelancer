@@ -6,17 +6,44 @@ module.exports = {
     const shopData = req.body;
 
     if (shopData.newClient.length > 0) {
-      const newClient = new Client({
-        name: shopData.newClient
-      });
+      const oldClient = await Client.findOne({ name: shopData.newClient });
 
-      shopData.project.client = newClient._id;
+      if (!oldClient) {
+        const newClient = new Client({
+          name: shopData.newClient
+        });
 
-      await newClient.save();
+        shopData.client = newClient._id;
+
+        await newClient.save();
+      } else {
+        shopData.client = oldClient._id;
+      }
     }
+    await Project.create(shopData);
+    res.status(201).json({ message: "Project saved." });
+  },
+  index: async (req, res) => {
+    try {
+      const projects = await Project.find({ deleted: { $ne: true } })
+        .populate("client")
+        .sort({ date: -1 });
 
-    await Project.create(shopData.project);
+      res.status(200).json(projects);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }
+  },
+  delete: async (req, res) => {
+    const projectId = req.params.id;
 
-    res.status(201).json({ message: "All is good." });
+    try {
+      await Project.findOneAndUpdate({ _id: projectId }, { deleted: true });
+      res.status(200).json({ message: "Project deleted." });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }
   }
 };

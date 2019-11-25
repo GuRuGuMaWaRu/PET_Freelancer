@@ -15,13 +15,15 @@ const ProjectSchema = new Schema({
     required: true
   },
   currency: {
-    type: String,
-    default: "USD"
+    type: String
   },
   date: {
-    type: Date,
-    default: Date.now()
+    type: Date
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   }
 });
 
-module.exports = mongoose.model("project", ProjectSchema);
+module.exports = mongoose.model("Project", ProjectSchema);
