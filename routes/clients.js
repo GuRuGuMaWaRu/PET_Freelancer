@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const clientController = require("../controllers/clientController");
 
-/* GET clients. */
-router.get("/", function(req, res, next) {
-  res.send("here are your clients, Sire");
-});
+/* GET clients */
+router.get("/", clientController.index);
 
 module.exports = router;

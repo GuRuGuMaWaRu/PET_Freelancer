@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const projectController = require("../controllers/projectController");
 
-/* GET projects. */
-router.get("/", function(req, res, next) {
-  res.send("projects listing");
-});
+router.post("/", projectController.create);
+router.get("/", projectController.index);
+router.delete("/:id", projectController.delete);
 
 module.exports = router;

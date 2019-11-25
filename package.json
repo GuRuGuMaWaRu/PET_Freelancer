@@ -1,14 +1,26 @@
 {
-  "name": "pet-freelancering",
+  "name": "pet-freelancer",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "server": "nodemon ./bin/www",
+    "client": "npm run start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "SET NODE_ENV=test & nodemon --exec \"mocha --recursive -R min\""
   },
   "dependencies": {
+    "concurrently": "^5.0.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^8.1.0",
     "express": "~4.16.1",
+    "moment": "^2.24.0",
+    "mongoose": "^5.7.5",
     "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.0",
+    "nodemon": "^1.19.1",
+    "supertest": "^4.0.2"
   }
 }
