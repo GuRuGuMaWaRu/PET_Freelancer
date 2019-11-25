@@ -44,18 +44,28 @@ const StyledErrorMessage = styled(ErrorMessage)`
   margin-top: 0.4rem;
   color: ${props => props.theme.darkPrimary};
 `;
-const StyledSubmitButton = styled.button`
+const StyledActionButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 2rem auto 0;
+`;
+const StyledButton = styled.button`
   display: block;
   padding: 0.6rem 1.5rem;
-  margin: 2rem auto 0;
   border: none;
   color: ${props => props.theme.text};
-  background-color: ${props => props.theme.accent};
   cursor: pointer;
   transition: 0.2s color;
   &:hover {
     color: ${props => props.theme.lightPrimary};
   }
+`;
+const StyledSubmitButton = styled(StyledButton)`
+  background-color: ${props => props.theme.mediumseagreen};
+`;
+const StyledCancelButton = styled(StyledButton)`
+  margin-right: 1rem;
+  background-color: ${props => props.theme.secondaryText};
 `;
 
 const ProjectForm = ({
@@ -152,7 +162,9 @@ const ProjectForm = ({
         }}
         render={({ errors, status, touched, isSubmitting }) => (
           <StyledForm>
-            <StyledTitle>Add Project</StyledTitle>
+            <StyledTitle>
+              {editProject.client ? "Edit Project" : "Add Project"}
+            </StyledTitle>
             <StyledFormGroup>
               <StyledLabel htmlFor="date">* Date:</StyledLabel>
               <StyledField type="date" name="date" />
@@ -195,9 +207,14 @@ const ProjectForm = ({
               <StyledErrorMessage name="payment" component="div" />
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
-            <StyledSubmitButton type="submit" disabled={isSubmitting}>
-              Add
-            </StyledSubmitButton>
+            <StyledActionButtons>
+              {editProject.client && (
+                <StyledCancelButton type="button">Cancel</StyledCancelButton>
+              )}
+              <StyledSubmitButton type="submit" disabled={isSubmitting}>
+                {editProject.client ? "Update" : "Add"}
+              </StyledSubmitButton>
+            </StyledActionButtons>
           </StyledForm>
         )}
       />
