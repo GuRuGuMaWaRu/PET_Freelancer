@@ -48,6 +48,7 @@ const ProjectList = ({
   setLoading,
   projects,
   setProjects,
+  setEditProject,
   setDeleteProject
 }) => {
   useEffect(() => {
@@ -78,6 +79,11 @@ const ProjectList = ({
     // eslint-disable-next-line
   }, []);
 
+  const handleSetEditProject = async id => {
+    const data = await axios.get(`projects/${id}`);
+    console.log(data);
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -101,7 +107,10 @@ const ProjectList = ({
                 onClick={() => setDeleteProject(project._id)}
                 className="far fa-trash-alt"
               ></StyledDeleteIcon>
-              <StyledEditIcon className="fas fa-pencil-alt"></StyledEditIcon>
+              <StyledEditIcon
+                onClick={() => handleSetEditProject(project._id)}
+                className="fas fa-pencil-alt"
+              ></StyledEditIcon>
             </StyledProjectControls>
           </StyledProject>
         ))}
@@ -115,6 +124,7 @@ ProjectList.propTypes = {
   setLoading: PropTypes.func.isRequired,
   projects: PropTypes.array,
   setProjects: PropTypes.func.isRequired,
+  setEditProject: PropTypes.func.isRequired,
   setDeleteProject: PropTypes.func.isRequired
 };
 

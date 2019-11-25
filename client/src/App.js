@@ -86,6 +86,13 @@ const App = () => {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
   const [deleteProject, setDeleteProject] = useState(null);
+  const [editProject, setEditProject] = useState({
+    date: null,
+    client: null,
+    projectNr: null,
+    currency: null,
+    payment: null
+  });
   const [projects, setProjects] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -141,6 +148,7 @@ const App = () => {
                   setLoading={setLoading}
                   projects={projects}
                   setProjects={setProjects}
+                  setEditProject={setEditProject}
                   setDeleteProject={setDeleteProject}
                 />
               </Route>
