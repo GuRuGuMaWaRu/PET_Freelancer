@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import moment from "moment";
@@ -51,9 +52,9 @@ const ProjectList = ({
   setEditProject,
   setDeleteProject
 }) => {
+  const history = useHistory();
   useEffect(() => {
     const source = axios.CancelToken.source();
-
     setLoading(true);
 
     const getProjects = async () => {
@@ -81,7 +82,9 @@ const ProjectList = ({
 
   const handleSetEditProject = async id => {
     const res = await axios.get(`/projects/${id}`);
-    console.log(res.data);
+
+    setEditProject(res.data);
+    history.push("/add");
   };
 
   if (loading) {

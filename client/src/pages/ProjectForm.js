@@ -58,7 +58,13 @@ const StyledSubmitButton = styled.button`
   }
 `;
 
-const ProjectForm = ({ history, showAlert, hideAlert }) => {
+const ProjectForm = ({
+  history,
+  showAlert,
+  hideAlert,
+  editProject,
+  setEditProject
+}) => {
   const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -95,17 +101,32 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
     return <Spinner />;
   }
 
+  let initialValues;
+
+  if (!editProject.client) {
+    initialValues = {
+      date: moment().format("YYYY-MM-DD"),
+      client: "",
+      newClient: "",
+      projectNr: "",
+      currency: "USD",
+      payment: ""
+    };
+  } else {
+    initialValues = {
+      date: moment(editProject.date).format("YYYY-MM-DD"),
+      client: editProject.client,
+      newClient: "",
+      projectNr: editProject.projectNr,
+      currency: editProject.currency,
+      payment: editProject.payment
+    };
+  }
+
   return (
     clients && (
       <Formik
-        initialValues={{
-          date: moment().format("YYYY-MM-DD"),
-          client: "",
-          newClient: "",
-          projectNr: "",
-          currency: "USD",
-          payment: ""
-        }}
+        initialValues={initialValues}
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
           try {
@@ -186,7 +207,9 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
 
 ProjectForm.propTypes = {
   showAlert: PropTypes.func.isRequired,
-  hideAlert: PropTypes.func.isRequired
+  hideAlert: PropTypes.func.isRequired,
+  editProject: PropTypes.object.isRequired,
+  setEditProject: PropTypes.func.isRequired
 };
 
 export default ProjectForm;
