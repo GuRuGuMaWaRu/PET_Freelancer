@@ -20,16 +20,26 @@ const StyledProject = styled.div`
 const StyledProjectDetails = styled.div`
   margin-left: 2rem;
 `;
-
-const StyledDeleteIcon = styled.i`
+const StyledProjectControls = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const StyledIcon = styled.i`
   font-size: 1.2rem;
   padding: 0.5rem;
   margin-right: 2rem;
   color: ${props => props.theme.secondaryText};
   cursor: pointer;
   transition: 0.2s color;
+`;
+const StyledDeleteIcon = styled(StyledIcon)`
   &:hover {
     color: ${props => props.theme.darkPrimary};
+  }
+`;
+const StyledEditIcon = styled(StyledIcon)`
+  &:hover {
+    color: ${props => props.theme.mediumseagreen};
   }
 `;
 
@@ -86,10 +96,13 @@ const ProjectList = ({
               <br />
               Date: {moment(project.date).format("YYYY-MM-DD")}
             </StyledProjectDetails>
-            <StyledDeleteIcon
-              onClick={() => setDeleteProject(project._id)}
-              className="far fa-trash-alt"
-            ></StyledDeleteIcon>
+            <StyledProjectControls>
+              <StyledDeleteIcon
+                onClick={() => setDeleteProject(project._id)}
+                className="far fa-trash-alt"
+              ></StyledDeleteIcon>
+              <StyledEditIcon className="fas fa-pencil-alt"></StyledEditIcon>
+            </StyledProjectControls>
           </StyledProject>
         ))}
       </Fragment>
