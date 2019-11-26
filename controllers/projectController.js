@@ -18,23 +18,29 @@ module.exports = {
   create: async (req, res) => {
     const shopData = req.body;
 
-    if (shopData.newClient.length > 0) {
-      const oldClient = await Client.findOne({ name: shopData.newClient });
+    try {
+      if (shopData.newClient.length > 0) {
+        const oldClient = await Client.findOne({ name: shopData.newClient });
 
-      if (!oldClient) {
-        const newClient = new Client({
-          name: shopData.newClient
-        });
+        if (!oldClient) {
+          const newClient = new Client({
+            name: shopData.newClient
+          });
 
-        shopData.client = newClient._id;
+          shopData.client = newClient._id;
 
-        await newClient.save();
-      } else {
-        shopData.client = oldClient._id;
+          await newClient.save();
+        } else {
+          shopData.client = oldClient._id;
+        }
       }
+
+      await Project.create(shopData);
+      res.status(201).json({ msg: "Project saved." });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
     }
-    await Project.create(shopData);
-    res.status(201).json({ message: "Project saved." });
   },
   read: async (req, res) => {
     const projectId = req.params.id;
@@ -43,6 +49,11 @@ module.exports = {
       const project = await Project.findById(projectId).select(
         "client currency date payment projectNr _id"
       );
+
+      if (!project) {
+        res.status(404).json({ err: "Project with this ID is not found." });
+      }
+
       res.status(200).json(project);
     } catch (err) {
       console.log(err);
@@ -51,31 +62,35 @@ module.exports = {
   },
   update: async (req, res) => {
     const projectId = req.params.id;
-    // const { date, client, projectNr, currency, payment } = req.body;
+    const shopData = req.body;
 
     try {
       const project = await Project.findById(projectId);
 
-      if (!project)
-        res.status(404).json({ err: "Project with this ID not found." });
+      // if new client is provided
+      if (shopData.newClient.length > 0) {
+        const oldClient = await Client.findOne({ name: shopData.newClient });
 
-      const projectFields = {};
+        if (!oldClient) {
+          const newClient = new Client({
+            name: shopData.newClient
+          });
 
-      for (let field in req.body) {
-        if (req.body[field] !== project[field]) {
-          projectFields[field] = req.body[field];
+          shopData.client = newClient._id;
+
+          await newClient.save();
+        } else {
+          shopData.client = oldClient._id;
         }
       }
 
-      // if (date !== project.date) projectFields.date = date;
-      // if (client !== project.client) projectFields.client = client;
-      // if (projectNr !== project.projectNr) projectFields.projectNr = projectNr;
-      // if (currency !== project.currency) projectFields.currency = currency;
-      // if (payment !== project.payment) projectFields.payment = payment;
-      console.log(projectFields);
+      if (!project) {
+        res.status(404).json({ err: "Project with this ID is not found." });
+      }
+
       const updatedProject = await Project.findByIdAndUpdate(
         projectId,
-        projectFields,
+        shopData,
         { new: true }
       );
 
@@ -89,8 +104,14 @@ module.exports = {
     const projectId = req.params.id;
 
     try {
+      const project = await Project.findById(projectId);
+
+      if (!project) {
+        res.status(404).json({ err: "Project with this ID is not found." });
+      }
+
       await Project.findOneAndUpdate({ _id: projectId }, { deleted: true });
-      res.status(200).json({ message: "Project deleted." });
+      res.status(200).json({ msg: "Project deleted." });
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: err });
