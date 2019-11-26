@@ -49,6 +49,35 @@ module.exports = {
       res.status(500).json({ error: err });
     }
   },
+  update: async (req, res) => {
+    const projectId = req.params.id;
+    const { date, client, projectNr, currency, payment } = req.body;
+
+    try {
+      const project = await Project.findById(projectId);
+
+      if (!project)
+        res.status(404).json({ err: "Project with this ID not found." });
+
+      const projectFields = {};
+      if (date !== project.date) projectFields.date = date;
+      if (client !== project.client) projectFields.client = client;
+      if (projectNr !== project.projectNr) projectFields.projectNr = projectNr;
+      if (currency !== project.currency) projectFields.currency = currency;
+      if (payment !== project.payment) projectFields.payment = payment;
+
+      const updatedProject = await Project.findByIdAndUpdate(
+        projectId,
+        projectFields,
+        { new: true }
+      );
+
+      res.status(200).json(updatedProject);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }
+  },
   delete: async (req, res) => {
     const projectId = req.params.id;
 
