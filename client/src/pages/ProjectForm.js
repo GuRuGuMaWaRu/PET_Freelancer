@@ -6,6 +6,7 @@ import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import Spinner from "../layout/Spinner";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -149,6 +150,7 @@ const ProjectForm = ({
           try {
             values.projectNr = values.projectNr.trim();
 
+            // Get client name to display inside alert message
             let client;
             if (values.newClient.length > 0) {
               client = values.newClient.trim();
@@ -157,10 +159,29 @@ const ProjectForm = ({
                 .name;
             }
 
-            await axios.post("/projects", values);
-            actions.setSubmitting(false);
-            showAlert(`Added new project "${values.projectNr}" from ${client}`);
-            history.push("/");
+            // Handle editing
+            if (editProject.client) {
+              const editedFields = {};
+
+              // Filter out only edited fields
+              for (let field in values) {
+                if (values[field] !== initialValues[field]) {
+                  editedFields[field] = values[field];
+                }
+              }
+
+              await axios.patch(`/projects/${editProject._id}`, editedFields);
+              actions.setSubmitting(false);
+              showAlert(`Edited project "${values.projectNr}" from ${client}`);
+              history.push("/");
+            } else {
+              await axios.post("/projects", values);
+              actions.setSubmitting(false);
+              showAlert(
+                `Added new project "${values.projectNr}" from ${client}`
+              );
+              history.push("/");
+            }
           } catch (err) {
             console.log(err);
             actions.setSubmitting(false);
