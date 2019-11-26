@@ -22,12 +22,8 @@ describe("Project Controller", () => {
         request(app)
           .patch(`/projects/${foundProject._id}`)
           .send({
-            newClient: "",
-            client: foundProject.client,
-            currency: foundProject.currency,
             payment: 111,
-            projectNr: "ZYZ987",
-            date: foundProject.date
+            projectNr: "ZYZ987"
           })
           .expect(200)
           .end((err, res) => {

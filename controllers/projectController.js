@@ -68,7 +68,7 @@ module.exports = {
       const project = await Project.findById(projectId);
 
       // if new client is provided
-      if (shopData.newClient.length > 0) {
+      if (shopData.newClient && shopData.newClient.length > 0) {
         const oldClient = await Client.findOne({ name: shopData.newClient });
 
         if (!oldClient) {
