@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import moment from "moment";
@@ -20,16 +21,26 @@ const StyledProject = styled.div`
 const StyledProjectDetails = styled.div`
   margin-left: 2rem;
 `;
-
-const StyledDeleteIcon = styled.i`
+const StyledProjectControls = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const StyledIcon = styled.i`
   font-size: 1.2rem;
   padding: 0.5rem;
   margin-right: 2rem;
   color: ${props => props.theme.secondaryText};
   cursor: pointer;
   transition: 0.2s color;
+`;
+const StyledDeleteIcon = styled(StyledIcon)`
   &:hover {
     color: ${props => props.theme.darkPrimary};
+  }
+`;
+const StyledEditIcon = styled(StyledIcon)`
+  &:hover {
+    color: ${props => props.theme.mediumseagreen};
   }
 `;
 
@@ -38,11 +49,12 @@ const ProjectList = ({
   setLoading,
   projects,
   setProjects,
+  setEditProject,
   setDeleteProject
 }) => {
+  const history = useHistory();
   useEffect(() => {
     const source = axios.CancelToken.source();
-
     setLoading(true);
 
     const getProjects = async () => {
@@ -68,6 +80,13 @@ const ProjectList = ({
     // eslint-disable-next-line
   }, []);
 
+  const handleSetEditProject = async id => {
+    const res = await axios.get(`/projects/${id}`);
+
+    setEditProject(res.data);
+    history.push("/add");
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -86,10 +105,16 @@ const ProjectList = ({
               <br />
               Date: {moment(project.date).format("YYYY-MM-DD")}
             </StyledProjectDetails>
-            <StyledDeleteIcon
-              onClick={() => setDeleteProject(project._id)}
-              className="far fa-trash-alt"
-            ></StyledDeleteIcon>
+            <StyledProjectControls>
+              <StyledDeleteIcon
+                onClick={() => setDeleteProject(project._id)}
+                className="far fa-trash-alt"
+              ></StyledDeleteIcon>
+              <StyledEditIcon
+                onClick={() => handleSetEditProject(project._id)}
+                className="fas fa-pencil-alt"
+              ></StyledEditIcon>
+            </StyledProjectControls>
           </StyledProject>
         ))}
       </Fragment>
@@ -102,6 +127,7 @@ ProjectList.propTypes = {
   setLoading: PropTypes.func.isRequired,
   projects: PropTypes.array,
   setProjects: PropTypes.func.isRequired,
+  setEditProject: PropTypes.func.isRequired,
   setDeleteProject: PropTypes.func.isRequired
 };
 

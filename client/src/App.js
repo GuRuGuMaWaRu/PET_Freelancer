@@ -21,7 +21,6 @@ const theme = {
   modal_bg_color: "hsla(200, 40%, 10%, 0.4)",
   mediumseagreen: "mediumseagreen"
 };
-
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
@@ -86,6 +85,13 @@ const App = () => {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
   const [deleteProject, setDeleteProject] = useState(null);
+  const [editProject, setEditProject] = useState({
+    client: null,
+    currency: null,
+    date: null,
+    payment: null,
+    projectNr: null
+  });
   const [projects, setProjects] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -132,6 +138,8 @@ const App = () => {
                     {...props}
                     showAlert={showAlert}
                     hideAlert={hideAlert}
+                    editProject={editProject}
+                    setEditProject={setEditProject}
                   />
                 )}
               ></Route>
@@ -141,6 +149,7 @@ const App = () => {
                   setLoading={setLoading}
                   projects={projects}
                   setProjects={setProjects}
+                  setEditProject={setEditProject}
                   setDeleteProject={setDeleteProject}
                 />
               </Route>

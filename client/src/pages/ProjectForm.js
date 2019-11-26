@@ -44,21 +44,37 @@ const StyledErrorMessage = styled(ErrorMessage)`
   margin-top: 0.4rem;
   color: ${props => props.theme.darkPrimary};
 `;
-const StyledSubmitButton = styled.button`
+const StyledActionButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 2rem auto 0;
+`;
+const StyledButton = styled.button`
   display: block;
   padding: 0.6rem 1.5rem;
-  margin: 2rem auto 0;
   border: none;
   color: ${props => props.theme.text};
-  background-color: ${props => props.theme.accent};
   cursor: pointer;
   transition: 0.2s color;
   &:hover {
     color: ${props => props.theme.lightPrimary};
   }
 `;
+const StyledSubmitButton = styled(StyledButton)`
+  background-color: ${props => props.theme.mediumseagreen};
+`;
+const StyledCancelButton = styled(StyledButton)`
+  margin-right: 1rem;
+  background-color: ${props => props.theme.secondaryText};
+`;
 
-const ProjectForm = ({ history, showAlert, hideAlert }) => {
+const ProjectForm = ({
+  history,
+  showAlert,
+  hideAlert,
+  editProject,
+  setEditProject
+}) => {
   const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -87,6 +103,13 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
 
     return () => {
       source.cancel("cancelled request at ProjectForm!");
+      setEditProject({
+        client: null,
+        currency: null,
+        date: null,
+        payment: null,
+        projectNr: null
+      });
     };
     // eslint-disable-next-line
   }, []);
@@ -95,22 +118,38 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
     return <Spinner />;
   }
 
+  let initialValues;
+
+  if (!editProject.client) {
+    initialValues = {
+      date: moment().format("YYYY-MM-DD"),
+      client: "",
+      newClient: "",
+      projectNr: "",
+      currency: "USD",
+      payment: ""
+    };
+  } else {
+    initialValues = {
+      date: moment(editProject.date).format("YYYY-MM-DD"),
+      client: editProject.client,
+      newClient: "",
+      projectNr: editProject.projectNr,
+      currency: editProject.currency,
+      payment: editProject.payment
+    };
+  }
+
   return (
     clients && (
       <Formik
-        initialValues={{
-          date: moment().format("YYYY-MM-DD"),
-          client: "",
-          newClient: "",
-          projectNr: "",
-          currency: "USD",
-          payment: ""
-        }}
+        initialValues={initialValues}
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
           try {
             values.projectNr = values.projectNr.trim();
 
+            // Get client name to display inside alert message
             let client;
             if (values.newClient.length > 0) {
               client = values.newClient.trim();
@@ -119,10 +158,29 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
                 .name;
             }
 
-            await axios.post("/projects", values);
-            actions.setSubmitting(false);
-            showAlert(`Added new project "${values.projectNr}" from ${client}`);
-            history.push("/");
+            // Handle editing
+            if (editProject.client) {
+              const editedFields = {};
+
+              // Filter out only edited fields
+              for (let field in values) {
+                if (values[field] !== initialValues[field]) {
+                  editedFields[field] = values[field];
+                }
+              }
+
+              await axios.patch(`/projects/${editProject._id}`, editedFields);
+              actions.setSubmitting(false);
+              showAlert(`Edited project "${values.projectNr}" from ${client}`);
+              history.push("/");
+            } else {
+              await axios.post("/projects", values);
+              actions.setSubmitting(false);
+              showAlert(
+                `Added new project "${values.projectNr}" from ${client}`
+              );
+              history.push("/");
+            }
           } catch (err) {
             console.log(err);
             actions.setSubmitting(false);
@@ -131,7 +189,9 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
         }}
         render={({ errors, status, touched, isSubmitting }) => (
           <StyledForm>
-            <StyledTitle>Add Project</StyledTitle>
+            <StyledTitle>
+              {editProject.client ? "Edit Project" : "Add Project"}
+            </StyledTitle>
             <StyledFormGroup>
               <StyledLabel htmlFor="date">* Date:</StyledLabel>
               <StyledField type="date" name="date" />
@@ -174,9 +234,14 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
               <StyledErrorMessage name="payment" component="div" />
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
-            <StyledSubmitButton type="submit" disabled={isSubmitting}>
-              Add
-            </StyledSubmitButton>
+            <StyledActionButtons>
+              {editProject.client && (
+                <StyledCancelButton type="button">Cancel</StyledCancelButton>
+              )}
+              <StyledSubmitButton type="submit" disabled={isSubmitting}>
+                {editProject.client ? "Update" : "Add"}
+              </StyledSubmitButton>
+            </StyledActionButtons>
           </StyledForm>
         )}
       />
@@ -186,7 +251,9 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
 
 ProjectForm.propTypes = {
   showAlert: PropTypes.func.isRequired,
-  hideAlert: PropTypes.func.isRequired
+  hideAlert: PropTypes.func.isRequired,
+  editProject: PropTypes.object.isRequired,
+  setEditProject: PropTypes.func.isRequired
 };
 
 export default ProjectForm;
