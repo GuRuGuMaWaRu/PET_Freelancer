@@ -136,9 +136,10 @@ const App = () => {
               <Route path="/login">
                 <Login />
               </Route>
-              <Route path="/registration">
-                <Registration />
-              </Route>
+              <Route
+                path="/registration"
+                render={props => <Registration {...props} />}
+              ></Route>
               <Route
                 path="/add"
                 render={props => (

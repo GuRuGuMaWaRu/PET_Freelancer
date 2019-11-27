@@ -250,6 +250,7 @@ const ProjectForm = ({
 };
 
 ProjectForm.propTypes = {
+  history: PropTypes.object.isRequired,
   showAlert: PropTypes.func.isRequired,
   hideAlert: PropTypes.func.isRequired,
   editProject: PropTypes.object.isRequired,
