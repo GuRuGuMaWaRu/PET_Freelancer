@@ -18,6 +18,8 @@ if (process.env.NODE_ENV === "development") {
     useNewUrlParser: true,
     useFindAndModify: false
   });
+
+  mongoose.set("useCreateIndex", true);
 }
 
 const app = express();
