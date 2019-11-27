@@ -3,6 +3,8 @@ import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./layout/Navbar";
+import Login from "./pages/Login";
+import Registration from "./pages/Registration";
 import ProjectForm from "./pages/ProjectForm";
 import ProjectList from "./pages/ProjectList";
 import Alert from "./layout/Alert";
@@ -131,6 +133,12 @@ const App = () => {
           <StyledContainer>
             {alert && <Alert message={alertMessage} hideAlert={hideAlert} />}
             <Switch>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/registration">
+                <Registration />
+              </Route>
               <Route
                 path="/add"
                 render={props => (

@@ -34,6 +34,24 @@ export default function Navbar() {
       >
         Add Project
       </StyledNavLink>
+      <StyledNavLink
+        to="/login"
+        activeStyle={{
+          fontWeight: "bold",
+          color: "#fff"
+        }}
+      >
+        Login
+      </StyledNavLink>
+      <StyledNavLink
+        to="/registration"
+        activeStyle={{
+          fontWeight: "bold",
+          color: "#fff"
+        }}
+      >
+        Registration
+      </StyledNavLink>
     </StyledNav>
   );
 }
