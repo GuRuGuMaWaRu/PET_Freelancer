@@ -60,7 +60,7 @@ const StyledSubmitButton = styled(StyledButton)`
   background-color: ${props => props.theme.mediumseagreen};
 `;
 
-const Registration = ({ history }) => {
+const Registration = ({ history, setAuthenticated }) => {
   return (
     <Formik
       initialValues={{
@@ -78,6 +78,8 @@ const Registration = ({ history }) => {
 
           localStorage.setItem("token", res.data.token);
           actions.setSubmitting(false);
+          setAuthenticated(true);
+          history.push("/");
         } catch (err) {
           console.log(err);
           actions.setSubmitting(false);
@@ -120,7 +122,8 @@ const Registration = ({ history }) => {
 };
 
 Registration.propTypes = {
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  setAuthenticated: PropTypes.func.isRequired
 };
 
 export default Registration;

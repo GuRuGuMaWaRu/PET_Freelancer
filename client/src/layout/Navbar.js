@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
@@ -12,9 +13,9 @@ const StyledNavLink = styled(NavLink)`
   text-decoration: none;
 `;
 
-export default function Navbar() {
-  return (
-    <StyledNav>
+const Navbar = ({ isAuthenticated }) => {
+  const authLinks = (
+    <Fragment>
       <StyledNavLink
         exact
         to="/"
@@ -34,6 +35,11 @@ export default function Navbar() {
       >
         Add Project
       </StyledNavLink>
+    </Fragment>
+  );
+
+  const guestLinks = (
+    <Fragment>
       <StyledNavLink
         to="/login"
         activeStyle={{
@@ -50,8 +56,15 @@ export default function Navbar() {
           color: "#fff"
         }}
       >
-        Registration
+        Register
       </StyledNavLink>
-    </StyledNav>
+    </Fragment>
   );
-}
+  return <StyledNav>{isAuthenticated ? authLinks : guestLinks}</StyledNav>;
+};
+
+Navbar.propTypes = {
+  isAuthenticated: PropTypes.bool.isRequired
+};
+
+export default Navbar;
