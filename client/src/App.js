@@ -133,13 +133,11 @@ const App = () => {
           <StyledContainer>
             {alert && <Alert message={alertMessage} hideAlert={hideAlert} />}
             <Switch>
-              <Route path="/login">
-                <Login />
-              </Route>
+              <Route path="/login" render={props => <Login {...props} />} />
               <Route
                 path="/registration"
                 render={props => <Registration {...props} />}
-              ></Route>
+              />
               <Route
                 path="/add"
                 render={props => (
