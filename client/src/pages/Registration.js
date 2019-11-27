@@ -72,7 +72,11 @@ const Registration = ({ history }) => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
-          await axios.post("/users", values);
+          const res = await axios.post("/users", values, {
+            headers: { "Content-Type": "application/json" }
+          });
+
+          localStorage.setItem("token", res.data.token);
           actions.setSubmitting(false);
         } catch (err) {
           console.log(err);

@@ -5,32 +5,30 @@ const { validationResult } = require("express-validator");
 const User = require("../models/User");
 
 module.exports = {
-  post: async (req, res) => {
+  register: async (req, res) => {
     // Handle Registration form errors
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+      console.log(errors);
       return res.status(422).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
-
+    const { name, email, password1 } = req.body;
     try {
       let user = await User.findOne({ email });
-
       if (user) {
         return res.status(400).json({ msg: "User already exists " });
       }
-
       user = new User({
         name,
         email,
-        password
+        password: password1
       });
 
       const salt = await bcrypt.genSalt(10);
 
-      user.password = await bcrypt.hash(password, salt);
+      user.password = await bcrypt.hash(password1, salt);
 
       await user.save();
 
@@ -53,7 +51,5 @@ module.exports = {
       console.log(err.message);
       res.status(500).json({ msg: err.message });
     }
-
-    console.log("User POST route");
   }
 };

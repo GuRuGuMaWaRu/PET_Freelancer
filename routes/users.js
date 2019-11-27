@@ -15,11 +15,11 @@ router.post(
       .isEmpty(),
     check("email", "Please add email").isEmail(),
     check(
-      "password",
+      "password1",
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 })
   ],
-  userController.post
+  userController.register
 );
 
 module.exports = router;
