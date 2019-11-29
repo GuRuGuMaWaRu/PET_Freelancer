@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import ProjectForm from "./pages/ProjectForm";
 import ProjectList from "./pages/ProjectList";
+import NotFound from "./pages/NotFound";
 import Alert from "./layout/Alert";
 import DeleteDialogue from "./layout/DeleteDialogue";
 import PrivateRoute from "./routing/PrivateRoute";
@@ -177,6 +178,9 @@ const App = () => {
                   />
                 )}
               />
+              <Route>
+                <NotFound />
+              </Route>
             </Switch>
           </StyledContainer>
         </ThemeProvider>
