@@ -10,6 +10,7 @@ import ProjectList from "./pages/ProjectList";
 import Alert from "./layout/Alert";
 import DeleteDialogue from "./layout/DeleteDialogue";
 import PrivateRoute from "./routing/PrivateRoute";
+import setAuthToken from "./utils/setAuthToken";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -84,6 +85,10 @@ const StyledContainer = styled.div`
   background-color: ${props => props.theme.container};
 `;
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 const App = () => {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
@@ -135,6 +140,28 @@ const App = () => {
           <StyledContainer>
             {alert && <Alert message={alertMessage} hideAlert={hideAlert} />}
             <Switch>
+              <PrivateRoute
+                exact
+                path="/"
+                component={ProjectList}
+                isAuthenitcated={isAuthenticated}
+                loading={loading}
+                setLoading={setLoading}
+                projects={projects}
+                setProjects={setProjects}
+                setEditProject={setEditProject}
+                setDeleteProject={setDeleteProject}
+              />
+              <PrivateRoute
+                path="/add"
+                component={ProjectForm}
+                loading={loading}
+                isAuthenitcated={isAuthenticated}
+                showAlert={showAlert}
+                hideAlert={hideAlert}
+                editProject={editProject}
+                setEditProject={setEditProject}
+              />
               <Route
                 path="/login"
                 render={props => (
@@ -149,28 +176,6 @@ const App = () => {
                     setAuthenticated={setAuthenticated}
                   />
                 )}
-              />
-              <PrivateRoute
-                path="/add"
-                component={ProjectForm}
-                loading={loading}
-                isAuthenitcated={isAuthenticated}
-                showAlert={showAlert}
-                hideAlert={hideAlert}
-                editProject={editProject}
-                setEditProject={setEditProject}
-              />
-              <PrivateRoute
-                exact
-                path="/"
-                component={ProjectList}
-                isAuthenitcated={isAuthenticated}
-                loading={loading}
-                setLoading={setLoading}
-                projects={projects}
-                setProjects={setProjects}
-                setEditProject={setEditProject}
-                setDeleteProject={setDeleteProject}
               />
             </Switch>
           </StyledContainer>

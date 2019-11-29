@@ -5,7 +5,9 @@ import moment from "moment";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+
 import Spinner from "../layout/Spinner";
+import setAuthToken from "../utils/setAuthToken";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -79,6 +81,10 @@ const ProjectForm = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
     const source = axios.CancelToken.source();
 
     hideAlert();

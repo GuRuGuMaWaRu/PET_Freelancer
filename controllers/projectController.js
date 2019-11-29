@@ -4,7 +4,10 @@ const Project = require("../models/Project");
 module.exports = {
   index: async (req, res) => {
     try {
-      const projects = await Project.find({ deleted: { $ne: true } })
+      const projects = await Project.find({
+        deleted: { $ne: true },
+        user: req.user.id
+      })
         .populate("client")
         .select("client currency date payment projectNr _id")
         .sort({ date: -1 });
@@ -12,7 +15,7 @@ module.exports = {
       res.status(200).json(projects);
     } catch (err) {
       console.log(err);
-      res.status(500).json({ error: err });
+      res.status(500).json({ error: err.message });
     }
   },
   create: async (req, res) => {
@@ -20,11 +23,15 @@ module.exports = {
 
     try {
       if (shopData.newClient.length > 0) {
-        const oldClient = await Client.findOne({ name: shopData.newClient });
+        const oldClient = await Client.findOne({
+          name: shopData.newClient,
+          user: req.user.id
+        });
 
         if (!oldClient) {
           const newClient = new Client({
-            name: shopData.newClient
+            name: shopData.newClient,
+            user: req.user.id
           });
 
           shopData.client = newClient._id;
@@ -35,29 +42,30 @@ module.exports = {
         }
       }
 
-      await Project.create(shopData);
-      res.status(201).json({ msg: "Project saved." });
+      await Project.create({ ...shopData, user: req.user.id });
+      res.status(201).json({ msg: "Project saved" });
     } catch (err) {
       console.log(err);
-      res.status(500).json({ error: err });
+      res.status(500).json({ error: err.message });
     }
   },
   read: async (req, res) => {
     const projectId = req.params.id;
 
     try {
-      const project = await Project.findById(projectId).select(
-        "client currency date payment projectNr _id"
-      );
+      const project = await Project.findOne({
+        _id: projectId,
+        user: req.user.id
+      }).select("client currency date payment projectNr _id");
 
       if (!project) {
-        res.status(404).json({ err: "Project with this ID is not found." });
+        res.status(404).json({ err: "Project with this ID is not found" });
       }
 
       res.status(200).json(project);
     } catch (err) {
       console.log(err);
-      res.status(500).json({ error: err });
+      res.status(500).json({ error: err.message });
     }
   },
   update: async (req, res) => {
@@ -65,15 +73,22 @@ module.exports = {
     const shopData = req.body;
 
     try {
-      const project = await Project.findById(projectId);
+      const project = await Project.findOne({
+        _id: projectId,
+        user: req.user.id
+      });
 
       // if new client is provided
       if (shopData.newClient && shopData.newClient.length > 0) {
-        const oldClient = await Client.findOne({ name: shopData.newClient });
+        const oldClient = await Client.findOne({
+          name: shopData.newClient,
+          user: req.user.id
+        });
 
         if (!oldClient) {
           const newClient = new Client({
-            name: shopData.newClient
+            name: shopData.newClient,
+            user: req.user.id
           });
 
           shopData.client = newClient._id;
@@ -85,36 +100,42 @@ module.exports = {
       }
 
       if (!project) {
-        res.status(404).json({ err: "Project with this ID is not found." });
+        res.status(404).json({ err: "Project with this ID is not found" });
       }
 
-      const updatedProject = await Project.findByIdAndUpdate(
-        projectId,
-        shopData,
+      const updatedProject = await Project.findOneAndUpdate(
+        { _id: projectId, user: req.user.id },
+        { ...shopData },
         { new: true }
       );
 
       res.status(200).json(updatedProject);
     } catch (err) {
       console.log(err);
-      res.status(500).json({ error: err });
+      res.status(500).json({ error: err.message });
     }
   },
   delete: async (req, res) => {
     const projectId = req.params.id;
 
     try {
-      const project = await Project.findById(projectId);
+      const project = await Project.findOne({
+        _id: projectId,
+        user: req.user.id
+      });
 
       if (!project) {
-        res.status(404).json({ err: "Project with this ID is not found." });
+        res.status(404).json({ err: "Project with this ID is not found" });
       }
 
-      await Project.findOneAndUpdate({ _id: projectId }, { deleted: true });
-      res.status(200).json({ msg: "Project deleted." });
+      await Project.findOneAndUpdate(
+        { _id: projectId, user: req.user.id },
+        { deleted: true }
+      );
+      res.status(200).json({ msg: "Project deleted" });
     } catch (err) {
       console.log(err);
-      res.status(500).json({ error: err });
+      res.status(500).json({ error: err.message });
     }
   }
 };

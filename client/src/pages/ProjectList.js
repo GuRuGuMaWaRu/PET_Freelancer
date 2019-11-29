@@ -4,7 +4,9 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import moment from "moment";
+
 import Spinner from "../layout/Spinner";
+import setAuthToken from "../utils/setAuthToken";
 
 const StyledProject = styled.div`
   display: flex;
@@ -53,7 +55,12 @@ const ProjectList = ({
   setDeleteProject
 }) => {
   const history = useHistory();
+
   useEffect(() => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+
     const source = axios.CancelToken.source();
     setLoading(true);
 
