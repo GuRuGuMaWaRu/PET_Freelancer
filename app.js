@@ -3,8 +3,10 @@ const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 
-const projectsRouter = require("./routes/projects");
+const usersRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
 const clientsRouter = require("./routes/clients");
+const projectsRouter = require("./routes/projects");
 
 // Set environament variables
 require("dotenv").config({ path: "process.env" });
@@ -16,6 +18,8 @@ if (process.env.NODE_ENV === "development") {
     useNewUrlParser: true,
     useFindAndModify: false
   });
+
+  mongoose.set("useCreateIndex", true);
 }
 
 const app = express();
@@ -36,6 +40,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use("/users", usersRouter);
+app.use("/auth", authRouter);
 app.use("/projects", projectsRouter);
 app.use("/clients", clientsRouter);
 
