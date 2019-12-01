@@ -6,7 +6,7 @@ import axios from "axios";
 import moment from "moment";
 
 import Spinner from "../layout/Spinner";
-import setAuthToken from "../utils/setAuthToken";
+import setAuthToken from "../../utils/setAuthToken";
 
 const StyledProject = styled.div`
   display: flex;

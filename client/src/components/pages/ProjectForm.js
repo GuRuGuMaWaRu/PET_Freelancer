@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import Spinner from "../layout/Spinner";
-import setAuthToken from "../utils/setAuthToken";
+import setAuthToken from "../../utils/setAuthToken";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),

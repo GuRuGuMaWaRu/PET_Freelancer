@@ -2,15 +2,15 @@ import React, { Fragment, useState } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Navbar from "./layout/Navbar";
-import Login from "./pages/Login";
-import Registration from "./pages/Registration";
-import ProjectForm from "./pages/ProjectForm";
-import ProjectList from "./pages/ProjectList";
-import NotFound from "./pages/NotFound";
-import Alert from "./layout/Alert";
-import DeleteDialogue from "./layout/DeleteDialogue";
-import PrivateRoute from "./routing/PrivateRoute";
+import Navbar from "./components/layout/Navbar";
+import Login from "./components/pages/Login";
+import Registration from "./components/pages/Registration";
+import ProjectForm from "./components/pages/ProjectForm";
+import ProjectList from "./components/pages/ProjectList";
+import NotFound from "./components/pages/NotFound";
+import Alert from "./components/layout/Alert";
+import DeleteDialogue from "./components/layout/DeleteDialogue";
+import PrivateRoute from "./components/routing/PrivateRoute";
 import setAuthToken from "./utils/setAuthToken";
 
 const theme = {
