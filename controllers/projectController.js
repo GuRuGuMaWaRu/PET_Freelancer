@@ -41,9 +41,20 @@ module.exports = {
           shopData.client = oldClient._id;
         }
       }
+      const project = new Project({
+        ...shopData,
+        user: req.user.id
+      });
+      await project.save();
 
-      await Project.create({ ...shopData, user: req.user.id });
-      res.status(201).json({ msg: "Project saved" });
+      const returnedData = await Project.find({
+        _id: project._id,
+        user: req.user.id
+      })
+        .populate("client")
+        .select("client currency date payment projectNr _id");
+      // await Project.create({ ...shopData, user: req.user.id });
+      res.status(201).json(returnedData[0]);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: err.message });

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -6,7 +6,6 @@ import axios from "axios";
 import moment from "moment";
 
 import Spinner from "../layout/Spinner";
-import setAuthToken from "../../utils/setAuthToken";
 import ProjectContext from "../../context/project/projectContext";
 
 const StyledProject = styled.div`
@@ -50,14 +49,7 @@ const StyledEditIcon = styled(StyledIcon)`
 const ProjectList = ({ setEditProject, setDeleteProject }) => {
   const history = useHistory();
   const projectContext = useContext(ProjectContext);
-  const { projects, getProjects } = projectContext;
-
-  useEffect(() => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
-    getProjects();
-  }, []);
+  const { projects } = projectContext;
 
   const handleSetEditProject = async id => {
     const res = await axios.get(`/projects/${id}`);
@@ -69,6 +61,16 @@ const ProjectList = ({ setEditProject, setDeleteProject }) => {
   if (!projects) {
     return <Spinner />;
   }
+
+  // Need to sort projects here because otherwise newly added projects
+  // will be added up top no matter their "date" property
+  // const sortedProjects = projects.sort((a, b) => {
+  //   if (a.date > b.date) return -1;
+  //   else if (a.date < b.date) return 1;
+  //   else {
+  //     return 0;
+  //   }
+  // });
 
   return (
     projects && (

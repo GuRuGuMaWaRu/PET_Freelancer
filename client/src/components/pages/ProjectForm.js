@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import moment from "moment";
@@ -8,6 +8,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import Spinner from "../layout/Spinner";
 import setAuthToken from "../../utils/setAuthToken";
+import ProjectContext from "../../context/project/projectContext";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -79,6 +80,9 @@ const ProjectForm = ({
 }) => {
   const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
+  const projectContext = useContext(ProjectContext);
+
+  const { createProject } = projectContext;
 
   useEffect(() => {
     if (localStorage.token) {
@@ -180,7 +184,7 @@ const ProjectForm = ({
               showAlert(`Edited project "${values.projectNr}" from ${client}`);
               history.push("/");
             } else {
-              await axios.post("/projects", values);
+              createProject(values);
               actions.setSubmitting(false);
               showAlert(
                 `Added new project "${values.projectNr}" from ${client}`
