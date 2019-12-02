@@ -114,13 +114,19 @@ module.exports = {
         res.status(404).json({ err: "Project with this ID is not found" });
       }
 
-      const updatedProject = await Project.findOneAndUpdate(
+      await Project.findOneAndUpdate(
         { _id: projectId, user: req.user.id },
-        { ...shopData },
-        { new: true }
+        { ...shopData }
       );
 
-      res.status(200).json(updatedProject);
+      const returnedData = await Project.find({
+        _id: projectId,
+        user: req.user.id
+      })
+        .populate("client")
+        .select("client currency date payment projectNr _id");
+
+      res.status(200).json(returnedData[0]);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: err.message });

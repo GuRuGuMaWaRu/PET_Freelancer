@@ -82,7 +82,7 @@ const ProjectForm = ({
   const [loading, setLoading] = useState(false);
   const projectContext = useContext(ProjectContext);
 
-  const { createProject } = projectContext;
+  const { createProject, updateProject } = projectContext;
 
   useEffect(() => {
     if (localStorage.token) {
@@ -179,7 +179,8 @@ const ProjectForm = ({
                 }
               }
 
-              await axios.patch(`/projects/${editProject._id}`, editedFields);
+              // await axios.patch(`/projects/${editProject._id}`, editedFields);
+              updateProject({ ...editedFields, _id: editProject._id });
               actions.setSubmitting(false);
               showAlert(`Edited project "${values.projectNr}" from ${client}`);
               history.push("/");

@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import PropTypes from "prop-types";
-// import axios from "axios";
 import styled from "styled-components";
 
 import ProjectContext from "../../context/project/projectContext";
@@ -35,13 +34,7 @@ const StyledYesButton = styled(StyledButton)`
   background-color: ${props => props.theme.primary};
 `;
 
-const DeleteDialogue = ({
-  // projects,
-  // setProjects,
-  deletedProject,
-  showAlert,
-  closeModal
-}) => {
+const DeleteDialogue = ({ deletedProject, showAlert, closeModal }) => {
   const handlePropagation = e => {
     e.stopPropagation();
   };
@@ -53,16 +46,6 @@ const DeleteDialogue = ({
     deleteProject(deletedProject);
     closeModal();
     showAlert(`Deleted a project.`);
-
-    // try {
-    //   await axios.delete(`/projects/${deleteProject}`);
-    //   setProjects(projects.filter(project => project._id !== deleteProject));
-    // } catch (err) {
-    //   console.log(err);
-    //   closeModal();
-    //   showAlert(`There was an error deleting a project!`);
-    //   setProjects(projects.filter(project => project._id !== deleteProject));
-    // }
   };
 
   return (
@@ -77,8 +60,6 @@ const DeleteDialogue = ({
 };
 
 DeleteDialogue.propTypes = {
-  // projects: PropTypes.array,
-  // setProjects: PropTypes.func.isRequired,
   deletedProject: PropTypes.string.isRequired,
   showAlert: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired

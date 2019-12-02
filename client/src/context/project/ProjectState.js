@@ -9,7 +9,9 @@ import {
   CREATE_PROJECT_SUCCESS,
   CREATE_PROJECT_FAILURE,
   DELETE_PROJECT_SUCCESS,
-  DELETE_PROJECT_FAILURE
+  DELETE_PROJECT_FAILURE,
+  UPDATE_PROJECT_SUCCESS,
+  UPDATE_PROJECT_FAILURE
 } from "../types";
 
 const ProjectState = props => {
@@ -34,9 +36,7 @@ const ProjectState = props => {
   // Create project
   const createProject = async data => {
     const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
+      headers: { "Content-Type": "application/json" }
     };
     try {
       const res = await axios.post("/projects", data, config);
@@ -58,6 +58,25 @@ const ProjectState = props => {
     }
   };
 
+  // Update project
+  const updateProject = async project => {
+    const config = {
+      headers: { "Content-Type": "application/json" }
+    };
+
+    try {
+      const { data: updatedProject } = await axios.patch(
+        `/projects/${project._id}`,
+        project,
+        config
+      );
+      dispatch({ type: UPDATE_PROJECT_SUCCESS, payload: updatedProject });
+    } catch (err) {
+      console.log("Error:", err.message);
+      dispatch({ type: UPDATE_PROJECT_FAILURE, payload: err.message });
+    }
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -65,7 +84,8 @@ const ProjectState = props => {
         current: state.current,
         getProjects,
         createProject,
-        deleteProject
+        deleteProject,
+        updateProject
       }}
     >
       {props.children}

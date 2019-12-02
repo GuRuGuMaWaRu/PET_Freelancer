@@ -3,6 +3,8 @@ import {
   GET_PROJECTS_FAILURE,
   CREATE_PROJECT_SUCCESS,
   CREATE_PROJECT_FAILURE,
+  UPDATE_PROJECT_SUCCESS,
+  UPDATE_PROJECT_FAILURE,
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_FAILURE
 } from "../types";
@@ -29,6 +31,16 @@ export default (state, action) => {
           )
         ]
       };
+    case UPDATE_PROJECT_SUCCESS:
+      return {
+        ...state,
+        projects: state.projects.map(project => {
+          if (project._id === action.payload._id) {
+            return action.payload;
+          }
+          return project;
+        })
+      };
     case DELETE_PROJECT_SUCCESS:
       return {
         ...state,
@@ -38,6 +50,7 @@ export default (state, action) => {
       };
     case GET_PROJECTS_FAILURE:
     case CREATE_PROJECT_FAILURE:
+    case UPDATE_PROJECT_FAILURE:
     case DELETE_PROJECT_FAILURE:
       return state;
     default:
