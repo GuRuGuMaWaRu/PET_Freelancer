@@ -139,7 +139,7 @@ const App = () => {
                 projects={projects}
                 setProjects={setProjects}
                 showAlert={showAlert}
-                deleteProject={deleteProject}
+                deletedProject={deleteProject}
                 closeModal={handleModal}
               />
             </StyledModal>

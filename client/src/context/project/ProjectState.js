@@ -7,7 +7,9 @@ import {
   GET_PROJECTS_SUCCESS,
   GET_PROJECTS_FAILURE,
   CREATE_PROJECT_SUCCESS,
-  CREATE_PROJECT_FAILURE
+  CREATE_PROJECT_FAILURE,
+  DELETE_PROJECT_SUCCESS,
+  DELETE_PROJECT_FAILURE
 } from "../types";
 
 const ProjectState = props => {
@@ -31,12 +33,28 @@ const ProjectState = props => {
 
   // Create project
   const createProject = async data => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
     try {
-      const res = await axios.post("/projects", data);
+      const res = await axios.post("/projects", data, config);
       dispatch({ type: CREATE_PROJECT_SUCCESS, payload: res.data });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({ type: CREATE_PROJECT_FAILURE, payload: err.message });
+    }
+  };
+
+  // Delete project
+  const deleteProject = async id => {
+    try {
+      await axios.delete(`/projects/${id}`);
+      dispatch({ type: DELETE_PROJECT_SUCCESS, payload: id });
+    } catch (err) {
+      console.log("Error:", err.message);
+      dispatch({ type: DELETE_PROJECT_FAILURE, payload: err.message });
     }
   };
 
@@ -46,7 +64,8 @@ const ProjectState = props => {
         projects: state.projects,
         current: state.current,
         getProjects,
-        createProject
+        createProject,
+        deleteProject
       }}
     >
       {props.children}

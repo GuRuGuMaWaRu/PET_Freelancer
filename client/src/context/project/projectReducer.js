@@ -2,7 +2,9 @@ import {
   GET_PROJECTS_SUCCESS,
   GET_PROJECTS_FAILURE,
   CREATE_PROJECT_SUCCESS,
-  CREATE_PROJECT_FAILURE
+  CREATE_PROJECT_FAILURE,
+  DELETE_PROJECT_SUCCESS,
+  DELETE_PROJECT_FAILURE
 } from "../types";
 
 export default (state, action) => {
@@ -27,8 +29,16 @@ export default (state, action) => {
           )
         ]
       };
+    case DELETE_PROJECT_SUCCESS:
+      return {
+        ...state,
+        projects: state.projects.filter(
+          project => project._id !== action.payload
+        )
+      };
     case GET_PROJECTS_FAILURE:
     case CREATE_PROJECT_FAILURE:
+    case DELETE_PROJECT_FAILURE:
       return state;
     default:
       return state;
