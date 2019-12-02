@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -121,7 +121,6 @@ const App = () => {
   };
 
   return (
-    <Fragment>
       <ProjectState>
         <GlobalStyle />
         <Router>
@@ -189,7 +188,6 @@ const App = () => {
           </ThemeProvider>
         </Router>
       </ProjectState>
-    </Fragment>
   );
 };
 

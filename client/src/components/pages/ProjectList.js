@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
@@ -7,6 +7,7 @@ import moment from "moment";
 
 import Spinner from "../layout/Spinner";
 import setAuthToken from "../../utils/setAuthToken";
+import ProjectContext from "../../context/project/projectContext";
 
 const StyledProject = styled.div`
   display: flex;
@@ -46,45 +47,16 @@ const StyledEditIcon = styled(StyledIcon)`
   }
 `;
 
-const ProjectList = ({
-  loading,
-  setLoading,
-  projects,
-  setProjects,
-  setEditProject,
-  setDeleteProject
-}) => {
+const ProjectList = ({ setEditProject, setDeleteProject }) => {
   const history = useHistory();
+  const projectContext = useContext(ProjectContext);
+  const { projects, getProjects } = projectContext;
 
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-
-    const source = axios.CancelToken.source();
-    setLoading(true);
-
-    const getProjects = async () => {
-      try {
-        const { data: projects } = await axios.get("/projects", {
-          cancelToken: source.token
-        });
-        setProjects(projects);
-        setLoading(false);
-      } catch (err) {
-        if (axios.isCancel(err)) {
-          console.log("Error:", err.message);
-        }
-        setLoading(false);
-      }
-    };
-
     getProjects();
-
-    return () => {
-      source.cancel("cancelled request at ProjectList!");
-    };
-    // eslint-disable-next-line
   }, []);
 
   const handleSetEditProject = async id => {
@@ -94,7 +66,7 @@ const ProjectList = ({
     history.push("/add");
   };
 
-  if (loading) {
+  if (!projects) {
     return <Spinner />;
   }
 
@@ -130,10 +102,6 @@ const ProjectList = ({
 };
 
 ProjectList.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  setLoading: PropTypes.func.isRequired,
-  projects: PropTypes.array,
-  setProjects: PropTypes.func.isRequired,
   setEditProject: PropTypes.func.isRequired,
   setDeleteProject: PropTypes.func.isRequired
 };
