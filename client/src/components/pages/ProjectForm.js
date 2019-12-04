@@ -71,18 +71,17 @@ const StyledCancelButton = styled(StyledButton)`
   background-color: ${props => props.theme.secondaryText};
 `;
 
-const ProjectForm = ({
-  history,
-  showAlert,
-  hideAlert,
-  editProject,
-  setEditProject
-}) => {
+const ProjectForm = ({ history, showAlert, hideAlert }) => {
   const [clients, setClients] = useState(null);
   const [loading, setLoading] = useState(false);
   const projectContext = useContext(ProjectContext);
 
-  const { createProject, updateProject } = projectContext;
+  const {
+    currentProject,
+    createProject,
+    updateProject,
+    clearCurrentProject
+  } = projectContext;
 
   useEffect(() => {
     if (localStorage.token) {
@@ -113,13 +112,7 @@ const ProjectForm = ({
 
     return () => {
       source.cancel("cancelled request at ProjectForm!");
-      setEditProject({
-        client: null,
-        currency: null,
-        date: null,
-        payment: null,
-        projectNr: null
-      });
+      clearCurrentProject();
     };
     // eslint-disable-next-line
   }, []);
@@ -130,7 +123,7 @@ const ProjectForm = ({
 
   let initialValues;
 
-  if (!editProject.client) {
+  if (!currentProject) {
     initialValues = {
       date: moment().format("YYYY-MM-DD"),
       client: "",
@@ -141,12 +134,12 @@ const ProjectForm = ({
     };
   } else {
     initialValues = {
-      date: moment(editProject.date).format("YYYY-MM-DD"),
-      client: editProject.client,
+      date: moment(currentProject.date).format("YYYY-MM-DD"),
+      client: currentProject.client,
       newClient: "",
-      projectNr: editProject.projectNr,
-      currency: editProject.currency,
-      payment: editProject.payment
+      projectNr: currentProject.projectNr,
+      currency: currentProject.currency,
+      payment: currentProject.payment
     };
   }
 
@@ -169,7 +162,7 @@ const ProjectForm = ({
             }
 
             // Handle editing
-            if (editProject.client) {
+            if (currentProject) {
               const editedFields = {};
 
               // Filter out only edited fields
@@ -179,8 +172,7 @@ const ProjectForm = ({
                 }
               }
 
-              // await axios.patch(`/projects/${editProject._id}`, editedFields);
-              updateProject({ ...editedFields, _id: editProject._id });
+              updateProject({ ...editedFields, _id: currentProject._id });
               actions.setSubmitting(false);
               showAlert(`Edited project "${values.projectNr}" from ${client}`);
               history.push("/");
@@ -201,7 +193,7 @@ const ProjectForm = ({
         render={({ errors, status, touched, isSubmitting }) => (
           <StyledForm>
             <StyledTitle>
-              {editProject.client ? "Edit Project" : "Add Project"}
+              {currentProject ? "Edit Project" : "Add Project"}
             </StyledTitle>
             <StyledFormGroup>
               <StyledLabel htmlFor="date">* Date:</StyledLabel>
@@ -246,11 +238,11 @@ const ProjectForm = ({
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
             <StyledActionButtons>
-              {editProject.client && (
+              {currentProject && (
                 <StyledCancelButton type="button">Cancel</StyledCancelButton>
               )}
               <StyledSubmitButton type="submit" disabled={isSubmitting}>
-                {editProject.client ? "Update" : "Add"}
+                {currentProject ? "Update" : "Add"}
               </StyledSubmitButton>
             </StyledActionButtons>
           </StyledForm>
@@ -263,9 +255,7 @@ const ProjectForm = ({
 ProjectForm.propTypes = {
   history: PropTypes.object.isRequired,
   showAlert: PropTypes.func.isRequired,
-  hideAlert: PropTypes.func.isRequired,
-  editProject: PropTypes.object.isRequired,
-  setEditProject: PropTypes.func.isRequired
+  hideAlert: PropTypes.func.isRequired
 };
 
 export default ProjectForm;

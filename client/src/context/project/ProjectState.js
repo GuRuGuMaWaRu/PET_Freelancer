@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
 import axios from "axios";
+import moment from "moment";
 
 import ProjectContext from "./projectContext";
 import projectReducer from "./projectReducer";
@@ -11,13 +12,16 @@ import {
   DELETE_PROJECT_SUCCESS,
   DELETE_PROJECT_FAILURE,
   UPDATE_PROJECT_SUCCESS,
-  UPDATE_PROJECT_FAILURE
+  UPDATE_PROJECT_FAILURE,
+  READ_PROJECT_FAILURE,
+  READ_PROJECT_SUCCESS,
+  CLEAR_CURRENT_PROJECT
 } from "../types";
 
 const ProjectState = props => {
   const initialState = {
     projects: null,
-    current: null
+    currentProject: null
   };
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
@@ -26,6 +30,16 @@ const ProjectState = props => {
   const getProjects = async () => {
     try {
       const { data: projects } = await axios.get("/projects");
+      const projectsByMonth = projects.reduce((final, project, i) => {
+        const month = moment(project.date).month();
+        if (final[month]) {
+          final[month] += project.payment;
+        } else {
+          final[month] = project.payment;
+        }
+        return final;
+      }, {});
+      console.log(projectsByMonth);
       dispatch({ type: GET_PROJECTS_SUCCESS, payload: projects });
     } catch (err) {
       console.log("Error:", err.message);
@@ -46,18 +60,16 @@ const ProjectState = props => {
       dispatch({ type: CREATE_PROJECT_FAILURE, payload: err.message });
     }
   };
-
-  // Delete project
-  const deleteProject = async id => {
+  // Read project
+  const readProject = async id => {
     try {
-      await axios.delete(`/projects/${id}`);
-      dispatch({ type: DELETE_PROJECT_SUCCESS, payload: id });
+      const { data: project } = await axios.get(`/projects/${id}`);
+      dispatch({ type: READ_PROJECT_SUCCESS, payload: project });
     } catch (err) {
-      console.log("Error:", err.message);
-      dispatch({ type: DELETE_PROJECT_FAILURE, payload: err.message });
+      console.error("Error:", err.message);
+      dispatch({ type: READ_PROJECT_FAILURE, payload: err.message });
     }
   };
-
   // Update project
   const updateProject = async project => {
     const config = {
@@ -76,16 +88,32 @@ const ProjectState = props => {
       dispatch({ type: UPDATE_PROJECT_FAILURE, payload: err.message });
     }
   };
+  // Delete project
+  const deleteProject = async id => {
+    try {
+      await axios.delete(`/projects/${id}`);
+      dispatch({ type: DELETE_PROJECT_SUCCESS, payload: id });
+    } catch (err) {
+      console.log("Error:", err.message);
+      dispatch({ type: DELETE_PROJECT_FAILURE, payload: err.message });
+    }
+  };
+  // Clear current project
+  const clearCurrentProject = () => {
+    dispatch({ type: CLEAR_CURRENT_PROJECT });
+  };
 
   return (
     <ProjectContext.Provider
       value={{
         projects: state.projects,
-        current: state.current,
+        currentProject: state.currentProject,
         getProjects,
         createProject,
+        readProject,
         deleteProject,
-        updateProject
+        updateProject,
+        clearCurrentProject
       }}
     >
       {props.children}

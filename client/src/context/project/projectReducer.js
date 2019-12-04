@@ -6,7 +6,10 @@ import {
   UPDATE_PROJECT_SUCCESS,
   UPDATE_PROJECT_FAILURE,
   DELETE_PROJECT_SUCCESS,
-  DELETE_PROJECT_FAILURE
+  DELETE_PROJECT_FAILURE,
+  READ_PROJECT_SUCCESS,
+  READ_PROJECT_FAILURE,
+  CLEAR_CURRENT_PROJECT
 } from "../types";
 
 export default (state, action) => {
@@ -31,6 +34,11 @@ export default (state, action) => {
           )
         ]
       };
+    case READ_PROJECT_SUCCESS:
+      return {
+        ...state,
+        currentProject: action.payload
+      };
     case UPDATE_PROJECT_SUCCESS:
       return {
         ...state,
@@ -48,8 +56,14 @@ export default (state, action) => {
           project => project._id !== action.payload
         )
       };
+    case CLEAR_CURRENT_PROJECT:
+      return {
+        ...state,
+        currentProject: null
+      };
     case GET_PROJECTS_FAILURE:
     case CREATE_PROJECT_FAILURE:
+    case READ_PROJECT_FAILURE:
     case UPDATE_PROJECT_FAILURE:
     case DELETE_PROJECT_FAILURE:
       return state;

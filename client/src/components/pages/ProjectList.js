@@ -2,7 +2,6 @@ import React, { Fragment, useContext } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
 import moment from "moment";
 
 import Spinner from "../layout/Spinner";
@@ -46,15 +45,13 @@ const StyledEditIcon = styled(StyledIcon)`
   }
 `;
 
-const ProjectList = ({ setEditProject, setDeleteProject }) => {
+const ProjectList = ({ setDeleteProject }) => {
   const history = useHistory();
   const projectContext = useContext(ProjectContext);
-  const { projects } = projectContext;
+  const { projects, readProject } = projectContext;
 
-  const handleSetEditProject = async id => {
-    const res = await axios.get(`/projects/${id}`);
-
-    setEditProject(res.data);
+  const handleSetEditProject = id => {
+    readProject(id);
     history.push("/add");
   };
 
@@ -104,7 +101,6 @@ const ProjectList = ({ setEditProject, setDeleteProject }) => {
 };
 
 ProjectList.propTypes = {
-  setEditProject: PropTypes.func.isRequired,
   setDeleteProject: PropTypes.func.isRequired
 };
 
