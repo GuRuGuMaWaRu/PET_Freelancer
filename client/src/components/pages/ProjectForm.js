@@ -80,7 +80,7 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
     currentProject,
     createProject,
     updateProject,
-    clearCurrentProject
+    clearCurrent
   } = projectContext;
 
   useEffect(() => {
@@ -112,7 +112,7 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
 
     return () => {
       source.cancel("cancelled request at ProjectForm!");
-      clearCurrentProject();
+      clearCurrent();
     };
     // eslint-disable-next-line
   }, []);

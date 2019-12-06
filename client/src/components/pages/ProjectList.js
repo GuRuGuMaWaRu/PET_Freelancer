@@ -48,10 +48,10 @@ const StyledEditIcon = styled(StyledIcon)`
 const ProjectList = ({ setDeleteProject }) => {
   const history = useHistory();
   const projectContext = useContext(ProjectContext);
-  const { projects, readProject } = projectContext;
+  const { projects, getCurrent } = projectContext;
 
   const handleSetEditProject = id => {
-    readProject(id);
+    getCurrent(id);
     history.push("/add");
   };
 

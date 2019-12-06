@@ -13,8 +13,8 @@ import {
   DELETE_PROJECT_FAILURE,
   UPDATE_PROJECT_SUCCESS,
   UPDATE_PROJECT_FAILURE,
-  READ_PROJECT_FAILURE,
-  READ_PROJECT_SUCCESS,
+  GET_CURRENT_FAILURE,
+  GET_CURRENT_SUCCESS,
   CLEAR_CURRENT_PROJECT
 } from "../types";
 
@@ -60,16 +60,6 @@ const ProjectState = props => {
       dispatch({ type: CREATE_PROJECT_FAILURE, payload: err.message });
     }
   };
-  // Read project
-  const readProject = async id => {
-    try {
-      const { data: project } = await axios.get(`/projects/${id}`);
-      dispatch({ type: READ_PROJECT_SUCCESS, payload: project });
-    } catch (err) {
-      console.error("Error:", err.message);
-      dispatch({ type: READ_PROJECT_FAILURE, payload: err.message });
-    }
-  };
   // Update project
   const updateProject = async project => {
     const config = {
@@ -98,8 +88,18 @@ const ProjectState = props => {
       dispatch({ type: DELETE_PROJECT_FAILURE, payload: err.message });
     }
   };
+  // Get current project
+  const getCurrent = async id => {
+    try {
+      const { data: project } = await axios.get(`/projects/${id}`);
+      dispatch({ type: GET_CURRENT_SUCCESS, payload: project });
+    } catch (err) {
+      console.error("Error:", err.message);
+      dispatch({ type: GET_CURRENT_FAILURE, payload: err.message });
+    }
+  };
   // Clear current project
-  const clearCurrentProject = () => {
+  const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT_PROJECT });
   };
 
@@ -110,10 +110,10 @@ const ProjectState = props => {
         currentProject: state.currentProject,
         getProjects,
         createProject,
-        readProject,
         deleteProject,
         updateProject,
-        clearCurrentProject
+        getCurrent,
+        clearCurrent
       }}
     >
       {props.children}
