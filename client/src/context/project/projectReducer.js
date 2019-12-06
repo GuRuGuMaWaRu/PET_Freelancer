@@ -11,7 +11,9 @@ import {
   GET_CURRENT_FAILURE,
   CLEAR_CURRENT_PROJECT,
   SET_DELETED,
-  CLOSE_MODAL
+  CLOSE_MODAL,
+  GET_CLIENTS_SUCCESS,
+  GET_CLIENTS_FAILURE
 } from "../types";
 
 export default (state, action) => {
@@ -74,11 +76,17 @@ export default (state, action) => {
         ...state,
         deleteId: null
       };
+    case GET_CLIENTS_SUCCESS:
+      return {
+        ...state,
+        clients: action.payload
+      };
     case GET_PROJECTS_FAILURE:
     case CREATE_PROJECT_FAILURE:
     case GET_CURRENT_FAILURE:
     case UPDATE_PROJECT_FAILURE:
     case DELETE_PROJECT_FAILURE:
+    case GET_CLIENTS_FAILURE:
       return state;
     default:
       return state;

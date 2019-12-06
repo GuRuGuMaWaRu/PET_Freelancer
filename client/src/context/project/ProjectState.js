@@ -17,14 +17,17 @@ import {
   GET_CURRENT_SUCCESS,
   CLEAR_CURRENT_PROJECT,
   SET_DELETED,
-  CLOSE_MODAL
+  CLOSE_MODAL,
+  GET_CLIENTS_SUCCESS,
+  GET_CLIENTS_FAILURE
 } from "../types";
 
 const ProjectState = props => {
   const initialState = {
     projects: null,
     currentProject: null,
-    deleteId: null
+    deleteId: null,
+    clients: null
   };
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
@@ -113,12 +116,24 @@ const ProjectState = props => {
   const closeModal = () => {
     dispatch({ type: CLOSE_MODAL });
   };
+  // Get clients
+  const getClients = async () => {
+    try {
+      const { data: clients } = await axios.get("/clients");
+      dispatch({ type: GET_CLIENTS_SUCCESS, payload: clients });
+    } catch (err) {
+      console.error("Error:", err.message);
+      dispatch({ type: GET_CLIENTS_FAILURE });
+    }
+  };
+
   return (
     <ProjectContext.Provider
       value={{
         projects: state.projects,
         currentProject: state.currentProject,
         deleteId: state.deleteId,
+        clients: state.clients,
         getProjects,
         createProject,
         deleteProject,
@@ -126,7 +141,8 @@ const ProjectState = props => {
         getCurrent,
         clearCurrent,
         setDelete,
-        closeModal
+        closeModal,
+        getClients
       }}
     >
       {props.children}

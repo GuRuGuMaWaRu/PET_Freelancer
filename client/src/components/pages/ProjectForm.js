@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
 import moment from "moment";
 import styled from "styled-components";
 import * as Yup from "yup";
@@ -72,52 +71,52 @@ const StyledCancelButton = styled(StyledButton)`
 `;
 
 const ProjectForm = ({ history, showAlert, hideAlert }) => {
-  const [clients, setClients] = useState(null);
-  const [loading, setLoading] = useState(false);
   const projectContext = useContext(ProjectContext);
 
   const {
+    clients,
     currentProject,
     createProject,
     updateProject,
-    clearCurrent
+    clearCurrent,
+    getClients
   } = projectContext;
 
   useEffect(() => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
+    // if (localStorage.token) {
+    //   setAuthToken(localStorage.token);
+    // }
 
-    const source = axios.CancelToken.source();
+    // const source = axios.CancelToken.source();
 
     hideAlert();
-    setLoading(true);
-
-    const getClients = async () => {
-      try {
-        const { data: clients } = await axios.get("/clients", {
-          cancelToken: source.token
-        });
-        setClients(clients);
-        setLoading(false);
-      } catch (err) {
-        if (axios.isCancel(err)) {
-          console.log("Error:", err.message);
-        }
-        setLoading(false);
-      }
-    };
-
+    // setLoading(true);
     getClients();
+    // const getClients = async () => {
+    //   try {
+    //     const { data: clients } = await axios.get("/clients", {
+    //       cancelToken: source.token
+    //     });
+    //     setClients(clients);
+    //     setLoading(false);
+    //   } catch (err) {
+    //     if (axios.isCancel(err)) {
+    //       console.log("Error:", err.message);
+    //     }
+    //     setLoading(false);
+    //   }
+    // };
+
+    // getClients();
 
     return () => {
-      source.cancel("cancelled request at ProjectForm!");
+      // source.cancel("cancelled request at ProjectForm!");
       clearCurrent();
     };
     // eslint-disable-next-line
   }, []);
 
-  if (loading) {
+  if (!clients) {
     return <Spinner />;
   }
 
