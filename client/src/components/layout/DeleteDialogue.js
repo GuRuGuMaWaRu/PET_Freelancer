@@ -34,17 +34,16 @@ const StyledYesButton = styled(StyledButton)`
   background-color: ${props => props.theme.primary};
 `;
 
-const DeleteDialogue = ({ deletedProject, showAlert, closeModal }) => {
+const DeleteDialogue = ({ showAlert }) => {
   const handlePropagation = e => {
     e.stopPropagation();
   };
 
   const projectContext = useContext(ProjectContext);
-  const { deleteProject } = projectContext;
+  const { deleteId, deleteProject, closeModal } = projectContext;
 
   const handleDelete = async () => {
-    deleteProject(deletedProject);
-    closeModal();
+    deleteProject(deleteId);
     showAlert(`Deleted a project.`);
   };
 
@@ -60,9 +59,7 @@ const DeleteDialogue = ({ deletedProject, showAlert, closeModal }) => {
 };
 
 DeleteDialogue.propTypes = {
-  deletedProject: PropTypes.string.isRequired,
-  showAlert: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired
+  showAlert: PropTypes.func.isRequired
 };
 
 export default DeleteDialogue;

@@ -45,10 +45,10 @@ const StyledEditIcon = styled(StyledIcon)`
   }
 `;
 
-const ProjectList = ({ setDeleteProject }) => {
+const ProjectList = () => {
   const history = useHistory();
   const projectContext = useContext(ProjectContext);
-  const { projects, getCurrent } = projectContext;
+  const { projects, getCurrent, setDelete } = projectContext;
 
   const handleSetEditProject = id => {
     getCurrent(id);
@@ -85,7 +85,7 @@ const ProjectList = ({ setDeleteProject }) => {
             </StyledProjectDetails>
             <StyledProjectControls>
               <StyledDeleteIcon
-                onClick={() => setDeleteProject(project._id)}
+                onClick={() => setDelete(project._id)}
                 className="far fa-trash-alt"
               ></StyledDeleteIcon>
               <StyledEditIcon
@@ -98,10 +98,6 @@ const ProjectList = ({ setDeleteProject }) => {
       </Fragment>
     )
   );
-};
-
-ProjectList.propTypes = {
-  setDeleteProject: PropTypes.func.isRequired
 };
 
 export default ProjectList;

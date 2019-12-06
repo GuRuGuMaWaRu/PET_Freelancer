@@ -95,13 +95,12 @@ if (localStorage.token) {
 const App = () => {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState(null);
-  const [deleteProject, setDeleteProject] = useState(null);
   const [projects, setProjects] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setAuthenticated] = useState(false);
 
   const projectContext = useContext(ProjectContext);
-  const { getProjects } = projectContext;
+  const { deleteId, getProjects, closeModal } = projectContext;
 
   useEffect(() => {
     getProjects();
@@ -117,22 +116,14 @@ const App = () => {
     setAlert(false);
   };
 
-  const handleModal = () => {
-    setDeleteProject(null);
-  };
-
   return (
     <Fragment>
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
-          {deleteProject && (
-            <StyledModal onClick={handleModal}>
-              <DeleteDialogue
-                showAlert={showAlert}
-                deletedProject={deleteProject}
-                closeModal={handleModal}
-              />
+          {deleteId && (
+            <StyledModal onClick={closeModal}>
+              <DeleteDialogue showAlert={showAlert} />
             </StyledModal>
           )}
           <StyledTitleBar>
@@ -151,7 +142,6 @@ const App = () => {
                 setLoading={setLoading}
                 projects={projects}
                 setProjects={setProjects}
-                setDeleteProject={setDeleteProject}
               />
               <PrivateRoute
                 path="/add"

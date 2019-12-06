@@ -9,7 +9,9 @@ import {
   DELETE_PROJECT_FAILURE,
   GET_CURRENT_SUCCESS,
   GET_CURRENT_FAILURE,
-  CLEAR_CURRENT_PROJECT
+  CLEAR_CURRENT_PROJECT,
+  SET_DELETED,
+  CLOSE_MODAL
 } from "../types";
 
 export default (state, action) => {
@@ -54,12 +56,23 @@ export default (state, action) => {
         ...state,
         projects: state.projects.filter(
           project => project._id !== action.payload
-        )
+        ),
+        deleteId: null
       };
     case CLEAR_CURRENT_PROJECT:
       return {
         ...state,
         currentProject: null
+      };
+    case SET_DELETED:
+      return {
+        ...state,
+        deleteId: action.payload
+      };
+    case CLOSE_MODAL:
+      return {
+        ...state,
+        deleteId: null
       };
     case GET_PROJECTS_FAILURE:
     case CREATE_PROJECT_FAILURE:

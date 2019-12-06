@@ -15,13 +15,16 @@ import {
   UPDATE_PROJECT_FAILURE,
   GET_CURRENT_FAILURE,
   GET_CURRENT_SUCCESS,
-  CLEAR_CURRENT_PROJECT
+  CLEAR_CURRENT_PROJECT,
+  SET_DELETED,
+  CLOSE_MODAL
 } from "../types";
 
 const ProjectState = props => {
   const initialState = {
     projects: null,
-    currentProject: null
+    currentProject: null,
+    deleteId: null
   };
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
@@ -102,18 +105,28 @@ const ProjectState = props => {
   const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT_PROJECT });
   };
-
+  // Set project to be deleted
+  const setDelete = id => {
+    dispatch({ type: SET_DELETED, payload: id });
+  };
+  // Close modal
+  const closeModal = () => {
+    dispatch({ type: CLOSE_MODAL });
+  };
   return (
     <ProjectContext.Provider
       value={{
         projects: state.projects,
         currentProject: state.currentProject,
+        deleteId: state.deleteId,
         getProjects,
         createProject,
         deleteProject,
         updateProject,
         getCurrent,
-        clearCurrent
+        clearCurrent,
+        setDelete,
+        closeModal
       }}
     >
       {props.children}
