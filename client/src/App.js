@@ -8,12 +8,13 @@ import Registration from "./components/pages/Registration";
 import ProjectForm from "./components/pages/ProjectForm";
 import ProjectList from "./components/pages/ProjectList";
 import NotFound from "./components/pages/NotFound";
-import Alert from "./components/layout/Alert";
+import Alerts from "./components/layout/Alerts";
 import DeleteDialogue from "./components/layout/DeleteDialogue";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import setAuthToken from "./utils/setAuthToken";
 
 import ProjectContext from "./context/project/projectContext";
+import AlertContext from "./context/alert/alertContext";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -93,28 +94,20 @@ if (localStorage.token) {
 }
 
 const App = () => {
-  const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(null);
   const [projects, setProjects] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isAuthenticated, setAuthenticated] = useState(false);
 
   const projectContext = useContext(ProjectContext);
+  const alertContext = useContext(AlertContext);
+
   const { deleteId, getProjects, closeModal } = projectContext;
+  const { alerts } = alertContext;
 
   useEffect(() => {
     getProjects();
     // eslint-disable-next-line
   }, []);
-
-  const showAlert = message => {
-    setAlertMessage(message);
-    setAlert(true);
-  };
-
-  const hideAlert = () => {
-    setAlert(false);
-  };
 
   return (
     <Fragment>
@@ -123,7 +116,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
           {deleteId && (
             <StyledModal onClick={closeModal}>
-              <DeleteDialogue showAlert={showAlert} />
+              <DeleteDialogue />
             </StyledModal>
           )}
           <StyledTitleBar>
@@ -131,7 +124,7 @@ const App = () => {
             <Navbar isAuthenticated={isAuthenticated} />
           </StyledTitleBar>
           <StyledContainer>
-            {alert && <Alert message={alertMessage} hideAlert={hideAlert} />}
+            {alerts && <Alerts />}
             <Switch>
               <PrivateRoute
                 exact
@@ -148,8 +141,6 @@ const App = () => {
                 component={ProjectForm}
                 loading={loading}
                 isAuthenitcated={isAuthenticated}
-                showAlert={showAlert}
-                hideAlert={hideAlert}
               />
               <Route
                 path="/login"

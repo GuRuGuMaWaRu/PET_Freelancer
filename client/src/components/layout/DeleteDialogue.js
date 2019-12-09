@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import ProjectContext from "../../context/project/projectContext";
+import AlertContext from "../../context/alert/alertContext";
 
 const StyledDialogue = styled.div`
   position: relative;
@@ -34,17 +34,23 @@ const StyledYesButton = styled(StyledButton)`
   background-color: ${props => props.theme.primary};
 `;
 
-const DeleteDialogue = ({ showAlert }) => {
+const DeleteDialogue = () => {
   const handlePropagation = e => {
     e.stopPropagation();
   };
 
   const projectContext = useContext(ProjectContext);
+  const alertContext = useContext(AlertContext);
+
   const { deleteId, deleteProject, closeModal } = projectContext;
+  const { showAlert } = alertContext;
 
   const handleDelete = async () => {
     deleteProject(deleteId);
-    showAlert(`Deleted a project.`);
+    showAlert({
+      msg: "Deleted a project",
+      type: "info"
+    });
   };
 
   return (
@@ -56,10 +62,6 @@ const DeleteDialogue = ({ showAlert }) => {
       </StyledActions>
     </StyledDialogue>
   );
-};
-
-DeleteDialogue.propTypes = {
-  showAlert: PropTypes.func.isRequired
 };
 
 export default DeleteDialogue;

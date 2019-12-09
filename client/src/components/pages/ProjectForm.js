@@ -6,8 +6,8 @@ import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import Spinner from "../layout/Spinner";
-import setAuthToken from "../../utils/setAuthToken";
 import ProjectContext from "../../context/project/projectContext";
+import AlertContext from "../../context/alert/alertContext";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -70,8 +70,9 @@ const StyledCancelButton = styled(StyledButton)`
   background-color: ${props => props.theme.secondaryText};
 `;
 
-const ProjectForm = ({ history, showAlert, hideAlert }) => {
+const ProjectForm = ({ history }) => {
   const projectContext = useContext(ProjectContext);
+  const alertContext = useContext(AlertContext);
 
   const {
     clients,
@@ -81,36 +82,11 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
     clearCurrent,
     getClients
   } = projectContext;
+  const { showAlert } = alertContext;
 
   useEffect(() => {
-    // if (localStorage.token) {
-    //   setAuthToken(localStorage.token);
-    // }
-
-    // const source = axios.CancelToken.source();
-
-    hideAlert();
-    // setLoading(true);
     getClients();
-    // const getClients = async () => {
-    //   try {
-    //     const { data: clients } = await axios.get("/clients", {
-    //       cancelToken: source.token
-    //     });
-    //     setClients(clients);
-    //     setLoading(false);
-    //   } catch (err) {
-    //     if (axios.isCancel(err)) {
-    //       console.log("Error:", err.message);
-    //     }
-    //     setLoading(false);
-    //   }
-    // };
-
-    // getClients();
-
     return () => {
-      // source.cancel("cancelled request at ProjectForm!");
       clearCurrent();
     };
     // eslint-disable-next-line
@@ -173,14 +149,19 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
 
               updateProject({ ...editedFields, _id: currentProject._id });
               actions.setSubmitting(false);
-              showAlert(`Edited project "${values.projectNr}" from ${client}`);
+              showAlert({
+                msg: `Edited project "${values.projectNr}" from ${client}`,
+                type: "info"
+              });
+
               history.push("/");
             } else {
               createProject(values);
               actions.setSubmitting(false);
-              showAlert(
-                `Added new project "${values.projectNr}" from ${client}`
-              );
+              showAlert({
+                msg: `Added new project "${values.projectNr}" from ${client}`,
+                type: "info"
+              });
               history.push("/");
             }
           } catch (err) {
@@ -252,9 +233,7 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
 };
 
 ProjectForm.propTypes = {
-  history: PropTypes.object.isRequired,
-  showAlert: PropTypes.func.isRequired,
-  hideAlert: PropTypes.func.isRequired
+  history: PropTypes.object.isRequired
 };
 
 export default ProjectForm;

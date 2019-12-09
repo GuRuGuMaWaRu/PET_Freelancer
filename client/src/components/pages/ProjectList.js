@@ -10,12 +10,12 @@ const StyledProject = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
+  padding: 1rem 0;
   border-bottom: dotted 2px ${props => props.theme.divider};
-  margin-bottom: 1rem;
-  &:first-child {
+  ${"" /* margin-bottom: 1rem; */}
+  ${"" /* &:first-child {
     padding-top: 1rem;
-  }
+  } */}
 `;
 
 const StyledProjectDetails = styled.div`
@@ -57,16 +57,6 @@ const ProjectList = () => {
   if (!projects) {
     return <Spinner />;
   }
-
-  // Need to sort projects here because otherwise newly added projects
-  // will be added up top no matter their "date" property
-  // const sortedProjects = projects.sort((a, b) => {
-  //   if (a.date > b.date) return -1;
-  //   else if (a.date < b.date) return 1;
-  //   else {
-  //     return 0;
-  //   }
-  // });
 
   return (
     projects && (
