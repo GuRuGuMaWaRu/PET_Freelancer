@@ -1,19 +1,13 @@
 import {
   GET_PROJECTS_SUCCESS,
-  GET_PROJECTS_FAILURE,
   CREATE_PROJECT_SUCCESS,
-  CREATE_PROJECT_FAILURE,
   UPDATE_PROJECT_SUCCESS,
-  UPDATE_PROJECT_FAILURE,
   DELETE_PROJECT_SUCCESS,
-  DELETE_PROJECT_FAILURE,
   GET_CURRENT_SUCCESS,
-  GET_CURRENT_FAILURE,
   CLEAR_CURRENT_PROJECT,
   SET_DELETED,
   CLOSE_MODAL,
-  GET_CLIENTS_SUCCESS,
-  GET_CLIENTS_FAILURE
+  GET_CLIENTS_SUCCESS
 } from "../types";
 
 export default (state, action) => {
@@ -81,13 +75,6 @@ export default (state, action) => {
         ...state,
         clients: action.payload
       };
-    case GET_PROJECTS_FAILURE:
-    case CREATE_PROJECT_FAILURE:
-    case GET_CURRENT_FAILURE:
-    case UPDATE_PROJECT_FAILURE:
-    case DELETE_PROJECT_FAILURE:
-    case GET_CLIENTS_FAILURE:
-      return state;
     default:
       return state;
   }

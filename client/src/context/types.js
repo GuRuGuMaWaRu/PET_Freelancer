@@ -1,3 +1,6 @@
+// genetal
+export const ERROR = "ERROR";
+
 // project
 export const GET_PROJECTS_SUCCESS = "GET_PROJECTS_SUCCESS";
 export const GET_PROJECTS_FAILURE = "GET_PROJECTS_FAILURE";

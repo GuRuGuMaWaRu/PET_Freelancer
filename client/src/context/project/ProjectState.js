@@ -6,20 +6,15 @@ import ProjectContext from "./projectContext";
 import projectReducer from "./projectReducer";
 import {
   GET_PROJECTS_SUCCESS,
-  GET_PROJECTS_FAILURE,
   CREATE_PROJECT_SUCCESS,
-  CREATE_PROJECT_FAILURE,
   DELETE_PROJECT_SUCCESS,
-  DELETE_PROJECT_FAILURE,
   UPDATE_PROJECT_SUCCESS,
-  UPDATE_PROJECT_FAILURE,
-  GET_CURRENT_FAILURE,
   GET_CURRENT_SUCCESS,
   CLEAR_CURRENT_PROJECT,
   SET_DELETED,
   CLOSE_MODAL,
   GET_CLIENTS_SUCCESS,
-  GET_CLIENTS_FAILURE
+  ERROR
 } from "../types";
 
 const ProjectState = props => {
@@ -49,7 +44,7 @@ const ProjectState = props => {
       dispatch({ type: GET_PROJECTS_SUCCESS, payload: projects });
     } catch (err) {
       console.log("Error:", err.message);
-      dispatch({ type: GET_PROJECTS_FAILURE, payload: err.message });
+      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
     }
   };
 
@@ -63,7 +58,7 @@ const ProjectState = props => {
       dispatch({ type: CREATE_PROJECT_SUCCESS, payload: res.data });
     } catch (err) {
       console.log("Error:", err.message);
-      dispatch({ type: CREATE_PROJECT_FAILURE, payload: err.message });
+      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
     }
   };
   // Update project
@@ -81,7 +76,7 @@ const ProjectState = props => {
       dispatch({ type: UPDATE_PROJECT_SUCCESS, payload: updatedProject });
     } catch (err) {
       console.log("Error:", err.message);
-      dispatch({ type: UPDATE_PROJECT_FAILURE, payload: err.message });
+      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
     }
   };
   // Delete project
@@ -91,7 +86,7 @@ const ProjectState = props => {
       dispatch({ type: DELETE_PROJECT_SUCCESS, payload: id });
     } catch (err) {
       console.log("Error:", err.message);
-      dispatch({ type: DELETE_PROJECT_FAILURE, payload: err.message });
+      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
     }
   };
   // Get current project
@@ -101,7 +96,7 @@ const ProjectState = props => {
       dispatch({ type: GET_CURRENT_SUCCESS, payload: project });
     } catch (err) {
       console.error("Error:", err.message);
-      dispatch({ type: GET_CURRENT_FAILURE, payload: err.message });
+      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
     }
   };
   // Clear current project
@@ -123,7 +118,7 @@ const ProjectState = props => {
       dispatch({ type: GET_CLIENTS_SUCCESS, payload: clients });
     } catch (err) {
       console.error("Error:", err.message);
-      dispatch({ type: GET_CLIENTS_FAILURE });
+      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
     }
   };
 

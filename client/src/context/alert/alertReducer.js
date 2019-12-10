@@ -1,8 +1,9 @@
 import uuidv1 from "uuid/v1";
-import { HIDE_ALERT, SHOW_ALERT } from "../types";
+import { HIDE_ALERT, SHOW_ALERT, ERROR } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
+    case ERROR:
     case SHOW_ALERT:
       return {
         ...state,
