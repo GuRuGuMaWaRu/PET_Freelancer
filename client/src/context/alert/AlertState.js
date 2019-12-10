@@ -1,5 +1,4 @@
 import React, { useReducer } from "react";
-import uuidv1 from "uuid/v1";
 
 import AlertContext from "./alertContext";
 import alertReducer from "./alertReducer";
@@ -14,7 +13,7 @@ const AlertState = props => {
 
   // Show alert
   const showAlert = alert => {
-    dispatch({ type: SHOW_ALERT, payload: { ...alert, id: uuidv1() } });
+    dispatch({ type: SHOW_ALERT, payload: alert });
   };
   // Hide alert
   const hideAlert = id => {

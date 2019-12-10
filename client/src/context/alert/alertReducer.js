@@ -1,3 +1,4 @@
+import uuidv1 from "uuid/v1";
 import { HIDE_ALERT, SHOW_ALERT } from "../types";
 
 export default (state, action) => {
@@ -5,7 +6,7 @@ export default (state, action) => {
     case SHOW_ALERT:
       return {
         ...state,
-        alerts: [...state.alerts, action.payload]
+        alerts: [...state.alerts, { ...action.payload, id: uuidv1() }]
       };
     case HIDE_ALERT:
       return {
