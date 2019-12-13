@@ -3,7 +3,7 @@ import axios from "axios";
 
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
-import { ERROR, REGISTER, LOGIN } from "../types";
+import { ERROR, REGISTER, LOGIN, LOGOUT } from "../types";
 
 const AuthState = props => {
   const initialState = {
@@ -46,7 +46,8 @@ const AuthState = props => {
 
   // Logout
   const logoutUser = async () => {
-    console.log("logout");
+    localStorage.removeItem("token");
+    dispatch({ type: LOGOUT });
   };
 
   // Get user ??

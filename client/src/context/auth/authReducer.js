@@ -1,4 +1,4 @@
-import { REGISTER, LOGIN } from "../types";
+import { REGISTER, LOGIN, LOGOUT } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -8,6 +8,12 @@ export default (state, action) => {
         ...state,
         isAuthenticated: true,
         token: action.payload
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+        token: null
       };
     default:
       return state;

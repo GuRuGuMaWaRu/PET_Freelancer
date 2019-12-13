@@ -13,10 +13,18 @@ const StyledNavLink = styled(NavLink)`
   color: ${props => props.theme.lightPrimary};
   text-decoration: none;
 `;
+const StyledLink = styled.a`
+  margin: 0 1.2rem;
+  color: ${props => props.theme.lightPrimary};
+  text-decoration: none;
+  cursor: pointer;
+`;
 
 const Navbar = () => {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated } = authContext;
+  const { isAuthenticated, logoutUser } = authContext;
+
+  const handleLogout = () => logoutUser();
 
   const authLinks = (
     <Fragment>
@@ -39,6 +47,7 @@ const Navbar = () => {
       >
         Add Project
       </StyledNavLink>
+      <StyledLink onClick={handleLogout}>Logout</StyledLink>
     </Fragment>
   );
 
