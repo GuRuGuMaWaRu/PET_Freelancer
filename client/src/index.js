@@ -4,12 +4,15 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import ProjectState from "./context/project/ProjectState";
 import AlertState from "./context/alert/AlertState";
+import AuthState from "./context/auth/AuthState";
 
 ReactDOM.render(
-  <ProjectState>
-    <AlertState>
-      <App />
-    </AlertState>
-  </ProjectState>,
+  <AuthState>
+    <ProjectState>
+      <AlertState>
+        <App />
+      </AlertState>
+    </ProjectState>
+  </AuthState>,
   document.getElementById("root")
 );
