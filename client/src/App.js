@@ -15,6 +15,7 @@ import setAuthToken from "./utils/setAuthToken";
 
 import ProjectContext from "./context/project/projectContext";
 import AlertContext from "./context/alert/alertContext";
+import AuthContext from "./context/auth/authContext";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -90,13 +91,13 @@ const StyledContainer = styled.div`
 `;
 
 const App = () => {
-  const [isAuthenticated, setAuthenticated] = useState(false);
-
   const projectContext = useContext(ProjectContext);
   const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
 
   const { deleteId, getProjects, closeModal } = projectContext;
   const { alerts } = alertContext;
+  const { isAuthenticated } = authContext;
 
   useEffect(() => {
     // place token into axios headers
@@ -106,7 +107,7 @@ const App = () => {
 
     getProjects();
     // eslint-disable-next-line
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <Fragment>
@@ -125,32 +126,10 @@ const App = () => {
           <StyledContainer>
             {alerts && <Alerts />}
             <Switch>
-              <PrivateRoute
-                exact
-                path="/"
-                component={ProjectList}
-                isAuthenitcated={isAuthenticated}
-              />
-              <PrivateRoute
-                path="/add"
-                component={ProjectForm}
-                isAuthenitcated={isAuthenticated}
-              />
-              <Route
-                path="/login"
-                render={props => (
-                  <Login {...props} setAuthenticated={setAuthenticated} />
-                )}
-              />
-              <Route
-                path="/registration"
-                render={props => (
-                  <Registration
-                    {...props}
-                    setAuthenticated={setAuthenticated}
-                  />
-                )}
-              />
+              <PrivateRoute exact path="/" component={ProjectList} />
+              <PrivateRoute path="/add" component={ProjectForm} />
+              <Route path="/login" component={Login} />
+              <Route path="/registration" component={Registration} />
               <Route>
                 <NotFound />
               </Route>

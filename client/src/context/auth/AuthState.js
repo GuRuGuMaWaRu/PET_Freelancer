@@ -3,7 +3,7 @@ import axios from "axios";
 
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
-import { ERROR, REGISTER } from "../types";
+import { ERROR, REGISTER, LOGIN } from "../types";
 
 const AuthState = props => {
   const initialState = {
@@ -30,8 +30,18 @@ const AuthState = props => {
   };
 
   // Login
-  const loginUser = async () => {
-    console.log("login");
+  const loginUser = async values => {
+    try {
+      const res = await axios.post("/auth", values, {
+        headers: { "Content-Type": "application/json" }
+      });
+
+      localStorage.setItem("token", res.data.token);
+      dispatch({ type: LOGIN, payload: res.data.token });
+    } catch (err) {
+      console.log("Error:", err.message);
+      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
+    }
   };
 
   // Logout
