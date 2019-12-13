@@ -97,14 +97,14 @@ const App = () => {
 
   const { deleteId, getProjects, closeModal } = projectContext;
   const { alerts } = alertContext;
-  const { isAuthenticated } = authContext;
+  const { isAuthenticated, getUser } = authContext;
 
   useEffect(() => {
     // place token into axios headers
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
-
+    getUser();
     getProjects();
     // eslint-disable-next-line
   }, [isAuthenticated]);

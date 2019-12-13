@@ -3,7 +3,7 @@ import axios from "axios";
 
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
-import { ERROR, REGISTER, LOGIN, LOGOUT } from "../types";
+import { AUTH_ERROR, REGISTER, LOGIN, LOGOUT, GET_USER } from "../types";
 
 const AuthState = props => {
   const initialState = {
@@ -25,7 +25,10 @@ const AuthState = props => {
       dispatch({ type: REGISTER, payload: res.data.token });
     } catch (err) {
       console.log("Error:", err.message);
-      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
+      dispatch({
+        type: AUTH_ERROR,
+        payload: { msg: err.message, type: "error" }
+      });
     }
   };
 
@@ -40,7 +43,10 @@ const AuthState = props => {
       dispatch({ type: LOGIN, payload: res.data.token });
     } catch (err) {
       console.log("Error:", err.message);
-      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
+      dispatch({
+        type: AUTH_ERROR,
+        payload: { msg: err.message, type: "error" }
+      });
     }
   };
 
@@ -50,9 +56,23 @@ const AuthState = props => {
     dispatch({ type: LOGOUT });
   };
 
-  // Get user ??
+  // Get user
   const getUser = async () => {
-    console.log("get user --- set token");
+    console.log("AuthState --- getUser");
+    try {
+      const res = await axios.get("/auth", {
+        headers: { "Content-Type": "application/json" }
+      });
+
+      dispatch({ type: GET_USER, payload: res.data });
+    } catch (err) {
+      // localStorage.removeItem("token");
+      console.log("Error:", err.message);
+      dispatch({
+        type: AUTH_ERROR,
+        payload: { msg: err.message, type: "error" }
+      });
+    }
   };
 
   return (
