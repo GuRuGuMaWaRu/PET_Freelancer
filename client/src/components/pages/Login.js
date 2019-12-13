@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import axios from "axios";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+
+import AuthContext from "../../context/auth/authContext";
 
 const formSchema = Yup.object().shape({
   email: Yup.string().required("Required"),
@@ -58,7 +58,17 @@ const StyledSubmitButton = styled(StyledButton)`
   background-color: ${props => props.theme.mediumseagreen};
 `;
 
-const Registration = ({ history, setAuthenticated }) => {
+const Registration = ({ history }) => {
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated, loginUser } = authContext;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/");
+    }
+    // eslint-disable-next-line
+  }, [isAuthenticated]);
+
   return (
     <Formik
       initialValues={{
@@ -68,14 +78,8 @@ const Registration = ({ history, setAuthenticated }) => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
-          const res = await axios.post("/auth", values, {
-            headers: { "Content-Type": "application/json" }
-          });
-          localStorage.setItem("token", res.data.token);
-
+          loginUser(values);
           actions.setSubmitting(false);
-          setAuthenticated(true);
-          history.push("/");
         } catch (err) {
           console.log(err);
           actions.setSubmitting(false);
@@ -105,11 +109,6 @@ const Registration = ({ history, setAuthenticated }) => {
       )}
     />
   );
-};
-
-Registration.propTypes = {
-  history: PropTypes.object.isRequired,
-  setAuthenticated: PropTypes.func.isRequired
 };
 
 export default Registration;

@@ -1,25 +1,23 @@
-import React, { Fragment, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { Fragment, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
 import moment from "moment";
 
 import Spinner from "../layout/Spinner";
-import setAuthToken from "../utils/setAuthToken";
+import ProjectContext from "../../context/project/projectContext";
 
+const StyledNoProjectsMsg = styled.h3`
+  text-align: center;
+  padding-top: 2rem;
+  margin-top: 0;
+`;
 const StyledProject = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
+  padding: 1rem 0;
   border-bottom: dotted 2px ${props => props.theme.divider};
-  margin-bottom: 1rem;
-  &:first-child {
-    padding-top: 1rem;
-  }
 `;
-
 const StyledProjectDetails = styled.div`
   margin-left: 2rem;
 `;
@@ -46,56 +44,26 @@ const StyledEditIcon = styled(StyledIcon)`
   }
 `;
 
-const ProjectList = ({
-  loading,
-  setLoading,
-  projects,
-  setProjects,
-  setEditProject,
-  setDeleteProject
-}) => {
+const ProjectList = () => {
   const history = useHistory();
+  const projectContext = useContext(ProjectContext);
+  const { projects, loadingProjects, getCurrent, setDelete } = projectContext;
 
-  useEffect(() => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
-
-    const source = axios.CancelToken.source();
-    setLoading(true);
-
-    const getProjects = async () => {
-      try {
-        const { data: projects } = await axios.get("/projects", {
-          cancelToken: source.token
-        });
-        setProjects(projects);
-        setLoading(false);
-      } catch (err) {
-        if (axios.isCancel(err)) {
-          console.log("Error:", err.message);
-        }
-        setLoading(false);
-      }
-    };
-
-    getProjects();
-
-    return () => {
-      source.cancel("cancelled request at ProjectList!");
-    };
-    // eslint-disable-next-line
-  }, []);
-
-  const handleSetEditProject = async id => {
-    const res = await axios.get(`/projects/${id}`);
-
-    setEditProject(res.data);
+  const handleSetEditProject = id => {
+    getCurrent(id);
     history.push("/add");
   };
 
-  if (loading) {
+  if (loadingProjects) {
     return <Spinner />;
+  }
+
+  if (!projects || projects.length === 0) {
+    return (
+      <StyledNoProjectsMsg>
+        There are no projects, please add one.
+      </StyledNoProjectsMsg>
+    );
   }
 
   return (
@@ -114,7 +82,7 @@ const ProjectList = ({
             </StyledProjectDetails>
             <StyledProjectControls>
               <StyledDeleteIcon
-                onClick={() => setDeleteProject(project._id)}
+                onClick={() => setDelete(project._id)}
                 className="far fa-trash-alt"
               ></StyledDeleteIcon>
               <StyledEditIcon
@@ -127,15 +95,6 @@ const ProjectList = ({
       </Fragment>
     )
   );
-};
-
-ProjectList.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  setLoading: PropTypes.func.isRequired,
-  projects: PropTypes.array,
-  setProjects: PropTypes.func.isRequired,
-  setEditProject: PropTypes.func.isRequired,
-  setDeleteProject: PropTypes.func.isRequired
 };
 
 export default ProjectList;

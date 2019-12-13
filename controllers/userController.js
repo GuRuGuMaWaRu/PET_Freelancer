@@ -10,7 +10,7 @@ module.exports = {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      console.log(errors);
+      console.error(errors);
       return res.status(422).json({ errors: errors.array() });
     }
 
@@ -48,7 +48,7 @@ module.exports = {
         }
       );
     } catch (err) {
-      console.log(err.message);
+      console.error(err.message);
       res.status(500).json({ error: err.message });
     }
   }

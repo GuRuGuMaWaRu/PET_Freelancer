@@ -14,7 +14,7 @@ module.exports = {
 
       res.status(200).json(projects);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       res.status(500).json({ error: err.message });
     }
   },
@@ -41,11 +41,22 @@ module.exports = {
           shopData.client = oldClient._id;
         }
       }
+      const project = new Project({
+        ...shopData,
+        user: req.user.id
+      });
+      await project.save();
 
-      await Project.create({ ...shopData, user: req.user.id });
-      res.status(201).json({ msg: "Project saved" });
+      const returnedData = await Project.find({
+        _id: project._id,
+        user: req.user.id
+      })
+        .populate("client")
+        .select("client currency date payment projectNr _id");
+      // await Project.create({ ...shopData, user: req.user.id });
+      res.status(201).json(returnedData[0]);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       res.status(500).json({ error: err.message });
     }
   },
@@ -59,12 +70,12 @@ module.exports = {
       }).select("client currency date payment projectNr _id");
 
       if (!project) {
-        res.status(404).json({ err: "Project with this ID is not found" });
+        res.status(404).json({ error: "Project with this ID is not found" });
       }
 
       res.status(200).json(project);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       res.status(500).json({ error: err.message });
     }
   },
@@ -100,18 +111,24 @@ module.exports = {
       }
 
       if (!project) {
-        res.status(404).json({ err: "Project with this ID is not found" });
+        res.status(404).json({ error: "Project with this ID is not found" });
       }
 
-      const updatedProject = await Project.findOneAndUpdate(
+      await Project.findOneAndUpdate(
         { _id: projectId, user: req.user.id },
-        { ...shopData },
-        { new: true }
+        { ...shopData }
       );
 
-      res.status(200).json(updatedProject);
+      const returnedData = await Project.find({
+        _id: projectId,
+        user: req.user.id
+      })
+        .populate("client")
+        .select("client currency date payment projectNr _id");
+
+      res.status(200).json(returnedData[0]);
     } catch (err) {
-      console.log(err);
+      console.error(err);
       res.status(500).json({ error: err.message });
     }
   },
@@ -125,7 +142,7 @@ module.exports = {
       });
 
       if (!project) {
-        res.status(404).json({ err: "Project with this ID is not found" });
+        res.status(404).json({ error: "Project with this ID is not found" });
       }
 
       await Project.findOneAndUpdate(
@@ -134,7 +151,7 @@ module.exports = {
       );
       res.status(200).json({ msg: "Project deleted" });
     } catch (err) {
-      console.log(err);
+      console.error(err);
       res.status(500).json({ error: err.message });
     }
   }

@@ -1,5 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+import App from "./App";
+import ProjectState from "./context/project/ProjectState";
+import AlertState from "./context/alert/AlertState";
+import AuthState from "./context/auth/AuthState";
+
+ReactDOM.render(
+  <AuthState>
+    <ProjectState>
+      <AlertState>
+        <App />
+      </AlertState>
+    </ProjectState>
+  </AuthState>,
+  document.getElementById("root")
+);

@@ -18,13 +18,13 @@ module.exports = {
       let user = await User.findOne({ email });
 
       if (!user) {
-        return res.status(400).json({ msg: "Invalid credentials" });
+        return res.status(400).json({ error: "Invalid credentials" });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        return res.status(400).json({ msg: "Invalid credentials" });
+        return res.status(400).json({ error: "Invalid credentials" });
       }
 
       const payload = {
@@ -43,8 +43,8 @@ module.exports = {
         }
       );
     } catch (err) {
-      console.log(err.message);
-      res.status(500).json({ msg: err.message });
+      console.error(err.message);
+      res.status(500).json({ error: err.message });
     }
   },
   get: async (req, res) => {
@@ -52,8 +52,8 @@ module.exports = {
       const user = await User.findById(req.user.id).select("-password");
       res.json(user);
     } catch (err) {
-      console.log(err.message);
-      res.status(500).json({ msg: err.message });
+      console.error(err.message);
+      res.status(500).json({ error: err.message });
     }
   }
 };

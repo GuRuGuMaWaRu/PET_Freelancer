@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { Fragment, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+
+import AuthContext from "../../context/auth/authContext";
 
 const StyledNav = styled.nav`
   display: flex;
@@ -12,8 +13,19 @@ const StyledNavLink = styled(NavLink)`
   color: ${props => props.theme.lightPrimary};
   text-decoration: none;
 `;
+const StyledLink = styled.a`
+  margin: 0 1.2rem;
+  color: ${props => props.theme.lightPrimary};
+  text-decoration: none;
+  cursor: pointer;
+`;
 
-const Navbar = ({ isAuthenticated }) => {
+const Navbar = () => {
+  const authContext = useContext(AuthContext);
+  const { isAuthenticated, logoutUser } = authContext;
+
+  const handleLogout = () => logoutUser();
+
   const authLinks = (
     <Fragment>
       <StyledNavLink
@@ -35,6 +47,7 @@ const Navbar = ({ isAuthenticated }) => {
       >
         Add Project
       </StyledNavLink>
+      <StyledLink onClick={handleLogout}>Logout</StyledLink>
     </Fragment>
   );
 
@@ -61,10 +74,6 @@ const Navbar = ({ isAuthenticated }) => {
     </Fragment>
   );
   return <StyledNav>{isAuthenticated ? authLinks : guestLinks}</StyledNav>;
-};
-
-Navbar.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired
 };
 
 export default Navbar;

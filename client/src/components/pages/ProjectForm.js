@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
 import moment from "moment";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import Spinner from "../layout/Spinner";
-import setAuthToken from "../utils/setAuthToken";
+import ProjectContext from "../../context/project/projectContext";
+import AlertContext from "../../context/alert/alertContext";
+import AuthContext from "../../context/auth/authContext";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -70,63 +71,40 @@ const StyledCancelButton = styled(StyledButton)`
   background-color: ${props => props.theme.secondaryText};
 `;
 
-const ProjectForm = ({
-  history,
-  showAlert,
-  hideAlert,
-  editProject,
-  setEditProject
-}) => {
-  const [clients, setClients] = useState(null);
-  const [loading, setLoading] = useState(false);
+const ProjectForm = ({ history }) => {
+  const projectContext = useContext(ProjectContext);
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
+
+  const {
+    clients,
+    loadingClients,
+    currentProject,
+    createProject,
+    updateProject,
+    clearCurrent,
+    getClients
+  } = projectContext;
+  const { showAlert } = alertContext;
+  const { isAuthenticated } = authContext;
 
   useEffect(() => {
-    if (localStorage.token) {
-      setAuthToken(localStorage.token);
-    }
-
-    const source = axios.CancelToken.source();
-
-    hideAlert();
-    setLoading(true);
-
-    const getClients = async () => {
-      try {
-        const { data: clients } = await axios.get("/clients", {
-          cancelToken: source.token
-        });
-        setClients(clients);
-        setLoading(false);
-      } catch (err) {
-        if (axios.isCancel(err)) {
-          console.log("Error:", err.message);
-        }
-        setLoading(false);
-      }
-    };
-
+    console.log("useEffect");
     getClients();
 
     return () => {
-      source.cancel("cancelled request at ProjectForm!");
-      setEditProject({
-        client: null,
-        currency: null,
-        date: null,
-        payment: null,
-        projectNr: null
-      });
+      clearCurrent();
     };
     // eslint-disable-next-line
-  }, []);
+  }, [isAuthenticated]);
 
-  if (loading) {
+  if (loadingClients) {
     return <Spinner />;
   }
 
   let initialValues;
 
-  if (!editProject.client) {
+  if (!currentProject) {
     initialValues = {
       date: moment().format("YYYY-MM-DD"),
       client: "",
@@ -137,12 +115,12 @@ const ProjectForm = ({
     };
   } else {
     initialValues = {
-      date: moment(editProject.date).format("YYYY-MM-DD"),
-      client: editProject.client,
+      date: moment(currentProject.date).format("YYYY-MM-DD"),
+      client: currentProject.client,
       newClient: "",
-      projectNr: editProject.projectNr,
-      currency: editProject.currency,
-      payment: editProject.payment
+      projectNr: currentProject.projectNr,
+      currency: currentProject.currency,
+      payment: currentProject.payment
     };
   }
 
@@ -165,7 +143,7 @@ const ProjectForm = ({
             }
 
             // Handle editing
-            if (editProject.client) {
+            if (currentProject) {
               const editedFields = {};
 
               // Filter out only edited fields
@@ -175,16 +153,21 @@ const ProjectForm = ({
                 }
               }
 
-              await axios.patch(`/projects/${editProject._id}`, editedFields);
+              updateProject({ ...editedFields, _id: currentProject._id });
               actions.setSubmitting(false);
-              showAlert(`Edited project "${values.projectNr}" from ${client}`);
+              showAlert({
+                msg: `Edited project "${values.projectNr}" from ${client}`,
+                type: "info"
+              });
+
               history.push("/");
             } else {
-              await axios.post("/projects", values);
+              createProject(values);
               actions.setSubmitting(false);
-              showAlert(
-                `Added new project "${values.projectNr}" from ${client}`
-              );
+              showAlert({
+                msg: `Added new project "${values.projectNr}" from ${client}`,
+                type: "info"
+              });
               history.push("/");
             }
           } catch (err) {
@@ -196,7 +179,7 @@ const ProjectForm = ({
         render={({ errors, status, touched, isSubmitting }) => (
           <StyledForm>
             <StyledTitle>
-              {editProject.client ? "Edit Project" : "Add Project"}
+              {currentProject ? "Edit Project" : "Add Project"}
             </StyledTitle>
             <StyledFormGroup>
               <StyledLabel htmlFor="date">* Date:</StyledLabel>
@@ -241,11 +224,11 @@ const ProjectForm = ({
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
             <StyledActionButtons>
-              {editProject.client && (
+              {currentProject && (
                 <StyledCancelButton type="button">Cancel</StyledCancelButton>
               )}
               <StyledSubmitButton type="submit" disabled={isSubmitting}>
-                {editProject.client ? "Update" : "Add"}
+                {currentProject ? "Update" : "Add"}
               </StyledSubmitButton>
             </StyledActionButtons>
           </StyledForm>
@@ -256,11 +239,7 @@ const ProjectForm = ({
 };
 
 ProjectForm.propTypes = {
-  history: PropTypes.object.isRequired,
-  showAlert: PropTypes.func.isRequired,
-  hideAlert: PropTypes.func.isRequired,
-  editProject: PropTypes.object.isRequired,
-  setEditProject: PropTypes.func.isRequired
+  history: PropTypes.object.isRequired
 };
 
 export default ProjectForm;

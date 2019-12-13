@@ -1,17 +1,21 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Navbar from "./layout/Navbar";
-import Login from "./pages/Login";
-import Registration from "./pages/Registration";
-import ProjectForm from "./pages/ProjectForm";
-import ProjectList from "./pages/ProjectList";
-import NotFound from "./pages/NotFound";
-import Alert from "./layout/Alert";
-import DeleteDialogue from "./layout/DeleteDialogue";
-import PrivateRoute from "./routing/PrivateRoute";
+import Navbar from "./components/layout/Navbar";
+import Login from "./components/pages/Login";
+import Registration from "./components/pages/Registration";
+import ProjectForm from "./components/pages/ProjectForm";
+import ProjectList from "./components/pages/ProjectList";
+import NotFound from "./components/pages/NotFound";
+import Alerts from "./components/layout/Alerts";
+import DeleteDialogue from "./components/layout/DeleteDialogue";
+import PrivateRoute from "./components/routing/PrivateRoute";
 import setAuthToken from "./utils/setAuthToken";
+
+import ProjectContext from "./context/project/projectContext";
+import AlertContext from "./context/alert/alertContext";
+import AuthContext from "./context/auth/authContext";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -86,98 +90,46 @@ const StyledContainer = styled.div`
   background-color: ${props => props.theme.container};
 `;
 
-if (localStorage.token) {
-  setAuthToken(localStorage.token);
-}
-
 const App = () => {
-  const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(null);
-  const [deleteProject, setDeleteProject] = useState(null);
-  const [editProject, setEditProject] = useState({
-    client: null,
-    currency: null,
-    date: null,
-    payment: null,
-    projectNr: null
-  });
-  const [projects, setProjects] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [isAuthenticated, setAuthenticated] = useState(false);
+  const projectContext = useContext(ProjectContext);
+  const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
 
-  const showAlert = message => {
-    setAlertMessage(message);
-    setAlert(true);
-  };
+  const { deleteId, getProjects, closeModal } = projectContext;
+  const { alerts } = alertContext;
+  const { isAuthenticated, getUser } = authContext;
 
-  const hideAlert = () => {
-    setAlert(false);
-  };
-
-  const handleModal = () => {
-    setDeleteProject(null);
-  };
+  useEffect(() => {
+    // place token into axios headers
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    getUser();
+    getProjects();
+    // eslint-disable-next-line
+  }, [isAuthenticated]);
 
   return (
     <Fragment>
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
-          {deleteProject && (
-            <StyledModal onClick={handleModal}>
-              <DeleteDialogue
-                projects={projects}
-                setProjects={setProjects}
-                showAlert={showAlert}
-                deleteProject={deleteProject}
-                closeModal={handleModal}
-              />
+          {deleteId && (
+            <StyledModal onClick={closeModal}>
+              <DeleteDialogue />
             </StyledModal>
           )}
           <StyledTitleBar>
             <StyledH1>Freelancer</StyledH1>
-            <Navbar isAuthenticated={isAuthenticated} />
+            <Navbar />
           </StyledTitleBar>
           <StyledContainer>
-            {alert && <Alert message={alertMessage} hideAlert={hideAlert} />}
+            {alerts && <Alerts />}
             <Switch>
-              <PrivateRoute
-                exact
-                path="/"
-                component={ProjectList}
-                isAuthenitcated={isAuthenticated}
-                loading={loading}
-                setLoading={setLoading}
-                projects={projects}
-                setProjects={setProjects}
-                setEditProject={setEditProject}
-                setDeleteProject={setDeleteProject}
-              />
-              <PrivateRoute
-                path="/add"
-                component={ProjectForm}
-                loading={loading}
-                isAuthenitcated={isAuthenticated}
-                showAlert={showAlert}
-                hideAlert={hideAlert}
-                editProject={editProject}
-                setEditProject={setEditProject}
-              />
-              <Route
-                path="/login"
-                render={props => (
-                  <Login {...props} setAuthenticated={setAuthenticated} />
-                )}
-              />
-              <Route
-                path="/registration"
-                render={props => (
-                  <Registration
-                    {...props}
-                    setAuthenticated={setAuthenticated}
-                  />
-                )}
-              />
+              <PrivateRoute exact path="/" component={ProjectList} />
+              <PrivateRoute path="/add" component={ProjectForm} />
+              <Route path="/login" component={Login} />
+              <Route path="/registration" component={Registration} />
               <Route>
                 <NotFound />
               </Route>
