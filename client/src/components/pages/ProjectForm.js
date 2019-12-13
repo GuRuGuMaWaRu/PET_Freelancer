@@ -8,6 +8,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Spinner from "../layout/Spinner";
 import ProjectContext from "../../context/project/projectContext";
 import AlertContext from "../../context/alert/alertContext";
+import AuthContext from "../../context/auth/authContext";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -73,6 +74,7 @@ const StyledCancelButton = styled(StyledButton)`
 const ProjectForm = ({ history }) => {
   const projectContext = useContext(ProjectContext);
   const alertContext = useContext(AlertContext);
+  const authContext = useContext(AuthContext);
 
   const {
     clients,
@@ -84,14 +86,17 @@ const ProjectForm = ({ history }) => {
     getClients
   } = projectContext;
   const { showAlert } = alertContext;
+  const { isAuthenticated } = authContext;
 
   useEffect(() => {
+    console.log("useEffect");
     getClients();
+
     return () => {
       clearCurrent();
     };
     // eslint-disable-next-line
-  }, []);
+  }, [isAuthenticated]);
 
   if (loadingClients) {
     return <Spinner />;

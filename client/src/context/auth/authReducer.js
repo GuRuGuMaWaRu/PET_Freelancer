@@ -6,26 +6,30 @@ export default (state, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        currentUser: action.payload
+        currentUser: action.payload,
+        loadingUser: false
       };
     case REGISTER:
     case LOGIN:
       return {
         ...state,
         isAuthenticated: true,
-        token: action.payload
+        token: action.payload,
+        loadingUser: false
       };
     case LOGOUT:
       return {
         ...state,
         isAuthenticated: false,
-        token: null
+        token: null,
+        loadingUser: true
       };
     case AUTH_ERROR:
       return {
         ...state,
         isAuthenticated: false,
-        token: null
+        token: null,
+        loadingUser: true
       };
     default:
       return state;
