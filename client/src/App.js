@@ -120,7 +120,7 @@ const App = () => {
           )}
           <StyledTitleBar>
             <StyledH1>Freelancer</StyledH1>
-            <Navbar isAuthenticated={isAuthenticated} />
+            <Navbar />
           </StyledTitleBar>
           <StyledContainer>
             {alerts && <Alerts />}
