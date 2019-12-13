@@ -15,7 +15,8 @@ export default (state, action) => {
     case GET_PROJECTS_SUCCESS:
       return {
         ...state,
-        projects: action.payload
+        projects: action.payload,
+        loadingProjects: false
       };
     case CREATE_PROJECT_SUCCESS:
       return {
@@ -73,7 +74,8 @@ export default (state, action) => {
     case GET_CLIENTS_SUCCESS:
       return {
         ...state,
-        clients: action.payload
+        clients: action.payload,
+        loadingClients: false
       };
     default:
       return state;

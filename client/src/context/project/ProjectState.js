@@ -22,7 +22,9 @@ const ProjectState = props => {
     projects: null,
     currentProject: null,
     deleteId: null,
-    clients: null
+    clients: null,
+    loadingProjects: true,
+    loadingClients: true
   };
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
@@ -129,6 +131,8 @@ const ProjectState = props => {
         currentProject: state.currentProject,
         deleteId: state.deleteId,
         clients: state.clients,
+        loadingProjects: state.loadingProjects,
+        loadingClients: state.loadingClients,
         getProjects,
         createProject,
         deleteProject,

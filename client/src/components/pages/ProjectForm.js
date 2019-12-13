@@ -76,6 +76,7 @@ const ProjectForm = ({ history }) => {
 
   const {
     clients,
+    loadingClients,
     currentProject,
     createProject,
     updateProject,
@@ -92,7 +93,7 @@ const ProjectForm = ({ history }) => {
     // eslint-disable-next-line
   }, []);
 
-  if (!clients) {
+  if (loadingClients) {
     return <Spinner />;
   }
 
