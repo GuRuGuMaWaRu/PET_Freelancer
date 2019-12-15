@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
@@ -47,7 +47,17 @@ const StyledEditIcon = styled(StyledIcon)`
 const ProjectList = () => {
   const history = useHistory();
   const projectContext = useContext(ProjectContext);
-  const { projects, loadingProjects, getCurrent, setDelete } = projectContext;
+  const {
+    projects,
+    loadingProjects,
+    getProjects,
+    getCurrent,
+    setDelete
+  } = projectContext;
+
+  useEffect(() => {
+    getProjects();
+  }, []);
 
   const handleSetEditProject = id => {
     getCurrent(id);

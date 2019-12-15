@@ -95,7 +95,7 @@ const App = () => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
-  const { deleteId, getProjects, closeModal } = projectContext;
+  const { deleteId, closeModal } = projectContext;
   const { alerts } = alertContext;
   const { isAuthenticated, getUser } = authContext;
 
@@ -105,7 +105,6 @@ const App = () => {
       setAuthToken(localStorage.token);
     }
     getUser();
-    getProjects();
     // eslint-disable-next-line
   }, [isAuthenticated]);
 
