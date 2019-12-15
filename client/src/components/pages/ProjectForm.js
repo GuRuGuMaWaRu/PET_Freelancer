@@ -88,15 +88,15 @@ const ProjectForm = ({ history }) => {
   const { showAlert } = alertContext;
   const { isAuthenticated } = authContext;
 
-  useEffect(() => {
-    console.log("useEffect");
-    getClients();
+  // useEffect(() => {
+  //   console.log("---ProjectForm: useEffect");
+  //   getClients();
 
-    return () => {
-      clearCurrent();
-    };
-    // eslint-disable-next-line
-  }, [isAuthenticated]);
+  //   return () => {
+  //     clearCurrent();
+  //   };
+  //   // eslint-disable-next-line
+  // }, [isAuthenticated]);
 
   if (loadingClients) {
     return <Spinner />;

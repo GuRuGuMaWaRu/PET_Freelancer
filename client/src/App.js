@@ -97,16 +97,22 @@ const App = () => {
 
   const { deleteId, closeModal } = projectContext;
   const { alerts } = alertContext;
-  const { isAuthenticated, getUser } = authContext;
+  const { getUser, setLoadingUser } = authContext;
 
   useEffect(() => {
+    console.log("---App: useEffect");
     // place token into axios headers
     if (localStorage.token) {
+      console.log("with token");
+      setLoadingUser(true);
       setAuthToken(localStorage.token);
+      getUser();
+    } else {
+      console.log("without token");
+      // setLoadingUser(false);
     }
-    getUser();
     // eslint-disable-next-line
-  }, [isAuthenticated]);
+  }, []);
 
   return (
     <Fragment>

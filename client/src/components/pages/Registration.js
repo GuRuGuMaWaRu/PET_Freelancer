@@ -63,7 +63,7 @@ const StyledSubmitButton = styled(StyledButton)`
 
 const Registration = ({ history }) => {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, registerUser } = authContext;
+  const { isAuthenticated, registerUser, setLoadingUser } = authContext;
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -83,6 +83,7 @@ const Registration = ({ history }) => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
+          setLoadingUser(true);
           registerUser(values);
           actions.setSubmitting(false);
         } catch (err) {

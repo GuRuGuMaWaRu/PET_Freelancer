@@ -5,6 +5,7 @@ import moment from "moment";
 
 import Spinner from "../layout/Spinner";
 import ProjectContext from "../../context/project/projectContext";
+import setAuthToken from "../../utils/setAuthToken";
 
 const StyledNoProjectsMsg = styled.h3`
   text-align: center;
@@ -56,7 +57,11 @@ const ProjectList = () => {
   } = projectContext;
 
   useEffect(() => {
-    getProjects();
+    if (loadingProjects) {
+      setAuthToken(localStorage.getItem("token"));
+      getProjects();
+    }
+    // eslint-disable-next-line
   }, []);
 
   const handleSetEditProject = id => {
@@ -64,6 +69,9 @@ const ProjectList = () => {
     history.push("/add");
   };
 
+  console.log("---ProjectList: rendering");
+  console.log("---ProjectList, loadingProjects:", loadingProjects);
+  console.log("---ProjectList, projects:", projects);
   if (loadingProjects) {
     return <Spinner />;
   }
@@ -75,7 +83,6 @@ const ProjectList = () => {
       </StyledNoProjectsMsg>
     );
   }
-
   return (
     projects && (
       <Fragment>

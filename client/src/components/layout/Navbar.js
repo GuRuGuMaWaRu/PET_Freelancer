@@ -22,7 +22,7 @@ const StyledLink = styled.a`
 
 const Navbar = () => {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, logoutUser } = authContext;
+  const { isAuthenticated, loadingUser, logoutUser } = authContext;
 
   const handleLogout = () => logoutUser();
 
@@ -73,7 +73,16 @@ const Navbar = () => {
       </StyledNavLink>
     </Fragment>
   );
-  return <StyledNav>{isAuthenticated ? authLinks : guestLinks}</StyledNav>;
+
+  if (!isAuthenticated && loadingUser) {
+    return null;
+  }
+
+  return (
+    <StyledNav>
+      {!isAuthenticated && !loadingUser ? guestLinks : authLinks}
+    </StyledNav>
+  );
 };
 
 export default Navbar;
