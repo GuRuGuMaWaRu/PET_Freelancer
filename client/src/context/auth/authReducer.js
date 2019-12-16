@@ -13,7 +13,7 @@ export default (state, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        currentUser: action.payload,
+        currentUser: action.payload.user,
         loadingUser: false
       };
     case REGISTER:
@@ -21,14 +21,13 @@ export default (state, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        token: action.payload,
         loadingUser: false
       };
     case LOGOUT:
       return {
         ...state,
         isAuthenticated: false,
-        token: null,
+        currentUser: null,
         loadingUser: false
       };
     case SET_LOADING:
@@ -40,7 +39,7 @@ export default (state, action) => {
       return {
         ...state,
         isAuthenticated: false,
-        token: null,
+        currentUser: null,
         loadingUser: false
       };
     default:

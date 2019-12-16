@@ -15,7 +15,6 @@ import {
 const AuthState = props => {
   const initialState = {
     isAuthenticated: false,
-    token: null,
     currentUser: null,
     loadingUser: false
   };
@@ -30,7 +29,7 @@ const AuthState = props => {
       });
 
       localStorage.setItem("token", res.data.token);
-      dispatch({ type: REGISTER, payload: res.data.token });
+      dispatch({ type: REGISTER });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({
@@ -48,7 +47,7 @@ const AuthState = props => {
       });
 
       localStorage.setItem("token", res.data.token);
-      dispatch({ type: LOGIN, payload: res.data.token });
+      dispatch({ type: LOGIN });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({
@@ -72,9 +71,9 @@ const AuthState = props => {
         headers: { "Content-Type": "application/json" }
       });
 
+      localStorage.setItem("token", res.data.token);
       dispatch({ type: GET_USER, payload: res.data });
     } catch (err) {
-      // localStorage.removeItem("token");
       console.log("Error:", err.message);
       dispatch({
         type: AUTH_ERROR,

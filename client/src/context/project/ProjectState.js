@@ -14,6 +14,7 @@ import {
   SET_DELETED,
   CLOSE_MODAL,
   GET_CLIENTS_SUCCESS,
+  CLEAR_PROJECT_DATA,
   ERROR
 } from "../types";
 
@@ -124,6 +125,10 @@ const ProjectState = props => {
       dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
     }
   };
+  // Clear project data
+  const clearProjectData = () => {
+    dispatch({ type: CLEAR_PROJECT_DATA });
+  };
 
   return (
     <ProjectContext.Provider
@@ -142,7 +147,8 @@ const ProjectState = props => {
         clearCurrent,
         setDelete,
         closeModal,
-        getClients
+        getClients,
+        clearProjectData
       }}
     >
       {props.children}

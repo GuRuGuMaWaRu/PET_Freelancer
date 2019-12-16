@@ -86,17 +86,22 @@ const ProjectForm = ({ history }) => {
     getClients
   } = projectContext;
   const { showAlert } = alertContext;
-  const { isAuthenticated } = authContext;
 
-  // useEffect(() => {
-  //   console.log("---ProjectForm: useEffect");
-  //   getClients();
+  useEffect(() => {
+    console.log("---ProjectForm: useEffect");
+    if (loadingClients) {
+      getClients();
+    }
 
-  //   return () => {
-  //     clearCurrent();
-  //   };
-  //   // eslint-disable-next-line
-  // }, [isAuthenticated]);
+    // return () => {
+    //   clearCurrent();
+    // };
+    // eslint-disable-next-line
+  }, []);
+
+  console.log("---ProjectForm: rendering...");
+  console.log("---ProjectForm, loadingClients:", loadingClients);
+  console.log("---ProjectForm, clients:", clients);
 
   if (loadingClients) {
     return <Spinner />;

@@ -57,7 +57,9 @@ const ProjectList = () => {
   } = projectContext;
 
   useEffect(() => {
+    console.log("---ProjectList: useEffect");
     if (loadingProjects) {
+      console.log("---ProjectList: useEffect: loadingProjects");
       setAuthToken(localStorage.getItem("token"));
       getProjects();
     }
@@ -66,10 +68,10 @@ const ProjectList = () => {
 
   const handleSetEditProject = id => {
     getCurrent(id);
-    history.push("/add");
+    history.push("/edit");
   };
 
-  console.log("---ProjectList: rendering");
+  console.log("---ProjectList: rendering...");
   console.log("---ProjectList, loadingProjects:", loadingProjects);
   console.log("---ProjectList, projects:", projects);
   if (loadingProjects) {

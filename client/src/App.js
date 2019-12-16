@@ -11,6 +11,7 @@ import NotFound from "./components/pages/NotFound";
 import Alerts from "./components/layout/Alerts";
 import DeleteDialogue from "./components/layout/DeleteDialogue";
 import PrivateRoute from "./components/routing/PrivateRoute";
+import Dummy from "./components/pages/Dummy";
 import setAuthToken from "./utils/setAuthToken";
 
 import ProjectContext from "./context/project/projectContext";
@@ -131,8 +132,10 @@ const App = () => {
           <StyledContainer>
             {alerts && <Alerts />}
             <Switch>
+              {/* <Route path="/dummy" component={Dummy} /> */}
               <PrivateRoute exact path="/" component={ProjectList} />
               <PrivateRoute path="/add" component={ProjectForm} />
+              <PrivateRoute path="/edit" component={ProjectForm} />
               <Route path="/login" component={Login} />
               <Route path="/registration" component={Registration} />
               <Route>

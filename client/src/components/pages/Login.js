@@ -58,7 +58,7 @@ const StyledSubmitButton = styled(StyledButton)`
   background-color: ${props => props.theme.mediumseagreen};
 `;
 
-const Registration = ({ history }) => {
+const Login = ({ history }) => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, loginUser, setLoadingUser } = authContext;
 
@@ -68,7 +68,7 @@ const Registration = ({ history }) => {
     }
     // eslint-disable-next-line
   }, [isAuthenticated]);
-
+  console.log("---Login: rendering...");
   return (
     <Formik
       initialValues={{
@@ -112,4 +112,4 @@ const Registration = ({ history }) => {
   );
 };
 
-export default Registration;
+export default Login;

@@ -72,6 +72,7 @@ const Registration = ({ history }) => {
     // eslint-disable-next-line
   }, [isAuthenticated]);
 
+  console.log("---Registration: rendering...");
   return (
     <Formik
       initialValues={{
