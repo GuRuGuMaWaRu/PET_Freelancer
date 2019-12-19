@@ -72,8 +72,8 @@ const ProjectList = () => {
   };
 
   console.log("---ProjectList: rendering...");
-  console.log("---ProjectList, loadingProjects:", loadingProjects);
-  console.log("---ProjectList, projects:", projects);
+  // console.log("---ProjectList, loadingProjects:", loadingProjects);
+  // console.log("---ProjectList, projects:", projects);
   if (loadingProjects) {
     return <Spinner />;
   }

@@ -35,15 +35,6 @@ const Navbar = () => {
   const authLinks = (
     <Fragment>
       <StyledNavLink
-        to="/dummy"
-        activeStyle={{
-          fontWeight: "bold",
-          color: "#fff"
-        }}
-      >
-        Dummy
-      </StyledNavLink>
-      <StyledNavLink
         exact
         to="/"
         activeStyle={{
@@ -69,15 +60,6 @@ const Navbar = () => {
   const guestLinks = (
     <Fragment>
       <StyledNavLink
-        to="/dummy"
-        activeStyle={{
-          fontWeight: "bold",
-          color: "#fff"
-        }}
-      >
-        Dummy
-      </StyledNavLink>
-      <StyledNavLink
         to="/login"
         activeStyle={{
           fontWeight: "bold",
@@ -99,7 +81,7 @@ const Navbar = () => {
   );
 
   if (!isAuthenticated && loadingUser) {
-    return null;
+    return <StyledNav>{guestLinks}</StyledNav>;
   }
 
   return (

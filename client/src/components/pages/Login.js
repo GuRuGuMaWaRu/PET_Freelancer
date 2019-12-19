@@ -69,6 +69,7 @@ const Login = ({ history }) => {
     // eslint-disable-next-line
   }, [isAuthenticated]);
   console.log("---Login: rendering...");
+  console.log("---Login: isAuthenticated:", isAuthenticated);
   return (
     <Formik
       initialValues={{

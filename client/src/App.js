@@ -11,7 +11,7 @@ import NotFound from "./components/pages/NotFound";
 import Alerts from "./components/layout/Alerts";
 import DeleteDialogue from "./components/layout/DeleteDialogue";
 import PrivateRoute from "./components/routing/PrivateRoute";
-import Dummy from "./components/pages/Dummy";
+import AuthRoute from "./components/routing/AuthRoute";
 import setAuthToken from "./utils/setAuthToken";
 
 import ProjectContext from "./context/project/projectContext";
@@ -104,12 +104,12 @@ const App = () => {
     console.log("---App: useEffect");
     // place token into axios headers
     if (localStorage.token) {
-      console.log("with token");
-      setLoadingUser(true);
+      console.log("---App: with token");
+      // setLoadingUser(true);
       setAuthToken(localStorage.token);
       getUser();
     } else {
-      console.log("without token");
+      console.log("---App: without token");
       // setLoadingUser(false);
     }
     // eslint-disable-next-line
@@ -132,12 +132,11 @@ const App = () => {
           <StyledContainer>
             {alerts && <Alerts />}
             <Switch>
-              {/* <Route path="/dummy" component={Dummy} /> */}
               <PrivateRoute exact path="/" component={ProjectList} />
               <PrivateRoute path="/add" component={ProjectForm} />
               <PrivateRoute path="/edit" component={ProjectForm} />
-              <Route path="/login" component={Login} />
-              <Route path="/registration" component={Registration} />
+              <AuthRoute path="/login" component={Login} />
+              <AuthRoute path="/registration" component={Registration} />
               <Route>
                 <NotFound />
               </Route>
