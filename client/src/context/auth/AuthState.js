@@ -8,6 +8,7 @@ import {
   LOGIN,
   LOGOUT,
   GET_USER,
+  GET_USER_FAILURE,
   SET_LOADING,
   AUTH_ERROR
 } from "../types";
@@ -81,6 +82,7 @@ const AuthState = props => {
       localStorage.setItem("token", res.data.token);
       dispatch({ type: GET_USER, payload: res.data });
     } catch (err) {
+      localStorage.removeItem("token");
       console.log("Error:", err.message);
       dispatch({
         type: AUTH_ERROR,
