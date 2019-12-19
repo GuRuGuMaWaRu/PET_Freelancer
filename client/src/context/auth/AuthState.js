@@ -16,13 +16,15 @@ const AuthState = props => {
   const initialState = {
     isAuthenticated: false,
     currentUser: null,
-    loadingUser: false
+    loadingUser: true
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   // Register
   const registerUser = async values => {
+    console.log("AuthState --- registerUser");
+
     try {
       const res = await axios.post("/users", values, {
         headers: { "Content-Type": "application/json" }
@@ -41,6 +43,8 @@ const AuthState = props => {
 
   // Login
   const loginUser = async values => {
+    console.log("AuthState --- loginUser");
+
     try {
       const res = await axios.post("/auth", values, {
         headers: { "Content-Type": "application/json" }
@@ -59,6 +63,8 @@ const AuthState = props => {
 
   // Logout
   const logoutUser = async () => {
+    console.log("AuthState --- logoutUser");
+
     localStorage.removeItem("token");
     dispatch({ type: LOGOUT });
   };
@@ -66,6 +72,7 @@ const AuthState = props => {
   // Get user
   const getUser = async () => {
     console.log("AuthState --- getUser");
+
     try {
       const res = await axios.get("/auth", {
         headers: { "Content-Type": "application/json" }
@@ -84,6 +91,8 @@ const AuthState = props => {
 
   // Set loadinfUser
   const setLoadingUser = loadingState => {
+    console.log("AuthState --- setLoadingUser");
+
     dispatch({
       type: SET_LOADING,
       payload: loadingState
@@ -94,7 +103,6 @@ const AuthState = props => {
     <AuthContext.Provider
       value={{
         isAuthenticated: state.isAuthenticated,
-        token: state.token,
         currentUser: state.currentUser,
         loadingUser: state.loadingUser,
         registerUser,

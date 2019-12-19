@@ -32,7 +32,7 @@ const ProjectState = props => {
 
   // Get all projects
   const getProjects = async () => {
-    console.log("---ProjectState: getProjects");
+    console.log("ProjectState --- getProjects");
     try {
       const { data: projects } = await axios.get("/projects");
       const projectsByMonth = projects.reduce((final, project, i) => {
@@ -54,9 +54,12 @@ const ProjectState = props => {
 
   // Create project
   const createProject = async data => {
+    console.log("ProjectState --- createProject");
+
     const config = {
       headers: { "Content-Type": "application/json" }
     };
+
     try {
       const res = await axios.post("/projects", data, config);
       dispatch({ type: CREATE_PROJECT_SUCCESS, payload: res.data });
@@ -67,6 +70,8 @@ const ProjectState = props => {
   };
   // Update project
   const updateProject = async project => {
+    console.log("ProjectState --- updateProject");
+
     const config = {
       headers: { "Content-Type": "application/json" }
     };
@@ -85,6 +90,7 @@ const ProjectState = props => {
   };
   // Delete project
   const deleteProject = async id => {
+    console.log("ProjectState --- deleteProject");
     try {
       await axios.delete(`/projects/${id}`);
       dispatch({ type: DELETE_PROJECT_SUCCESS, payload: id });
@@ -95,6 +101,7 @@ const ProjectState = props => {
   };
   // Get current project
   const getCurrent = async id => {
+    console.log("ProjectState --- getCurrent");
     try {
       const { data: project } = await axios.get(`/projects/${id}`);
       dispatch({ type: GET_CURRENT_SUCCESS, payload: project });
@@ -105,18 +112,22 @@ const ProjectState = props => {
   };
   // Clear current project
   const clearCurrent = () => {
+    console.log("ProjectState --- clearCurrent");
     dispatch({ type: CLEAR_CURRENT_PROJECT });
   };
   // Set project to be deleted
   const setDelete = id => {
+    console.log("ProjectState --- setDelete");
     dispatch({ type: SET_DELETED, payload: id });
   };
   // Close modal
   const closeModal = () => {
+    console.log("ProjectState --- closeModal");
     dispatch({ type: CLOSE_MODAL });
   };
   // Get clients
   const getClients = async () => {
+    console.log("ProjectState --- getClients");
     try {
       const { data: clients } = await axios.get("/clients");
       dispatch({ type: GET_CLIENTS_SUCCESS, payload: clients });
@@ -127,6 +138,7 @@ const ProjectState = props => {
   };
   // Clear project data
   const clearProjectData = () => {
+    console.log("ProjectState --- clearProjectData");
     dispatch({ type: CLEAR_PROJECT_DATA });
   };
 
