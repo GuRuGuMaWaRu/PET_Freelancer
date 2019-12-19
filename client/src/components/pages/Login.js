@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -58,18 +58,11 @@ const StyledSubmitButton = styled(StyledButton)`
   background-color: ${props => props.theme.mediumseagreen};
 `;
 
-const Login = ({ history }) => {
+const Login = () => {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, loginUser, setLoadingUser } = authContext;
+  const { loginUser, setLoadingUser } = authContext;
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      history.push("/");
-    }
-    // eslint-disable-next-line
-  }, [isAuthenticated]);
   console.log("---Login: rendering...");
-  console.log("---Login: isAuthenticated:", isAuthenticated);
   return (
     <Formik
       initialValues={{
