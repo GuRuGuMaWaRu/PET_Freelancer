@@ -52,7 +52,7 @@ const ProjectList = () => {
     projects,
     loadingProjects,
     getProjects,
-    getCurrent,
+    setCurrent,
     setDelete
   } = projectContext;
 
@@ -67,7 +67,7 @@ const ProjectList = () => {
   }, []);
 
   const handleSetEditProject = id => {
-    getCurrent(id);
+    setCurrent(id);
     history.push("/edit");
   };
 

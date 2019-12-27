@@ -8,7 +8,6 @@ import {
   LOGIN,
   LOGOUT,
   GET_USER,
-  GET_USER_FAILURE,
   SET_LOADING,
   AUTH_ERROR
 } from "../types";

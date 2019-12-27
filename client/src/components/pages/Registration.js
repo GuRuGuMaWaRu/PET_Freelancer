@@ -77,7 +77,7 @@ const Registration = () => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
-          setLoadingUser(true);
+          // setLoadingUser(true);
           registerUser(values);
           actions.setSubmitting(false);
         } catch (err) {

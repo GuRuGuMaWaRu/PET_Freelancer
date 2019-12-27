@@ -110,7 +110,7 @@ const App = () => {
       getUser();
     } else {
       console.log("---App: without token");
-      // setLoadingUser(false);
+      setLoadingUser(false);
     }
     // eslint-disable-next-line
   }, []);
