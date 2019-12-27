@@ -1,10 +1,11 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
 
 import Spinner from "../layout/Spinner";
 import ProjectContext from "../../context/project/projectContext";
+import setAuthToken from "../../utils/setAuthToken";
 
 const StyledNoProjectsMsg = styled.h3`
   text-align: center;
@@ -47,13 +48,32 @@ const StyledEditIcon = styled(StyledIcon)`
 const ProjectList = () => {
   const history = useHistory();
   const projectContext = useContext(ProjectContext);
-  const { projects, loadingProjects, getCurrent, setDelete } = projectContext;
+  const {
+    projects,
+    loadingProjects,
+    getProjects,
+    setCurrent,
+    setDelete
+  } = projectContext;
+
+  useEffect(() => {
+    console.log("---ProjectList: useEffect");
+    if (loadingProjects) {
+      console.log("---ProjectList: useEffect: loadingProjects");
+      setAuthToken(localStorage.getItem("token"));
+      getProjects();
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const handleSetEditProject = id => {
-    getCurrent(id);
-    history.push("/add");
+    setCurrent(id);
+    history.push("/edit");
   };
 
+  console.log("---ProjectList: rendering...");
+  // console.log("---ProjectList, loadingProjects:", loadingProjects);
+  // console.log("---ProjectList, projects:", projects);
   if (loadingProjects) {
     return <Spinner />;
   }
@@ -65,7 +85,6 @@ const ProjectList = () => {
       </StyledNoProjectsMsg>
     );
   }
-
   return (
     projects && (
       <Fragment>

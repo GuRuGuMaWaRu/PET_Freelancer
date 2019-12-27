@@ -11,6 +11,7 @@ import NotFound from "./components/pages/NotFound";
 import Alerts from "./components/layout/Alerts";
 import DeleteDialogue from "./components/layout/DeleteDialogue";
 import PrivateRoute from "./components/routing/PrivateRoute";
+import AuthRoute from "./components/routing/AuthRoute";
 import setAuthToken from "./utils/setAuthToken";
 
 import ProjectContext from "./context/project/projectContext";
@@ -95,19 +96,24 @@ const App = () => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
-  const { deleteId, getProjects, closeModal } = projectContext;
+  const { deleteId, closeModal } = projectContext;
   const { alerts } = alertContext;
-  const { isAuthenticated, getUser } = authContext;
+  const { getUser, setLoadingUser } = authContext;
 
   useEffect(() => {
+    console.log("---App: useEffect");
     // place token into axios headers
     if (localStorage.token) {
+      console.log("---App: with token");
+      // setLoadingUser(true);
       setAuthToken(localStorage.token);
+      getUser();
+    } else {
+      console.log("---App: without token");
+      setLoadingUser(false);
     }
-    getUser();
-    getProjects();
     // eslint-disable-next-line
-  }, [isAuthenticated]);
+  }, []);
 
   return (
     <Fragment>
@@ -128,8 +134,9 @@ const App = () => {
             <Switch>
               <PrivateRoute exact path="/" component={ProjectList} />
               <PrivateRoute path="/add" component={ProjectForm} />
-              <Route path="/login" component={Login} />
-              <Route path="/registration" component={Registration} />
+              <PrivateRoute path="/edit" component={ProjectForm} />
+              <AuthRoute path="/login" component={Login} />
+              <AuthRoute path="/registration" component={Registration} />
               <Route>
                 <NotFound />
               </Route>

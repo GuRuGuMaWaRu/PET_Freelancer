@@ -8,7 +8,6 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Spinner from "../layout/Spinner";
 import ProjectContext from "../../context/project/projectContext";
 import AlertContext from "../../context/alert/alertContext";
-import AuthContext from "../../context/auth/authContext";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -74,46 +73,54 @@ const StyledCancelButton = styled(StyledButton)`
 const ProjectForm = ({ history }) => {
   const projectContext = useContext(ProjectContext);
   const alertContext = useContext(AlertContext);
-  const authContext = useContext(AuthContext);
 
   const {
+    currentId,
     clients,
     loadingClients,
     currentProject,
     createProject,
     updateProject,
     clearCurrent,
+    getCurrent,
     getClients
   } = projectContext;
   const { showAlert } = alertContext;
-  const { isAuthenticated } = authContext;
 
   useEffect(() => {
-    console.log("useEffect");
-    getClients();
+    console.log("---ProjectForm: useEffect");
+    if (loadingClients) {
+      getClients();
+    }
+    if (currentId) {
+      getCurrent(currentId);
+    }
 
     return () => {
-      clearCurrent();
+      if (currentProject) clearCurrent();
     };
     // eslint-disable-next-line
-  }, [isAuthenticated]);
+  }, []);
 
-  if (loadingClients) {
+  console.log("---ProjectForm: rendering...");
+  console.log("---ProjectForm, loadingClients:", loadingClients);
+  console.log("---ProjectForm, currentProject:", currentProject);
+  console.log("---ProjectForm, clients:", clients);
+
+  if (loadingClients || (currentId && !currentProject)) {
     return <Spinner />;
   }
 
-  let initialValues;
+  let initialValues = {
+    date: moment().format("YYYY-MM-DD"),
+    client: "",
+    newClient: "",
+    projectNr: "",
+    currency: "USD",
+    payment: ""
+  };
 
-  if (!currentProject) {
-    initialValues = {
-      date: moment().format("YYYY-MM-DD"),
-      client: "",
-      newClient: "",
-      projectNr: "",
-      currency: "USD",
-      payment: ""
-    };
-  } else {
+  if (currentProject) {
     initialValues = {
       date: moment(currentProject.date).format("YYYY-MM-DD"),
       client: currentProject.client,
@@ -123,6 +130,11 @@ const ProjectForm = ({ history }) => {
       payment: currentProject.payment
     };
   }
+
+  const handleCancel = () => {
+    clearCurrent();
+    history.push("/");
+  };
 
   return (
     clients && (
@@ -159,8 +171,6 @@ const ProjectForm = ({ history }) => {
                 msg: `Edited project "${values.projectNr}" from ${client}`,
                 type: "info"
               });
-
-              history.push("/");
             } else {
               createProject(values);
               actions.setSubmitting(false);
@@ -168,8 +178,8 @@ const ProjectForm = ({ history }) => {
                 msg: `Added new project "${values.projectNr}" from ${client}`,
                 type: "info"
               });
-              history.push("/");
             }
+            history.push("/");
           } catch (err) {
             console.log(err);
             actions.setSubmitting(false);
@@ -225,7 +235,9 @@ const ProjectForm = ({ history }) => {
             {status && status.msg && <div>{status.msg}</div>}
             <StyledActionButtons>
               {currentProject && (
-                <StyledCancelButton type="button">Cancel</StyledCancelButton>
+                <StyledCancelButton type="button" onClick={handleCancel}>
+                  Cancel
+                </StyledCancelButton>
               )}
               <StyledSubmitButton type="submit" disabled={isSubmitting}>
                 {currentProject ? "Update" : "Add"}

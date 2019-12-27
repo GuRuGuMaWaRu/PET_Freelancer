@@ -3,12 +3,18 @@ import axios from "axios";
 
 import AuthContext from "./authContext";
 import authReducer from "./authReducer";
-import { AUTH_ERROR, REGISTER, LOGIN, LOGOUT, GET_USER } from "../types";
+import {
+  REGISTER,
+  LOGIN,
+  LOGOUT,
+  GET_USER,
+  SET_LOADING,
+  AUTH_ERROR
+} from "../types";
 
 const AuthState = props => {
   const initialState = {
     isAuthenticated: false,
-    token: null,
     currentUser: null,
     loadingUser: true
   };
@@ -17,13 +23,15 @@ const AuthState = props => {
 
   // Register
   const registerUser = async values => {
+    console.log("AuthState --- registerUser");
+
     try {
       const res = await axios.post("/users", values, {
         headers: { "Content-Type": "application/json" }
       });
 
       localStorage.setItem("token", res.data.token);
-      dispatch({ type: REGISTER, payload: res.data.token });
+      dispatch({ type: REGISTER });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({
@@ -35,13 +43,15 @@ const AuthState = props => {
 
   // Login
   const loginUser = async values => {
+    console.log("AuthState --- loginUser");
+
     try {
       const res = await axios.post("/auth", values, {
         headers: { "Content-Type": "application/json" }
       });
 
       localStorage.setItem("token", res.data.token);
-      dispatch({ type: LOGIN, payload: res.data.token });
+      dispatch({ type: LOGIN });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({
@@ -53,6 +63,8 @@ const AuthState = props => {
 
   // Logout
   const logoutUser = async () => {
+    console.log("AuthState --- logoutUser");
+
     localStorage.removeItem("token");
     dispatch({ type: LOGOUT });
   };
@@ -60,14 +72,16 @@ const AuthState = props => {
   // Get user
   const getUser = async () => {
     console.log("AuthState --- getUser");
+
     try {
       const res = await axios.get("/auth", {
         headers: { "Content-Type": "application/json" }
       });
 
+      localStorage.setItem("token", res.data.token);
       dispatch({ type: GET_USER, payload: res.data });
     } catch (err) {
-      // localStorage.removeItem("token");
+      localStorage.removeItem("token");
       console.log("Error:", err.message);
       dispatch({
         type: AUTH_ERROR,
@@ -76,17 +90,27 @@ const AuthState = props => {
     }
   };
 
+  // Set loadinfUser
+  const setLoadingUser = loadingState => {
+    console.log("AuthState --- setLoadingUser");
+
+    dispatch({
+      type: SET_LOADING,
+      payload: loadingState
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated: state.isAuthenticated,
-        token: state.token,
         currentUser: state.currentUser,
         loadingUser: state.loadingUser,
         registerUser,
         loginUser,
         logoutUser,
-        getUser
+        getUser,
+        setLoadingUser
       }}
     >
       {props.children}

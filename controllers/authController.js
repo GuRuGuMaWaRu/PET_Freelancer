@@ -48,9 +48,28 @@ module.exports = {
     }
   },
   get: async (req, res) => {
+    console.log("Auth controller: before try-catch");
     try {
       const user = await User.findById(req.user.id).select("-password");
-      res.json(user);
+
+      console.log("Auth controller: got user:", user);
+
+      // Get new token
+      const payload = {
+        user: {
+          id: user._id
+        }
+      };
+
+      jwt.sign(
+        payload,
+        process.env.JWTSECRET,
+        { expiresIn: 36000 },
+        (err, token) => {
+          if (err) throw err;
+          res.status(200).json({ user, token });
+        }
+      );
     } catch (err) {
       console.error(err.message);
       res.status(500).json({ error: err.message });

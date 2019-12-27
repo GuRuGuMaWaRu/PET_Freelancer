@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import * as Yup from "yup";
@@ -61,17 +61,11 @@ const StyledSubmitButton = styled(StyledButton)`
   background-color: ${props => props.theme.mediumseagreen};
 `;
 
-const Registration = ({ history }) => {
+const Registration = () => {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, registerUser } = authContext;
+  const { registerUser, setLoadingUser } = authContext;
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      history.push("/");
-    }
-    // eslint-disable-next-line
-  }, [isAuthenticated]);
-
+  console.log("---Registration: rendering...");
   return (
     <Formik
       initialValues={{
@@ -83,6 +77,7 @@ const Registration = ({ history }) => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
+          // setLoadingUser(true);
           registerUser(values);
           actions.setSubmitting(false);
         } catch (err) {

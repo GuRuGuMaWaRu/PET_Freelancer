@@ -2,6 +2,7 @@ import React, { Fragment, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
+import ProjectContext from "../../context/project/projectContext";
 import AuthContext from "../../context/auth/authContext";
 
 const StyledNav = styled.nav`
@@ -22,9 +23,14 @@ const StyledLink = styled.a`
 
 const Navbar = () => {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, logoutUser } = authContext;
+  const projectContext = useContext(ProjectContext);
+  const { isAuthenticated, loadingUser, logoutUser } = authContext;
+  const { clearProjectData } = projectContext;
 
-  const handleLogout = () => logoutUser();
+  const handleLogout = () => {
+    clearProjectData();
+    logoutUser();
+  };
 
   const authLinks = (
     <Fragment>
@@ -73,7 +79,16 @@ const Navbar = () => {
       </StyledNavLink>
     </Fragment>
   );
-  return <StyledNav>{isAuthenticated ? authLinks : guestLinks}</StyledNav>;
+
+  if (!isAuthenticated && loadingUser) {
+    return <StyledNav>{guestLinks}</StyledNav>;
+  }
+
+  return (
+    <StyledNav>
+      {!isAuthenticated && !loadingUser ? guestLinks : authLinks}
+    </StyledNav>
+  );
 };
 
 export default Navbar;

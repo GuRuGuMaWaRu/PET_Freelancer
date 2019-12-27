@@ -1,9 +1,10 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import AuthContext from "../../context/auth/authContext";
+import ProjectContext from "../../context/project/projectContext";
 
 const formSchema = Yup.object().shape({
   email: Yup.string().required("Required"),
@@ -58,17 +59,13 @@ const StyledSubmitButton = styled(StyledButton)`
   background-color: ${props => props.theme.mediumseagreen};
 `;
 
-const Registration = ({ history }) => {
+const Login = () => {
   const authContext = useContext(AuthContext);
-  const { isAuthenticated, loginUser } = authContext;
+  const projectContext = useContext(ProjectContext);
+  const { loginUser, setLoadingUser } = authContext;
+  const { getProjects } = projectContext;
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      history.push("/");
-    }
-    // eslint-disable-next-line
-  }, [isAuthenticated]);
-
+  console.log("---Login: rendering...");
   return (
     <Formik
       initialValues={{
@@ -78,7 +75,10 @@ const Registration = ({ history }) => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
+          // setLoadingUser(true);
           loginUser(values);
+          // getProjects();
+
           actions.setSubmitting(false);
         } catch (err) {
           console.log(err);
@@ -111,4 +111,4 @@ const Registration = ({ history }) => {
   );
 };
 
-export default Registration;
+export default Login;
