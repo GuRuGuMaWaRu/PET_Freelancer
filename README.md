@@ -11,3 +11,4 @@ X Double rerendering when entering Edit Form
 X CANCEL button (Project Form) not working
 
 - Replace FontAwesome inline with FontAwesome react version
+- Deploy to Heroku
