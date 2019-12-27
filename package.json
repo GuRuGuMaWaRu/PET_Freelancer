@@ -1,7 +1,8 @@
 {
   "name": "pet-freelancer",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.2.0",
+  "description": "log freelance jobs",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "server": "nodemon app.js",
@@ -10,6 +11,17 @@
     "test": "SET NODE_ENV=test & nodemon --exec \"mocha --recursive -R min\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuRuGuMaWaRu/PET_Freelancer.git"
+  },
+  "keywords": [],
+  "author": "Peter Krevenets",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuRuGuMaWaRu/PET_Freelancer/issues"
+  },
+  "homepage": "https://github.com/GuRuGuMaWaRu/PET_Freelancer#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "concurrently": "^5.0.0",
