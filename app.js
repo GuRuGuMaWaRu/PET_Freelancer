@@ -64,16 +64,17 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Handle 404 errors
-app.use((req, res, next) => {
-  const error = new Error("Not found!");
-  error.status = 404;
-  next(error);
+app.use((req, res) => {
+  res.status(404).json({ msg: "Not found!" });
+});
+// Handle other errors
+app.use((err, req, res) => {
+  console.log("Error:", err.message);
+  res
+    .status(err.status || 500)
+    .json({ msg: err.message || "There was an error" });
 });
 
-// Handle all errors
-app.use((error, req, res) => {
-  res.status(error.status || 500);
-  res.json({ msg: error.message });
-});
+const PORT = process.env.PORT || 6000;
 
-module.exports = app;
+app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
