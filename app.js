@@ -75,6 +75,7 @@ app.use((err, req, res) => {
     .json({ msg: err.message || "There was an error" });
 });
 
+// Connect to server
 const PORT = process.env.PORT || 6000;
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
