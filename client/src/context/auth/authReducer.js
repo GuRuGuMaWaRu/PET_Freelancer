@@ -37,10 +37,10 @@ export default (state, action) => {
       };
     case AUTH_ERROR:
       return {
-        ...state
-        // isAuthenticated: false,
-        // currentUser: null,
-        // loadingUser: false
+        ...state,
+        isAuthenticated: false,
+        currentUser: null,
+        loadingUser: false
       };
     default:
       return state;
