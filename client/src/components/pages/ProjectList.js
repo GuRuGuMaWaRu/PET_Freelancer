@@ -60,7 +60,7 @@ const ProjectList = () => {
     console.log("---ProjectList: useEffect");
     if (loadingProjects) {
       console.log("---ProjectList: useEffect: loadingProjects");
-      setAuthToken(localStorage.getItem("token"));
+      setAuthToken(localStorage.getItem("freelancer_token"));
       getProjects();
     }
     // eslint-disable-next-line

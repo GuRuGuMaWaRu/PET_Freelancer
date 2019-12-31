@@ -103,10 +103,10 @@ const App = () => {
   useEffect(() => {
     console.log("---App: useEffect");
     // place token into axios headers
-    if (localStorage.token) {
+    if (localStorage.freelancer_token) {
       console.log("---App: with token");
       // setLoadingUser(true);
-      setAuthToken(localStorage.token);
+      setAuthToken(localStorage.freelancer_token);
       getUser();
     } else {
       console.log("---App: without token");
