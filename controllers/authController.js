@@ -5,6 +5,9 @@ const { validationResult } = require("express-validator");
 const User = require("../models/User");
 
 module.exports = {
+  // @route     POST api/auth
+  // @desc      Log in user
+  // @access    Public
   login: async (req, res) => {
     const errors = validationResult(req);
 
@@ -47,6 +50,9 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+  // @route     GET api/auth
+  // @desc      Get logged in user
+  // @access    Private
   get: async (req, res) => {
     console.log("Auth controller: before try-catch");
     try {

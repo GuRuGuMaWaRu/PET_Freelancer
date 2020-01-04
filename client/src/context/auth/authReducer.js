@@ -40,7 +40,8 @@ export default (state, action) => {
         ...state,
         isAuthenticated: false,
         currentUser: null,
-        loadingUser: false
+        loadingUser: false,
+        error: action.payload
       };
     default:
       return state;

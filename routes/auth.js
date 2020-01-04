@@ -11,7 +11,7 @@ const authController = require("../controllers/authController");
 router.get("/", auth, authController.get);
 
 // @route     POST api/auth
-// @desc      Auth user & get token
+// @desc      Log in user
 // @access    Public
 router.post(
   "/",

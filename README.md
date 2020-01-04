@@ -11,4 +11,5 @@ X Double rerendering when entering Edit Form
 X CANCEL button (Project Form) not working
 X Deploy to Heroku
 
+- Login alert/error message on wrong credentials
 - Replace FontAwesome inline with FontAwesome react version

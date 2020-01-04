@@ -16,7 +16,8 @@ const AuthState = props => {
   const initialState = {
     isAuthenticated: false,
     currentUser: null,
-    loadingUser: true
+    loadingUser: true,
+    error: null
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -53,10 +54,18 @@ const AuthState = props => {
       localStorage.setItem("freelancer_token", res.data.token);
       dispatch({ type: LOGIN });
     } catch (err) {
-      console.log("Error:", err.message);
+      let message = "";
+
+      if (err.message === "Request failed with status code 400") {
+        message = "Wrong credentials";
+      } else {
+        message = "Bad request";
+      }
+      // console.log("loginUser:", err);
+      // console.log("Error:", err.message);
       dispatch({
         type: AUTH_ERROR,
-        payload: { msg: err.message, type: "error" }
+        payload: { msg: message, type: "error" }
       });
     }
   };
@@ -106,6 +115,7 @@ const AuthState = props => {
         isAuthenticated: state.isAuthenticated,
         currentUser: state.currentUser,
         loadingUser: state.loadingUser,
+        error: state.error,
         registerUser,
         loginUser,
         logoutUser,
