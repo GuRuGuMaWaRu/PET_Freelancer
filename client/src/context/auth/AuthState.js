@@ -9,7 +9,8 @@ import {
   LOGOUT,
   GET_USER,
   SET_LOADING,
-  AUTH_ERROR
+  AUTH_ERROR,
+  HIDE_AUTH_ERROR
 } from "../types";
 
 const AuthState = props => {
@@ -109,6 +110,15 @@ const AuthState = props => {
     });
   };
 
+  // Hide error
+  const hideError = () => {
+    console.log("AuthState --- hideError");
+
+    dispatch({
+      type: HIDE_AUTH_ERROR
+    });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -120,7 +130,8 @@ const AuthState = props => {
         loginUser,
         logoutUser,
         getUser,
-        setLoadingUser
+        setLoadingUser,
+        hideError
       }}
     >
       {props.children}
