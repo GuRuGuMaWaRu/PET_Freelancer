@@ -1,6 +1,9 @@
 const Client = require("../models/Client");
 
 module.exports = {
+  // @route     GET clients/
+  // @desc      Get all clients
+  // @access    Private
   index: async (req, res) => {
     try {
       const clients = await Client.find({ user: req.user.id }).sort({

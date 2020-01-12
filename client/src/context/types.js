@@ -25,4 +25,6 @@ export const LOGOUT = "LOGOUT";
 export const GET_USER = "GET_USER";
 export const SET_LOADING = "SET_LOADING";
 export const AUTH_ERROR = "AUTH_ERROR";
+export const LOGIN_ERROR = "LOGIN_ERROR";
 export const HIDE_AUTH_ERROR = "HIDE_AUTH_ERROR";
+export const HIDE_LOGIN_ERROR = "HIDE_LOGIN_ERROR";

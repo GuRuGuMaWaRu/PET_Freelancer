@@ -5,6 +5,9 @@ const { validationResult } = require("express-validator");
 const User = require("../models/User");
 
 module.exports = {
+  // @route     POST users/
+  // @desc      Register a user
+  // @access    Public
   register: async (req, res) => {
     // Handle Registration form errors
     const errors = validationResult(req);

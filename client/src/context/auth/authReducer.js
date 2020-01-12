@@ -5,7 +5,9 @@ import {
   GET_USER,
   SET_LOADING,
   AUTH_ERROR,
-  HIDE_AUTH_ERROR
+  LOGIN_ERROR,
+  HIDE_AUTH_ERROR,
+  HIDE_LOGIN_ERROR
 } from "../types";
 
 export default (state, action) => {
@@ -40,11 +42,20 @@ export default (state, action) => {
       return {
         ...state,
         isAuthenticated: false,
-        currentUser: null,
+        currentUser: null
+      };
+    case LOGIN_ERROR:
+      return {
+        ...state,
         loadingUser: false,
         error: action.payload
       };
     case HIDE_AUTH_ERROR:
+      return {
+        ...state,
+        error: null
+      };
+    case HIDE_LOGIN_ERROR:
       return {
         ...state,
         error: null

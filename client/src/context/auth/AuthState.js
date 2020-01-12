@@ -10,7 +10,9 @@ import {
   GET_USER,
   SET_LOADING,
   AUTH_ERROR,
-  HIDE_AUTH_ERROR
+  LOGIN_ERROR,
+  HIDE_AUTH_ERROR,
+  HIDE_LOGIN_ERROR
 } from "../types";
 
 const AuthState = props => {
@@ -65,7 +67,7 @@ const AuthState = props => {
       // console.log("loginUser:", err);
       // console.log("Error:", err.message);
       dispatch({
-        type: AUTH_ERROR,
+        type: LOGIN_ERROR,
         payload: { msg: message, type: "error" }
       });
     }
@@ -115,7 +117,7 @@ const AuthState = props => {
     console.log("AuthState --- hideError");
 
     dispatch({
-      type: HIDE_AUTH_ERROR
+      type: HIDE_LOGIN_ERROR
     });
   };
 

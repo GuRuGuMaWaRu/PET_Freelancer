@@ -2,6 +2,9 @@ const Client = require("../models/Client");
 const Project = require("../models/Project");
 
 module.exports = {
+  // @route     GET projects/
+  // @desc      Get all projects
+  // @access    Private
   index: async (req, res) => {
     try {
       const projects = await Project.find({
@@ -18,6 +21,9 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+  // @route     POST projects/
+  // @desc      Save a new project
+  // @access    Private
   create: async (req, res) => {
     const shopData = req.body;
 
@@ -60,6 +66,9 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+  // @route     GET projects/:id
+  // @desc      Get a project
+  // @access    Private
   read: async (req, res) => {
     const projectId = req.params.id;
 
@@ -79,6 +88,9 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+  // @route     PATCH projects/:id
+  // @desc      Update a project
+  // @access    Private
   update: async (req, res) => {
     const projectId = req.params.id;
     const shopData = req.body;
@@ -132,6 +144,9 @@ module.exports = {
       res.status(500).json({ error: err.message });
     }
   },
+  // @route     DELETE projects/:id
+  // @desc      Delete a project
+  // @access    Private
   delete: async (req, res) => {
     const projectId = req.params.id;
 
