@@ -15,8 +15,7 @@ const ProjectSchema = Schema({
     required: true
   },
   payment: {
-    type: Number,
-    default: 0
+    type: Number
   },
   currency: {
     type: String
