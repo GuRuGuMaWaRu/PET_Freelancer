@@ -42,7 +42,8 @@ export default (state, action) => {
       return {
         ...state,
         isAuthenticated: false,
-        currentUser: null
+        currentUser: null,
+        loadingUser: false
       };
     case LOGIN_ERROR:
       return {
