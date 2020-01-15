@@ -228,8 +228,8 @@ const ProjectForm = ({ history }) => {
               <StyledErrorMessage name="currency" component="div" />
             </StyledFormGroup>
             <StyledFormGroup>
-              <StyledLabel htmlFor="payment">* Payment:</StyledLabel>
-              <StyledField type="number" name="payment" />
+              <StyledLabel htmlFor="payment">Payment:</StyledLabel>
+              <StyledField type="number" name="payment" placeholder="0" />
               <StyledErrorMessage name="payment" component="div" />
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
