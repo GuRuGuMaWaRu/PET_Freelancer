@@ -14,8 +14,8 @@ const formSchema = Yup.object().shape({
   client: Yup.string(),
   newClient: Yup.string(),
   projectNr: Yup.string().required("Required"),
-  currency: Yup.string().required("Required"),
-  payment: Yup.number().required("Required")
+  currency: Yup.string(),
+  payment: Yup.number()
 });
 
 const StyledForm = styled(Form)`
@@ -150,7 +150,7 @@ const ProjectForm = ({ history }) => {
             if (values.newClient.length > 0) {
               client = values.newClient.trim();
             } else {
-              client = clients.filter(client => client._id === values.client)[0]
+              client = clients.find(client => client._id === values.client)
                 .name;
             }
 
@@ -166,19 +166,19 @@ const ProjectForm = ({ history }) => {
               }
 
               updateProject({ ...editedFields, _id: currentProject._id });
-              actions.setSubmitting(false);
               showAlert({
                 msg: `Edited project "${values.projectNr}" from ${client}`,
                 type: "info"
               });
             } else {
               createProject(values);
-              actions.setSubmitting(false);
               showAlert({
                 msg: `Added new project "${values.projectNr}" from ${client}`,
                 type: "info"
               });
             }
+
+            actions.setSubmitting(false);
             history.push("/");
           } catch (err) {
             console.log(err);
@@ -225,12 +225,10 @@ const ProjectForm = ({ history }) => {
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
               </StyledField>
-              <StyledErrorMessage name="currency" component="div" />
             </StyledFormGroup>
             <StyledFormGroup>
-              <StyledLabel htmlFor="payment">* Payment:</StyledLabel>
-              <StyledField type="number" name="payment" />
-              <StyledErrorMessage name="payment" component="div" />
+              <StyledLabel htmlFor="payment">Payment:</StyledLabel>
+              <StyledField type="number" name="payment" placeholder="0" />
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
             <StyledActionButtons>

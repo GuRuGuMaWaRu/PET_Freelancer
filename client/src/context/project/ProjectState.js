@@ -62,6 +62,11 @@ const ProjectState = props => {
       headers: { "Content-Type": "application/json" }
     };
 
+    // handle default 0 (zero) payment value
+    if (!data.payment) {
+      data.payment = 0;
+    }
+
     try {
       const res = await axios.post("/projects", data, config);
       dispatch({ type: CREATE_PROJECT_SUCCESS, payload: res.data });

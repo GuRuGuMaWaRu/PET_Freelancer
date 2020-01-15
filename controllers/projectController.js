@@ -25,30 +25,31 @@ module.exports = {
   // @desc      Save a new project
   // @access    Private
   create: async (req, res) => {
-    const shopData = req.body;
+    const projectData = req.body;
 
     try {
-      if (shopData.newClient.length > 0) {
+      if (projectData.newClient.length > 0) {
         const oldClient = await Client.findOne({
-          name: shopData.newClient,
+          name: projectData.newClient,
           user: req.user.id
         });
 
         if (!oldClient) {
           const newClient = new Client({
-            name: shopData.newClient,
+            name: projectData.newClient,
             user: req.user.id
           });
 
-          shopData.client = newClient._id;
+          projectData.client = newClient._id;
 
           await newClient.save();
         } else {
-          shopData.client = oldClient._id;
+          projectData.client = oldClient._id;
         }
       }
+
       const project = new Project({
-        ...shopData,
+        ...projectData,
         user: req.user.id
       });
       await project.save();
