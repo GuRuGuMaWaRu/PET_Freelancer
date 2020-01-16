@@ -68,10 +68,13 @@ const ProjectState = props => {
     }
 
     try {
-      const res = await axios.post("/projects", data, config);
+      const {
+        data: { newProject, newClient }
+      } = await axios.post("/projects", data, config);
+
       dispatch({
         type: CREATE_PROJECT_SUCCESS,
-        payload: { newProject: res.data, newClient: data.newClient }
+        payload: { newProject, newClient }
       });
     } catch (err) {
       console.log("Error:", err.message);
