@@ -25,15 +25,18 @@ export default (state, action) => {
         ...state,
         projects: [
           ...state.projects.filter(
-            project => project.date > action.payload.date
+            project => project.date > action.payload.newProject.date
           ),
-          action.payload,
+          action.payload.newProject,
           ...state.projects.filter(
             project =>
-              project.date < action.payload.date ||
-              project.date === action.payload.date
+              project.date < action.payload.newProject.date ||
+              project.date === action.payload.newProject.date
           )
-        ]
+        ],
+        clients: action.payload.newClient
+          ? [action.payload.newClient, ...state.clients]
+          : state.clients
       };
     case SET_CURRENT_PROJECT_ID:
       return {
