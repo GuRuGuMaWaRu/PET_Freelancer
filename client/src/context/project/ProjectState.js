@@ -58,9 +58,9 @@ const ProjectState = props => {
   const createProject = async data => {
     console.log("ProjectState --- createProject");
 
-    const config = {
-      headers: { "Content-Type": "application/json" }
-    };
+    // const config = {
+    //   headers: { "Content-Type": "application/json" }
+    // };
 
     // handle default 0 (zero) payment value
     if (!data.payment) {
@@ -70,7 +70,7 @@ const ProjectState = props => {
     try {
       const {
         data: { newProject, newClient }
-      } = await axios.post("/projects", data, config);
+      } = await axios.post("/projects", data);
 
       dispatch({
         type: CREATE_PROJECT_SUCCESS,
@@ -86,15 +86,14 @@ const ProjectState = props => {
   const updateProject = async project => {
     console.log("ProjectState --- updateProject");
 
-    const config = {
-      headers: { "Content-Type": "application/json" }
-    };
+    // const config = {
+    //   headers: { "Content-Type": "application/json" }
+    // };
 
     try {
       const { data: updatedProject } = await axios.patch(
         `/projects/${project._id}`,
-        project,
-        config
+        project
       );
       dispatch({ type: UPDATE_PROJECT_SUCCESS, payload: updatedProject });
     } catch (err) {
