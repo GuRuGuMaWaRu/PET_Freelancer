@@ -21,19 +21,22 @@ export default (state, action) => {
         loadingProjects: false
       };
     case CREATE_PROJECT_SUCCESS:
-      const { newProject, newClient } = action.payload;
-
       return {
         ...state,
         projects: [
-          ...state.projects.filter(project => project.date > newProject.date),
-          newProject,
+          ...state.projects.filter(
+            project => project.date > action.payload.newProject.date
+          ),
+          action.payload.newProject,
           ...state.projects.filter(
             project =>
-              project.date < newProject.date || project.date === newProject.date
+              project.date < action.payload.newProject.date ||
+              project.date === action.payload.newProject.date
           )
         ],
-        clients: newClient ? [...state.clients, newClient] : state.clients
+        clients: action.payload.newClient
+          ? [...state.clients, action.payload.newClient]
+          : state.clients
       };
     case SET_CURRENT_PROJECT_ID:
       return {
@@ -49,13 +52,16 @@ export default (state, action) => {
       return {
         ...state,
         projects: state.projects.map(project => {
-          if (project._id === action.payload._id) {
-            return action.payload;
+          if (project._id === action.payload.updatedProject._id) {
+            return action.payload.updatedProject;
           }
           return project;
         }),
         currentId: null,
-        currentProject: null
+        currentProject: null,
+        clients: action.payload.newClient
+          ? [...state.clients, action.payload.newClient]
+          : state.clients
       };
     case DELETE_PROJECT_SUCCESS:
       return {

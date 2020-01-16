@@ -96,6 +96,7 @@ module.exports = {
   update: async (req, res) => {
     const projectId = req.params.id;
     const shopData = req.body;
+    let newClient;
 
     try {
       const project = await Project.findOne({
@@ -111,7 +112,7 @@ module.exports = {
         });
 
         if (!oldClient) {
-          const newClient = new Client({
+          newClient = new Client({
             name: shopData.newClient,
             user: req.user.id
           });
@@ -133,14 +134,14 @@ module.exports = {
         { ...shopData }
       );
 
-      const returnedData = await Project.find({
+      const updatedProject = await Project.findOne({
         _id: projectId,
         user: req.user.id
       })
         .populate("client")
         .select("client currency date payment projectNr _id");
 
-      res.status(200).json(returnedData[0]);
+      res.status(200).json({ updatedProject, newClient });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: err.message });
