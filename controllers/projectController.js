@@ -26,6 +26,7 @@ module.exports = {
   // @access    Private
   create: async (req, res) => {
     const projectData = req.body;
+    let newClient;
 
     try {
       if (projectData.newClient.length > 0) {
@@ -35,7 +36,7 @@ module.exports = {
         });
 
         if (!oldClient) {
-          const newClient = new Client({
+          newClient = new Client({
             name: projectData.newClient,
             user: req.user.id
           });
@@ -54,14 +55,14 @@ module.exports = {
       });
       await project.save();
 
-      const returnedData = await Project.find({
+      const newProject = await Project.findOne({
         _id: project._id,
         user: req.user.id
       })
         .populate("client")
         .select("client currency date payment projectNr _id");
-      // await Project.create({ ...shopData, user: req.user.id });
-      res.status(201).json(returnedData[0]);
+
+      res.status(201).json({ newProject: newProject, newClient: newClient });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: err.message });

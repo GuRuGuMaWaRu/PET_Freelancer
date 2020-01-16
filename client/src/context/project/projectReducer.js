@@ -21,19 +21,19 @@ export default (state, action) => {
         loadingProjects: false
       };
     case CREATE_PROJECT_SUCCESS:
+      const { newProject, newClient } = action.payload;
+
       return {
         ...state,
         projects: [
-          ...state.projects.filter(
-            project => project.date > action.payload.date
-          ),
-          action.payload,
+          ...state.projects.filter(project => project.date > newProject.date),
+          newProject,
           ...state.projects.filter(
             project =>
-              project.date < action.payload.date ||
-              project.date === action.payload.date
+              project.date < newProject.date || project.date === newProject.date
           )
-        ]
+        ],
+        clients: newClient ? [...state.clients, newClient] : state.clients
       };
     case SET_CURRENT_PROJECT_ID:
       return {
