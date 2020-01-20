@@ -65,26 +65,12 @@ const StyledButton = styled.button`
 const StyledSubmitButton = styled(StyledButton)`
   background-color: ${props => props.theme.mediumseagreen};
 `;
-const StyledCancelButton = styled(StyledButton)`
-  margin-right: 1rem;
-  background-color: ${props => props.theme.secondaryText};
-`;
 
-const ProjectForm = ({ history }) => {
+const AddProjectForm = ({ history }) => {
   const projectContext = useContext(ProjectContext);
   const alertContext = useContext(AlertContext);
 
-  const {
-    currentId,
-    clients,
-    loadingClients,
-    currentProject,
-    createProject,
-    updateProject,
-    clearCurrent,
-    getCurrent,
-    getClients
-  } = projectContext;
+  const { clients, loadingClients, createProject, getClients } = projectContext;
   const { showAlert } = alertContext;
 
   useEffect(() => {
@@ -92,50 +78,24 @@ const ProjectForm = ({ history }) => {
     if (loadingClients) {
       getClients();
     }
-    if (currentId) {
-      getCurrent(currentId);
-    }
-
-    return () => {
-      console.log("---ProjectForm: useEffect - clear on exit");
-      clearCurrent();
-      // if (currentProject) clearCurrent();
-    };
     // eslint-disable-next-line
   }, []);
 
   console.log("---ProjectForm: rendering...");
   console.log("---ProjectForm, loadingClients:", loadingClients);
-  console.log("---ProjectForm, currentProject:", currentProject);
   console.log("---ProjectForm, clients:", clients);
 
-  if (loadingClients || (currentId && !currentProject)) {
+  if (loadingClients) {
     return <Spinner />;
   }
 
-  let initialValues = {
+  const initialValues = {
     date: moment().format("YYYY-MM-DD"),
     client: "",
     newClient: "",
     projectNr: "",
     currency: "USD",
     payment: ""
-  };
-
-  if (currentProject) {
-    initialValues = {
-      date: moment(currentProject.date).format("YYYY-MM-DD"),
-      client: currentProject.client,
-      newClient: "",
-      projectNr: currentProject.projectNr,
-      currency: currentProject.currency,
-      payment: currentProject.payment
-    };
-  }
-
-  const handleCancel = () => {
-    clearCurrent();
-    history.push("/");
   };
 
   return (
@@ -156,29 +116,11 @@ const ProjectForm = ({ history }) => {
                 .name;
             }
 
-            // Handle editing
-            if (currentProject) {
-              const editedFields = {};
-
-              // Filter out only edited fields
-              for (let field in values) {
-                if (values[field] !== initialValues[field]) {
-                  editedFields[field] = values[field];
-                }
-              }
-
-              updateProject({ ...editedFields, _id: currentProject._id });
-              showAlert({
-                msg: `Edited project "${values.projectNr}" from ${client}`,
-                type: "info"
-              });
-            } else {
-              createProject(values);
-              showAlert({
-                msg: `Added new project "${values.projectNr}" from ${client}`,
-                type: "info"
-              });
-            }
+            createProject(values);
+            showAlert({
+              msg: `Added new project "${values.projectNr}" from ${client}`,
+              type: "info"
+            });
 
             actions.setSubmitting(false);
             history.push("/");
@@ -190,9 +132,7 @@ const ProjectForm = ({ history }) => {
         }}
         render={({ errors, status, touched, isSubmitting }) => (
           <StyledForm>
-            <StyledTitle>
-              {currentProject ? "Edit Project" : "Add Project"}
-            </StyledTitle>
+            <StyledTitle>Add Project</StyledTitle>
             <StyledFormGroup>
               <StyledLabel htmlFor="date">* Date:</StyledLabel>
               <StyledField type="date" name="date" />
@@ -234,13 +174,8 @@ const ProjectForm = ({ history }) => {
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
             <StyledActionButtons>
-              {currentProject && (
-                <StyledCancelButton type="button" onClick={handleCancel}>
-                  Cancel
-                </StyledCancelButton>
-              )}
               <StyledSubmitButton type="submit" disabled={isSubmitting}>
-                {currentProject ? "Update" : "Add"}
+                Add
               </StyledSubmitButton>
             </StyledActionButtons>
           </StyledForm>
@@ -250,8 +185,8 @@ const ProjectForm = ({ history }) => {
   );
 };
 
-ProjectForm.propTypes = {
+AddProjectForm.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-export default ProjectForm;
+export default AddProjectForm;
