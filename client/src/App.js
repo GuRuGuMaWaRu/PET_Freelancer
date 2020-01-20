@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Login from "./components/pages/Login";
 import Registration from "./components/pages/Registration";
-import ProjectForm from "./components/pages/ProjectForm";
+import AddProjectForm from './components/pages/AddProjectForm';
+import EditProjectForm from './components/pages/EditProjectForm';
 import ProjectList from "./components/pages/ProjectList";
 import NotFound from "./components/pages/NotFound";
 import Alerts from "./components/layout/Alerts";
@@ -133,8 +134,8 @@ const App = () => {
             {(alerts || error) && <Alerts />}
             <Switch>
               <PrivateRoute exact path="/" component={ProjectList} />
-              <PrivateRoute path="/add" component={ProjectForm} />
-              <PrivateRoute path="/edit" component={ProjectForm} />
+              <PrivateRoute path="/add" component={AddProjectForm} />
+              <PrivateRoute path="/edit" component={EditProjectForm} />
               <AuthRoute path="/login" component={Login} />
               <AuthRoute path="/registration" component={Registration} />
               <Route>
