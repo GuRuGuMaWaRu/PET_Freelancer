@@ -65,37 +65,64 @@ const StyledButton = styled.button`
 const StyledSubmitButton = styled(StyledButton)`
   background-color: ${props => props.theme.mediumseagreen};
 `;
+const StyledCancelButton = styled(StyledButton)`
+  margin-right: 1rem;
+  background-color: ${props => props.theme.secondaryText};
+`;
 
-const AddProjectForm = ({ history }) => {
+const EditProjectForm = ({ history }) => {
   const projectContext = useContext(ProjectContext);
   const alertContext = useContext(AlertContext);
 
-  const { clients, loadingClients, createProject, getClients } = projectContext;
+  const {
+    currentId,
+    clients,
+    loadingClients,
+    currentProject,
+    updateProject,
+    clearCurrent,
+    getCurrent,
+    getClients
+  } = projectContext;
   const { showAlert } = alertContext;
 
   useEffect(() => {
-    console.log("---AddProjectForm: useEffect");
+    console.log("---EditProjectForm: useEffect");
     if (loadingClients) {
       getClients();
     }
+    if (currentId) {
+      getCurrent(currentId);
+    }
+
+    return () => {
+      console.log("---EditProjectForm: useEffect - clear on exit");
+      clearCurrent();
+    };
     // eslint-disable-next-line
   }, []);
 
-  console.log("---AddProjectForm: rendering...");
-  console.log("---AddProjectForm, loadingClients:", loadingClients);
-  console.log("---AddProjectForm, clients:", clients);
+  console.log("---EditProjectForm: rendering...");
+  console.log("---EditProjectForm, loadingClients:", loadingClients);
+  console.log("---EditProjectForm, currentProject:", currentProject);
+  console.log("---EditProjectForm, clients:", clients);
 
-  if (loadingClients) {
+  if (loadingClients || (currentId && !currentProject)) {
     return <Spinner />;
   }
 
   const initialValues = {
-    date: moment().format("YYYY-MM-DD"),
-    client: "",
+    date: moment(currentProject.date).format("YYYY-MM-DD"),
+    client: currentProject.client,
     newClient: "",
-    projectNr: "",
-    currency: "USD",
-    payment: ""
+    projectNr: currentProject.projectNr,
+    currency: currentProject.currency,
+    payment: currentProject.payment
+  };
+
+  const handleCancel = () => {
+    clearCurrent();
+    history.push("/");
   };
 
   return (
@@ -116,9 +143,19 @@ const AddProjectForm = ({ history }) => {
                 .name;
             }
 
-            createProject(values);
+            // Handle editing
+            const editedFields = {};
+
+            // Filter out only edited fields
+            for (let field in values) {
+              if (values[field] !== initialValues[field]) {
+                editedFields[field] = values[field];
+              }
+            }
+
+            updateProject({ ...editedFields, _id: currentProject._id });
             showAlert({
-              msg: `Added new project "${values.projectNr}" from ${client}`,
+              msg: `Edited project "${values.projectNr}" from ${client}`,
               type: "info"
             });
 
@@ -132,7 +169,9 @@ const AddProjectForm = ({ history }) => {
         }}
         render={({ errors, status, touched, isSubmitting }) => (
           <StyledForm>
-            <StyledTitle>Add Project</StyledTitle>
+            <StyledTitle>
+              {currentProject ? "Edit Project" : "Add Project"}
+            </StyledTitle>
             <StyledFormGroup>
               <StyledLabel htmlFor="date">* Date:</StyledLabel>
               <StyledField type="date" name="date" />
@@ -174,8 +213,12 @@ const AddProjectForm = ({ history }) => {
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
             <StyledActionButtons>
+              <StyledCancelButton type="button" onClick={handleCancel}>
+                Cancel
+              </StyledCancelButton>
+
               <StyledSubmitButton type="submit" disabled={isSubmitting}>
-                Add
+                Update
               </StyledSubmitButton>
             </StyledActionButtons>
           </StyledForm>
@@ -185,8 +228,8 @@ const AddProjectForm = ({ history }) => {
   );
 };
 
-AddProjectForm.propTypes = {
+EditProjectForm.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-export default AddProjectForm;
+export default EditProjectForm;
