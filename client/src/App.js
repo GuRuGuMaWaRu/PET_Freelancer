@@ -5,8 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import Login from "./components/pages/Login";
 import Registration from "./components/pages/Registration";
-import AddProjectForm from './components/pages/AddProjectForm';
-import EditProjectForm from './components/pages/EditProjectForm';
+import AddProjectForm from "./components/pages/AddProjectForm";
+import EditProjectForm from "./components/pages/EditProjectForm";
 import ProjectList from "./components/pages/ProjectList";
 import NotFound from "./components/pages/NotFound";
 import Alerts from "./components/layout/Alerts";
@@ -33,6 +33,11 @@ const theme = {
   mediumseagreen: "mediumseagreen"
 };
 const GlobalStyle = createGlobalStyle`
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
   body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;

@@ -3,7 +3,7 @@ import { Form, Field, ErrorMessage } from "formik";
 
 export const StyledForm = styled(Form)`
   padding: 1rem 2rem;
-  margin: 0 20%;
+  ${"" /* margin: 0 20%; */}
 `;
 export const StyledTitle = styled.h1`
   font-size: 2.5rem;
@@ -23,6 +23,7 @@ export const StyledLabel = styled.label`
   margin-right: 0.5rem;
 `;
 export const StyledField = styled(Field)`
+  max-width: 300px;
   padding: 0.2rem;
 `;
 export const StyledErrorMessage = styled(ErrorMessage)`
