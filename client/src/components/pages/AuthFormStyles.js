@@ -22,6 +22,7 @@ export const StyledLabel = styled.label`
   margin-right: 0.5rem;
 `;
 export const StyledField = styled(Field)`
+  max-width: 300px;
   padding: 0.2rem;
 `;
 export const StyledErrorMessage = styled(ErrorMessage)`

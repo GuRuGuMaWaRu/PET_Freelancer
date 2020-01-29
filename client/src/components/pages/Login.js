@@ -3,7 +3,6 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 
 import AuthContext from "../../context/auth/authContext";
-import ProjectContext from "../../context/project/projectContext";
 import {
   StyledForm,
   StyledTitle,
@@ -22,9 +21,7 @@ const formSchema = Yup.object().shape({
 
 const Login = () => {
   const authContext = useContext(AuthContext);
-  const projectContext = useContext(ProjectContext);
-  const { loginUser, setLoadingUser } = authContext;
-  const { getProjects } = projectContext;
+  const { loginUser } = authContext;
 
   console.log("---Login: rendering...");
   return (
@@ -36,9 +33,7 @@ const Login = () => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
-          // setLoadingUser(true);
           loginUser(values);
-          // getProjects();
 
           actions.setSubmitting(false);
         } catch (err) {
