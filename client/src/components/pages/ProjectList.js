@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Spinner from "../layout/Spinner";
 import ProjectContext from "../../context/project/projectContext";
@@ -26,10 +27,9 @@ const StyledProjectControls = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const StyledIcon = styled.i`
-  font-size: 1.2rem;
-  padding: 0.5rem;
+const StyledIcon = styled(FontAwesomeIcon)`
   margin-right: 2rem;
+  margin-bottom: 1rem;
   color: ${props => props.theme.secondaryText};
   cursor: pointer;
   transition: 0.2s color;
@@ -102,11 +102,11 @@ const ProjectList = () => {
             <StyledProjectControls>
               <StyledDeleteIcon
                 onClick={() => setDelete(project._id)}
-                className="far fa-trash-alt"
+                icon="trash-alt"
               ></StyledDeleteIcon>
               <StyledEditIcon
                 onClick={() => handleSetEditProject(project._id)}
-                className="fas fa-pencil-alt"
+                icon="pen"
               ></StyledEditIcon>
             </StyledProjectControls>
           </StyledProject>

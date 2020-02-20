@@ -1,6 +1,8 @@
 import React, { Fragment, useEffect, useContext } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faPen, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "./components/layout/Navbar";
 import Login from "./components/pages/Login";
@@ -96,6 +98,8 @@ const StyledContainer = styled.div`
   color: {$props => props.theme.primaryText};
   background-color: ${props => props.theme.container};
 `;
+
+library.add(faPen, faTrashAlt);
 
 const App = () => {
   const projectContext = useContext(ProjectContext);
