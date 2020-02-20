@@ -25,11 +25,12 @@ const StyledProjectDetails = styled.div`
 `;
 const StyledProjectControls = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-around;
+  align-self: flex-end;
 `;
 const StyledIcon = styled(FontAwesomeIcon)`
-  margin-right: 2rem;
-  margin-bottom: 1rem;
+  margin-right: 1.4rem;
   color: ${props => props.theme.secondaryText};
   cursor: pointer;
   transition: 0.2s color;

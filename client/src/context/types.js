@@ -1,4 +1,4 @@
-// genetal
+// general
 export const ERROR = "ERROR";
 
 // project
