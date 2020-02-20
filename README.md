@@ -10,6 +10,6 @@ X ProjectForm does not load current project properly (always shows the previous 
 X Double rerendering when entering Edit Form
 X CANCEL button (Project Form) not working
 X Deploy to Heroku
+X Login alert/error message on wrong credentials
 
-- Login alert/error message on wrong credentials
 - Replace FontAwesome inline with FontAwesome react version
