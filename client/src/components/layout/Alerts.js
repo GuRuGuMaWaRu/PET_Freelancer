@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 
 import AlertContext from "../../context/alert/alertContext";
@@ -34,6 +34,15 @@ const Alerts = () => {
 
   const { alert, closeAlert } = alertContext;
   const { error, hideError } = authContext;
+
+  useEffect(() => {
+    console.log("Alerts---useEffect");
+    let timer = setTimeout(() => console.log("bam!"), 5000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   if (error) {
     return (
