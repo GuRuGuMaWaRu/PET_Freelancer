@@ -93,7 +93,7 @@ const AuthState = props => {
       localStorage.setItem("freelancer_token", res.data.token);
       dispatch({ type: GET_USER, payload: res.data });
     } catch (err) {
-      localStorage.removeItem("freelancer_token");
+      // localStorage.removeItem("freelancer_token");
       console.log("Error:", err.message);
       dispatch({
         type: AUTH_ERROR,
