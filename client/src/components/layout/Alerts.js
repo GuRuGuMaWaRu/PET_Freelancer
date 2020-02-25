@@ -37,11 +37,19 @@ const Alerts = () => {
 
   useEffect(() => {
     console.log("Alerts---useEffect");
-    let timer = setTimeout(() => console.log("bam!"), 5000);
+    let timer = setTimeout(() => {
+      if (error) {
+        hideError();
+      } else {
+        closeAlert();
+      }
+    }, 3000);
 
     return () => {
       clearTimeout(timer);
     };
+
+    // eslint-disable-next-line
   }, []);
 
   if (error) {

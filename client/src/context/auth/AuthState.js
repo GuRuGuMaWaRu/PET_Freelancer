@@ -11,7 +11,6 @@ import {
   SET_LOADING,
   AUTH_ERROR,
   LOGIN_ERROR,
-  HIDE_AUTH_ERROR,
   HIDE_LOGIN_ERROR
 } from "../types";
 
