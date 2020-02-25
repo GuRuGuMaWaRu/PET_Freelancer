@@ -1,4 +1,4 @@
-// genetal
+// general
 export const ERROR = "ERROR";
 
 // project
@@ -17,6 +17,7 @@ export const CLEAR_PROJECT_DATA = "CLEAR_PROJECT_DATA";
 // alert
 export const SHOW_ALERT = "SHOW_ALERT";
 export const HIDE_ALERT = "HIDE_ALERT";
+export const CLOSE_ALERT = "CLOSE_ALERT";
 
 // auth
 export const REGISTER = "REGISTER";

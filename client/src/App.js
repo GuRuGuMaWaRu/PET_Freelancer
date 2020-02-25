@@ -107,7 +107,7 @@ const App = () => {
   const authContext = useContext(AuthContext);
 
   const { deleteId, closeModal } = projectContext;
-  const { alerts } = alertContext;
+  const { alert } = alertContext;
   const { error, getUser, setLoadingUser } = authContext;
 
   useEffect(() => {
@@ -140,7 +140,7 @@ const App = () => {
             <Navbar />
           </StyledTitleBar>
           <StyledContainer>
-            {(alerts || error) && <Alerts />}
+            {(alert || error) && <Alerts />}
             <Switch>
               <PrivateRoute exact path="/" component={ProjectList} />
               <PrivateRoute path="/add" component={AddProjectForm} />

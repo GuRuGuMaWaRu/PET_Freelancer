@@ -1,4 +1,4 @@
-import React, { Fragment, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 
 import AlertContext from "../../context/alert/alertContext";
@@ -32,8 +32,25 @@ const Alerts = () => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
-  const { alerts, hideAlert } = alertContext;
+  const { alert, closeAlert } = alertContext;
   const { error, hideError } = authContext;
+
+  useEffect(() => {
+    console.log("Alerts---useEffect");
+    let timer = setTimeout(() => {
+      if (error) {
+        hideError();
+      } else {
+        closeAlert();
+      }
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+
+    // eslint-disable-next-line
+  }, []);
 
   if (error) {
     return (
@@ -48,22 +65,25 @@ const Alerts = () => {
     );
   }
 
-  const alertList = alerts.map(alert => (
-    <StyledAlert key={alert.id}>
-      {alert.type === "info" ? (
-        <StyledTypeIcon className="fas fa-info-circle"></StyledTypeIcon>
-      ) : (
-        <StyledTypeIcon className="fas fa-exclamation-circle"></StyledTypeIcon>
-      )}
-      <p>{alert.msg}</p>
-      <StyledCloseIcon
-        onClick={() => hideAlert(alert.id)}
-        className="far fa-times-circle"
-      ></StyledCloseIcon>
-    </StyledAlert>
-  ));
+  if (alert) {
+    console.log("alert:", alert);
+    return (
+      <StyledAlert>
+        {alert.type === "info" ? (
+          <StyledTypeIcon className="fas fa-info-circle"></StyledTypeIcon>
+        ) : (
+          <StyledTypeIcon className="fas fa-exclamation-circle"></StyledTypeIcon>
+        )}
+        <p>{alert.msg}</p>
+        <StyledCloseIcon
+          onClick={closeAlert}
+          className="far fa-times-circle"
+        ></StyledCloseIcon>
+      </StyledAlert>
+    );
+  }
 
-  return <Fragment>{alertList}</Fragment>;
+  return null;
 };
 
 export default Alerts;
