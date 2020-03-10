@@ -6,6 +6,7 @@ import { SHOW_ALERT, CLOSE_ALERT } from "../types";
 
 const AlertState = props => {
   const initialState = {
+    alertShowing: false,
     alert: null
   };
 
@@ -20,12 +21,18 @@ const AlertState = props => {
 
   // Close alert
   const closeAlert = () => {
+    console.log("AlertState --- closeAlert");
     dispatch({ type: CLOSE_ALERT });
   };
 
   return (
     <AlertContext.Provider
-      value={{ alert: state.alert, showAlert, closeAlert }}
+      value={{
+        alertShowing: state.alertShowing,
+        alert: state.alert,
+        showAlert,
+        closeAlert
+      }}
     >
       {props.children}
     </AlertContext.Provider>

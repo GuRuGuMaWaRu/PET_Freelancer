@@ -7,11 +7,13 @@ export default (state, action) => {
     case SHOW_ALERT:
       return {
         ...state,
+        alertShowing: true,
         alert: action.payload
       };
     case CLOSE_ALERT:
       return {
         ...state,
+        alertShowing: false,
         alert: null
       };
     default:

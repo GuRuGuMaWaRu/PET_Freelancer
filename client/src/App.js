@@ -11,14 +11,13 @@ import AddProjectForm from "./components/pages/AddProjectForm";
 import EditProjectForm from "./components/pages/EditProjectForm";
 import ProjectList from "./components/pages/ProjectList";
 import NotFound from "./components/pages/NotFound";
-import Alerts from "./components/layout/Alerts";
+import Alert from "./components/layout/Alert";
 import DeleteDialogue from "./components/layout/DeleteDialogue";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import AuthRoute from "./components/routing/AuthRoute";
 import setAuthToken from "./utils/setAuthToken";
 
 import ProjectContext from "./context/project/projectContext";
-import AlertContext from "./context/alert/alertContext";
 import AuthContext from "./context/auth/authContext";
 
 const theme = {
@@ -103,11 +102,9 @@ library.add(faPen, faTrashAlt);
 
 const App = () => {
   const projectContext = useContext(ProjectContext);
-  const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
   const { deleteId, closeModal } = projectContext;
-  const { alert } = alertContext;
   const { error, getUser, setLoadingUser } = authContext;
 
   useEffect(() => {
@@ -140,7 +137,7 @@ const App = () => {
             <Navbar />
           </StyledTitleBar>
           <StyledContainer>
-            {(alert || error) && <Alerts />}
+            <Alert />
             <Switch>
               <PrivateRoute exact path="/" component={ProjectList} />
               <PrivateRoute path="/add" component={AddProjectForm} />
