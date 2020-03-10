@@ -13,8 +13,7 @@ export default (state, action) => {
     case CLOSE_ALERT:
       return {
         ...state,
-        alertShowing: false,
-        alert: null
+        alertShowing: false
       };
     default:
       return state;

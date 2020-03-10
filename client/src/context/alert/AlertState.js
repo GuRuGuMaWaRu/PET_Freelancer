@@ -7,7 +7,7 @@ import { SHOW_ALERT, CLOSE_ALERT } from "../types";
 const AlertState = props => {
   const initialState = {
     alertShowing: false,
-    alert: null
+    alert: { msg: "", type: "" }
   };
 
   const [state, dispatch] = useReducer(alertReducer, initialState);
