@@ -117,7 +117,7 @@ const App = () => {
   const authContext = useContext(AuthContext);
 
   const { deleteId, closeModal } = projectContext;
-  const { error, getUser, setLoadingUser } = authContext;
+  const { getUser, setLoadingUser } = authContext;
 
   useEffect(() => {
     console.log("---App: useEffect");
