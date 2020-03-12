@@ -32,7 +32,7 @@ const AddProjectForm = ({ history }) => {
   const alertContext = useContext(AlertContext);
 
   const { clients, loadingClients, createProject, getClients } = projectContext;
-  const { showAlert } = alertContext;
+  const { addAlert } = alertContext;
 
   useEffect(() => {
     console.log("---AddProjectForm: useEffect");
@@ -78,7 +78,7 @@ const AddProjectForm = ({ history }) => {
             }
 
             createProject(values);
-            showAlert({
+            addAlert({
               msg: `Added new project "${values.projectNr}" from ${client}`,
               type: "info"
             });

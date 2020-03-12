@@ -43,11 +43,11 @@ const DeleteDialogue = () => {
   const alertContext = useContext(AlertContext);
 
   const { deleteId, deleteProject, closeModal } = projectContext;
-  const { showAlert } = alertContext;
+  const { addAlert } = alertContext;
 
   const handleDelete = async () => {
     deleteProject(deleteId);
-    showAlert({
+    addAlert({
       msg: "Deleted a project",
       type: "info"
     });

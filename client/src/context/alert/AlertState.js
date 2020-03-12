@@ -2,30 +2,35 @@ import React, { useReducer } from "react";
 
 import AlertContext from "./alertContext";
 import alertReducer from "./alertReducer";
-import { SHOW_ALERT, CLOSE_ALERT } from "../types";
+import { ADD_ALERT, REMOVE_ALERT } from "../types";
 
 const AlertState = props => {
   const initialState = {
-    alert: null
+    alerts: []
   };
 
   const [state, dispatch] = useReducer(alertReducer, initialState);
 
-  // Show alert
-  const showAlert = alert => {
-    console.log("AlertState --- showAlert");
+  // Add alert
+  const addAlert = alert => {
+    console.log("AlertState --- addAlert");
     console.log(alert);
-    dispatch({ type: SHOW_ALERT, payload: alert });
+    dispatch({ type: ADD_ALERT, payload: alert });
   };
 
-  // Close alert
-  const closeAlert = () => {
-    dispatch({ type: CLOSE_ALERT });
+  // Remove alert
+  const removeAlert = id => {
+    console.log("AlertState --- removeAlert");
+    dispatch({ type: REMOVE_ALERT, payload: id });
   };
 
   return (
     <AlertContext.Provider
-      value={{ alert: state.alert, showAlert, closeAlert }}
+      value={{
+        alerts: state.alerts,
+        addAlert,
+        removeAlert
+      }}
     >
       {props.children}
     </AlertContext.Provider>

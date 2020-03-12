@@ -1,18 +1,18 @@
-// import uuidv1 from "uuid/v1";
-import { SHOW_ALERT, CLOSE_ALERT, ERROR } from "../types";
+import uuid from "uuid";
+import { ADD_ALERT, REMOVE_ALERT, ERROR } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
     case ERROR:
-    case SHOW_ALERT:
+    case ADD_ALERT:
       return {
         ...state,
-        alert: action.payload
+        alerts: [...state.alerts, { id: uuid(), ...action.payload }]
       };
-    case CLOSE_ALERT:
+    case REMOVE_ALERT:
       return {
         ...state,
-        alert: null
+        alerts: state.alerts.filter(alert => alert.id !== action.payload)
       };
     default:
       return state;

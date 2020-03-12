@@ -2,7 +2,13 @@ import React, { Fragment, useEffect, useContext } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPen, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPen,
+  faTrashAlt,
+  faInfoCircle,
+  faExclamationCircle,
+  faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "./components/layout/Navbar";
 import Login from "./components/pages/Login";
@@ -18,7 +24,6 @@ import AuthRoute from "./components/routing/AuthRoute";
 import setAuthToken from "./utils/setAuthToken";
 
 import ProjectContext from "./context/project/projectContext";
-import AlertContext from "./context/alert/alertContext";
 import AuthContext from "./context/auth/authContext";
 
 const theme = {
@@ -99,16 +104,20 @@ const StyledContainer = styled.div`
   background-color: ${props => props.theme.container};
 `;
 
-library.add(faPen, faTrashAlt);
+library.add(
+  faPen,
+  faTrashAlt,
+  faInfoCircle,
+  faExclamationCircle,
+  faTimesCircle
+);
 
 const App = () => {
   const projectContext = useContext(ProjectContext);
-  const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
 
   const { deleteId, closeModal } = projectContext;
-  const { alert } = alertContext;
-  const { error, getUser, setLoadingUser } = authContext;
+  const { getUser, setLoadingUser } = authContext;
 
   useEffect(() => {
     console.log("---App: useEffect");
@@ -140,7 +149,7 @@ const App = () => {
             <Navbar />
           </StyledTitleBar>
           <StyledContainer>
-            {(alert || error) && <Alerts />}
+            <Alerts />
             <Switch>
               <PrivateRoute exact path="/" component={ProjectList} />
               <PrivateRoute path="/add" component={AddProjectForm} />
