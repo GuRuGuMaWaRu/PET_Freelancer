@@ -7,13 +7,12 @@ export default (state, action) => {
     case ADD_ALERT:
       return {
         ...state,
-        alertShowing: true,
-        alert: action.payload
+        alerts: [...state.alerts, { id: uuid(), ...action.payload }]
       };
     case REMOVE_ALERT:
       return {
         ...state,
-        alertShowing: false
+        alerts: state.alerts.filter(alert => alert.id !== action.payload)
       };
     default:
       return state;

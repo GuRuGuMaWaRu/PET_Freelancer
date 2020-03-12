@@ -5,6 +5,7 @@ import {
   Transition,
   CSSTransition
 } from "react-transition-group";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import AlertContext from "../../context/alert/alertContext";
 // import AuthContext from "../../context/auth/authContext";
@@ -18,10 +19,15 @@ const fadeIn = keyframes`
   }
 `;
 
-const StyledAlert = styled.div`
+const AlertList = styled.div`
+  display: flex;
+  flex-direction: column;
   position: absolute;
   width: 80%;
-  top: ${({ state }) => {
+  top: 80px;
+`;
+const StyledAlert = styled.div`
+  ${"" /* top: ${({ state }) => {
     switch (state) {
       case "entering":
         return "80px";
@@ -34,7 +40,7 @@ const StyledAlert = styled.div`
       default:
         return "-150px";
     }
-  }};
+  }}; */}
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -42,15 +48,15 @@ const StyledAlert = styled.div`
   padding: 1rem;
   border: 8px solid ${props => props.theme.lightPrimary};
   border-radius: 8px;
-  margin-bottom: 4px;
+  ${"" /* margin-bottom: 4px; */}
   background-color: #fff;
   transition: ${({ duration }) => `top ${duration}ms ease-in-out`};
 `;
-const StyledTypeIcon = styled.i`
+const StyledTypeIcon = styled(FontAwesomeIcon)`
   font-size: 2rem;
   color: ${props => props.theme.lightPrimary};
 `;
-const StyledCloseIcon = styled.i`
+const StyledCloseIcon = styled(FontAwesomeIcon)`
   font-size: 1.4rem;
   cursor: pointer;
   &:hover {
@@ -58,20 +64,47 @@ const StyledCloseIcon = styled.i`
   }
 `;
 
-const duration = 300;
+const duration = 500;
 
 const Alert = () => {
   const alertContext = useContext(AlertContext);
   // const authContext = useContext(AuthContext);
 
-  const { alerts, alertShowing, removeAlert } = alertContext;
+  const { alerts, removeAlert } = alertContext;
   // const { error, hideError } = authContext;
 
   return (
-    <Transition in={alertShowing} timeout={duration}>
+    <TransitionGroup component={AlertList}>
+      {alerts.map(({ id, msg, type }) => (
+        <Transition key={id} timeout={duration}>
+          {state => (
+            <StyledAlert state={state} duration={duration}>
+              {type === "info" ? (
+                <StyledTypeIcon icon="info-circle"></StyledTypeIcon>
+              ) : (
+                <StyledTypeIcon icon="exclamation-circle"></StyledTypeIcon>
+              )}
+              <p>{msg}</p>
+              <StyledCloseIcon
+                onClick={() => removeAlert(id)}
+                state={state}
+                duration={duration}
+                icon="times-circle"
+              ></StyledCloseIcon>
+            </StyledAlert>
+          )}
+        </Transition>
+      ))}
+    </TransitionGroup>
+  );
+
+  return (
+    <Transition in={alerts.length > 1} timeout={duration}>
       {state => {
         //=== need to run this command only when alert is showing
-        if (alertShowing) setTimeout(removeAlert, 4000);
+        {
+          /* if (alertShowing) setTimeout(removeAlert, 4000); */
+        }
 
         return (
           <StyledAlert state={state} duration={duration}>

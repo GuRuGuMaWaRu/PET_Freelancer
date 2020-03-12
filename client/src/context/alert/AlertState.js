@@ -6,7 +6,6 @@ import { ADD_ALERT, REMOVE_ALERT } from "../types";
 
 const AlertState = props => {
   const initialState = {
-    alertShowing: false,
     alerts: []
   };
 
@@ -22,13 +21,12 @@ const AlertState = props => {
   // Remove alert
   const removeAlert = id => {
     console.log("AlertState --- removeAlert");
-    dispatch({ type: REMOVE_ALERT });
+    dispatch({ type: REMOVE_ALERT, payload: id });
   };
 
   return (
     <AlertContext.Provider
       value={{
-        alertShowing: state.alertShowing,
         alerts: state.alerts,
         addAlert,
         removeAlert
