@@ -15,9 +15,8 @@ export const GET_CLIENTS_SUCCESS = "GET_CLIENTS_SUCCESS";
 export const CLEAR_PROJECT_DATA = "CLEAR_PROJECT_DATA";
 
 // alert
-export const SHOW_ALERT = "SHOW_ALERT";
-export const HIDE_ALERT = "HIDE_ALERT";
-export const CLOSE_ALERT = "CLOSE_ALERT";
+export const ADD_ALERT = "ADD_ALERT";
+export const REMOVE_ALERT = "REMOVE_ALERT";
 
 // auth
 export const REGISTER = "REGISTER";

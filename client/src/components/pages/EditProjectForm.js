@@ -42,7 +42,7 @@ const EditProjectForm = ({ history }) => {
     getCurrent,
     getClients
   } = projectContext;
-  const { showAlert } = alertContext;
+  const { addAlert } = alertContext;
 
   useEffect(() => {
     console.log("---EditProjectForm: useEffect");
@@ -112,7 +112,7 @@ const EditProjectForm = ({ history }) => {
             }
 
             updateProject({ ...editedFields, _id: currentProject._id });
-            showAlert({
+            addAlert({
               msg: `Edited project "${values.projectNr}" from ${client}`,
               type: "info"
             });
