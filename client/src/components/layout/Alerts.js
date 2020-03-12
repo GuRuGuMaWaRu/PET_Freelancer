@@ -10,15 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AlertContext from "../../context/alert/alertContext";
 // import AuthContext from "../../context/auth/authContext";
 
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
 const AlertList = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,20 +18,6 @@ const AlertList = styled.div`
   top: 80px;
 `;
 const StyledAlert = styled.div`
-  ${"" /* top: ${({ state }) => {
-    switch (state) {
-      case "entering":
-        return "80px";
-      case "entered":
-        return "80px";
-      case "exiting":
-        return "-150px";
-      case "exited":
-        return "-150px";
-      default:
-        return "-150px";
-    }
-  }}; */}
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -48,9 +25,22 @@ const StyledAlert = styled.div`
   padding: 1rem;
   border: 8px solid ${props => props.theme.lightPrimary};
   border-radius: 8px;
-  ${"" /* margin-bottom: 4px; */}
   background-color: #fff;
-  transition: ${({ duration }) => `top ${duration}ms ease-in-out`};
+  opacity: ${({ state }) => {
+    switch (state) {
+      case "entering":
+        return 0;
+      case "entered":
+        return 1;
+      case "exiting":
+        return 0;
+      case "exited":
+        return 0;
+      default:
+        return 0;
+    }
+  }}
+  transition: ${({ duration }) => `opacity ${duration}ms ease-in-out`};
 `;
 const StyledTypeIcon = styled(FontAwesomeIcon)`
   font-size: 2rem;
