@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 
 const AppError = require("./utils/AppError");
+const globalErrorHandler = require("./controllers/errorController");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const clientsRouter = require("./routes/clients");
@@ -70,15 +71,7 @@ app.all("*", (req, res, next) => {
 });
 
 // Handle all errors
-app.use((err, req, res, next) => {
-  err.statusCode = err.statusCode || 500;
-  err.status = err.status || "error";
-
-  res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message
-  });
-});
+app.use(globalErrorHandler);
 
 // Connect to server
 const PORT = process.env.PORT || 6000;
