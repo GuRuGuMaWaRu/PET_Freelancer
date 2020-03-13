@@ -149,7 +149,7 @@ exports.updateProject = async (req, res) => {
 // @route     DELETE projects/:id
 // @desc      Delete a project
 // @access    Private
-exports.gdeleteProject = async (req, res) => {
+exports.deleteProject = async (req, res) => {
   const projectId = req.params.id;
 
   try {

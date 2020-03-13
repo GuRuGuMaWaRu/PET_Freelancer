@@ -7,6 +7,6 @@ const clientController = require("../controllers/clientController");
 // @route     GET clients/
 // @desc      Get all clients
 // @access    Private
-router.get("/", auth, clientController.index);
+router.get("/", auth, clientController.getAllClients);
 
 module.exports = router;

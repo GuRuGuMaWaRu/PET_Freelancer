@@ -19,7 +19,7 @@ router.post(
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 })
   ],
-  userController.register
+  userController.registerUser
 );
 
 module.exports = router;
