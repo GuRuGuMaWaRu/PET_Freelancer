@@ -64,9 +64,15 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Handle 404 errors
-app.use((req, res) => {
-  res.status(404).json({ msg: "Not found!" });
+app.all("*", (req, res, next) => {
+  const err = new Error(`Cannot find ${req.originalUrl} on this server`);
+
+  err.status = "fail";
+  err.statusCode = 404;
+
+  next(err);
 });
+
 // Handle other errors
 app.use((err, req, res) => {
   console.log("Error:", err.message);
