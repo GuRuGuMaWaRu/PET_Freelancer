@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 
 const User = require("../models/User");
+const catchAsync = require("../utils/catchAsync");
 
 // @route     POST users/
 // @desc      Register a user
@@ -12,12 +13,12 @@ exports.registerUser = async (req, res) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    console.error(errors);
     return res.status(422).json({ errors: errors.array() });
   }
 
-  const { name, email, password1 } = req.body;
   try {
+    const { name, email, password1 } = req.body;
+
     let user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ msg: "User already exists" });
@@ -50,7 +51,6 @@ exports.registerUser = async (req, res) => {
       }
     );
   } catch (err) {
-    console.error(err.message);
     res.status(500).json({ error: err.message });
   }
 };

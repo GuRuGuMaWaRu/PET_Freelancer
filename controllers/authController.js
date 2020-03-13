@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { validationResult } = require("express-validator");
 
 const User = require("../models/User");
+const catchAsync = require("../utils/catchAsync");
 
 // @route     POST api/auth
 // @desc      Log in user
@@ -14,10 +15,9 @@ exports.loginUser = async (req, res) => {
     return res.status(422).json({ errors: errors.array() });
   }
 
-  const { email, password } = req.body;
-
   try {
-    let user = await User.findOne({ email });
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({ error: "Invalid credentials" });
@@ -45,38 +45,29 @@ exports.loginUser = async (req, res) => {
       }
     );
   } catch (err) {
-    console.error(err.message);
     res.status(500).json({ error: err.message });
   }
 };
 // @route     GET api/auth
 // @desc      Get logged in user
 // @access    Private
-exports.getUser = async (req, res) => {
-  console.log("Auth controller: before try-catch");
-  try {
-    const user = await User.findById(req.user.id).select("-password");
+exports.getUser = catchAsync(async (req, res) => {
+  const user = await User.findById(req.user.id).select("-password");
 
-    console.log("Auth controller: got user:", user);
+  // Get new token
+  const payload = {
+    user: {
+      id: user._id
+    }
+  };
 
-    // Get new token
-    const payload = {
-      user: {
-        id: user._id
-      }
-    };
-
-    jwt.sign(
-      payload,
-      process.env.JWTSECRET,
-      { expiresIn: 36000 },
-      (err, token) => {
-        if (err) throw err;
-        res.status(200).json({ user, token });
-      }
-    );
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ error: err.message });
-  }
-};
+  jwt.sign(
+    payload,
+    process.env.JWTSECRET,
+    { expiresIn: 36000 },
+    (err, token) => {
+      if (err) throw err;
+      res.status(200).json({ user, token });
+    }
+  );
+});
