@@ -4,7 +4,7 @@ class AppError extends Error {
 
     this.statusCode = statusCode;
     this.status = `${statusCode}`.startsWith("4") ? "fail" : "error";
-    this.isOperational = true;
+    this.isOperational = true; // errors we can predict (user not providing required fields)
 
     Error.captureStackTrace(this, this.constructor);
   }

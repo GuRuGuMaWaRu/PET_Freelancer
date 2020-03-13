@@ -3,6 +3,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 
+const AppError = require("./utils/AppError");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const clientsRouter = require("./routes/clients");
@@ -48,12 +49,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Set up routes
-app.use("/users", usersRouter);
-app.use("/auth", authRouter);
-app.use("/projects", projectsRouter);
-app.use("/clients", clientsRouter);
-
 // Heroku deployment --- serve static assets in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
@@ -63,18 +58,19 @@ if (process.env.NODE_ENV === "production") {
   );
 }
 
+// Set up routes
+app.use("/users", usersRouter);
+app.use("/auth", authRouter);
+app.use("/projects", projectsRouter);
+app.use("/clients", clientsRouter);
+
 // Handle 404 errors
 app.all("*", (req, res, next) => {
-  const err = new Error(`Cannot find ${req.originalUrl} on this server`);
-
-  err.status = "fail";
-  err.statusCode = 404;
-
-  next(err);
+  next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
 });
 
 // Handle all errors
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
 
