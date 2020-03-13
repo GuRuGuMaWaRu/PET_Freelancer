@@ -73,12 +73,15 @@ app.all("*", (req, res, next) => {
   next(err);
 });
 
-// Handle other errors
+// Handle all errors
 app.use((err, req, res) => {
-  console.log("Error:", err.message);
-  res
-    .status(err.status || 500)
-    .json({ msg: err.message || "There was an error" });
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || "error";
+
+  res.status(err.statusCode).json({
+    status: err.status,
+    message: err.message
+  });
 });
 
 // Connect to server
