@@ -5,7 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 // @route     GET projects/
 // @desc      Get all projects
 // @access    Private
-exports.getAllProjects = catchAsync(async (req, res) => {
+exports.getAllProjects = catchAsync(async (req, res, next) => {
   const projects = await Project.find({
     deleted: { $ne: true },
     user: req.user.id
@@ -20,7 +20,7 @@ exports.getAllProjects = catchAsync(async (req, res) => {
 // @route     POST projects/
 // @desc      Save a new project
 // @access    Private
-exports.createProject = catchAsync(async (req, res) => {
+exports.createProject = catchAsync(async (req, res, next) => {
   const projectData = req.body;
   let newClient;
 
@@ -63,7 +63,7 @@ exports.createProject = catchAsync(async (req, res) => {
 // @route     GET projects/:id
 // @desc      Get a project
 // @access    Private
-exports.getProject = catchAsync(async (req, res) => {
+exports.getProject = catchAsync(async (req, res, next) => {
   const projectId = req.params.id;
 
   const project = await Project.findOne({
@@ -81,7 +81,7 @@ exports.getProject = catchAsync(async (req, res) => {
 // @route     PATCH projects/:id
 // @desc      Update a project
 // @access    Private
-exports.updateProject = catchAsync(async (req, res) => {
+exports.updateProject = catchAsync(async (req, res, next) => {
   const projectId = req.params.id;
   const shopData = req.body;
   let newClient;
@@ -134,7 +134,7 @@ exports.updateProject = catchAsync(async (req, res) => {
 // @route     DELETE projects/:id
 // @desc      Delete a project
 // @access    Private
-exports.deleteProject = catchAsync(async (req, res) => {
+exports.deleteProject = catchAsync(async (req, res, next) => {
   const projectId = req.params.id;
 
   const project = await Project.findOne({

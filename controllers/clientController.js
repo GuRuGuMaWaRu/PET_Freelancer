@@ -1,16 +1,12 @@
 const Client = require("../models/Client");
+const catchAsync = require("../utils/catchAsync");
 
 // @route     GET clients/
 // @desc      Get all clients
 // @access    Private
-exports.getAllClients = async (req, res) => {
-  try {
-    const clients = await Client.find({ user: req.user.id }).sort({
-      name: 1
-    });
-    res.status(200).json(clients);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
-};
+exports.getAllClients = catchAsync(async (req, res, next) => {
+  const clients = await Client.find({ user: req.user.id }).sort({
+    name: 1
+  });
+  res.status(200).json(clients);
+});
