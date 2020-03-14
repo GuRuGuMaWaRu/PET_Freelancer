@@ -1,6 +1,7 @@
 const Client = require("../models/Client");
 const Project = require("../models/Project");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/AppError");
 
 // @route     GET projects/
 // @desc      Get all projects
@@ -72,7 +73,7 @@ exports.getProject = catchAsync(async (req, res, next) => {
   }).select("client currency date payment projectNr _id");
 
   if (!project) {
-    res.status(404).json({ error: "Project with this ID is not found" });
+    return next(new AppError("No project found with this ID", 404));
   }
 
   res.status(200).json(project);
@@ -113,7 +114,7 @@ exports.updateProject = catchAsync(async (req, res, next) => {
   }
 
   if (!project) {
-    res.status(404).json({ error: "Project with this ID is not found" });
+    return next(new AppError("No project found with this ID", 404));
   }
 
   await Project.findOneAndUpdate(
@@ -143,7 +144,7 @@ exports.deleteProject = catchAsync(async (req, res, next) => {
   });
 
   if (!project) {
-    res.status(404).json({ error: "Project with this ID is not found" });
+    return next(new AppError("No project found with this ID", 404));
   }
 
   await Project.findOneAndUpdate(
