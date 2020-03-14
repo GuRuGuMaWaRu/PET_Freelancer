@@ -3,6 +3,7 @@ const router = express.Router();
 const { check } = require("express-validator");
 
 const userController = require("../controllers/userController");
+const { validateForm } = require("../middleware/validation");
 
 // @route     POST users/
 // @desc      Register a user
@@ -19,6 +20,7 @@ router.post(
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 })
   ],
+  validateForm,
   userController.registerUser
 );
 

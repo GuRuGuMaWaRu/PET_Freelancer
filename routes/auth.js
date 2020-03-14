@@ -3,6 +3,7 @@ const router = express.Router();
 const { check } = require("express-validator");
 
 const auth = require("../middleware/auth");
+const { validateForm } = require("../middleware/validation");
 const authController = require("../controllers/authController");
 
 // @route     GET api/auth
@@ -19,6 +20,7 @@ router.post(
     check("email", "Please provide valid email").isEmail(),
     check("password", "Please provide password").exists()
   ],
+  validateForm,
   authController.loginUser
 );
 
