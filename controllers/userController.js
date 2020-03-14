@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/User");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/AppError");
 
 // @route     POST users/
 // @desc      Register a user
@@ -13,7 +14,7 @@ exports.registerUser = catchAsync(async (req, res, next) => {
 
   let user = await User.findOne({ email });
   if (user) {
-    return res.status(400).json({ msg: "User already exists" });
+    return next(new AppError("User already exists", 400));
   }
   user = new User({
     name,

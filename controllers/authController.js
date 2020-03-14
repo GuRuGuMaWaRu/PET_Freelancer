@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/User");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/AppError");
 
 // @route     POST api/auth
 // @desc      Log in user
@@ -12,13 +13,13 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return res.status(400).json({ error: "Invalid credentials" });
+    return next(new AppError("Invalid credentials", 400));
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (!isMatch) {
-    return res.status(400).json({ error: "Invalid credentials" });
+    return next(new AppError("Invalid credentials", 400));
   }
 
   const payload = {
