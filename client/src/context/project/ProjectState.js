@@ -36,7 +36,7 @@ const ProjectState = props => {
   const getProjects = async () => {
     console.log("ProjectState --- getProjects");
     try {
-      const { data: projects } = await axios.get("/projects");
+      const { data: projects } = await axios.get("/api/v1/projects");
       const projectsByMonth = projects.reduce((final, project, i) => {
         const month = moment(project.date).month();
         if (final[month]) {
@@ -66,7 +66,7 @@ const ProjectState = props => {
     try {
       const {
         data: { newProject, newClient }
-      } = await axios.post("/projects", data);
+      } = await axios.post("/api/v1/projects", data);
 
       dispatch({
         type: CREATE_PROJECT_SUCCESS,
@@ -85,7 +85,7 @@ const ProjectState = props => {
     try {
       const {
         data: { updatedProject, newClient }
-      } = await axios.patch(`/projects/${project._id}`, project);
+      } = await axios.patch(`/api/v1/projects/${project._id}`, project);
 
       dispatch({
         type: UPDATE_PROJECT_SUCCESS,
@@ -101,7 +101,7 @@ const ProjectState = props => {
   const deleteProject = async id => {
     console.log("ProjectState --- deleteProject");
     try {
-      await axios.delete(`/projects/${id}`);
+      await axios.delete(`/api/v1/projects/${id}`);
       dispatch({ type: DELETE_PROJECT_SUCCESS, payload: id });
     } catch (err) {
       console.log("Error:", err.message);
@@ -122,7 +122,7 @@ const ProjectState = props => {
   const getCurrent = async id => {
     console.log("ProjectState --- getCurrent");
     try {
-      const { data: project } = await axios.get(`/projects/${id}`);
+      const { data: project } = await axios.get(`/api/v1/projects/${id}`);
       dispatch({ type: GET_CURRENT_SUCCESS, payload: project });
     } catch (err) {
       console.error("Error:", err.message);
@@ -152,7 +152,7 @@ const ProjectState = props => {
   const getClients = async () => {
     console.log("ProjectState --- getClients");
     try {
-      const { data: clients } = await axios.get("/clients");
+      const { data: clients } = await axios.get("/api/v1/clients");
       dispatch({ type: GET_CLIENTS_SUCCESS, payload: clients });
     } catch (err) {
       console.error("Error:", err.message);

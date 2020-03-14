@@ -60,10 +60,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Set up routes
-app.use("/users", usersRouter);
-app.use("/auth", authRouter);
-app.use("/projects", projectsRouter);
-app.use("/clients", clientsRouter);
+app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/projects", projectsRouter);
+app.use("/api/v1/clients", clientsRouter);
 
 // Handle 404 errors
 app.all("*", (req, res, next) => {

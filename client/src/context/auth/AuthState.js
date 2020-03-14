@@ -29,7 +29,7 @@ const AuthState = props => {
     console.log("AuthState --- registerUser");
 
     try {
-      const res = await axios.post("/users", values, {
+      const res = await axios.post("/api/v1/users", values, {
         headers: { "Content-Type": "application/json" }
       });
 
@@ -49,7 +49,7 @@ const AuthState = props => {
     console.log("AuthState --- loginUser");
 
     try {
-      const res = await axios.post("/auth", values, {
+      const res = await axios.post("/api/v1/auth", values, {
         headers: { "Content-Type": "application/json" }
       });
 
@@ -85,7 +85,7 @@ const AuthState = props => {
     console.log("AuthState --- getUser");
 
     try {
-      const res = await axios.get("/auth", {
+      const res = await axios.get("/api/v1/auth", {
         headers: { "Content-Type": "application/json" }
       });
 
