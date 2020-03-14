@@ -40,7 +40,7 @@ exports.registerUser = catchAsync(async (req, res, next) => {
     { expiresIn: 36000 },
     (err, token) => {
       if (err) throw err;
-      res.status(201).json({ token });
+      res.status(201).json({ status: "success", data: { token } });
     }
   );
 });

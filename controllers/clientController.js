@@ -8,5 +8,5 @@ exports.getAllClients = catchAsync(async (req, res, next) => {
   const clients = await Client.find({ user: req.user.id }).sort({
     name: 1
   });
-  res.status(200).json(clients);
+  res.status(200).json({ status: "success", data: { clients } });
 });

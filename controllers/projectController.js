@@ -15,7 +15,13 @@ exports.getAllProjects = catchAsync(async (req, res, next) => {
     .select("client currency date payment projectNr _id")
     .sort({ date: -1 });
 
-  res.status(200).json(projects);
+  res.status(200).json({
+    status: "success",
+    results: projects.length,
+    data: {
+      projects
+    }
+  });
 });
 
 // @route     POST projects/
@@ -58,7 +64,7 @@ exports.createProject = catchAsync(async (req, res, next) => {
     .populate("client")
     .select("client currency date payment projectNr _id");
 
-  res.status(201).json({ newProject: newProject, newClient: newClient });
+  res.status(201).json({ status: "success", data: { newProject, newClient } });
 });
 
 // @route     GET projects/:id
@@ -76,7 +82,10 @@ exports.getProject = catchAsync(async (req, res, next) => {
     return next(new AppError("No project found with this ID", 404));
   }
 
-  res.status(200).json(project);
+  res.status(200).json({
+    status: "success",
+    data: { project }
+  });
 });
 
 // @route     PATCH projects/:id
@@ -129,7 +138,9 @@ exports.updateProject = catchAsync(async (req, res, next) => {
     .populate("client")
     .select("client currency date payment projectNr _id");
 
-  res.status(200).json({ updatedProject, newClient });
+  res
+    .status(200)
+    .json({ status: "success", data: { updatedProject, newClient } });
 });
 
 // @route     DELETE projects/:id
@@ -151,5 +162,5 @@ exports.deleteProject = catchAsync(async (req, res, next) => {
     { _id: projectId, user: req.user.id },
     { deleted: true }
   );
-  res.status(200).json({ msg: "Project deleted" });
+  res.status(204).json({ status: "success", data: null });
 });

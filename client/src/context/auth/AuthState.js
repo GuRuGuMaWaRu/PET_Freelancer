@@ -33,7 +33,7 @@ const AuthState = props => {
         headers: { "Content-Type": "application/json" }
       });
 
-      localStorage.setItem("freelancer_token", res.data.token);
+      localStorage.setItem("freelancer_token", res.data.data.token);
       dispatch({ type: REGISTER });
     } catch (err) {
       console.log("Error:", err.message);
@@ -53,7 +53,7 @@ const AuthState = props => {
         headers: { "Content-Type": "application/json" }
       });
 
-      localStorage.setItem("freelancer_token", res.data.token);
+      localStorage.setItem("freelancer_token", res.data.data.token);
       dispatch({ type: LOGIN });
     } catch (err) {
       let message = "";
@@ -89,8 +89,8 @@ const AuthState = props => {
         headers: { "Content-Type": "application/json" }
       });
 
-      localStorage.setItem("freelancer_token", res.data.token);
-      dispatch({ type: GET_USER, payload: res.data });
+      localStorage.setItem("freelancer_token", res.data.data.token);
+      dispatch({ type: GET_USER, payload: res.data.data });
     } catch (err) {
       // localStorage.removeItem("freelancer_token");
       console.log("Error:", err.message);

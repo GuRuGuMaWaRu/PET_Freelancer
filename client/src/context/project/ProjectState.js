@@ -36,7 +36,8 @@ const ProjectState = props => {
   const getProjects = async () => {
     console.log("ProjectState --- getProjects");
     try {
-      const { data: projects } = await axios.get("/api/v1/projects");
+      const res = await axios.get("/api/v1/projects");
+      const projects = res.data.data.projects;
       const projectsByMonth = projects.reduce((final, project, i) => {
         const month = moment(project.date).month();
         if (final[month]) {
@@ -64,10 +65,8 @@ const ProjectState = props => {
     }
 
     try {
-      const {
-        data: { newProject, newClient }
-      } = await axios.post("/api/v1/projects", data);
-
+      const res = await axios.post("/api/v1/projects", data);
+      const { newProject, newClient } = res.data.data;
       dispatch({
         type: CREATE_PROJECT_SUCCESS,
         payload: { newProject, newClient }
@@ -83,9 +82,8 @@ const ProjectState = props => {
     console.log("ProjectState --- updateProject");
 
     try {
-      const {
-        data: { updatedProject, newClient }
-      } = await axios.patch(`/api/v1/projects/${project._id}`, project);
+      const res = await axios.patch(`/api/v1/projects/${project._id}`, project);
+      const { updatedProject, newClient } = res.data.data;
 
       dispatch({
         type: UPDATE_PROJECT_SUCCESS,
@@ -122,7 +120,8 @@ const ProjectState = props => {
   const getCurrent = async id => {
     console.log("ProjectState --- getCurrent");
     try {
-      const { data: project } = await axios.get(`/api/v1/projects/${id}`);
+      const res = await axios.get(`/api/v1/projects/${id}`);
+      const project = res.res.data.project;
       dispatch({ type: GET_CURRENT_SUCCESS, payload: project });
     } catch (err) {
       console.error("Error:", err.message);
@@ -152,7 +151,8 @@ const ProjectState = props => {
   const getClients = async () => {
     console.log("ProjectState --- getClients");
     try {
-      const { data: clients } = await axios.get("/api/v1/clients");
+      const res = await axios.get("/api/v1/clients");
+      const clients = res.data.data.clients;
       dispatch({ type: GET_CLIENTS_SUCCESS, payload: clients });
     } catch (err) {
       console.error("Error:", err.message);

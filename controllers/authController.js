@@ -34,7 +34,7 @@ exports.loginUser = catchAsync(async (req, res, next) => {
     { expiresIn: "90d" },
     (err, token) => {
       if (err) throw err;
-      res.status(200).json({ token });
+      res.status(200).json({ status: "success", data: { token } });
     }
   );
 });
@@ -58,7 +58,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
     { expiresIn: 36000 },
     (err, token) => {
       if (err) throw err;
-      res.status(200).json({ user, token });
+      res.status(200).json({ status: "success", data: { user, token } });
     }
   );
 });
