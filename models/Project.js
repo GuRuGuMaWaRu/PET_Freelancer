@@ -1,27 +1,33 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const ProjectSchema = Schema({
+const projectSchema = new mongoose.Schema({
   user: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "A project must have a user"]
   },
   client: {
-    type: Schema.Types.ObjectId,
-    ref: "Client"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Client",
+    required: [true, "A project must have a client"]
   },
   projectNr: {
     type: String,
+    trim: true,
     required: true
   },
   payment: {
-    type: Number
+    type: Number,
+    default: 0
   },
   currency: {
-    type: String
+    type: String,
+    enum: ["USD", "EUR"],
+    default: "USD"
   },
   date: {
-    type: Date
+    type: Date,
+    required: [true, "A project must have a date"]
   },
   deleted: {
     type: Boolean,
@@ -29,4 +35,6 @@ const ProjectSchema = Schema({
   }
 });
 
-module.exports = mongoose.model("Project", ProjectSchema);
+const Project = mongoose.model("Project", projectSchema);
+
+module.exports = Project;
