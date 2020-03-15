@@ -1,15 +1,18 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
 
-const ClientSchema = Schema({
+const clientSchema = new mongoose.Schema({
   user: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: [true, "A client must have a user"]
   },
   name: {
     type: String,
-    required: true
+    trim: true,
+    required: [true, "A client must have a name"]
   }
 });
 
-module.exports = mongoose.model("Client", ClientSchema);
+const Client = mongoose.model("Client", clientSchema);
+
+module.exports = Client;
