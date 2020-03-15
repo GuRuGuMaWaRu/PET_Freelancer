@@ -121,7 +121,7 @@ const ProjectState = props => {
     console.log("ProjectState --- getCurrent");
     try {
       const res = await axios.get(`/api/v1/projects/${id}`);
-      const project = res.res.data.project;
+      const project = res.data.data.project;
       dispatch({ type: GET_CURRENT_SUCCESS, payload: project });
     } catch (err) {
       console.error("Error:", err.message);
