@@ -1,20 +1,27 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const validator = require("validator");
 
-const UserSchema = Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    trim: true,
+    required: [true, "Please provide your name"]
   },
   email: {
     type: String,
-    required: true,
-    unique: true
+    required: [true, "Please provide your email"],
+    unique: true,
+    lowercase: true,
+    validate: [validator.isEmail, "Please provide a valid email"]
   },
   password: {
     type: String,
-    required: true
+    required: [true, "Please provide a password"],
+    minLength: 6,
+    select: false
   }
 });
 
-module.exports = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
