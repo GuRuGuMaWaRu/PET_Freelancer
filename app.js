@@ -37,7 +37,7 @@ const app = express();
 
 // Set up middleware
 app.use(logger("dev"));
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 
 // Set CORS headers so that React SPA is able to communicate with this server
 app.use((req, res, next) => {
