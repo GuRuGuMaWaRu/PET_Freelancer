@@ -14,7 +14,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error:"));
 db.once("open", () => console.log("Connection to database is established"));
 
-// FINAL DELETE OF DATA MARKED FOR DELETION
+// Permanent deletion of all data marked as deleted
 const finalDelete = async () => {
   try {
     await Project.deleteMany({ deleted: true });
