@@ -5,25 +5,31 @@ const auth = require("../middleware/auth");
 const projectController = require("../controllers/projectController");
 
 router.use(auth);
-// @route     GET projects/
-// @desc      Get all projects
-// @access    Private
-router.get("/", projectController.getAllProjects);
-// @route     POST projects/
-// @desc      Save a new project
-// @access    Private
-router.post("/", projectController.createProject);
-// @route     GET projects/:id
-// @desc      Get a project
-// @access    Private
-router.get("/:id", projectController.getProject);
-// @route     PATCH projects/:id
-// @desc      Update a project
-// @access    Private
-router.patch("/:id", projectController.updateProject);
-// @route     DELETE projects/:id
-// @desc      Delete a project
-// @access    Private
-router.delete("/:id", projectController.deleteProject);
+
+router
+  .route("/")
+  // @route     GET projects/
+  // @desc      Get all projects
+  // @access    Private
+  .get(projectController.getAllProjects)
+  // @route     POST projects/
+  // @desc      Save a new project
+  // @access    Private
+  .post(projectController.createProject);
+
+router
+  .route("/:id")
+  // @route     GET projects/:id
+  // @desc      Get a project
+  // @access    Private
+  .get(projectController.getProject)
+  // @route     PATCH projects/:id
+  // @desc      Update a project
+  // @access    Private
+  .patch(projectController.updateProject)
+  // @route     DELETE projects/:id
+  // @desc      Delete a project
+  // @access    Private
+  .delete(projectController.deleteProject);
 
 module.exports = router;
