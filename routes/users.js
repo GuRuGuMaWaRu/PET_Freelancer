@@ -1,9 +1,10 @@
 const express = require("express");
-const router = express.Router();
 const { check } = require("express-validator");
 
 const userController = require("../controllers/userController");
 const { validateForm } = require("../middleware/validation");
+
+const router = express.Router();
 
 router
   .route("/")
