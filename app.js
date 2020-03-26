@@ -1,3 +1,4 @@
+const dotenv = require("dotenv");
 const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
@@ -12,7 +13,7 @@ const projectsRouter = require("./routes/projects");
 
 // Set environament variables
 if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config({ path: "process.env" });
+  dotenv.config({ path: "process.env" });
 }
 
 // Connect to mongo DB
