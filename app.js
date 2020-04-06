@@ -34,7 +34,7 @@ if (process.env.NODE_ENV !== "test") {
 const app = express();
 
 // Development logging
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV !== "production") {
   app.use(logger("dev"));
 }
 
