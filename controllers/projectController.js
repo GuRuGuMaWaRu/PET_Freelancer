@@ -3,6 +3,11 @@ const Project = require("../models/projectModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
 
+// Middleware
+// exports.createNewClient = catchAsync(async (req, res, next) =>
+
+// );
+
 // @route     GET projects/
 // @desc      Get all projects
 // @access    Private
@@ -11,8 +16,7 @@ exports.getAllProjects = catchAsync(async (req, res, next) => {
     deleted: { $ne: true },
     user: req.user.id
   })
-    .populate("client")
-    .select("client currency date payment projectNr _id")
+    .populate({ path: "client", select: "name -_id" })
     .sort({ date: -1 });
 
   res.status(200).json({
