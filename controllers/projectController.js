@@ -25,19 +25,19 @@ exports.getAllProjects = catchAsync(async (req, res, next) => {
 });
 
 // @route     POST projects/
-// @desc      Save a new project
+// @desc      Save new project
 // @access    Private
 exports.createProject = catchAsync(async (req, res, next) => {
   const projectData = req.body;
   let newClient;
 
-  if (projectData.newClient.length > 0) {
-    const oldClient = await Client.findOne({
+  if (projectData.newClient && projectData.newClient.length > 0) {
+    const existingClient = await Client.findOne({
       name: projectData.newClient,
       user: req.user.id
     });
 
-    if (!oldClient) {
+    if (!existingClient) {
       newClient = new Client({
         name: projectData.newClient,
         user: req.user.id
@@ -47,7 +47,7 @@ exports.createProject = catchAsync(async (req, res, next) => {
 
       await newClient.save();
     } else {
-      projectData.client = oldClient._id;
+      projectData.client = existingClient._id;
     }
   }
 
@@ -68,7 +68,7 @@ exports.createProject = catchAsync(async (req, res, next) => {
 });
 
 // @route     GET projects/:id
-// @desc      Get a project
+// @desc      Get project
 // @access    Private
 exports.getProject = catchAsync(async (req, res, next) => {
   const projectId = req.params.id;
@@ -89,11 +89,11 @@ exports.getProject = catchAsync(async (req, res, next) => {
 });
 
 // @route     PATCH projects/:id
-// @desc      Update a project
+// @desc      Update project
 // @access    Private
 exports.updateProject = catchAsync(async (req, res, next) => {
   const projectId = req.params.id;
-  const shopData = req.body;
+  const projectData = req.body;
   let newClient;
 
   const project = await Project.findOne({
@@ -102,23 +102,23 @@ exports.updateProject = catchAsync(async (req, res, next) => {
   });
 
   // if new client is provided
-  if (shopData.newClient && shopData.newClient.length > 0) {
-    const oldClient = await Client.findOne({
-      name: shopData.newClient,
+  if (projectData.newClient && projectData.newClient.length > 0) {
+    const existingClient = await Client.findOne({
+      name: projectData.newClient,
       user: req.user.id
     });
 
-    if (!oldClient) {
+    if (!existingClient) {
       newClient = new Client({
-        name: shopData.newClient,
+        name: projectData.newClient,
         user: req.user.id
       });
 
-      shopData.client = newClient._id;
+      projectData.client = newClient._id;
 
       await newClient.save();
     } else {
-      shopData.client = oldClient._id;
+      projectData.client = existingClient._id;
     }
   }
 
@@ -128,7 +128,7 @@ exports.updateProject = catchAsync(async (req, res, next) => {
 
   await Project.findOneAndUpdate(
     { _id: projectId, user: req.user.id },
-    { ...shopData }
+    { ...projectData }
   );
 
   const updatedProject = await Project.findOne({
@@ -144,7 +144,7 @@ exports.updateProject = catchAsync(async (req, res, next) => {
 });
 
 // @route     DELETE projects/:id
-// @desc      Delete a project
+// @desc      Delete project
 // @access    Private
 exports.deleteProject = catchAsync(async (req, res, next) => {
   const projectId = req.params.id;
