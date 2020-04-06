@@ -1,5 +1,5 @@
-const Client = require("../models/Client");
-const Project = require("../models/Project");
+const Client = require("../models/clientModel");
+const Project = require("../models/projectModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
 

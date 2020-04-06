@@ -6,10 +6,10 @@ const path = require("path");
 
 const AppError = require("./utils/AppError");
 const globalErrorHandler = require("./controllers/errorController");
-const usersRouter = require("./routes/users");
-const authRouter = require("./routes/auth");
-const clientsRouter = require("./routes/clients");
-const projectsRouter = require("./routes/projects");
+const userRouter = require("./routes/userRoutes");
+const authRouter = require("./routes/authRoutes");
+const clientRouter = require("./routes/clientRoutes");
+const projectRouter = require("./routes/projectRoutes");
 
 // Set environament variables
 if (process.env.NODE_ENV !== "production") {
@@ -62,10 +62,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Set up routes
-app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/users", userRouter);
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/projects", projectsRouter);
-app.use("/api/v1/clients", clientsRouter);
+app.use("/api/v1/projects", projectRouter);
+app.use("/api/v1/clients", clientRouter);
 
 // Handle 404 errors
 app.all("*", (req, res, next) => {
