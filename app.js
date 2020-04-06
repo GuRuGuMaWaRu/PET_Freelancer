@@ -25,11 +25,11 @@ if (process.env.NODE_ENV !== "test") {
   });
 
   mongoose.set("useCreateIndex", true);
-}
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "Connection error:"));
-db.once("open", () => console.log("Connection to database is established"));
+  const db = mongoose.connection;
+  db.on("error", console.error.bind(console, "Connection error:"));
+  db.once("open", () => console.log("Connection to database is established"));
+}
 
 const app = express();
 
