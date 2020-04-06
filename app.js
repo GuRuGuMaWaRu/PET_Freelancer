@@ -18,17 +18,17 @@ if (process.env.NODE_ENV !== "production") {
 
 // Connect to mongo DB
 if (process.env.NODE_ENV !== "test") {
-  mongoose.connect(process.env.DB_MAIN, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useFindAndModify: false
-  });
+  mongoose
+    .connect(process.env.DB_MAIN, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true
+    })
+    .then(() => console.log("Connection to database is established"))
+    .catch(err => console.log(`Connection error: ${err.reason}`));
 
-  mongoose.set("useCreateIndex", true);
-
-  const db = mongoose.connection;
-  db.on("error", console.error.bind(console, "Connection error:"));
-  db.once("open", () => console.log("Connection to database is established"));
+  mongoose.connection.on("error", err => console.log(err));
 }
 
 const app = express();
