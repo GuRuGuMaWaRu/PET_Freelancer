@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 const express = require("express");
-const logger = require("morgan");
+const morgan = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 
@@ -35,7 +35,7 @@ const app = express();
 
 // Development logging
 if (process.env.NODE_ENV !== "production") {
-  app.use(logger("dev"));
+  app.use(morgan("dev"));
 }
 
 // Body parser
