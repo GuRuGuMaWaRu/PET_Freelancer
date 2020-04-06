@@ -17,10 +17,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Connect to mongo DB
-if (
-  process.env.NODE_ENV === "development" ||
-  process.env.NODE_ENV === "production"
-) {
+if (process.env.NODE_ENV !== "test") {
   mongoose.connect(process.env.DB_MAIN, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
