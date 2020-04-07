@@ -38,8 +38,13 @@ const projectSchema = new mongoose.Schema({
 projectSchema.pre("find", function(next) {
   this.find({ deleted: { $ne: true } })
     .populate({ path: "client", select: "name -_id" })
-    .select("-deleted -user -__v")
     .sort({ date: -1 });
+
+  next();
+});
+
+projectSchema.pre(/^find/, function(next) {
+  this.select("-deleted -user -__v");
 
   next();
 });

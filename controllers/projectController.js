@@ -74,7 +74,8 @@ exports.getProject = catchAsync(async (req, res, next) => {
   const project = await Project.findOne({
     _id: req.params.id,
     user: req.user.id
-  }).select("client currency date payment projectNr _id");
+  });
+  // .select("client currency date payment projectNr _id");
 
   if (!project) {
     return next(new AppError("No project found with this ID", 404));
