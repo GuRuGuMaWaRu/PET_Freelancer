@@ -22,7 +22,6 @@ import {
 const ProjectState = props => {
   const initialState = {
     projects: null,
-    currentId: null,
     currentProject: null,
     deleteId: null,
     clients: null,
@@ -170,7 +169,6 @@ const ProjectState = props => {
     <ProjectContext.Provider
       value={{
         projects: state.projects,
-        currentId: state.currentId,
         currentProject: state.currentProject,
         deleteId: state.deleteId,
         clients: state.clients,
