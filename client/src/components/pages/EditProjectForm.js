@@ -112,8 +112,8 @@ const EditProjectForm = () => {
                 editedFields[field] = values[field];
               }
             }
-
-            updateProject({ ...editedFields, _id: currentProject._id });
+            console.log("BAM:", editedFields);
+            updateProject({ editedFields, _id: currentProject._id });
             addAlert({
               msg: `Edited project "${values.projectNr}" from ${client}`,
               type: "info"

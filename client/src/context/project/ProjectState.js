@@ -81,12 +81,23 @@ const ProjectState = props => {
     console.log("ProjectState --- updateProject");
 
     try {
-      const res = await axios.patch(`/api/v1/projects/${project._id}`, project);
+      const res = await axios.patch(
+        `/api/v1/projects/${project._id}`,
+        project.editedFields
+      );
+      // await axios.patch(
+      //   `/api/v1/projects/${project._id}`,
+      //   project.editedFields
+      // );
       const { updatedProject, newClient } = res.data.data;
 
       dispatch({
         type: UPDATE_PROJECT_SUCCESS,
-        payload: { updatedProject, newClient }
+        payload: {
+          id: project._id,
+          updatedProject: updatedProject,
+          newClient: newClient
+        }
       });
     } catch (err) {
       console.log("Error:", err.message);

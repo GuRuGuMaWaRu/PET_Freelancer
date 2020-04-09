@@ -91,9 +91,9 @@ exports.getProject = catchAsync(async (req, res, next) => {
 // @desc      Update project
 // @access    Private
 exports.updateProject = catchAsync(async (req, res, next) => {
-  let newClient;
-
   // if new client is provided
+  let newClient = null;
+
   if (req.body.newClient && req.body.newClient.length > 0) {
     const existingClient = await Client.findOne({
       name: req.body.newClient,
@@ -130,6 +130,7 @@ exports.updateProject = catchAsync(async (req, res, next) => {
   res
     .status(200)
     .json({ status: "success", data: { updatedProject, newClient } });
+  // .json({ status: "success", data: null });
 });
 
 // @route     DELETE projects/:id

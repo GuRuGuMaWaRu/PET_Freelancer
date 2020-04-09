@@ -52,7 +52,7 @@ export default (state, action) => {
       return {
         ...state,
         projects: state.projects.map(project => {
-          if (project._id === action.payload.updatedProject._id) {
+          if (project._id === action.payload.id) {
             return action.payload.updatedProject;
           }
           return project;
