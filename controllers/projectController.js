@@ -93,11 +93,6 @@ exports.getProject = catchAsync(async (req, res, next) => {
 exports.updateProject = catchAsync(async (req, res, next) => {
   let newClient;
 
-  const project = await Project.findOne({
-    _id: req.params.id,
-    user: req.user.id
-  });
-
   // if new client is provided
   if (req.body.newClient && req.body.newClient.length > 0) {
     const existingClient = await Client.findOne({
@@ -119,21 +114,18 @@ exports.updateProject = catchAsync(async (req, res, next) => {
     }
   }
 
-  if (!project) {
-    return next(new AppError("No project found with this ID", 404));
-  }
-
-  await Project.findOneAndUpdate(
-    { _id: req.params.id, user: req.user.id },
-    { ...req.body }
+  const updatedProject = await Project.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      user: req.user.id
+    },
+    req.body,
+    { new: true }
   );
 
-  const updatedProject = await Project.findOne({
-    _id: req.params.id,
-    user: req.user.id
-  })
-    .populate("client")
-    .select("client currency date payment projectNr _id");
+  if (!updatedProject) {
+    return next(new AppError("No project found with this ID", 404));
+  }
 
   res
     .status(200)
@@ -144,18 +136,15 @@ exports.updateProject = catchAsync(async (req, res, next) => {
 // @desc      Delete project
 // @access    Private
 exports.deleteProject = catchAsync(async (req, res, next) => {
-  const project = await Project.findOne({
-    _id: req.params.id,
-    user: req.user.id
-  });
+  const project = await Project.findOneAndUpdate(
+    { _id: req.params.id, user: req.user.id },
+    { deleted: true },
+    { new: true }
+  );
 
   if (!project) {
     return next(new AppError("No project found with this ID", 404));
   }
 
-  await Project.findOneAndUpdate(
-    { _id: req.params.id, user: req.user.id },
-    { deleted: true }
-  );
   res.status(204).json({ status: "success", data: null });
 });
