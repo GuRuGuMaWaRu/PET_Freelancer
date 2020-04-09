@@ -5,6 +5,7 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Spinner from "../layout/Spinner";
+import Project from "./Project";
 import ProjectContext from "../../context/project/projectContext";
 import setAuthToken from "../../utils/setAuthToken";
 
@@ -90,27 +91,11 @@ const ProjectList = () => {
     projects && (
       <Fragment>
         {projects.map(project => (
-          <StyledProject key={project._id}>
-            <StyledProjectDetails>
-              Client: {project.client.name}
-              <br />
-              Project Nr: {project.projectNr}
-              <br />
-              Payment: {project.payment} {project.currency}
-              <br />
-              Date: {moment(project.date).format("YYYY-MM-DD")}
-            </StyledProjectDetails>
-            <StyledProjectControls>
-              <StyledDeleteIcon
-                onClick={() => setDelete(project._id)}
-                icon="trash-alt"
-              ></StyledDeleteIcon>
-              <StyledEditIcon
-                onClick={() => handleSetEditProject(project._id)}
-                icon="pen"
-              ></StyledEditIcon>
-            </StyledProjectControls>
-          </StyledProject>
+          <Project
+            key={project._id}
+            project={project}
+            handleDelete={() => setDelete(project._id)}
+          />
         ))}
       </Fragment>
     )

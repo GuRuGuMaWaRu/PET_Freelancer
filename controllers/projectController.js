@@ -1,176 +1,151 @@
-const Client = require("../models/Client");
-const Project = require("../models/Project");
+const Client = require("../models/clientModel");
+const Project = require("../models/projectModel");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/AppError");
 
-module.exports = {
-  // @route     GET projects/
-  // @desc      Get all projects
-  // @access    Private
-  index: async (req, res) => {
-    try {
-      const projects = await Project.find({
-        deleted: { $ne: true },
-        user: req.user.id
-      })
-        .populate("client")
-        .select("client currency date payment projectNr _id")
-        .sort({ date: -1 });
+// Middleware
+// exports.createNewClient = catchAsync(async (req, res, next) =>
 
-      res.status(200).json(projects);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: err.message });
+// );
+
+// @route     GET projects/
+// @desc      Get all projects
+// @access    Private
+exports.getAllProjects = catchAsync(async (req, res, next) => {
+  const projects = await Project.find({
+    user: req.user.id
+  });
+
+  res.status(200).json({
+    status: "success",
+    results: projects.length,
+    data: {
+      projects
     }
-  },
-  // @route     POST projects/
-  // @desc      Save a new project
-  // @access    Private
-  create: async (req, res) => {
-    const projectData = req.body;
-    let newClient;
+  });
+});
 
-    try {
-      if (projectData.newClient.length > 0) {
-        const oldClient = await Client.findOne({
-          name: projectData.newClient,
-          user: req.user.id
-        });
+// @route     POST projects/
+// @desc      Save new project
+// @access    Private
+exports.createProject = catchAsync(async (req, res, next) => {
+  let newClient;
 
-        if (!oldClient) {
-          newClient = new Client({
-            name: projectData.newClient,
-            user: req.user.id
-          });
+  if (req.body.newClient && req.body.newClient.length > 0) {
+    const existingClient = await Client.findOne({
+      name: req.body.newClient,
+      user: req.user.id
+    });
 
-          projectData.client = newClient._id;
-
-          await newClient.save();
-        } else {
-          projectData.client = oldClient._id;
-        }
-      }
-
-      const project = new Project({
-        ...projectData,
-        user: req.user.id
-      });
-      await project.save();
-
-      const newProject = await Project.findOne({
-        _id: project._id,
-        user: req.user.id
-      })
-        .populate("client")
-        .select("client currency date payment projectNr _id");
-
-      res.status(201).json({ newProject: newProject, newClient: newClient });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: err.message });
-    }
-  },
-  // @route     GET projects/:id
-  // @desc      Get a project
-  // @access    Private
-  read: async (req, res) => {
-    const projectId = req.params.id;
-
-    try {
-      const project = await Project.findOne({
-        _id: projectId,
-        user: req.user.id
-      }).select("client currency date payment projectNr _id");
-
-      if (!project) {
-        res.status(404).json({ error: "Project with this ID is not found" });
-      }
-
-      res.status(200).json(project);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: err.message });
-    }
-  },
-  // @route     PATCH projects/:id
-  // @desc      Update a project
-  // @access    Private
-  update: async (req, res) => {
-    const projectId = req.params.id;
-    const shopData = req.body;
-    let newClient;
-
-    try {
-      const project = await Project.findOne({
-        _id: projectId,
+    if (!existingClient) {
+      newClient = new Client({
+        name: req.body.newClient,
         user: req.user.id
       });
 
-      // if new client is provided
-      if (shopData.newClient && shopData.newClient.length > 0) {
-        const oldClient = await Client.findOne({
-          name: shopData.newClient,
-          user: req.user.id
-        });
+      req.body.client = newClient._id;
 
-        if (!oldClient) {
-          newClient = new Client({
-            name: shopData.newClient,
-            user: req.user.id
-          });
-
-          shopData.client = newClient._id;
-
-          await newClient.save();
-        } else {
-          shopData.client = oldClient._id;
-        }
-      }
-
-      if (!project) {
-        res.status(404).json({ error: "Project with this ID is not found" });
-      }
-
-      await Project.findOneAndUpdate(
-        { _id: projectId, user: req.user.id },
-        { ...shopData }
-      );
-
-      const updatedProject = await Project.findOne({
-        _id: projectId,
-        user: req.user.id
-      })
-        .populate("client")
-        .select("client currency date payment projectNr _id");
-
-      res.status(200).json({ updatedProject, newClient });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: err.message });
-    }
-  },
-  // @route     DELETE projects/:id
-  // @desc      Delete a project
-  // @access    Private
-  delete: async (req, res) => {
-    const projectId = req.params.id;
-
-    try {
-      const project = await Project.findOne({
-        _id: projectId,
-        user: req.user.id
-      });
-
-      if (!project) {
-        res.status(404).json({ error: "Project with this ID is not found" });
-      }
-
-      await Project.findOneAndUpdate(
-        { _id: projectId, user: req.user.id },
-        { deleted: true }
-      );
-      res.status(200).json({ msg: "Project deleted" });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: err.message });
+      await newClient.save();
+    } else {
+      req.body.client = existingClient._id;
     }
   }
-};
+
+  const project = new Project({
+    ...req.body,
+    user: req.user.id
+  });
+  await project.save();
+
+  const newProject = await Project.findOne({
+    _id: project._id,
+    user: req.user.id
+  })
+    .populate("client")
+    .select("client currency date payment projectNr _id");
+
+  res.status(201).json({ status: "success", data: { newProject, newClient } });
+});
+
+// @route     GET projects/:id
+// @desc      Get project
+// @access    Private
+exports.getProject = catchAsync(async (req, res, next) => {
+  const project = await Project.findOne({
+    _id: req.params.id,
+    user: req.user.id
+  });
+  // .select("client currency date payment projectNr _id");
+
+  if (!project) {
+    return next(new AppError("No project found with this ID", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: { project }
+  });
+});
+
+// @route     PATCH projects/:id
+// @desc      Update project
+// @access    Private
+exports.updateProject = catchAsync(async (req, res, next) => {
+  // if new client is provided
+  let newClient = null;
+
+  if (req.body.newClient && req.body.newClient.length > 0) {
+    const existingClient = await Client.findOne({
+      name: req.body.newClient,
+      user: req.user.id
+    });
+
+    if (!existingClient) {
+      newClient = new Client({
+        name: req.body.newClient,
+        user: req.user.id
+      });
+
+      req.body.client = newClient._id;
+
+      await newClient.save();
+    } else {
+      req.body.client = existingClient._id;
+    }
+  }
+
+  const updatedProject = await Project.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      user: req.user.id
+    },
+    req.body,
+    { new: true }
+  );
+
+  if (!updatedProject) {
+    return next(new AppError("No project found with this ID", 404));
+  }
+
+  res
+    .status(200)
+    .json({ status: "success", data: { updatedProject, newClient } });
+  // .json({ status: "success", data: null });
+});
+
+// @route     DELETE projects/:id
+// @desc      Delete project
+// @access    Private
+exports.deleteProject = catchAsync(async (req, res, next) => {
+  const project = await Project.findOneAndUpdate(
+    { _id: req.params.id, user: req.user.id },
+    { deleted: true },
+    { new: true }
+  );
+
+  if (!project) {
+    return next(new AppError("No project found with this ID", 404));
+  }
+
+  res.status(204).json({ status: "success", data: null });
+});

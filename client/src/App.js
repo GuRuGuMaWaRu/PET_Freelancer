@@ -153,7 +153,7 @@ const App = () => {
             <Switch>
               <PrivateRoute exact path="/" component={ProjectList} />
               <PrivateRoute path="/add" component={AddProjectForm} />
-              <PrivateRoute path="/edit" component={EditProjectForm} />
+              <PrivateRoute path="/project/:id" component={EditProjectForm} />
               <AuthRoute path="/login" component={Login} />
               <AuthRoute path="/registration" component={Registration} />
               <Route>

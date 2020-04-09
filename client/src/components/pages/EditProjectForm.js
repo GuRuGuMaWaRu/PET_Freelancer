@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
+import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -28,12 +29,13 @@ const formSchema = Yup.object().shape({
   payment: Yup.number()
 });
 
-const EditProjectForm = ({ history }) => {
+const EditProjectForm = () => {
+  const history = useHistory();
+  const { id } = useParams();
   const projectContext = useContext(ProjectContext);
   const alertContext = useContext(AlertContext);
 
   const {
-    currentId,
     clients,
     loadingClients,
     currentProject,
@@ -49,8 +51,8 @@ const EditProjectForm = ({ history }) => {
     if (loadingClients) {
       getClients();
     }
-    if (currentId) {
-      getCurrent(currentId);
+    if (id) {
+      getCurrent(id);
     }
 
     return () => {
@@ -65,7 +67,7 @@ const EditProjectForm = ({ history }) => {
   console.log("---EditProjectForm, currentProject:", currentProject);
   console.log("---EditProjectForm, clients:", clients);
 
-  if (loadingClients || (currentId && !currentProject)) {
+  if (loadingClients || (id && !currentProject)) {
     return <Spinner />;
   }
 
@@ -110,8 +112,8 @@ const EditProjectForm = ({ history }) => {
                 editedFields[field] = values[field];
               }
             }
-
-            updateProject({ ...editedFields, _id: currentProject._id });
+            console.log("BAM:", editedFields);
+            updateProject({ editedFields, _id: currentProject._id });
             addAlert({
               msg: `Edited project "${values.projectNr}" from ${client}`,
               type: "info"
