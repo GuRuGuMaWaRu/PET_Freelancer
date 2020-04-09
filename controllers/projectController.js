@@ -1,7 +1,7 @@
 const Client = require("../models/clientModel");
 const Project = require("../models/projectModel");
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/AppError");
+const AppError = require("../utils/appError");
 
 // Middleware
 // exports.createNewClient = catchAsync(async (req, res, next) =>
