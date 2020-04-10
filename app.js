@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 
-const AppError = require("./utils/AppError");
+const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const userRouter = require("./routes/userRoutes");
 const authRouter = require("./routes/authRoutes");

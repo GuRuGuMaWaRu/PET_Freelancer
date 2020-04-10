@@ -1,7 +1,7 @@
 const Client = require("../models/clientModel");
 const Project = require("../models/projectModel");
 const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/AppError");
+const AppError = require("../utils/appError");
 
 // Middleware
 // exports.createNewClient = catchAsync(async (req, res, next) =>
@@ -74,8 +74,7 @@ exports.getProject = catchAsync(async (req, res, next) => {
   const project = await Project.findOne({
     _id: req.params.id,
     user: req.user.id
-  });
-  // .select("client currency date payment projectNr _id");
+  }).select("client currency date payment projectNr _id");
 
   if (!project) {
     return next(new AppError("No project found with this ID", 404));
