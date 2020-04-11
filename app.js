@@ -17,19 +17,19 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Connect to mongo DB
-if (process.env.NODE_ENV !== "test") {
-  mongoose
-    .connect(process.env.DB_MAIN, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-      useFindAndModify: false,
-      useCreateIndex: true
-    })
-    .then(() => console.log("Connection to database is established"))
-    .catch(err => console.log(`Connection error: ${err.reason}`));
+// if (process.env.NODE_ENV !== "test") {
+mongoose
+  .connect(process.env.DB_MAIN, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+  })
+  .then(() => console.log("Connection to database is established"))
+  .catch(err => console.log(`Connection error: ${err.reason}`));
 
-  mongoose.connection.on("error", err => console.log(err));
-}
+mongoose.connection.on("error", err => console.log(err));
+// }
 
 const app = express();
 
