@@ -13,8 +13,11 @@ const AppError = require("../utils/appError");
 // @access    Private
 exports.getAllProjects = catchAsync(async (req, res, next) => {
   const projects = await Project.find({
-    user: req.user.id
-  });
+    user: req.user.id,
+    deleted: { $ne: true }
+  })
+    .populate({ path: "client", select: "name -_id" })
+    .sort({ date: -1 });
 
   res.status(200).json({
     status: "success",

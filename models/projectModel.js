@@ -35,13 +35,13 @@ const projectSchema = new mongoose.Schema({
   }
 });
 
-projectSchema.pre("find", function(next) {
-  this.find({ deleted: { $ne: true } })
-    .populate({ path: "client", select: "name -_id" })
-    .sort({ date: -1 });
+// projectSchema.pre("find", function(next) {
+//   this.find({ deleted: { $ne: true } })
+//     .populate({ path: "client", select: "name -_id" })
+//     .sort({ date: -1 });
 
-  next();
-});
+//   next();
+// });
 
 // projectSchema.pre("findOne", function(next) {
 //   this.select("-deleted -user -__v");

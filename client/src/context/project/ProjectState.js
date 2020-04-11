@@ -36,6 +36,7 @@ const ProjectState = props => {
     console.log("ProjectState --- getProjects");
     try {
       const res = await axios.get("/api/v1/projects");
+      console.log(res);
       const projects = res.data.data.projects;
       const projectsByMonth = projects.reduce((final, project, i) => {
         const month = moment(project.date).month();
