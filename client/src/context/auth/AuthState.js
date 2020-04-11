@@ -32,7 +32,7 @@ const AuthState = props => {
       const res = await axios.post("/api/v1/users", values, {
         headers: { "Content-Type": "application/json" }
       });
-
+      console.log("AuthState --- registerUser:", res);
       localStorage.setItem("freelancer_token", res.data.data.token);
       dispatch({ type: REGISTER });
     } catch (err) {
@@ -52,7 +52,7 @@ const AuthState = props => {
       const res = await axios.post("/api/v1/auth", values, {
         headers: { "Content-Type": "application/json" }
       });
-
+      console.log("AuthState --- loginUser:", res);
       localStorage.setItem("freelancer_token", res.data.data.token);
       dispatch({ type: LOGIN });
     } catch (err) {
@@ -88,7 +88,7 @@ const AuthState = props => {
       const res = await axios.get("/api/v1/auth", {
         headers: { "Content-Type": "application/json" }
       });
-
+      console.log("AuthState --- getUser:", res);
       localStorage.setItem("freelancer_token", res.data.data.token);
       dispatch({ type: GET_USER, payload: res.data.data });
     } catch (err) {
