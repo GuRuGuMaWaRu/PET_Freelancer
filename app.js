@@ -52,6 +52,12 @@ app.use((req, res, next) => {
   next();
 });
 
+// Set up routes
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/projects", projectRouter);
+app.use("/api/v1/clients", clientRouter);
+
 // Heroku deployment --- serve static assets in production
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "client", "build")));
@@ -60,12 +66,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   );
 }
-
-// Set up routes
-app.use("/api/v1/users", userRouter);
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/projects", projectRouter);
-app.use("/api/v1/clients", clientRouter);
 
 // Handle 404 errors
 app.all("*", (req, res, next) => {
