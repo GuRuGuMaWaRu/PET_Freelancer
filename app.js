@@ -70,7 +70,7 @@ if (process.env.NODE_ENV === "production") {
   );
 }
 
-// Handle 404 errors
+// Handle 404 (Not Found) errors
 app.all("*", (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
 });
