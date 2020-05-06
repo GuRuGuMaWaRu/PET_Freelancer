@@ -32,7 +32,7 @@ exports.getAllProjects = catchAsync(async (req, res, next) => {
 // @desc      Save new project
 // @access    Private
 exports.createProject = catchAsync(async (req, res, next) => {
-  let newClient;
+  let newClient = null;
 
   //--> Create new client OR get existing client id
   if (req.body.newClient && req.body.newClient.trim().length > 0) {
@@ -54,7 +54,6 @@ exports.createProject = catchAsync(async (req, res, next) => {
       req.body.client = existingClient._id;
     }
   }
-
   //--> Create & save new project
   const project = new Project({
     ...req.body,
@@ -79,7 +78,7 @@ exports.createProject = catchAsync(async (req, res, next) => {
 exports.getProject = catchAsync(async (req, res, next) => {
   const project = await Project.findOne({
     _id: req.params.id,
-    user: req.user.id
+    user: req.user.id // _id is unique enough, should I really search by user?
   }).select("client currency date payment projectNr _id");
 
   if (!project) {
@@ -96,10 +95,10 @@ exports.getProject = catchAsync(async (req, res, next) => {
 // @desc      Update project
 // @access    Private
 exports.updateProject = catchAsync(async (req, res, next) => {
-  // if new client is provided
   let newClient = null;
 
-  if (req.body.newClient && req.body.newClient.length > 0) {
+  //--> Create new client OR get existing client id
+  if (req.body.newClient && req.body.newClient.trim().length > 0) {
     const existingClient = await Client.findOne({
       name: req.body.newClient,
       user: req.user.id
@@ -119,6 +118,7 @@ exports.updateProject = catchAsync(async (req, res, next) => {
     }
   }
 
+  //--> Update project
   const updatedProject = await Project.findOneAndUpdate(
     {
       _id: req.params.id,
