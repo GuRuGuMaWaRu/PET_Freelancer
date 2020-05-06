@@ -17,19 +17,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // Connect to mongo DB
-// if (process.env.NODE_ENV !== "test") {
-mongoose
-  .connect(process.env.DB_MAIN, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-  })
-  .then(() => console.log("Connection to database is established"))
-  .catch(err => console.log(`Connection error: ${err.reason}`));
-
-mongoose.connection.on("error", err => console.log(err));
-// }
+require("./db");
 
 const app = express();
 
@@ -67,7 +55,7 @@ if (process.env.NODE_ENV === "production") {
   );
 }
 
-// Handle 404 errors
+// Handle 404 (Not Found) errors
 app.all("*", (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
 });
@@ -78,4 +66,5 @@ app.use(globalErrorHandler);
 // Connect to server
 const PORT = process.env.PORT || 6000;
 
+// eslint-disable-next-line
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
