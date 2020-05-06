@@ -34,6 +34,7 @@ exports.getAllProjects = catchAsync(async (req, res, next) => {
 exports.createProject = catchAsync(async (req, res, next) => {
   let newClient;
 
+  //--> Create new client OR get existing client id
   if (req.body.newClient && req.body.newClient.trim().length > 0) {
     const existingClient = await Client.findOne({
       name: req.body.newClient,
