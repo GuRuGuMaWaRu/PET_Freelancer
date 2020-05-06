@@ -81,4 +81,5 @@ app.use(globalErrorHandler);
 // Connect to server
 const PORT = process.env.PORT || 6000;
 
+// eslint-disable-next-line
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
