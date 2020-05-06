@@ -55,12 +55,14 @@ exports.createProject = catchAsync(async (req, res, next) => {
     }
   }
 
+  //--> Create & save new project
   const project = new Project({
     ...req.body,
     user: req.user.id
   });
   await project.save();
 
+  //--> Get newly created project from DB
   const newProject = await Project.findOne({
     _id: project._id,
     user: req.user.id
