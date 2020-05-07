@@ -1,127 +1,89 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import axios from "axios";
 import moment from "moment";
-import styled from "styled-components";
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik } from "formik";
+
 import Spinner from "../layout/Spinner";
+import ProjectContext from "../../context/project/projectContext";
+import AlertContext from "../../context/alert/alertContext";
+import {
+  StyledForm,
+  StyledTitle,
+  StyledFormGroup,
+  StyledLabel,
+  StyledField,
+  StyledErrorMessage,
+  StyledActionButtons,
+  StyledSubmitButton
+} from "./FormStyles";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
   client: Yup.string(),
   newClient: Yup.string(),
   projectNr: Yup.string().required("Required"),
-  currency: Yup.string().required("Required"),
-  payment: Yup.number().required("Required")
+  currency: Yup.string(),
+  payment: Yup.number()
 });
 
-const StyledForm = styled(Form)`
-  padding: 1rem 2rem;
-`;
-const StyledTitle = styled.h1`
-  font-size: 2.5rem;
-  text-align: center;
-  padding-top: 1rem;
-  margin-top: 0;
-`;
-const StyledFormGroup = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  padding: 0.5rem;
-`;
-const StyledLabel = styled.label`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 0.5rem;
-`;
-const StyledField = styled(Field)`
-  padding: 0.2rem;
-`;
-const StyledErrorMessage = styled(ErrorMessage)`
-  grid-column-start: 2;
-  margin-top: 0.4rem;
-  color: ${props => props.theme.darkPrimary};
-`;
-const StyledSubmitButton = styled.button`
-  display: block;
-  padding: 0.6rem 1.5rem;
-  margin: 2rem auto 0;
-  border: none;
-  color: ${props => props.theme.text};
-  background-color: ${props => props.theme.accent};
-  cursor: pointer;
-  transition: 0.2s color;
-  &:hover {
-    color: ${props => props.theme.lightPrimary};
-  }
-`;
+const AddProjectForm = ({ history }) => {
+  const projectContext = useContext(ProjectContext);
+  const alertContext = useContext(AlertContext);
 
-const ProjectForm = ({ history, showAlert, hideAlert }) => {
-  const [clients, setClients] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { clients, loadingClients, createProject, getClients } = projectContext;
+  const { addAlert } = alertContext;
 
   useEffect(() => {
-    const source = axios.CancelToken.source();
-
-    hideAlert();
-    setLoading(true);
-
-    const getClients = async () => {
-      try {
-        const { data: clients } = await axios.get("/clients", {
-          cancelToken: source.token
-        });
-        setClients(clients);
-        setLoading(false);
-      } catch (err) {
-        if (axios.isCancel(err)) {
-          console.log("Error:", err.message);
-        }
-        setLoading(false);
-      }
-    };
-
-    getClients();
-
-    return () => {
-      source.cancel("cancelled request at ProjectForm!");
-    };
+    console.log("---AddProjectForm: useEffect");
+    if (loadingClients) {
+      getClients();
+    }
     // eslint-disable-next-line
   }, []);
 
-  if (loading) {
+  console.log("---AddProjectForm: rendering...");
+  console.log("---AddProjectForm, loadingClients:", loadingClients);
+  console.log("---AddProjectForm, clients:", clients);
+
+  if (loadingClients) {
     return <Spinner />;
   }
+
+  const initialValues = {
+    date: moment().format("YYYY-MM-DD"),
+    client: "",
+    newClient: "",
+    projectNr: "",
+    currency: "USD",
+    payment: ""
+  };
 
   return (
     clients && (
       <Formik
-        initialValues={{
-          date: moment().format("YYYY-MM-DD"),
-          client: "",
-          newClient: "",
-          projectNr: "",
-          currency: "USD",
-          payment: ""
-        }}
+        initialValues={initialValues}
         validationSchema={formSchema}
         onSubmit={async (values, actions) => {
           try {
             values.projectNr = values.projectNr.trim();
 
+            // Get client name to display inside alert message
             let client;
             if (values.newClient.length > 0) {
               client = values.newClient.trim();
             } else {
-              client = clients.filter(client => client._id === values.client)[0]
+              client = clients.find(client => client._id === values.client)
                 .name;
             }
 
-            await axios.post("/projects", values);
+            createProject(values);
+            addAlert({
+              msg: `Added new project "${values.projectNr}" from ${client}`,
+              type: "info"
+            });
+
             actions.setSubmitting(false);
-            showAlert(`Added new project "${values.projectNr}" from ${client}`);
             history.push("/");
           } catch (err) {
             console.log(err);
@@ -166,17 +128,17 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
               </StyledField>
-              <StyledErrorMessage name="currency" component="div" />
             </StyledFormGroup>
             <StyledFormGroup>
-              <StyledLabel htmlFor="payment">* Payment:</StyledLabel>
-              <StyledField type="number" name="payment" />
-              <StyledErrorMessage name="payment" component="div" />
+              <StyledLabel htmlFor="payment">Payment:</StyledLabel>
+              <StyledField type="number" name="payment" placeholder="0" />
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
-            <StyledSubmitButton type="submit" disabled={isSubmitting}>
-              Add
-            </StyledSubmitButton>
+            <StyledActionButtons>
+              <StyledSubmitButton type="submit" disabled={isSubmitting}>
+                Add
+              </StyledSubmitButton>
+            </StyledActionButtons>
           </StyledForm>
         )}
       />
@@ -184,9 +146,8 @@ const ProjectForm = ({ history, showAlert, hideAlert }) => {
   );
 };
 
-ProjectForm.propTypes = {
-  showAlert: PropTypes.func.isRequired,
-  hideAlert: PropTypes.func.isRequired
+AddProjectForm.propTypes = {
+  history: PropTypes.object.isRequired
 };
 
-export default ProjectForm;
+export default AddProjectForm;

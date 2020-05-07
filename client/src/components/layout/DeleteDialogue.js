@@ -1,7 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
-import axios from "axios";
+import React, { useContext } from "react";
 import styled from "styled-components";
+
+import ProjectContext from "../../context/project/projectContext";
+import AlertContext from "../../context/alert/alertContext";
 
 const StyledDialogue = styled.div`
   position: relative;
@@ -33,29 +34,23 @@ const StyledYesButton = styled(StyledButton)`
   background-color: ${props => props.theme.primary};
 `;
 
-const DeleteDialogue = ({
-  projects,
-  setProjects,
-  deleteProject,
-  showAlert,
-  closeModal
-}) => {
+const DeleteDialogue = () => {
   const handlePropagation = e => {
     e.stopPropagation();
   };
 
+  const projectContext = useContext(ProjectContext);
+  const alertContext = useContext(AlertContext);
+
+  const { deleteId, deleteProject, closeModal } = projectContext;
+  const { addAlert } = alertContext;
+
   const handleDelete = async () => {
-    try {
-      await axios.delete(`/projects/${deleteProject}`);
-      closeModal();
-      showAlert(`Deleted a project.`);
-      setProjects(projects.filter(project => project._id !== deleteProject));
-    } catch (err) {
-      console.log(err);
-      closeModal();
-      showAlert(`There was an error deleting a project!`);
-      setProjects(projects.filter(project => project._id !== deleteProject));
-    }
+    deleteProject(deleteId);
+    addAlert({
+      msg: "Deleted a project",
+      type: "info"
+    });
   };
 
   return (
@@ -67,14 +62,6 @@ const DeleteDialogue = ({
       </StyledActions>
     </StyledDialogue>
   );
-};
-
-DeleteDialogue.propTypes = {
-  projects: PropTypes.array,
-  setProjects: PropTypes.func.isRequired,
-  deleteProject: PropTypes.string.isRequired,
-  showAlert: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired
 };
 
 export default DeleteDialogue;

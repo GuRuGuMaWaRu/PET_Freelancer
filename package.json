@@ -1,26 +1,56 @@
 {
   "name": "pet-freelancer",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "server": "nodemon ./bin/www",
-    "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "SET NODE_ENV=test & nodemon --exec \"mocha --recursive -R min\""
+  "version": "0.2.0",
+  "engines": {
+    "node": ">=8.3.0"
   },
+  "description": "log freelance jobs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js",
+    "client": "npm start --prefix client",
+    "clientinstall": "npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuRuGuMaWaRu/PET_Freelancer.git"
+  },
+  "keywords": [],
+  "author": "Peter Krevenets",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuRuGuMaWaRu/PET_Freelancer/issues"
+  },
+  "homepage": "https://github.com/GuRuGuMaWaRu/PET_Freelancer#readme",
   "dependencies": {
-    "concurrently": "^5.0.0",
-    "cookie-parser": "~1.4.4",
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^5.0.2",
     "debug": "~2.6.9",
-    "dotenv": "^8.1.0",
+    "dotenv": "^8.2.0",
     "express": "~4.16.1",
+    "express-validator": "^6.3.1",
+    "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
-    "mongoose": "^5.7.5",
-    "morgan": "~1.9.1"
+    "mongoose": "^5.8.5",
+    "morgan": "~1.9.1",
+    "react-transition-group": "^4.3.0",
+    "validator": "^12.2.0"
   },
   "devDependencies": {
-    "mocha": "^6.2.0",
-    "nodemon": "^1.19.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.0",
+    "mocha": "^7.1.2",
+    "nodemon": "^2.0.3",
+    "prettier": "^1.19.1",
     "supertest": "^4.0.2"
   }
 }

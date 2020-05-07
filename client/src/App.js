@@ -1,12 +1,30 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useContext } from "react";
 import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faPen,
+  faTrashAlt,
+  faInfoCircle,
+  faExclamationCircle,
+  faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
 
-import Navbar from "./layout/Navbar";
-import ProjectForm from "./pages/ProjectForm";
-import ProjectList from "./pages/ProjectList";
-import Alert from "./layout/Alert";
-import DeleteDialogue from "./layout/DeleteDialogue";
+import Navbar from "./components/layout/Navbar";
+import Login from "./components/pages/Login";
+import Registration from "./components/pages/Registration";
+import AddProjectForm from "./components/pages/AddProjectForm";
+import EditProjectForm from "./components/pages/EditProjectForm";
+import ProjectList from "./components/pages/ProjectList";
+import NotFound from "./components/pages/NotFound";
+import Alerts from "./components/layout/Alerts";
+import DeleteDialogue from "./components/layout/DeleteDialogue";
+import PrivateRoute from "./components/routing/PrivateRoute";
+import AuthRoute from "./components/routing/AuthRoute";
+import setAuthToken from "./utils/setAuthToken";
+
+import ProjectContext from "./context/project/projectContext";
+import AuthContext from "./context/auth/authContext";
 
 const theme = {
   darkPrimary: "#E64A19",
@@ -21,8 +39,12 @@ const theme = {
   modal_bg_color: "hsla(200, 40%, 10%, 0.4)",
   mediumseagreen: "mediumseagreen"
 };
-
 const GlobalStyle = createGlobalStyle`
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
   body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;
@@ -82,40 +104,44 @@ const StyledContainer = styled.div`
   background-color: ${props => props.theme.container};
 `;
 
+library.add(
+  faPen,
+  faTrashAlt,
+  faInfoCircle,
+  faExclamationCircle,
+  faTimesCircle
+);
+
 const App = () => {
-  const [alert, setAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(null);
-  const [deleteProject, setDeleteProject] = useState(null);
-  const [projects, setProjects] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const projectContext = useContext(ProjectContext);
+  const authContext = useContext(AuthContext);
 
-  const showAlert = message => {
-    setAlertMessage(message);
-    setAlert(true);
-  };
+  const { deleteId, closeModal } = projectContext;
+  const { getUser, setLoadingUser } = authContext;
 
-  const hideAlert = () => {
-    setAlert(false);
-  };
-
-  const handleModal = () => {
-    setDeleteProject(null);
-  };
+  useEffect(() => {
+    console.log("---App: useEffect");
+    // place token into axios headers
+    if (localStorage.freelancer_token) {
+      console.log("---App: with token");
+      // setLoadingUser(true);
+      setAuthToken(localStorage.freelancer_token);
+      getUser();
+    } else {
+      console.log("---App: without token");
+      setLoadingUser(false);
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Fragment>
       <GlobalStyle />
       <Router>
         <ThemeProvider theme={theme}>
-          {deleteProject && (
-            <StyledModal onClick={handleModal}>
-              <DeleteDialogue
-                projects={projects}
-                setProjects={setProjects}
-                showAlert={showAlert}
-                deleteProject={deleteProject}
-                closeModal={handleModal}
-              />
+          {deleteId && (
+            <StyledModal onClick={closeModal}>
+              <DeleteDialogue />
             </StyledModal>
           )}
           <StyledTitleBar>
@@ -123,26 +149,15 @@ const App = () => {
             <Navbar />
           </StyledTitleBar>
           <StyledContainer>
-            {alert && <Alert message={alertMessage} hideAlert={hideAlert} />}
+            <Alerts />
             <Switch>
-              <Route
-                path="/add"
-                render={props => (
-                  <ProjectForm
-                    {...props}
-                    showAlert={showAlert}
-                    hideAlert={hideAlert}
-                  />
-                )}
-              ></Route>
-              <Route exact path="/">
-                <ProjectList
-                  loading={loading}
-                  setLoading={setLoading}
-                  projects={projects}
-                  setProjects={setProjects}
-                  setDeleteProject={setDeleteProject}
-                />
+              <PrivateRoute exact path="/" component={ProjectList} />
+              <PrivateRoute path="/add" component={AddProjectForm} />
+              <PrivateRoute path="/project/:id" component={EditProjectForm} />
+              <AuthRoute path="/login" component={Login} />
+              <AuthRoute path="/registration" component={Registration} />
+              <Route>
+                <NotFound />
               </Route>
             </Switch>
           </StyledContainer>

@@ -1,32 +1,36 @@
+const dotenv = require("dotenv");
 const express = require("express");
-// const cookieParser = require("cookie-parser");
-const logger = require("morgan");
+const morgan = require("morgan");
 const mongoose = require("mongoose");
+const path = require("path");
 
-const projectsRouter = require("./routes/projects");
-const clientsRouter = require("./routes/clients");
+const AppError = require("./utils/appError");
+const globalErrorHandler = require("./controllers/errorController");
+const userRouter = require("./routes/userRoutes");
+const authRouter = require("./routes/authRoutes");
+const clientRouter = require("./routes/clientRoutes");
+const projectRouter = require("./routes/projectRoutes");
 
 // Set environament variables
-require("dotenv").config({ path: "process.env" });
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config({ path: "process.env" });
+}
 
 // Connect to mongo DB
-if (process.env.NODE_ENV === "development") {
-  mongoose.connect(process.env.DB_MAIN, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-    useFindAndModify: false
-  });
-}
+require("./db");
 
 const app = express();
 
-app.use(logger("dev"));
-app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
-// app.use(cookieParser());
+// Development logging
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
+}
 
+// Body parser
+app.use(express.json({ limit: "10kb" }));
+
+// Set CORS headers so that React SPA is able to communicate with this server
 app.use((req, res, next) => {
-  // Set CORS headers so that React SPA is able to communicate with this server
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -36,19 +40,31 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/projects", projectsRouter);
-app.use("/clients", clientsRouter);
+// Set up routes
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/projects", projectRouter);
+app.use("/api/v1/clients", clientRouter);
 
-// Handle 404 errors
-app.use((req, res, next) => {
-  const error = new Error("Not found!");
-  error.status = 404;
-  next(error);
+// Heroku deployment --- serve static assets in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client", "build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  );
+}
+
+// Handle 404 (Not Found) errors
+app.all("*", (req, res, next) => {
+  next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
 });
+
 // Handle all errors
-app.use((error, req, res) => {
-  res.status(error.status || 500);
-  res.json({ msg: error.message });
-});
+app.use(globalErrorHandler);
 
-module.exports = app;
+// Connect to server
+const PORT = process.env.PORT || 6000;
+
+// eslint-disable-next-line
+app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
