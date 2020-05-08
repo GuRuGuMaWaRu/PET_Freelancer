@@ -23,9 +23,7 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   }
 
   const payload = {
-    user: {
-      id: user._id
-    }
+    id: user._id
   };
 
   jwt.sign(
@@ -47,9 +45,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
 
   // Get new token
   const payload = {
-    user: {
-      id: user._id
-    }
+    id: user._id
   };
 
   jwt.sign(

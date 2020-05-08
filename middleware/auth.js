@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = decoded.user;
+    req.userId = decoded.id;
     next();
   } catch (err) {
     next(new AppError("Token is not valid", 401));

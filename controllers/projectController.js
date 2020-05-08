@@ -13,7 +13,7 @@ const AppError = require("../utils/appError");
 // @access    Private
 exports.getAllProjects = catchAsync(async (req, res, next) => {
   const projects = await Project.find({
-    user: req.user.id
+    user: req.userId
     // deleted: { $ne: true }
   });
   // .populate({ path: "client", select: "name -_id" })
@@ -38,13 +38,13 @@ exports.createProject = catchAsync(async (req, res, next) => {
   if (req.body.newClient && req.body.newClient.trim().length > 0) {
     const existingClient = await Client.findOne({
       name: req.body.newClient,
-      user: req.user.id
+      user: req.userId
     });
 
     if (!existingClient) {
       newClient = new Client({
         name: req.body.newClient,
-        user: req.user.id
+        user: req.userId
       });
 
       req.body.client = newClient._id;
@@ -57,14 +57,14 @@ exports.createProject = catchAsync(async (req, res, next) => {
   //--> Create & save new project
   const project = new Project({
     ...req.body,
-    user: req.user.id
+    user: req.userId
   });
   await project.save();
 
   //--> Get newly created project from DB
   const newProject = await Project.findOne({
     _id: project._id,
-    user: req.user.id
+    user: req.userId
   })
     .populate("client")
     .select("client currency date payment projectNr _id");
@@ -78,7 +78,7 @@ exports.createProject = catchAsync(async (req, res, next) => {
 exports.getProject = catchAsync(async (req, res, next) => {
   const project = await Project.findOne({
     _id: req.params.id,
-    user: req.user.id // _id is unique enough, should I really search by user?
+    user: req.userId // _id is unique enough, should I really search by user?
   }).select("client currency date payment projectNr _id");
 
   if (!project) {
@@ -101,13 +101,13 @@ exports.updateProject = catchAsync(async (req, res, next) => {
   if (req.body.newClient && req.body.newClient.trim().length > 0) {
     const existingClient = await Client.findOne({
       name: req.body.newClient,
-      user: req.user.id
+      user: req.userId
     });
 
     if (!existingClient) {
       newClient = new Client({
         name: req.body.newClient,
-        user: req.user.id
+        user: req.userId
       });
 
       req.body.client = newClient._id;
@@ -122,7 +122,7 @@ exports.updateProject = catchAsync(async (req, res, next) => {
   const updatedProject = await Project.findOneAndUpdate(
     {
       _id: req.params.id,
-      user: req.user.id
+      user: req.userId
     },
     req.body,
     { new: true }
@@ -143,7 +143,7 @@ exports.updateProject = catchAsync(async (req, res, next) => {
 // @access    Private
 exports.deleteProject = catchAsync(async (req, res, next) => {
   const project = await Project.findOneAndUpdate(
-    { _id: req.params.id, user: req.user.id },
+    { _id: req.params.id, user: req.userId },
     { deleted: true },
     { new: true }
   );
