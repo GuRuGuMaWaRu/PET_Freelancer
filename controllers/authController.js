@@ -23,18 +23,16 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   }
 
   const payload = {
-    user: {
-      id: user._id
-    }
+    id: user._id
   };
 
   jwt.sign(
     payload,
-    process.env.JWTSECRET,
-    { expiresIn: "90d" },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
-      res.status(200).json({ status: "success", data: { token } });
+      res.status(200).json({ status: "success", token });
     }
   );
 });
@@ -47,18 +45,16 @@ exports.getUser = catchAsync(async (req, res, next) => {
 
   // Get new token
   const payload = {
-    user: {
-      id: user._id
-    }
+    id: user._id
   };
 
   jwt.sign(
     payload,
-    process.env.JWTSECRET,
-    { expiresIn: 36000 },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
-      res.status(200).json({ status: "success", data: { user, token } });
+      res.status(200).json({ status: "success", token, data: { user } });
     }
   );
 });
