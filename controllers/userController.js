@@ -38,7 +38,7 @@ exports.registerUser = catchAsync(async (req, res, next) => {
     { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
-      res.status(201).json({ status: "success", data: { token } });
+      res.status(201).json({ status: "success", token });
     }
   );
 });
