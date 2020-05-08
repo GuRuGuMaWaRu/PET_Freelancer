@@ -29,7 +29,7 @@ exports.loginUser = catchAsync(async (req, res, next) => {
   jwt.sign(
     payload,
     process.env.JWT_SECRET,
-    { expiresIn: "90d" },
+    { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
       res.status(200).json({ status: "success", data: { token } });
@@ -51,7 +51,7 @@ exports.getUser = catchAsync(async (req, res, next) => {
   jwt.sign(
     payload,
     process.env.JWT_SECRET,
-    { expiresIn: 36000 },
+    { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
       res.status(200).json({ status: "success", data: { user, token } });

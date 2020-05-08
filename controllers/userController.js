@@ -35,7 +35,7 @@ exports.registerUser = catchAsync(async (req, res, next) => {
   jwt.sign(
     payload,
     process.env.JWT_SECRET,
-    { expiresIn: 36000 },
+    { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
       res.status(201).json({ status: "success", data: { token } });
