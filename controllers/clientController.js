@@ -10,3 +10,11 @@ exports.getAllClients = catchAsync(async (req, res, next) => {
   });
   res.status(200).json({ status: "success", data: { clients } });
 });
+
+// @route     GET client/:id
+// @desc      Get a particular client
+// @access    Private
+exports.getClient = catchAsync(async (req, res, next) => {
+  const client = await Client.findById(req.params.id);
+  res.status(200).json({ status: "success", data: { client } });
+});

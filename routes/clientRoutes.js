@@ -12,4 +12,11 @@ router
   // @access    Private
   .get(auth, clientController.getAllClients);
 
+router
+  .route("/:id")
+  // @route     GET client/:id
+  // @desc      Get a particular client
+  // @access    Private
+  .get(auth, clientController.getClient);
+
 module.exports = router;
