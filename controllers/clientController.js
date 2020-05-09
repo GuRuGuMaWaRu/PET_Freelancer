@@ -1,5 +1,6 @@
 const Client = require("../models/clientModel");
 const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
 // @route     GET clients/
 // @desc      Get all clients
@@ -16,5 +17,10 @@ exports.getAllClients = catchAsync(async (req, res, next) => {
 // @access    Private
 exports.getClient = catchAsync(async (req, res, next) => {
   const client = await Client.findById(req.params.id);
+
+  if (!client) {
+    return next(new AppError("No client found with this ID", 404));
+  }
+
   res.status(200).json({ status: "success", data: { client } });
 });
