@@ -9,7 +9,9 @@ exports.getAllClients = catchAsync(async (req, res, next) => {
   const clients = await Client.find({ user: req.userId }).sort({
     name: 1
   });
-  res.status(200).json({ status: "success", data: { clients } });
+  res
+    .status(200)
+    .json({ status: "success", results: clients.length, data: { clients } });
 });
 
 // @route     GET client/:id
