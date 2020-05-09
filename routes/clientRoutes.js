@@ -25,6 +25,10 @@ router
   // @route     PATCH clients/:id
   // @desc      Update client
   // @access    Private
-  .patch(auth, clientController.updateClient);
+  .patch(auth, clientController.updateClient)
+  // @route     DELETE clients/:id
+  // @desc      Delete client
+  // @access    Private
+  .delete(auth, clientController.deleteClient);
 
 module.exports = router;
