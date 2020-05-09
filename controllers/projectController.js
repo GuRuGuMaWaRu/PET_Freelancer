@@ -28,6 +28,25 @@ exports.getAllProjects = catchAsync(async (req, res, next) => {
   });
 });
 
+// @route     GET projects/:id
+// @desc      Get project
+// @access    Private
+exports.getProject = catchAsync(async (req, res, next) => {
+  const project = await Project.findOne({
+    _id: req.params.id,
+    user: req.userId // _id is unique enough, should I really search by user?
+  }).select("client currency date payment projectNr _id");
+
+  if (!project) {
+    return next(new AppError("No project found with this ID", 404));
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: { project }
+  });
+});
+
 // @route     POST projects/
 // @desc      Save new project
 // @access    Private
@@ -70,25 +89,6 @@ exports.createProject = catchAsync(async (req, res, next) => {
     .select("client currency date payment projectNr _id");
 
   res.status(201).json({ status: "success", data: { newProject, newClient } });
-});
-
-// @route     GET projects/:id
-// @desc      Get project
-// @access    Private
-exports.getProject = catchAsync(async (req, res, next) => {
-  const project = await Project.findOne({
-    _id: req.params.id,
-    user: req.userId // _id is unique enough, should I really search by user?
-  }).select("client currency date payment projectNr _id");
-
-  if (!project) {
-    return next(new AppError("No project found with this ID", 404));
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: { project }
-  });
 });
 
 // @route     PATCH projects/:id
