@@ -24,3 +24,12 @@ exports.getClient = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ status: "success", data: { client } });
 });
+
+// @route     POST clients/
+// @desc      Create client
+// @access    Private
+exports.createClient = catchAsync(async (req, res, next) => {
+  const newClient = await Client.create(req.body);
+
+  res.status(201).json({ status: "success", data: { newClient } });
+});

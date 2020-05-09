@@ -10,7 +10,11 @@ router
   // @route     GET clients/
   // @desc      Get all clients
   // @access    Private
-  .get(auth, clientController.getAllClients);
+  .get(auth, clientController.getAllClients)
+  // @route     POST clients/
+  // @desc      Create client
+  // @access    Private
+  .post(auth, clientController.createClient);
 
 router
   .route("/:id")
