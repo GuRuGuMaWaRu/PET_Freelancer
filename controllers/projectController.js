@@ -20,7 +20,7 @@ exports.getAllProjects = catchAsync(async (req, res, next) => {
     status: "success",
     results: projects.length,
     data: {
-      projects
+      data: projects
     }
   });
 });
@@ -40,7 +40,7 @@ exports.getProject = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: { project }
+    data: { data: project }
   });
 });
 
