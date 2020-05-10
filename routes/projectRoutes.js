@@ -12,11 +12,11 @@ router
   // @route     GET projects/
   // @desc      Get all projects
   // @access    Private
-  .get(projectController.getAllProjects);
-// @route     POST projects/
-// @desc      Create project and (possibly) client
-// @access    Private
-// .post(projectController.createProjectAndClient);
+  .get(projectController.getAllProjects)
+  // @route     POST projects/
+  // @desc      Create project
+  // @access    Private
+  .post(projectController.createProject);
 
 router
   .route("/:id")
