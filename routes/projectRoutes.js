@@ -27,7 +27,7 @@ router
   // @route     PATCH projects/:id
   // @desc      Update a project
   // @access    Private
-  .patch(projectController.updateProject)
+  // .patch(projectController.updateProject)
   // @route     DELETE projects/:id
   // @desc      Delete a project
   // @access    Private
@@ -36,9 +36,15 @@ router
 //--> Specialized routes
 router
   .route("/withClient")
-  // @route     POST projects/
+  // @route     POST projects/withClient/
   // @desc      Create project and (possibly) client
   // @access    Private
   .post(projectController.createProjectWithClient);
+
+router
+  .route("/:id/withClient") // @route     PATCH projects/withClient/:id
+  // @desc      Update project and (possibly) client
+  // @access    Private
+  .patch(projectController.updateProjectWithClient);
 
 module.exports = router;

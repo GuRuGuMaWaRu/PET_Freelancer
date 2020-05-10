@@ -85,7 +85,7 @@ const ProjectState = props => {
 
     try {
       const res = await axios.patch(
-        `/api/v1/projects/${project._id}`,
+        `/api/v1/projects/${project._id}/withClient`,
         project.editedFields
       );
       // await axios.patch(

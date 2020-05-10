@@ -44,8 +44,8 @@ exports.getProject = catchAsync(async (req, res, next) => {
   });
 });
 
-// @route     POST projects/
-// @desc      Save new project
+// @route     POST projects/withClient/
+// @desc      Create project and (possibly) client
 // @access    Private
 exports.createProjectWithClient = catchAsync(async (req, res, next) => {
   let newClient = null;
@@ -88,10 +88,10 @@ exports.createProjectWithClient = catchAsync(async (req, res, next) => {
   res.status(201).json({ status: "success", data: { newProject, newClient } });
 });
 
-// @route     PATCH projects/:id
-// @desc      Update project
+// @route     PATCH projects/withClient/:id
+// @desc      Update project and (possibly) client
 // @access    Private
-exports.updateProject = catchAsync(async (req, res, next) => {
+exports.updateProjectWithClient = catchAsync(async (req, res, next) => {
   let newClient = null;
 
   //--> Create new client OR get existing client id
