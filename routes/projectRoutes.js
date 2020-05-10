@@ -12,11 +12,11 @@ router
   // @route     GET projects/
   // @desc      Get all projects
   // @access    Private
-  .get(projectController.getAllProjects)
-  // @route     POST projects/
-  // @desc      Save a new project
-  // @access    Private
-  .post(projectController.createProject);
+  .get(projectController.getAllProjects);
+// @route     POST projects/
+// @desc      Create project and (possibly) client
+// @access    Private
+// .post(projectController.createProjectAndClient);
 
 router
   .route("/:id")
@@ -32,5 +32,13 @@ router
   // @desc      Delete a project
   // @access    Private
   .delete(projectController.deleteProject);
+
+//--> Specialized routes
+router
+  .route("/withClient")
+  // @route     POST projects/
+  // @desc      Create project and (possibly) client
+  // @access    Private
+  .post(projectController.createProjectWithClient);
 
 module.exports = router;

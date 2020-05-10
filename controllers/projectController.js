@@ -47,7 +47,7 @@ exports.getProject = catchAsync(async (req, res, next) => {
 // @route     POST projects/
 // @desc      Save new project
 // @access    Private
-exports.createProject = catchAsync(async (req, res, next) => {
+exports.createProjectWithClient = catchAsync(async (req, res, next) => {
   let newClient = null;
 
   //--> Create new client OR get existing client id

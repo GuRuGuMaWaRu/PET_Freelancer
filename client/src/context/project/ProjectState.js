@@ -65,7 +65,7 @@ const ProjectState = props => {
     }
 
     try {
-      const res = await axios.post("/api/v1/projects", data);
+      const res = await axios.post("/api/v1/projects/withClient", data);
       console.log("ProjectState --- createProject:", res);
 
       const { newProject, newClient } = res.data.data;
