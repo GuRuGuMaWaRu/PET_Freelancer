@@ -21,15 +21,15 @@ router
 router
   .route("/:id")
   // @route     GET projects/:id
-  // @desc      Get a project
+  // @desc      Get project
   // @access    Private
   .get(projectController.getProject)
   // @route     PATCH projects/:id
-  // @desc      Update a project
+  // @desc      Update project
   // @access    Private
-  // .patch(projectController.updateProject)
+  .patch(projectController.updateProject)
   // @route     DELETE projects/:id
-  // @desc      Delete a project
+  // @desc      Delete project
   // @access    Private
   .delete(projectController.deleteProject);
 

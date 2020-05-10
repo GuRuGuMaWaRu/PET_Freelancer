@@ -48,7 +48,7 @@ exports.getProject = catchAsync(async (req, res, next) => {
 // @desc      Create project
 // @access    Private
 exports.createProject = catchAsync(async (req, res, next) => {
-  const newProject = Project.create({ ...req.body, user: req.userId });
+  const newProject = await Project.create({ ...req.body, user: req.userId });
 
   res.status(201).json({ status: "success", data: { data: newProject } });
 });
@@ -95,6 +95,23 @@ exports.createProjectWithClient = catchAsync(async (req, res, next) => {
     .select("client currency date payment projectNr _id");
 
   res.status(201).json({ status: "success", data: { newProject, newClient } });
+});
+
+// @route     PATCH projects/:id
+// @desc      Update project
+// @access    Private
+exports.updateProject = catchAsync(async (req, res, next) => {
+  const updatedProject = await Project.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedProject) {
+    next(new AppError("No client found with this ID", 404));
+  }
+
+  res.status(200).json({ status: "success", data: { data: updatedProject } });
 });
 
 // @route     PATCH projects/:id/withClient/
