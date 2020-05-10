@@ -88,7 +88,7 @@ exports.createProjectWithClient = catchAsync(async (req, res, next) => {
   res.status(201).json({ status: "success", data: { newProject, newClient } });
 });
 
-// @route     PATCH projects/withClient/:id
+// @route     PATCH projects/:id/withClient/
 // @desc      Update project and (possibly) client
 // @access    Private
 exports.updateProjectWithClient = catchAsync(async (req, res, next) => {
