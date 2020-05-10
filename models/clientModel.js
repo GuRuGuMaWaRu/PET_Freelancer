@@ -17,6 +17,14 @@ const clientSchema = new mongoose.Schema({
   }
 });
 
+clientSchema.pre("find", function(next) {
+  this.find({ deleted: { $ne: true } })
+    .select("_id name")
+    .sort({ name: 1 });
+
+  next();
+});
+
 const Client = mongoose.model("Client", clientSchema);
 
 module.exports = Client;
