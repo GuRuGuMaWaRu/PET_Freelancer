@@ -6,7 +6,7 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
 // @route     POST users/
-// @desc      Register a user
+// @desc      Register user
 // @access    Public
 exports.registerUser = catchAsync(async (req, res, next) => {
   // Handle Registration form errors

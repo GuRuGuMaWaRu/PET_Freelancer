@@ -37,7 +37,7 @@ const ProjectState = props => {
     try {
       const res = await axios.get("/api/v1/projects");
       console.log("ProjectState --- getProjects:", res);
-      const projects = res.data.data.projects;
+      const projects = res.data.data.data;
       const projectsByMonth = projects.reduce((final, project, i) => {
         const month = moment(project.date).month();
         if (final[month]) {
@@ -65,7 +65,7 @@ const ProjectState = props => {
     }
 
     try {
-      const res = await axios.post("/api/v1/projects", data);
+      const res = await axios.post("/api/v1/projects/withClient", data);
       console.log("ProjectState --- createProject:", res);
 
       const { newProject, newClient } = res.data.data;
@@ -85,7 +85,7 @@ const ProjectState = props => {
 
     try {
       const res = await axios.patch(
-        `/api/v1/projects/${project._id}`,
+        `/api/v1/projects/${project._id}/withClient`,
         project.editedFields
       );
       // await axios.patch(
@@ -138,7 +138,7 @@ const ProjectState = props => {
       const res = await axios.get(`/api/v1/projects/${id}`);
       console.log("ProjectState --- getCurrent:", res);
 
-      const project = res.data.data.project;
+      const project = res.data.data.data;
       dispatch({ type: GET_CURRENT_SUCCESS, payload: project });
     } catch (err) {
       console.error("Error:", err.message);
@@ -171,7 +171,7 @@ const ProjectState = props => {
       const res = await axios.get("/api/v1/clients");
       console.log("ProjectState --- getClients:", res);
 
-      const clients = res.data.data.clients;
+      const clients = res.data.data.data;
       dispatch({ type: GET_CLIENTS_SUCCESS, payload: clients });
     } catch (err) {
       console.error("Error:", err.message);
