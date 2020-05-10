@@ -10,6 +10,10 @@ const clientSchema = new mongoose.Schema({
     type: String,
     trim: true,
     required: [true, "A client must have a name"]
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   }
 });
 

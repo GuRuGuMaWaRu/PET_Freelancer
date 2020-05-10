@@ -14,8 +14,8 @@ exports.getAllClients = catchAsync(async (req, res, next) => {
     .json({ status: "success", results: clients.length, data: { clients } });
 });
 
-// @route     GET client/:id
-// @desc      Get a particular client
+// @route     GET clients/:id
+// @desc      Get client
 // @access    Private
 exports.getClient = catchAsync(async (req, res, next) => {
   const client = await Client.findById(req.params.id);
@@ -34,4 +34,43 @@ exports.createClient = catchAsync(async (req, res, next) => {
   const newClient = await Client.create(req.body);
 
   res.status(201).json({ status: "success", data: { newClient } });
+});
+
+// @route     PATCH clients/:id
+// @desc      Update client
+// @access    Private
+exports.updateClient = catchAsync(async (req, res, next) => {
+  const updatedClient = await Client.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+      runValidators: true
+    }
+  );
+
+  if (!updatedClient) {
+    return next(new AppError("No client found with this ID", 404));
+  }
+
+  res.status(200).json({ status: "success", data: { updatedClient } });
+});
+
+// @route     DELETE clients/:id
+// @desc      Delete client
+// @access    Private
+exports.deleteClient = catchAsync(async (req, res, next) => {
+  const deletedClient = await Client.findByIdAndUpdate(
+    req.params.id,
+    { deleted: true },
+    {
+      new: true
+    }
+  );
+
+  if (!deletedClient) {
+    return next(new AppError("No client found with this ID", 404));
+  }
+
+  res.status(204).json({ status: "success", data: { deletedClient } });
 });
