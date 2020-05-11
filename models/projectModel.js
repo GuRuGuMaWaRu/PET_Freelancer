@@ -44,11 +44,11 @@ projectSchema.pre("find", function(next) {
   next();
 });
 
-// projectSchema.pre("findOne", function(next) {
-//   this.select("-deleted -user -__v");
+projectSchema.pre("findOne", function(next) {
+  this.select("-deleted -user -__v");
 
-//   next();
-// });
+  next();
+});
 
 projectSchema.pre("findOneAndUpdate", function(next) {
   this.populate("client").select("client currency date payment projectNr _id");

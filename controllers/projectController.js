@@ -16,22 +16,7 @@ exports.getAllProjects = factory.getAll(Project);
 // @route     GET projects/:id
 // @desc      Get project
 // @access    Private
-exports.getProject = catchAsync(async (req, res, next) => {
-  const project = await Project.findOne({
-    _id: req.params.id,
-    user: req.userId // _id is unique enough, should I really search by user?
-  }).select("client currency date payment projectNr _id");
-
-  if (!project) {
-    return next(new AppError("No project found with this ID", 404));
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: { data: project }
-  });
-});
-
+exports.getProject = factory.getOne(Project);
 // @route     POST projects/
 // @desc      Create project
 // @access    Private
