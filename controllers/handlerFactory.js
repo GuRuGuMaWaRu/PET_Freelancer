@@ -1,7 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
-exports.getAllDocs = Model =>
+exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
     const filter = {};
 

@@ -12,7 +12,7 @@ const factory = require("./handlerFactory");
 // @route     GET projects/
 // @desc      Get all projects
 // @access    Private
-exports.getAllProjects = factory.getAllDocs(Project);
+exports.getAllProjects = factory.getAll(Project);
 // @route     GET projects/:id
 // @desc      Get project
 // @access    Private

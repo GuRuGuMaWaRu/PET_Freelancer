@@ -6,7 +6,7 @@ const factory = require("./handlerFactory");
 // @route     GET clients/
 // @desc      Get all clients
 // @access    Private
-exports.getAllClients = factory.getAllDocs(Client);
+exports.getAllClients = factory.getAll(Client);
 
 // @route     GET clients/:id
 // @desc      Get client

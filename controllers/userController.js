@@ -8,7 +8,7 @@ const factory = require("./handlerFactory");
 // @route     GET users/
 // @desc      Get all users
 // @access    Private
-exports.getAllUsers = factory.getAllDocs(User);
+exports.getAllUsers = factory.getAll(User);
 // @route     GET users/:id
 // @desc      Get user
 // @access    Private
