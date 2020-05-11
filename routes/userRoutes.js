@@ -26,7 +26,7 @@ router
     userController.registerUser
   );
 
-//--> Generic API routes (should be admin-only)
+//--> Admin routes
 
 router
   .route("/")
@@ -44,6 +44,10 @@ router
   // @route     GET users/:id
   // @desc      Get user
   // @access    Private
-  .get(userController.getUser);
+  .get(userController.getUser)
+  // @route     PATCH users/:id
+  // @desc      Update user
+  // @access    Private
+  .patch(userController.updateUser);
 
 module.exports = router;

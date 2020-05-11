@@ -45,7 +45,7 @@ exports.registerUser = catchAsync(async (req, res, next) => {
   );
 });
 
-//--> Generic API routes
+//--> Admin routes
 
 // @route     GET users/
 // @desc      Get all users
@@ -77,4 +77,19 @@ exports.createUser = catchAsync(async (req, res, next) => {
     status: "error",
     message: "This route is not defined! Please use /signup instead"
   });
+});
+// @route     PATCH users/:id
+// @desc      Update user
+// @access    Private
+exports.updateUser = catchAsync(async (req, res, next) => {
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true
+  });
+
+  if (!updatedUser) {
+    next(new AppError("No user found with this ID", 404));
+  }
+
+  res.status(200).json({ status: "success", data: { data: updatedUser } });
 });
