@@ -69,3 +69,12 @@ exports.getUser = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ status: "success", data: { data: user } });
 });
+// @route     POST users/
+// @desc      Create user
+// @access    Private
+exports.createUser = catchAsync(async (req, res, next) => {
+  res.status(500).json({
+    status: "error",
+    message: "This route is not defined! Please use /signup instead"
+  });
+});

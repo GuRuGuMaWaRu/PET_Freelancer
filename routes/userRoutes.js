@@ -8,7 +8,7 @@ const router = express.Router();
 
 router
   // @route     POST users/signup/
-  // @desc      Create new user
+  // @desc      Create user
   // @access    Public
   .post(
     "/signup",
@@ -26,14 +26,18 @@ router
     userController.registerUser
   );
 
-//--> Generic API routes
+//--> Generic API routes (should be admin-only)
 
 router
   .route("/")
   // @route     GET users/
   // @desc      Get all users
   // @access    Private
-  .get(userController.getAllUsers);
+  .get(userController.getAllUsers)
+  // @route     POST users/
+  // @desc      Create user
+  // @access    Private
+  .post(userController.createUser);
 
 router
   .route("/:id")
