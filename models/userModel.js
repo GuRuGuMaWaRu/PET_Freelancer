@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please provide a password"],
     minLength: 6
     // select: false
+  },
+  deleted: {
+    type: Boolean,
+    default: false
   }
 });
 

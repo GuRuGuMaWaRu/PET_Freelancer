@@ -93,3 +93,21 @@ exports.updateUser = catchAsync(async (req, res, next) => {
 
   res.status(200).json({ status: "success", data: { data: updatedUser } });
 });
+// @route     DELETE useres/:id
+// @desc      Delete user
+// @access    Private
+exports.deleteUser = catchAsync(async (req, res, next) => {
+  const deletedUser = await User.findByIdAndUpdate(
+    req.params.id,
+    {
+      deleted: true
+    },
+    { new: true }
+  );
+
+  if (!deletedUser) {
+    next(new AppError("No user found with this ID", 404));
+  }
+
+  res.status(204).json({ status: "success", data: null });
+});

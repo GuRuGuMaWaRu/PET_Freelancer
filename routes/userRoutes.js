@@ -48,6 +48,10 @@ router
   // @route     PATCH users/:id
   // @desc      Update user
   // @access    Private
-  .patch(userController.updateUser);
+  .patch(userController.updateUser)
+  // @route     DELETE useres/:id
+  // @desc      Delete user
+  // @access    Private
+  .delete(userController.deleteUser);
 
 module.exports = router;
