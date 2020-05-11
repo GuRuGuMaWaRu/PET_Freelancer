@@ -12,15 +12,7 @@ exports.getAllUsers = factory.getAll(User);
 // @route     GET users/:id
 // @desc      Get user
 // @access    Private
-exports.getUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
-
-  if (!user) {
-    next(new AppError("No user found with this ID", 404));
-  }
-
-  res.status(200).json({ status: "success", data: { data: user } });
-});
+exports.getUser = factory.getOne(User);
 // @route     POST users/
 // @desc      Create user
 // @access    Private
