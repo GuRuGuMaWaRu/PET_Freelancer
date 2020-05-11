@@ -2,6 +2,7 @@ const Client = require("../models/clientModel");
 const Project = require("../models/projectModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const factory = require("./handlerFactory");
 
 // Middleware
 // exports.createNewClient = catchAsync(async (req, res, next) =>
@@ -11,20 +12,7 @@ const AppError = require("../utils/appError");
 // @route     GET projects/
 // @desc      Get all projects
 // @access    Private
-exports.getAllProjects = catchAsync(async (req, res, next) => {
-  const projects = await Project.find({
-    user: req.userId
-  });
-
-  res.status(200).json({
-    status: "success",
-    results: projects.length,
-    data: {
-      data: projects
-    }
-  });
-});
-
+exports.getAllProjects = factory.getAllDocs(Project);
 // @route     GET projects/:id
 // @desc      Get project
 // @access    Private
