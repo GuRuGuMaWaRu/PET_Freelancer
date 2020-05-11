@@ -1,7 +1,6 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const morgan = require("morgan");
-const mongoose = require("mongoose");
 const path = require("path");
 
 const AppError = require("./utils/appError");

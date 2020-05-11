@@ -7,11 +7,11 @@ const { validateForm } = require("../middleware/validation");
 const router = express.Router();
 
 router
-  .route("/signup")
-  // @route     POST users/signup
+  // @route     POST users/signup/
   // @desc      Create new user
   // @access    Public
   .post(
+    "/signup",
     [
       check("name", "Please add name")
         .not()
@@ -25,6 +25,8 @@ router
     validateForm,
     userController.registerUser
   );
+
+//--> Generic API routes
 
 router
   .route("/")

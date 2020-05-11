@@ -13,9 +13,11 @@ exports.registerUser = catchAsync(async (req, res, next) => {
   const { name, email, password1 } = req.body;
 
   let user = await User.findOne({ email });
+
   if (user) {
     return next(new AppError("User already exists", 400));
   }
+
   user = new User({
     name,
     email,
@@ -43,7 +45,7 @@ exports.registerUser = catchAsync(async (req, res, next) => {
   );
 });
 
-//--> Generic routes
+//--> Generic API routes
 
 // @route     GET users/
 // @desc      Get all users

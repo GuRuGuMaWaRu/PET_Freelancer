@@ -29,7 +29,7 @@ const AuthState = props => {
     console.log("AuthState --- registerUser");
 
     try {
-      const res = await axios.post("/api/v1/users", values, {
+      const res = await axios.post("/api/v1/users/signup", values, {
         headers: { "Content-Type": "application/json" }
       });
       console.log("AuthState --- registerUser:", res);
