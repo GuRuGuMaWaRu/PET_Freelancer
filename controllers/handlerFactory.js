@@ -3,7 +3,13 @@ const AppError = require("../utils/appError");
 
 exports.getAllDocs = Model =>
   catchAsync(async (req, res, next) => {
-    const docs = await Model.find();
+    const filter = {};
+
+    if (req.userId) {
+      filter.user = req.userId;
+    }
+
+    const docs = await Model.find(filter);
 
     res
       .status(200)
