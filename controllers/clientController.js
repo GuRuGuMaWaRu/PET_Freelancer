@@ -9,9 +9,11 @@ exports.getAllClients = catchAsync(async (req, res, next) => {
   const clients = await Client.find({ user: req.userId }).sort({
     name: 1
   });
-  res
-    .status(200)
-    .json({ status: "success", results: clients.length, data: { clients } });
+  res.status(200).json({
+    status: "success",
+    results: clients.length,
+    data: { data: clients }
+  });
 });
 
 // @route     GET clients/:id
@@ -24,7 +26,7 @@ exports.getClient = catchAsync(async (req, res, next) => {
     return next(new AppError("No client found with this ID", 404));
   }
 
-  res.status(200).json({ status: "success", data: { client } });
+  res.status(200).json({ status: "success", data: { data: client } });
 });
 
 // @route     POST clients/
@@ -33,7 +35,7 @@ exports.getClient = catchAsync(async (req, res, next) => {
 exports.createClient = catchAsync(async (req, res, next) => {
   const newClient = await Client.create(req.body);
 
-  res.status(201).json({ status: "success", data: { newClient } });
+  res.status(201).json({ status: "success", data: { data: newClient } });
 });
 
 // @route     PATCH clients/:id
@@ -53,7 +55,7 @@ exports.updateClient = catchAsync(async (req, res, next) => {
     return next(new AppError("No client found with this ID", 404));
   }
 
-  res.status(200).json({ status: "success", data: { updatedClient } });
+  res.status(200).json({ status: "success", data: { data: updatedClient } });
 });
 
 // @route     DELETE clients/:id
@@ -72,5 +74,5 @@ exports.deleteClient = catchAsync(async (req, res, next) => {
     return next(new AppError("No client found with this ID", 404));
   }
 
-  res.status(204).json({ status: "success", data: { deletedClient } });
+  res.status(204).json({ status: "success", data: null });
 });

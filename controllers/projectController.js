@@ -14,16 +14,13 @@ const AppError = require("../utils/appError");
 exports.getAllProjects = catchAsync(async (req, res, next) => {
   const projects = await Project.find({
     user: req.userId
-    // deleted: { $ne: true }
   });
-  // .populate({ path: "client", select: "name -_id" })
-  // .sort({ date: -1 });
 
   res.status(200).json({
     status: "success",
     results: projects.length,
     data: {
-      projects
+      data: projects
     }
   });
 });
@@ -43,14 +40,23 @@ exports.getProject = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
-    data: { project }
+    data: { data: project }
   });
 });
 
 // @route     POST projects/
-// @desc      Save new project
+// @desc      Create project
 // @access    Private
 exports.createProject = catchAsync(async (req, res, next) => {
+  const newProject = await Project.create({ ...req.body, user: req.userId });
+
+  res.status(201).json({ status: "success", data: { data: newProject } });
+});
+
+// @route     POST projects/withClient/
+// @desc      Create project and (possibly) client
+// @access    Private
+exports.createProjectWithClient = catchAsync(async (req, res, next) => {
   let newClient = null;
 
   //--> Create new client OR get existing client id
@@ -95,6 +101,23 @@ exports.createProject = catchAsync(async (req, res, next) => {
 // @desc      Update project
 // @access    Private
 exports.updateProject = catchAsync(async (req, res, next) => {
+  const updatedProject = await Project.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedProject) {
+    next(new AppError("No client found with this ID", 404));
+  }
+
+  res.status(200).json({ status: "success", data: { data: updatedProject } });
+});
+
+// @route     PATCH projects/:id/withClient/
+// @desc      Update project and (possibly) client
+// @access    Private
+exports.updateProjectWithClient = catchAsync(async (req, res, next) => {
   let newClient = null;
 
   //--> Create new client OR get existing client id
