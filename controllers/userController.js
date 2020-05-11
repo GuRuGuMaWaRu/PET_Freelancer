@@ -42,3 +42,16 @@ exports.registerUser = catchAsync(async (req, res, next) => {
     }
   );
 });
+
+//--> Generic routes
+
+// @route     GET users/
+// @desc      Get all users
+// @access    Private
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find();
+
+  res
+    .status(200)
+    .json({ status: "success", results: users.length, data: { data: users } });
+});
