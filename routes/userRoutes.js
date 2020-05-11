@@ -2,6 +2,7 @@ const express = require("express");
 const { check } = require("express-validator");
 
 const userController = require("../controllers/userController");
+const authController = require("../controllers/authController");
 const { validateForm } = require("../middleware/validation");
 
 const router = express.Router();
@@ -23,7 +24,7 @@ router
       ).isLength({ min: 6 })
     ],
     validateForm,
-    userController.registerUser
+    authController.signUp
   );
 
 //--> Admin routes
