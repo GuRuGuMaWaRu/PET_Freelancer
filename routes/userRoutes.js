@@ -8,6 +8,10 @@ const router = express.Router();
 
 router
   .route("/")
+  // @route     GET users/
+  // @desc      Get all users
+  // @access    Private
+  .get(userController.getAllUsers)
   // @route     POST users/
   // @desc      Register a user
   // @access    Public
