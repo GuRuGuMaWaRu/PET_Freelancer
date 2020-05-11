@@ -7,13 +7,9 @@ const { validateForm } = require("../middleware/validation");
 const router = express.Router();
 
 router
-  .route("/")
-  // @route     GET users/
-  // @desc      Get all users
-  // @access    Private
-  .get(userController.getAllUsers)
-  // @route     POST users/
-  // @desc      Register a user
+  .route("/signup")
+  // @route     POST users/signup
+  // @desc      Create new user
   // @access    Public
   .post(
     [
@@ -29,5 +25,19 @@ router
     validateForm,
     userController.registerUser
   );
+
+router
+  .route("/")
+  // @route     GET users/
+  // @desc      Get all users
+  // @access    Private
+  .get(userController.getAllUsers);
+
+router
+  .route("/:id")
+  // @route     GET users/:id
+  // @desc      Get user
+  // @access    Private
+  .get(userController.getUser);
 
 module.exports = router;
