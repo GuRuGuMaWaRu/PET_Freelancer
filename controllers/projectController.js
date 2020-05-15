@@ -4,11 +4,6 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const factory = require("./handlerFactory");
 
-// Middleware
-// exports.createNewClient = catchAsync(async (req, res, next) =>
-
-// );
-
 // @route     GET projects/
 // @desc      Get all projects
 // @access    Private
