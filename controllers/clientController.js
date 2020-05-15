@@ -11,15 +11,6 @@ exports.getAllClients = factory.getAll(Client);
 // @route     GET clients/:id
 // @desc      Get client
 // @access    Private
-// exports.getClient = catchAsync(async (req, res, next) => {
-//   const client = await Client.findById(req.params.id);
-
-//   if (!client) {
-//     return next(new AppError("No client found with this ID", 404));
-//   }
-
-//   res.status(200).json({ status: "success", data: { data: client } });
-// });
 exports.getClient = factory.getOne(Client);
 // @route     POST clients/
 // @desc      Create client
