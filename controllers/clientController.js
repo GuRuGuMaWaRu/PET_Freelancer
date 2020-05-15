@@ -12,6 +12,7 @@ exports.getAllClients = factory.getAll(Client);
 // @desc      Get client
 // @access    Private
 exports.getClient = factory.getOne(Client);
+
 // @route     POST clients/
 // @desc      Create client
 // @access    Private
@@ -24,22 +25,7 @@ exports.createClient = catchAsync(async (req, res, next) => {
 // @route     PATCH clients/:id
 // @desc      Update client
 // @access    Private
-exports.updateClient = catchAsync(async (req, res, next) => {
-  const updatedClient = await Client.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-      runValidators: true
-    }
-  );
-
-  if (!updatedClient) {
-    return next(new AppError("No client found with this ID", 404));
-  }
-
-  res.status(200).json({ status: "success", data: { data: updatedClient } });
-});
+exports.updateClient = factory.updateOne(Client);
 
 // @route     DELETE clients/:id
 // @desc      Delete client
