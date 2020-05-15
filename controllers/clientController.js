@@ -15,11 +15,7 @@ exports.getClient = factory.getOne(Client);
 // @route     POST clients/
 // @desc      Create client
 // @access    Private
-exports.createClient = catchAsync(async (req, res, next) => {
-  const newClient = await Client.create(req.body);
-
-  res.status(201).json({ status: "success", data: { data: newClient } });
-});
+exports.createClient = factory.createOne(Client);
 
 // @route     PATCH clients/:id
 // @desc      Update client
