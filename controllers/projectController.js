@@ -2,56 +2,22 @@ const Client = require("../models/clientModel");
 const Project = require("../models/projectModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-
-// Middleware
-// exports.createNewClient = catchAsync(async (req, res, next) =>
-
-// );
+const factory = require("./handlerFactory");
 
 // @route     GET projects/
 // @desc      Get all projects
 // @access    Private
-exports.getAllProjects = catchAsync(async (req, res, next) => {
-  const projects = await Project.find({
-    user: req.userId
-  });
-
-  res.status(200).json({
-    status: "success",
-    results: projects.length,
-    data: {
-      data: projects
-    }
-  });
-});
+exports.getAllProjects = factory.getAll(Project);
 
 // @route     GET projects/:id
 // @desc      Get project
 // @access    Private
-exports.getProject = catchAsync(async (req, res, next) => {
-  const project = await Project.findOne({
-    _id: req.params.id,
-    user: req.userId // _id is unique enough, should I really search by user?
-  }).select("client currency date payment projectNr _id");
-
-  if (!project) {
-    return next(new AppError("No project found with this ID", 404));
-  }
-
-  res.status(200).json({
-    status: "success",
-    data: { data: project }
-  });
-});
+exports.getProject = factory.getOne(Project);
 
 // @route     POST projects/
 // @desc      Create project
 // @access    Private
-exports.createProject = catchAsync(async (req, res, next) => {
-  const newProject = await Project.create({ ...req.body, user: req.userId });
-
-  res.status(201).json({ status: "success", data: { data: newProject } });
-});
+exports.createProject = factory.createOne(Project);
 
 // @route     POST projects/withClient/
 // @desc      Create project and (possibly) client
@@ -100,19 +66,7 @@ exports.createProjectWithClient = catchAsync(async (req, res, next) => {
 // @route     PATCH projects/:id
 // @desc      Update project
 // @access    Private
-exports.updateProject = catchAsync(async (req, res, next) => {
-  const updatedProject = await Project.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true, runValidators: true }
-  );
-
-  if (!updatedProject) {
-    next(new AppError("No client found with this ID", 404));
-  }
-
-  res.status(200).json({ status: "success", data: { data: updatedProject } });
-});
+exports.updateProject = factory.updateOne(Project);
 
 // @route     PATCH projects/:id/withClient/
 // @desc      Update project and (possibly) client
@@ -164,16 +118,4 @@ exports.updateProjectWithClient = catchAsync(async (req, res, next) => {
 // @route     DELETE projects/:id
 // @desc      Delete project
 // @access    Private
-exports.deleteProject = catchAsync(async (req, res, next) => {
-  const project = await Project.findOneAndUpdate(
-    { _id: req.params.id, user: req.userId },
-    { deleted: true },
-    { new: true }
-  );
-
-  if (!project) {
-    return next(new AppError("No project found with this ID", 404));
-  }
-
-  res.status(204).json({ status: "success", data: null });
-});
+exports.deleteProject = factory.deleteOne(Project);
