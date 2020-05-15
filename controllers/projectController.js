@@ -13,13 +13,16 @@ const factory = require("./handlerFactory");
 // @desc      Get all projects
 // @access    Private
 exports.getAllProjects = factory.getAll(Project);
+
 // @route     GET projects/:id
 // @desc      Get project
 // @access    Private
+
 exports.getProject = factory.getOne(Project);
 // @route     POST projects/
 // @desc      Create project
 // @access    Private
+
 exports.createProject = catchAsync(async (req, res, next) => {
   const newProject = await Project.create({ ...req.body, user: req.userId });
 
@@ -73,19 +76,7 @@ exports.createProjectWithClient = catchAsync(async (req, res, next) => {
 // @route     PATCH projects/:id
 // @desc      Update project
 // @access    Private
-exports.updateProject = catchAsync(async (req, res, next) => {
-  const updatedProject = await Project.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true, runValidators: true }
-  );
-
-  if (!updatedProject) {
-    next(new AppError("No client found with this ID", 404));
-  }
-
-  res.status(200).json({ status: "success", data: { data: updatedProject } });
-});
+exports.updateProject = factory.updateOne(Project);
 
 // @route     PATCH projects/:id/withClient/
 // @desc      Update project and (possibly) client
