@@ -17,12 +17,11 @@ exports.getAllProjects = factory.getAll(Project);
 // @route     GET projects/:id
 // @desc      Get project
 // @access    Private
-
 exports.getProject = factory.getOne(Project);
+
 // @route     POST projects/
 // @desc      Create project
 // @access    Private
-
 exports.createProject = catchAsync(async (req, res, next) => {
   const newProject = await Project.create({ ...req.body, user: req.userId });
 

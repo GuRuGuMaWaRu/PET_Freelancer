@@ -9,10 +9,12 @@ const factory = require("./handlerFactory");
 // @desc      Get all users
 // @access    Private
 exports.getAllUsers = factory.getAll(User);
+
 // @route     GET users/:id
 // @desc      Get user
 // @access    Private
 exports.getUser = factory.getOne(User);
+
 // @route     POST users/
 // @desc      Create user
 // @access    Private
@@ -22,21 +24,12 @@ exports.createUser = catchAsync(async (req, res, next) => {
     message: "This route is not defined! Please use /signup instead"
   });
 });
+
 // @route     PATCH users/:id
 // @desc      Update user
 // @access    Private
-exports.updateUser = catchAsync(async (req, res, next) => {
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true
-  });
+exports.updateUser = factory.updateOne(User);
 
-  if (!updatedUser) {
-    next(new AppError("No user found with this ID", 404));
-  }
-
-  res.status(200).json({ status: "success", data: { data: updatedUser } });
-});
 // @route     DELETE useres/:id
 // @desc      Delete user
 // @access    Private
