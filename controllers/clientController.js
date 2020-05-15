@@ -1,5 +1,4 @@
 const Client = require("../models/clientModel");
-const catchAsync = require("../utils/catchAsync");
 const factory = require("./handlerFactory");
 
 // @route     GET clients/
