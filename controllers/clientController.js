@@ -30,16 +30,4 @@ exports.updateClient = factory.updateOne(Client);
 // @route     DELETE clients/:id
 // @desc      Delete client
 // @access    Private
-exports.deleteClient = catchAsync(async (req, res, next) => {
-  const deletedClient = await Client.findByIdAndUpdate(
-    req.params.id,
-    { deleted: true },
-    { new: true }
-  );
-
-  if (!deletedClient) {
-    return next(new AppError("No client found with this ID", 404));
-  }
-
-  res.status(204).json({ status: "success", data: null });
-});
+exports.deleteClient = factory.deleteOne(Client);
