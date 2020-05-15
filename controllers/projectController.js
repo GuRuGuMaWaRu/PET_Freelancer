@@ -127,16 +127,4 @@ exports.updateProjectWithClient = catchAsync(async (req, res, next) => {
 // @route     DELETE projects/:id
 // @desc      Delete project
 // @access    Private
-exports.deleteProject = catchAsync(async (req, res, next) => {
-  const project = await Project.findOneAndUpdate(
-    { _id: req.params.id, user: req.userId },
-    { deleted: true },
-    { new: true }
-  );
-
-  if (!project) {
-    return next(new AppError("No project found with this ID", 404));
-  }
-
-  res.status(204).json({ status: "success", data: null });
-});
+exports.deleteProject = factory.deleteOne(Project);
