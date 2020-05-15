@@ -22,11 +22,7 @@ exports.getProject = factory.getOne(Project);
 // @route     POST projects/
 // @desc      Create project
 // @access    Private
-exports.createProject = catchAsync(async (req, res, next) => {
-  const newProject = await Project.create({ ...req.body, user: req.userId });
-
-  res.status(201).json({ status: "success", data: { data: newProject } });
-});
+exports.createProject = factory.createOne(Project);
 
 // @route     POST projects/withClient/
 // @desc      Create project and (possibly) client
