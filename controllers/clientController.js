@@ -34,9 +34,7 @@ exports.deleteClient = catchAsync(async (req, res, next) => {
   const deletedClient = await Client.findByIdAndUpdate(
     req.params.id,
     { deleted: true },
-    {
-      new: true
-    }
+    { new: true }
   );
 
   if (!deletedClient) {

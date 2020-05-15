@@ -36,9 +36,7 @@ exports.updateUser = factory.updateOne(User);
 exports.deleteUser = catchAsync(async (req, res, next) => {
   const deletedUser = await User.findByIdAndUpdate(
     req.params.id,
-    {
-      deleted: true
-    },
+    { deleted: true },
     { new: true }
   );
 

@@ -1,3 +1,4 @@
+import App from "../client/src/App";
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
@@ -50,5 +51,29 @@ exports.updateOne = Model =>
     res.status(200).json({
       status: "success",
       data: { data: doc }
+    });
+  });
+
+exports.deleteOne = Model =>
+  catchAsync(async (req, res, next) => {
+    const filter = { _id: req.params.id };
+
+    if (req.userId) {
+      filter.user = req.userId;
+    }
+
+    const doc = await Model.findOneAndUpdate(
+      filter,
+      { deleted: true },
+      { new: true }
+    );
+
+    if (!doc) {
+      return next(new AppError("No doc found with this ID", 404));
+    }
+
+    res.status(204).json({
+      status: "success",
+      data: null
     });
   });
