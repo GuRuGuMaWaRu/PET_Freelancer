@@ -81,8 +81,7 @@ exports.loginUser = catchAsync(async (req, res, next) => {
 // @desc      Get logged in user
 // @access    Private
 exports.getUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user.id).select("-password");
-
+  const user = await User.findById(req.userId).select("-password");
   // Get new token
   const payload = {
     id: user._id
