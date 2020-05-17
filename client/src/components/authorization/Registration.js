@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik } from "formik";
+
+import AuthContext from "../../context/auth/authContext";
 import {
   StyledForm,
   StyledTitle,
@@ -11,9 +13,7 @@ import {
   StyledErrorMessage,
   StyledActionButtons,
   StyledSubmitButton
-} from "./AuthFormStyles";
-
-import AuthContext from "../../context/auth/authContext";
+} from "./authStyles";
 
 const formSchema = Yup.object().shape({
   name: Yup.string().required("Required"),

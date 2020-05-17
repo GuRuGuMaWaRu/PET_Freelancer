@@ -11,8 +11,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "../layout/Navbar";
-import Login from "../pages/Login";
-import Registration from "../pages/Registration";
+import Login from "../authorization/Login";
+import Registration from "../authorization/Registration";
 import AddProjectForm from "../pages/AddProjectForm";
 import EditProjectForm from "../pages/EditProjectForm";
 import ProjectList from "../pages/ProjectList";
