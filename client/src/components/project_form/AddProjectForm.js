@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -16,9 +15,8 @@ import {
   StyledField,
   StyledErrorMessage,
   StyledActionButtons,
-  StyledSubmitButton,
-  StyledCancelButton
-} from "./FormStyles";
+  StyledSubmitButton
+} from "./formStyles";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
@@ -29,60 +27,36 @@ const formSchema = Yup.object().shape({
   payment: Yup.number()
 });
 
-const EditProjectForm = () => {
-  const history = useHistory();
-  const { id } = useParams();
+const AddProjectForm = ({ history }) => {
   const projectContext = useContext(ProjectContext);
   const alertContext = useContext(AlertContext);
 
-  const {
-    clients,
-    loadingClients,
-    currentProject,
-    updateProject,
-    clearCurrent,
-    getCurrent,
-    getClients
-  } = projectContext;
+  const { clients, loadingClients, createProject, getClients } = projectContext;
   const { addAlert } = alertContext;
 
   useEffect(() => {
-    console.log("---EditProjectForm: useEffect");
+    console.log("---AddProjectForm: useEffect");
     if (loadingClients) {
       getClients();
     }
-    if (id) {
-      getCurrent(id);
-    }
-
-    return () => {
-      console.log("---EditProjectForm: useEffect - clear on exit");
-      clearCurrent();
-    };
     // eslint-disable-next-line
   }, []);
 
-  console.log("---EditProjectForm: rendering...");
-  console.log("---EditProjectForm, loadingClients:", loadingClients);
-  console.log("---EditProjectForm, currentProject:", currentProject);
-  console.log("---EditProjectForm, clients:", clients);
+  console.log("---AddProjectForm: rendering...");
+  console.log("---AddProjectForm, loadingClients:", loadingClients);
+  console.log("---AddProjectForm, clients:", clients);
 
-  if (loadingClients || (id && !currentProject)) {
+  if (loadingClients) {
     return <Spinner />;
   }
 
   const initialValues = {
-    date: moment(currentProject.date).format("YYYY-MM-DD"),
-    client: currentProject.client,
+    date: moment().format("YYYY-MM-DD"),
+    client: "",
     newClient: "",
-    projectNr: currentProject.projectNr,
-    currency: currentProject.currency,
-    payment: currentProject.payment
-  };
-
-  const handleCancel = () => {
-    clearCurrent();
-    history.push("/");
+    projectNr: "",
+    currency: "USD",
+    payment: ""
   };
 
   return (
@@ -103,19 +77,9 @@ const EditProjectForm = () => {
                 .name;
             }
 
-            // Handle editing
-            const editedFields = {};
-
-            // Filter out only edited fields
-            for (let field in values) {
-              if (values[field] !== initialValues[field]) {
-                editedFields[field] = values[field];
-              }
-            }
-            console.log("BAM:", editedFields);
-            updateProject({ editedFields, _id: currentProject._id });
+            createProject(values);
             addAlert({
-              msg: `Edited project "${values.projectNr}" from ${client}`,
+              msg: `Added new project "${values.projectNr}" from ${client}`,
               type: "info"
             });
 
@@ -129,9 +93,7 @@ const EditProjectForm = () => {
         }}
         render={({ errors, status, touched, isSubmitting }) => (
           <StyledForm>
-            <StyledTitle>
-              {currentProject ? "Edit Project" : "Add Project"}
-            </StyledTitle>
+            <StyledTitle>Add Project</StyledTitle>
             <StyledFormGroup>
               <StyledLabel htmlFor="date">* Date:</StyledLabel>
               <StyledField type="date" name="date" />
@@ -173,12 +135,8 @@ const EditProjectForm = () => {
             </StyledFormGroup>
             {status && status.msg && <div>{status.msg}</div>}
             <StyledActionButtons>
-              <StyledCancelButton type="button" onClick={handleCancel}>
-                Cancel
-              </StyledCancelButton>
-
               <StyledSubmitButton type="submit" disabled={isSubmitting}>
-                Update
+                Add
               </StyledSubmitButton>
             </StyledActionButtons>
           </StyledForm>
@@ -188,8 +146,8 @@ const EditProjectForm = () => {
   );
 };
 
-EditProjectForm.propTypes = {
+AddProjectForm.propTypes = {
   history: PropTypes.object.isRequired
 };
 
-export default EditProjectForm;
+export default AddProjectForm;
