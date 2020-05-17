@@ -56,9 +56,7 @@ exports.createProjectWithClient = catchAsync(async (req, res, next) => {
   const newProject = await Project.findOne({
     _id: project._id,
     user: req.userId
-  })
-    .populate("client")
-    .select("client currency date payment projectNr _id");
+  }).populate({ path: "client", select: "-_id" });
 
   res.status(201).json({ status: "success", data: { newProject, newClient } });
 });
