@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useContext } from "react";
-import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -27,71 +27,14 @@ import ProjectContext from "../../context/project/projectContext";
 import AuthContext from "../../context/auth/authContext";
 
 import theme from "./theme";
+import GlobalStyles from "./globalStyles";
 
-const GlobalStyle = createGlobalStyle`
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0;
-    font-family: 'Open Sans', sans-serif;
-    min-height: 100vh;
-    scroll-behavior: smooth;
-    text-rendering: optimizeSpeed;
-    line-height: 1.5;
-  }
-  h1, h2, h3, h4, li {
-    font-family: 'Quattrocento', serif;
-  }
-  input,
-  button,
-  textarea,
-  select {
-    font: inherit
-  }
-  #root {
-    min-height: 100vh;
-    background-color: #fff;
-  }
-`;
-
-const StyledModal = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  opacity: 1;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: ${props => props.theme.modal_bg_color};
-  transition: opacity 0.4s, z-index 0.4s;
-`;
-const StyledTitleBar = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80px; /* helps with container 100% height */
-  color: ${props => props.theme.text};
-  background-color: ${props => props.theme.darkPrimary};
-`;
-const StyledH1 = styled.h1`
-  padding: 0.8rem 0;
-  margin: 0;
-`;
-const StyledContainer = styled.div`
-  min-height: calc(
-    100vh - 80px
-  ); /* set 100% height considering header 80px height */
-  margin: 0 10%;
-  color: {$props => props.theme.primaryText};
-  background-color: ${props => props.theme.container};
-`;
+import {
+  StyledModal,
+  StyledTitleBar,
+  StyledH1,
+  StyledContainer
+} from "./appStyles";
 
 library.add(
   faPen,
@@ -125,7 +68,7 @@ const App = () => {
 
   return (
     <Fragment>
-      <GlobalStyle />
+      <GlobalStyles />
       <Router>
         <ThemeProvider theme={theme}>
           {deleteId && (
