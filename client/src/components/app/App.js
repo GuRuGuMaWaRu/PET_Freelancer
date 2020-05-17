@@ -10,21 +10,21 @@ import {
   faTimesCircle
 } from "@fortawesome/free-solid-svg-icons";
 
-import Navbar from "./components/layout/Navbar";
-import Login from "./components/pages/Login";
-import Registration from "./components/pages/Registration";
-import AddProjectForm from "./components/pages/AddProjectForm";
-import EditProjectForm from "./components/pages/EditProjectForm";
-import ProjectList from "./components/pages/ProjectList";
-import NotFound from "./components/pages/NotFound";
-import Alerts from "./components/layout/Alerts";
-import DeleteDialogue from "./components/layout/DeleteDialogue";
-import PrivateRoute from "./components/routing/PrivateRoute";
-import AuthRoute from "./components/routing/AuthRoute";
-import setAuthToken from "./utils/setAuthToken";
+import Navbar from "../layout/Navbar";
+import Login from "../pages/Login";
+import Registration from "../pages/Registration";
+import AddProjectForm from "../pages/AddProjectForm";
+import EditProjectForm from "../pages/EditProjectForm";
+import ProjectList from "../pages/ProjectList";
+import NotFound from "../pages/NotFound";
+import Alerts from "../layout/Alerts";
+import DeleteDialogue from "../layout/DeleteDialogue";
+import PrivateRoute from "../routing/PrivateRoute";
+import AuthRoute from "../routing/AuthRoute";
+import setAuthToken from "../../utils/setAuthToken";
 
-import ProjectContext from "./context/project/projectContext";
-import AuthContext from "./context/auth/authContext";
+import ProjectContext from "../../context/project/projectContext";
+import AuthContext from "../../context/auth/authContext";
 
 const theme = {
   darkPrimary: "#E64A19",
