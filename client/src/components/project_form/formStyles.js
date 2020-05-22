@@ -54,3 +54,18 @@ export const StyledCancelButton = styled(StyledButton)`
   margin-right: 1rem;
   background-color: ${props => props.theme.secondaryText};
 `;
+export const StyledAddClientGroup = styled.div`
+  display: flex;
+  width: 300px;
+`;
+export const StyledAddClientButton = styled.button`
+  flex: 2;
+  border: none;
+  margin-left: 0.7rem;
+  background-color: #d3c9c9;
+  cursor: pointer;
+  transition: 0.2s background-color;
+  &:hover {
+    background-color: #bcafaf;
+  }
+`;

@@ -8,6 +8,7 @@ export default {
   secondaryText: "#757575",
   divider: "#BDBDBD",
   container: "#eee",
+  minorButton: "rgb(196, 196, 196)",
   modal_bg_color: "hsla(200, 40%, 10%, 0.4)",
   mediumseagreen: "mediumseagreen"
 };
