@@ -36,7 +36,9 @@ const AddClient = () => {
             <StyledLabel htmlFor="client">New Client:</StyledLabel>
             <StyledAddClientGroup>
               <StyledField type="text" name="client" />
-              <StyledAddClientButton>Add</StyledAddClientButton>
+              <StyledAddClientButton type="submit" disabled={isSubmitting}>
+                Add
+              </StyledAddClientButton>
             </StyledAddClientGroup>
             <StyledErrorMessage name="client" component="div" />
           </StyledFormGroup>
