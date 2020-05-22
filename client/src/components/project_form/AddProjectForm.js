@@ -22,7 +22,6 @@ import {
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
   client: Yup.string(),
-  newClient: Yup.string(),
   projectNr: Yup.string().required("Required"),
   currency: Yup.string(),
   payment: Yup.number()
@@ -54,7 +53,6 @@ const AddProjectForm = ({ history }) => {
   const initialValues = {
     date: moment().format("YYYY-MM-DD"),
     client: "",
-    newClient: "",
     projectNr: "",
     currency: "USD",
     payment: ""
@@ -73,13 +71,9 @@ const AddProjectForm = ({ history }) => {
               values.projectNr = values.projectNr.trim();
 
               // Get client name to display inside alert message
-              let client;
-              if (values.newClient.length > 0) {
-                client = values.newClient.trim();
-              } else {
-                client = clients.find(client => client._id === values.client)
-                  .name;
-              }
+              const client = clients.find(
+                client => client._id === values.client
+              ).name;
 
               createProject(values);
               addAlert({
@@ -114,11 +108,6 @@ const AddProjectForm = ({ history }) => {
                     ))}
                 </StyledField>
                 <StyledErrorMessage name="client" component="div" />
-              </StyledFormGroup>
-              <StyledFormGroup>
-                <StyledLabel htmlFor="newClient">New client:</StyledLabel>
-                <StyledField type="text" name="newClient" />
-                <StyledErrorMessage name="newClient" component="div" />
               </StyledFormGroup>
               <StyledFormGroup>
                 <StyledLabel htmlFor="projectNr">* Project Nr:</StyledLabel>
