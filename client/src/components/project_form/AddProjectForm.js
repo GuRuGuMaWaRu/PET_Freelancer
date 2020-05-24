@@ -60,7 +60,7 @@ const AddProjectForm = ({ history }) => {
 
   return (
     <Fragment>
-      <StyledTitle>Add Project</StyledTitle>
+      <StyledTitle>New Project</StyledTitle>
       <AddClient />
       {clients && (
         <Formik
@@ -128,7 +128,7 @@ const AddProjectForm = ({ history }) => {
               {status && status.msg && <div>{status.msg}</div>}
               <StyledActionButtons>
                 <StyledSubmitButton type="submit" disabled={isSubmitting}>
-                  Add
+                  Add Project
                 </StyledSubmitButton>
               </StyledActionButtons>
             </StyledForm>
