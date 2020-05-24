@@ -25,6 +25,11 @@ clientSchema.pre("find", function(next) {
   next();
 });
 
+clientSchema.pre("findOne", function(next) {
+  this.select("name -_id");
+  next();
+});
+
 const Client = mongoose.model("Client", clientSchema);
 
 module.exports = Client;
