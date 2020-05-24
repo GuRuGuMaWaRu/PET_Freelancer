@@ -23,6 +23,7 @@ const AddClient = () => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
+          actions.setSubmitting(false);
         } catch (err) {
           console.log(err);
           actions.setSubmitting(false);
@@ -36,7 +37,7 @@ const AddClient = () => {
             <StyledAddClientGroup>
               <StyledField type="text" name="client" />
               <StyledAddClientButton type="submit" disabled={isSubmitting}>
-                Add
+                Add Client
               </StyledAddClientButton>
             </StyledAddClientGroup>
             <StyledErrorMessage name="client" component="div" />
