@@ -49,16 +49,13 @@ export default (state, action) => {
       return {
         ...state,
         projects: state.projects.map(project => {
-          if (project._id === action.payload.id) {
-            return action.payload.updatedProject;
+          if (project._id === action.payload._id) {
+            return action.payload;
           }
           return project;
         }),
         currentId: null,
-        currentProject: null,
-        clients: action.payload.newClient
-          ? [...state.clients, action.payload.newClient]
-          : state.clients
+        currentProject: null
       };
     case DELETE_PROJECT_SUCCESS:
       return {

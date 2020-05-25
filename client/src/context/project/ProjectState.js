@@ -97,13 +97,20 @@ const ProjectState = props => {
 
       const updatedProject = res.data.data.data;
       console.log("updatedProject:", updatedProject);
-      // dispatch({
-      //   type: UPDATE_PROJECT_SUCCESS,
-      //   payload: {
-      //     id: project._id,
-      //     updatedProject: updatedProject
-      //   }
-      // });
+
+      const returnProject = {
+        _id: updatedProject._id,
+        payment: updatedProject.payment,
+        currency: updatedProject.currency,
+        projectNr: updatedProject.projectNr,
+        client: { name: updatedProject.client.name },
+        date: updatedProject.date
+      };
+
+      dispatch({
+        type: UPDATE_PROJECT_SUCCESS,
+        payload: returnProject
+      });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
