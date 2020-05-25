@@ -75,7 +75,7 @@ const AddProjectForm = ({ history }) => {
                 client => client._id === values.client
               ).name;
 
-              createProject(values);
+              createProject(values, client);
               addAlert({
                 msg: `Added new project "${values.projectNr}" from ${client}`,
                 type: "info"

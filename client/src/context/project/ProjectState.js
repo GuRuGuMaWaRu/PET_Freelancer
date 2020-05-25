@@ -56,7 +56,7 @@ const ProjectState = props => {
   };
 
   // Create project
-  const createProject = async data => {
+  const createProject = async (data, client) => {
     console.log("ProjectState --- createProject");
 
     // handle default 0 (zero) payment value
@@ -70,14 +70,12 @@ const ProjectState = props => {
 
       const newProject = projectRes.data.data.data;
 
-      const clientRes = await axios.get(`/api/v1/clients/${newProject.client}`);
-
       const returnProject = {
         _id: newProject._id,
         payment: newProject.payment,
         currency: newProject.currency,
         projectNr: newProject.projectNr,
-        client: clientRes.data.data.data,
+        client: { name: client },
         date: newProject.date
       };
 
@@ -97,25 +95,20 @@ const ProjectState = props => {
 
     try {
       const res = await axios.patch(
-        `/api/v1/projects/${project._id}/withClient`,
+        `/api/v1/projects/${project._id}`,
         project.editedFields
       );
-      // await axios.patch(
-      //   `/api/v1/projects/${project._id}`,
-      //   project.editedFields
-      // );
       console.log("ProjectState --- updateProject:", res);
 
-      const { updatedProject, newClient } = res.data.data;
-
-      dispatch({
-        type: UPDATE_PROJECT_SUCCESS,
-        payload: {
-          id: project._id,
-          updatedProject: updatedProject,
-          newClient: newClient
-        }
-      });
+      const updatedProject = res.data.data.data;
+      console.log("updatedProject:", updatedProject);
+      // dispatch({
+      //   type: UPDATE_PROJECT_SUCCESS,
+      //   payload: {
+      //     id: project._id,
+      //     updatedProject: updatedProject
+      //   }
+      // });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
