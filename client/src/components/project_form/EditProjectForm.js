@@ -23,10 +23,10 @@ import {
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
-  client: Yup.string(),
+  client: Yup.string().required("Required"),
   projectNr: Yup.string().required("Required"),
   currency: Yup.string(),
-  payment: Yup.number()
+  payment: Yup.number().required("Required")
 });
 
 const EditProjectForm = () => {
