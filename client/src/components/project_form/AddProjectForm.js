@@ -55,7 +55,7 @@ const AddProjectForm = ({ history }) => {
     client: "",
     projectNr: "",
     currency: "USD",
-    payment: ""
+    payment: 0
   };
 
   return (

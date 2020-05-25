@@ -59,11 +59,6 @@ const ProjectState = props => {
   const createProject = async (data, client) => {
     console.log("ProjectState --- createProject");
 
-    // handle default 0 (zero) payment value
-    if (!data.payment) {
-      data.payment = 0; // do I need this??? I can set default in Model
-    }
-
     try {
       const projectRes = await axios.post("/api/v1/projects", data);
       console.log("ProjectState --- createProject:", projectRes);
