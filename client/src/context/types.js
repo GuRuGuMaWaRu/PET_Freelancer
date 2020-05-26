@@ -12,8 +12,11 @@ export const GET_CURRENT_SUCCESS = "GET_CURRENT_SUCCESS";
 export const CLEAR_CURRENT_PROJECT = "CLEAR_CURRENT_PROJECT";
 export const SET_DELETED = "SET_DELETED";
 export const CLOSE_MODAL = "CLOSE_MODAL";
-export const GET_CLIENTS_SUCCESS = "GET_CLIENTS_SUCCESS";
 export const CLEAR_PROJECT_DATA = "CLEAR_PROJECT_DATA";
+
+// client
+export const GET_CLIENTS = "GET_CLIENTS";
+export const CREATE_CLIENT = "CREATE_CLIENT";
 
 // alert
 export const ADD_ALERT = "ADD_ALERT";

@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import * as Yup from "yup";
 import { Formik } from "formik";
+
+import ClientContext from "../../context/client/clientContext";
 
 import {
   StyledForm,
@@ -17,12 +19,17 @@ const formSchema = Yup.object().shape({
 });
 
 const AddClient = () => {
+  const clientContext = useContext(ClientContext);
+
+  const { createClient } = clientContext;
+
   return (
     <Formik
       initialValues={{ client: "" }}
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
+          createClient(values);
           actions.setSubmitting(false);
         } catch (err) {
           console.log(err);

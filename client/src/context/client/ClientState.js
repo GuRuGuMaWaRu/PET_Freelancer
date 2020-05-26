@@ -3,7 +3,7 @@ import axios from "axios";
 
 import ClientContext from "./clientContext";
 import clientReducer from "./clientReducer";
-import { GET_CLIENTS_SUCCESS } from "../types";
+import { GET_CLIENTS, CREATE_CLIENT } from "../types";
 
 const ClientState = props => {
   const initialState = {
@@ -19,7 +19,19 @@ const ClientState = props => {
 
       const clients = res.data.data.data;
 
-      dispatch({ type: GET_CLIENTS_SUCCESS, payload: clients });
+      dispatch({ type: GET_CLIENTS, payload: clients });
+    } catch (err) {
+      console.error("Error:", err.message);
+    }
+  };
+
+  const createClient = async data => {
+    try {
+      const res = await axios.post("/api/v1/clients", { name: data.client });
+
+      const client = res.data.data.data;
+
+      dispatch({ type: CREATE_CLIENT, payload: client });
     } catch (err) {
       console.error("Error:", err.message);
     }
@@ -30,7 +42,8 @@ const ClientState = props => {
       value={{
         clients: state.clients,
         loadingClients: state.loadingClients,
-        getClients
+        getClients,
+        createClient
       }}
     >
       {props.children}
