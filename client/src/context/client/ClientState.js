@@ -6,7 +6,8 @@ import clientReducer from "./clientReducer";
 
 const ClientState = props => {
   const initialState = {
-    clients: []
+    clients: null,
+    loadingClients: true
   };
 
   const [state, dispatch] = useReducer(clientReducer, initialState);
