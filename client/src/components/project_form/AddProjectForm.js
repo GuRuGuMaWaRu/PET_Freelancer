@@ -7,6 +7,7 @@ import { Formik } from "formik";
 import AddClient from "./AddClient";
 import Spinner from "../layout/Spinner";
 import ProjectContext from "../../context/project/projectContext";
+import ClientContext from "../../context/client/clientContext";
 import AlertContext from "../../context/alert/alertContext";
 import {
   StyledForm,
@@ -29,9 +30,11 @@ const formSchema = Yup.object().shape({
 
 const AddProjectForm = ({ history }) => {
   const projectContext = useContext(ProjectContext);
+  const clientContext = useContext(ClientContext);
   const alertContext = useContext(AlertContext);
 
-  const { clients, loadingClients, createProject, getClients } = projectContext;
+  const { createProject } = projectContext;
+  const { clients, loadingClients, getClients } = clientContext;
   const { addAlert } = alertContext;
 
   useEffect(() => {
@@ -40,7 +43,7 @@ const AddProjectForm = ({ history }) => {
       getClients();
     }
     // eslint-disable-next-line
-  }, []);
+  }, [loadingClients]);
 
   console.log("---AddProjectForm: rendering...");
   console.log("---AddProjectForm, loadingClients:", loadingClients);

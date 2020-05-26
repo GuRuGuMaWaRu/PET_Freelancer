@@ -8,7 +8,6 @@ import {
   CLEAR_CURRENT_PROJECT,
   SET_DELETED,
   CLOSE_MODAL,
-  GET_CLIENTS_SUCCESS,
   CLEAR_PROJECT_DATA
 } from "../types";
 
@@ -81,21 +80,13 @@ export default (state, action) => {
         ...state,
         deleteId: null
       };
-    case GET_CLIENTS_SUCCESS:
-      return {
-        ...state,
-        clients: action.payload,
-        loadingClients: false
-      };
     case CLEAR_PROJECT_DATA:
       return {
         ...state,
         projects: null,
         currentProject: null,
         deleteId: null,
-        clients: null,
-        loadingProjects: true,
-        loadingClients: true
+        loadingProjects: true
       };
     default:
       return state;

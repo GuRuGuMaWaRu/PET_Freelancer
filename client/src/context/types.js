@@ -1,5 +1,6 @@
 // general
 export const ERROR = "ERROR";
+export const CLEAR_ERROR = "CLEAR_ERROR";
 
 // project
 export const GET_PROJECTS_SUCCESS = "GET_PROJECTS_SUCCESS";
