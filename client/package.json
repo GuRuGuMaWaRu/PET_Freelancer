@@ -8,7 +8,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
     "axios": "^0.19.2",
-    "formik": "^1.5.8",
+    "formik": "^2.1.4",
     "http-proxy-middleware": "^0.20.0",
     "moment": "^2.26.0",
     "prop-types": "^15.7.2",

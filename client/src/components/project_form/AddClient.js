@@ -49,7 +49,8 @@ const AddClient = ({ clients }) => {
           setTimeout(() => actions.setStatus({ msg: "" }), 2000);
         }
       }}
-      render={({ errors, status, touched, isSubmitting }) => (
+    >
+      {({ status, isSubmitting }) => (
         <StyledForm>
           <StyledFormGroup>
             <StyledLabel htmlFor="client">New Client:</StyledLabel>
@@ -66,7 +67,7 @@ const AddClient = ({ clients }) => {
           </StyledFormGroup>
         </StyledForm>
       )}
-    />
+    </Formik>
   );
 };
 
