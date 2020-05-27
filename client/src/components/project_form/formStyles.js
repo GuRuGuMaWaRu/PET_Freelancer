@@ -40,9 +40,9 @@ export const StyledStatusMessage = styled.div`
   grid-column-start: 2;
   margin-top: 0.4rem;
   color: ${props => props.theme.primary};
-  height: 1.5rem;
-  transition: 1s opacity;
-  opacity: ${props => (props.status ? 1 : 0)};
+  ${"" /* height: 1.5rem; */}
+  ${"" /* transition: 1s opacity;
+  opacity: ${props => (props.status ? 1 : 0)}; */}
 `;
 
 export const StyledActionButtons = styled.div`
