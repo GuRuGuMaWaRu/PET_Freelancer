@@ -44,7 +44,6 @@ const AddClient = ({ clients }) => {
           createClient(newClient);
           actions.setSubmitting(false);
         } catch (err) {
-          console.log(err);
           actions.setSubmitting(false);
           actions.setStatus({ msg: err });
           setTimeout(() => actions.setStatus({ msg: "" }), 2000);
@@ -61,9 +60,11 @@ const AddClient = ({ clients }) => {
               </StyledAddClientButton>
             </StyledAddClientGroup>
             <StyledErrorMessage name="client" component="div" />
-            {status && status.msg && (
-              <StyledStatusMessage>{status.msg}</StyledStatusMessage>
-            )}
+            {/* {status && status.msg && (
+            )} */}
+            <StyledStatusMessage status={status}>
+              {status && status.msg}
+            </StyledStatusMessage>
           </StyledFormGroup>
         </StyledForm>
       )}
