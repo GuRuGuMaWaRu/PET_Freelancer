@@ -60,8 +60,6 @@ const AddClient = ({ clients }) => {
               </StyledAddClientButton>
             </StyledAddClientGroup>
             <StyledErrorMessage name="client" component="div" />
-            {/* {status && status.msg && (
-            )} */}
             <StyledStatusMessage status={status}>
               {status && status.msg}
             </StyledStatusMessage>
