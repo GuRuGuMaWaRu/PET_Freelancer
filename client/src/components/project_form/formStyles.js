@@ -31,20 +31,11 @@ export const StyledErrorMessage = styled(ErrorMessage)`
   margin-top: 0.4rem;
   color: ${props => props.theme.primary};
 `;
-// export const StyledStatusMessage = styled.div`
-//   text-align: center;
-//   color: ${props => props.theme.primary};
-//   margin-top: 0.6rem;
-// `;
 export const StyledStatusMessage = styled.div`
   grid-column-start: 2;
   margin-top: 0.4rem;
   color: ${props => props.theme.primary};
-  ${"" /* height: 1.5rem; */}
-  ${"" /* transition: 1s opacity;
-  opacity: ${props => (props.status ? 1 : 0)}; */}
 `;
-
 export const StyledActionButtons = styled.div`
   display: flex;
   justify-content: center;
