@@ -92,7 +92,8 @@ const AddProjectForm = ({ history }) => {
               actions.setStatus({ msg: "Something went wrong" });
             }
           }}
-          render={({ errors, status, touched, isSubmitting }) => (
+        >
+          {({ status, isSubmitting }) => (
             <StyledForm>
               <StyledFormGroup>
                 <StyledLabel htmlFor="date">* Date:</StyledLabel>
@@ -136,7 +137,7 @@ const AddProjectForm = ({ history }) => {
               </StyledActionButtons>
             </StyledForm>
           )}
-        />
+        </Formik>
       )}
     </Fragment>
   );

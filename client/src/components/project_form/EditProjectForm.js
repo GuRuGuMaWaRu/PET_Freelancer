@@ -47,7 +47,7 @@ const EditProjectForm = () => {
   const { addAlert } = alertContext;
 
   useEffect(() => {
-    console.log("---EditProjectForm: useEffect");
+    // console.log("---EditProjectForm: useEffect");
     if (loadingClients) {
       getClients();
     }
@@ -56,16 +56,16 @@ const EditProjectForm = () => {
     }
 
     return () => {
-      console.log("---EditProjectForm: useEffect - clear on exit");
+      // console.log("---EditProjectForm: useEffect - clear on exit");
       clearCurrent();
     };
     // eslint-disable-next-line
   }, []);
 
-  console.log("---EditProjectForm: rendering...");
-  console.log("---EditProjectForm, loadingClients:", loadingClients);
-  console.log("---EditProjectForm, currentProject:", currentProject);
-  console.log("---EditProjectForm, clients:", clients);
+  // console.log("---EditProjectForm: rendering...");
+  // console.log("---EditProjectForm, loadingClients:", loadingClients);
+  // console.log("---EditProjectForm, currentProject:", currentProject);
+  // console.log("---EditProjectForm, clients:", clients);
 
   if (loadingClients || (id && !currentProject)) {
     return <Spinner />;
@@ -110,7 +110,7 @@ const EditProjectForm = () => {
                   editedFields[field] = values[field];
                 }
               }
-              console.log("editedFields:", editedFields);
+              // console.log("editedFields:", editedFields);
               updateProject({ editedFields, _id: currentProject._id });
               addAlert({
                 msg: `Edited project "${values.projectNr}" from ${client}`,
@@ -120,12 +120,13 @@ const EditProjectForm = () => {
               actions.setSubmitting(false);
               history.push("/");
             } catch (err) {
-              console.log(err);
+              // console.log(err);
               actions.setSubmitting(false);
               actions.setStatus({ msg: "Something went wrong" });
             }
           }}
-          render={({ errors, status, touched, isSubmitting }) => (
+        >
+          {({ status, isSubmitting }) => (
             <StyledForm>
               <StyledFormGroup>
                 <StyledLabel htmlFor="date">* Date:</StyledLabel>
@@ -173,7 +174,7 @@ const EditProjectForm = () => {
               </StyledActionButtons>
             </StyledForm>
           )}
-        />
+        </Formik>
       )}
     </Fragment>
   );
