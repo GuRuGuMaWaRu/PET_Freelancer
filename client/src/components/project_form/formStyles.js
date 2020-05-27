@@ -29,7 +29,12 @@ export const StyledField = styled(Field)`
 export const StyledErrorMessage = styled(ErrorMessage)`
   grid-column-start: 2;
   margin-top: 0.4rem;
-  color: ${props => props.theme.darkPrimary};
+  color: ${props => props.theme.primary};
+`;
+export const StyledStatusMessage = styled.div`
+  grid-column-start: 2;
+  margin-top: 0.4rem;
+  color: ${props => props.theme.primary};
 `;
 export const StyledActionButtons = styled.div`
   display: flex;
@@ -53,4 +58,19 @@ export const StyledSubmitButton = styled(StyledButton)`
 export const StyledCancelButton = styled(StyledButton)`
   margin-right: 1rem;
   background-color: ${props => props.theme.secondaryText};
+`;
+export const StyledAddClientGroup = styled.div`
+  display: flex;
+  width: 300px;
+`;
+export const StyledAddClientButton = styled.button`
+  flex: 2;
+  border: none;
+  margin-left: 0.7rem;
+  background-color: #d3c9c9;
+  cursor: pointer;
+  transition: 0.2s background-color;
+  &:hover {
+    background-color: #bcafaf;
+  }
 `;

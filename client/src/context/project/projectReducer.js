@@ -8,7 +8,6 @@ import {
   CLEAR_CURRENT_PROJECT,
   SET_DELETED,
   CLOSE_MODAL,
-  GET_CLIENTS_SUCCESS,
   CLEAR_PROJECT_DATA
 } from "../types";
 
@@ -25,18 +24,15 @@ export default (state, action) => {
         ...state,
         projects: [
           ...state.projects.filter(
-            project => project.date > action.payload.newProject.date
+            project => project.date > action.payload.date
           ),
-          action.payload.newProject,
+          action.payload,
           ...state.projects.filter(
             project =>
-              project.date < action.payload.newProject.date ||
-              project.date === action.payload.newProject.date
+              project.date < action.payload.date ||
+              project.date === action.payload.date
           )
-        ],
-        clients: action.payload.newClient
-          ? [...state.clients, action.payload.newClient]
-          : state.clients
+        ]
       };
     case SET_CURRENT_PROJECT_ID:
       return {
@@ -52,16 +48,13 @@ export default (state, action) => {
       return {
         ...state,
         projects: state.projects.map(project => {
-          if (project._id === action.payload.id) {
-            return action.payload.updatedProject;
+          if (project._id === action.payload._id) {
+            return action.payload;
           }
           return project;
         }),
         currentId: null,
-        currentProject: null,
-        clients: action.payload.newClient
-          ? [...state.clients, action.payload.newClient]
-          : state.clients
+        currentProject: null
       };
     case DELETE_PROJECT_SUCCESS:
       return {
@@ -87,21 +80,13 @@ export default (state, action) => {
         ...state,
         deleteId: null
       };
-    case GET_CLIENTS_SUCCESS:
-      return {
-        ...state,
-        clients: action.payload,
-        loadingClients: false
-      };
     case CLEAR_PROJECT_DATA:
       return {
         ...state,
         projects: null,
         currentProject: null,
         deleteId: null,
-        clients: null,
-        loadingProjects: true,
-        loadingClients: true
+        loadingProjects: true
       };
     default:
       return state;

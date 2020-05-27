@@ -13,8 +13,8 @@ import {
 import Navbar from "../layout/Navbar";
 import Login from "../authorization/Login";
 import Registration from "../authorization/Registration";
-import AddProjectForm from "../pages/AddProjectForm";
-import EditProjectForm from "../pages/EditProjectForm";
+import AddProjectForm from "../project_form/AddProjectForm";
+import EditProjectForm from "../project_form/EditProjectForm";
 import ProjectList from "../pages/ProjectList";
 import NotFound from "../pages/NotFound";
 import Alerts from "../layout/Alerts";
