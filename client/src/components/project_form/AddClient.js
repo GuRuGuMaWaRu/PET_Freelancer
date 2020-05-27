@@ -15,10 +15,9 @@ import {
   StyledAddClientButton,
   StyledStatusMessage
 } from "./formStyles";
-import { createGlobalStyle } from "styled-components";
 
 const formSchema = Yup.object().shape({
-  client: Yup.string().required
+  client: Yup.string().required("Required")
 });
 
 const AddClient = ({ clients }) => {
@@ -42,13 +41,13 @@ const AddClient = ({ clients }) => {
             throw "There is already a client with this name";
           }
 
-          // createClient(client);
-          // actions.setSubmitting(false);
-          // throw "boom";
+          createClient(newClient);
+          actions.setSubmitting(false);
         } catch (err) {
           console.log(err);
           actions.setSubmitting(false);
           actions.setStatus({ msg: err });
+          setTimeout(() => actions.setStatus({ msg: "" }), 2000);
         }
       }}
       render={({ errors, status, touched, isSubmitting }) => (
@@ -62,10 +61,10 @@ const AddClient = ({ clients }) => {
               </StyledAddClientButton>
             </StyledAddClientGroup>
             <StyledErrorMessage name="client" component="div" />
+            {status && status.msg && (
+              <StyledStatusMessage>{status.msg}</StyledStatusMessage>
+            )}
           </StyledFormGroup>
-          {status && status.msg && (
-            <StyledStatusMessage>{status.msg}</StyledStatusMessage>
-          )}
         </StyledForm>
       )}
     />
