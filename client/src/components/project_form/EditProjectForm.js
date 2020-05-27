@@ -87,7 +87,7 @@ const EditProjectForm = () => {
   return (
     <Fragment>
       <StyledTitle>Edit Project</StyledTitle>
-      <AddClient />
+      <AddClient clients={clients} />
       {clients && (
         <Formik
           initialValues={initialValues}

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
@@ -11,14 +12,16 @@ import {
   StyledField,
   StyledErrorMessage,
   StyledAddClientGroup,
-  StyledAddClientButton
+  StyledAddClientButton,
+  StyledStatusMessage
 } from "./formStyles";
+import { createGlobalStyle } from "styled-components";
 
 const formSchema = Yup.object().shape({
-  client: Yup.string()
+  client: Yup.string().required
 });
 
-const AddClient = () => {
+const AddClient = ({ clients }) => {
   const clientContext = useContext(ClientContext);
 
   const { createClient } = clientContext;
@@ -29,12 +32,23 @@ const AddClient = () => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
-          createClient(values);
-          actions.setSubmitting(false);
+          const newClient = values.client.trim();
+
+          if (
+            clients.some(
+              client => client.name.toLowerCase() === newClient.toLowerCase()
+            )
+          ) {
+            throw "There is already a client with this name";
+          }
+
+          // createClient(client);
+          // actions.setSubmitting(false);
+          // throw "boom";
         } catch (err) {
           console.log(err);
           actions.setSubmitting(false);
-          actions.setStatus({ msg: "Something went wrong" });
+          actions.setStatus({ msg: err });
         }
       }}
       render={({ errors, status, touched, isSubmitting }) => (
@@ -49,10 +63,17 @@ const AddClient = () => {
             </StyledAddClientGroup>
             <StyledErrorMessage name="client" component="div" />
           </StyledFormGroup>
+          {status && status.msg && (
+            <StyledStatusMessage>{status.msg}</StyledStatusMessage>
+          )}
         </StyledForm>
       )}
     />
   );
+};
+
+AddClient.propTypes = {
+  clients: PropTypes.array.isRequired
 };
 
 export default AddClient;

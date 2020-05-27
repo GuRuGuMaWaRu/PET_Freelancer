@@ -69,3 +69,8 @@ export const StyledAddClientButton = styled.button`
     background-color: #bcafaf;
   }
 `;
+export const StyledStatusMessage = styled.div`
+  text-align: center;
+  color: ${props => props.theme.primary};
+  margin-top: 0.6rem;
+`;

@@ -64,7 +64,7 @@ const AddProjectForm = ({ history }) => {
   return (
     <Fragment>
       <StyledTitle>New Project</StyledTitle>
-      <AddClient />
+      <AddClient clients={clients} />
       {clients && (
         <Formik
           initialValues={initialValues}
