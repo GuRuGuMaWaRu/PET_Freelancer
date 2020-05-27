@@ -27,7 +27,13 @@ const ClientState = props => {
 
   const createClient = async data => {
     try {
-      const res = await axios.post("/api/v1/clients", { name: data.client });
+      const clientName = data.client;
+
+      // if (state.clients.includes(clientName)) {
+      //   throw new Error("There is already a client with this name");
+      // }
+
+      const res = await axios.post("/api/v1/clients", { name: clientName });
 
       const client = res.data.data.data;
 
