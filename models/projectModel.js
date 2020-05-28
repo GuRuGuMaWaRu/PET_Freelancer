@@ -32,6 +32,10 @@ const projectSchema = new mongoose.Schema({
   deleted: {
     type: Boolean,
     default: false
+  },
+  paid: {
+    type: Boolean,
+    default: false
   }
 });
 
