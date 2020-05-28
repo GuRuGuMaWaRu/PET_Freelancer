@@ -12,7 +12,7 @@ import {
   StyledErrorMessage,
   StyledActionButtons,
   StyledSubmitButton
-} from "../styles/formStyles";
+} from "../styles/form.styles";
 
 const formSchema = Yup.object().shape({
   email: Yup.string().required("Required"),

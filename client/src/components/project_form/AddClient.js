@@ -14,7 +14,7 @@ import {
   StyledAddClientGroup,
   StyledAddClientButton,
   StyledStatusMessage
-} from "../styles/formStyles";
+} from "../styles/form.styles";
 
 const formSchema = Yup.object().shape({
   client: Yup.string().required("Required")

@@ -4,7 +4,7 @@ import { TransitionGroup, Transition } from "react-transition-group";
 import Alert from "./Alert";
 import AlertContext from "../../context/alert/alertContext";
 // import AuthContext from "../../context/auth/authContext";
-import { StyledAlertList } from "../styles/alertSyles";
+import { StyledAlertList } from "../styles/alert.styles";
 
 const duration = 500;
 

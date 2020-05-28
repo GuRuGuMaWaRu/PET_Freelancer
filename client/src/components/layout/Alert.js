@@ -5,7 +5,7 @@ import {
   StyledAlert,
   StyledCloseIcon,
   StyledTypeIcon
-} from "../styles/alertSyles";
+} from "../styles/alert.styles";
 
 const Alert = ({ alert, state, duration, removeAlert }) => {
   useEffect(() => {

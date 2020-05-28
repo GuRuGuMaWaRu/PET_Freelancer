@@ -9,7 +9,7 @@ import {
   StyledLink,
   StyledEditIcon,
   StyledProjectControls
-} from "../styles/projectStyles";
+} from "../styles/project.styles";
 
 const Project = ({ project, handleDelete }) => {
   return (

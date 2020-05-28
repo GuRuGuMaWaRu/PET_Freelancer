@@ -9,7 +9,7 @@ import {
   StyledDialogue,
   StyledHeading,
   StyledYesButton
-} from "../styles/deleteDialogueStyles";
+} from "../styles/deleteDialogue.styles";
 
 const DeleteDialogue = () => {
   const handlePropagation = e => {

@@ -30,7 +30,7 @@ import {
   StyledTitleBar,
   StyledH1,
   StyledContainer
-} from "../styles/appStyles";
+} from "../styles/app.styles";
 
 library.add(
   faPen,
