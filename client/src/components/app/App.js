@@ -26,7 +26,7 @@ import setAuthToken from "../../utils/setAuthToken";
 import ProjectContext from "../../context/project/projectContext";
 import AuthContext from "../../context/auth/authContext";
 
-import theme from "./theme";
+import theme from "../styles/theme";
 import GlobalStyles from "./globalStyles";
 
 import {
