@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useContext } from "react";
-import { ThemeProvider } from "styled-components";
+// import { ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -26,8 +26,8 @@ import setAuthToken from "../../utils/setAuthToken";
 import ProjectContext from "../../context/project/projectContext";
 import AuthContext from "../../context/auth/authContext";
 
-import theme from "../styles/theme";
-import GlobalStyles from "../styles/globalStyles";
+// import theme from "../styles/theme";
+// import GlobalStyles from "../styles/globalStyles";
 
 import {
   StyledModal,
@@ -68,32 +68,32 @@ const App = () => {
 
   return (
     <Fragment>
-      <GlobalStyles />
+      {/* <GlobalStyles /> */}
       <Router>
-        <ThemeProvider theme={theme}>
-          {deleteId && (
-            <StyledModal onClick={closeModal}>
-              <DeleteDialogue />
-            </StyledModal>
-          )}
-          <StyledTitleBar>
-            <StyledH1>Freelancer</StyledH1>
-            <Navbar />
-          </StyledTitleBar>
-          <StyledContainer>
-            <Alerts />
-            <Switch>
-              <PrivateRoute exact path="/" component={ProjectList} />
-              <PrivateRoute path="/add" component={AddProjectForm} />
-              <PrivateRoute path="/project/:id" component={EditProjectForm} />
-              <AuthRoute path="/login" component={Login} />
-              <AuthRoute path="/registration" component={Registration} />
-              <Route>
-                <NotFound />
-              </Route>
-            </Switch>
-          </StyledContainer>
-        </ThemeProvider>
+        {/* <ThemeProvider theme={theme}> */}
+        {deleteId && (
+          <StyledModal onClick={closeModal}>
+            <DeleteDialogue />
+          </StyledModal>
+        )}
+        <StyledTitleBar>
+          <StyledH1>Freelancer</StyledH1>
+          <Navbar />
+        </StyledTitleBar>
+        <StyledContainer>
+          <Alerts />
+          <Switch>
+            <PrivateRoute exact path="/" component={ProjectList} />
+            <PrivateRoute path="/add" component={AddProjectForm} />
+            <PrivateRoute path="/project/:id" component={EditProjectForm} />
+            <AuthRoute path="/login" component={Login} />
+            <AuthRoute path="/registration" component={Registration} />
+            <Route>
+              <NotFound />
+            </Route>
+          </Switch>
+        </StyledContainer>
+        {/* </ThemeProvider> */}
       </Router>
     </Fragment>
   );

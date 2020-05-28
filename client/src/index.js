@@ -1,5 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { ThemeProvider } from "styled-components";
+
+import theme from "./components/styles/theme";
+import GlobalStyles from "./components/styles/globalStyles";
 
 import App from "./components/app/App";
 import ProjectState from "./context/project/ProjectState";
@@ -12,7 +16,10 @@ ReactDOM.render(
     <ProjectState>
       <ClientState>
         <AlertState>
-          <App />
+          <GlobalStyles />
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
         </AlertState>
       </ClientState>
     </ProjectState>
