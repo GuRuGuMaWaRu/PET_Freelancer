@@ -17,6 +17,7 @@ export const CLEAR_PROJECT_DATA = "CLEAR_PROJECT_DATA";
 // client
 export const GET_CLIENTS = "GET_CLIENTS";
 export const CREATE_CLIENT = "CREATE_CLIENT";
+export const CLEAR_CLIENT_DATA = "CLEAR_CLIENT_DATA";
 
 // alert
 export const ADD_ALERT = "ADD_ALERT";

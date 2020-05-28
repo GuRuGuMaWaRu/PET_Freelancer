@@ -3,7 +3,7 @@ import axios from "axios";
 
 import ClientContext from "./clientContext";
 import clientReducer from "./clientReducer";
-import { GET_CLIENTS, CREATE_CLIENT } from "../types";
+import { GET_CLIENTS, CREATE_CLIENT, CLEAR_CLIENT_DATA } from "../types";
 
 const ClientState = props => {
   const initialState = {
@@ -27,12 +27,6 @@ const ClientState = props => {
 
   const createClient = async data => {
     try {
-      // const clientName = data.client;
-
-      // if (state.clients.includes(clientName)) {
-      //   throw new Error("There is already a client with this name");
-      // }
-
       const res = await axios.post("/api/v1/clients", { name: data });
 
       const client = res.data.data.data;
@@ -43,13 +37,18 @@ const ClientState = props => {
     }
   };
 
+  const clearClientData = () => {
+    dispatch({ type: CLEAR_CLIENT_DATA });
+  };
+
   return (
     <ClientContext.Provider
       value={{
         clients: state.clients,
         loadingClients: state.loadingClients,
         getClients,
-        createClient
+        createClient,
+        clearClientData
       }}
     >
       {props.children}
