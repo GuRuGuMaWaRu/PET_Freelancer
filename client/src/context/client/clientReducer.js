@@ -1,4 +1,4 @@
-import { GET_CLIENTS, CREATE_CLIENT } from "../types";
+import { GET_CLIENTS, CREATE_CLIENT, CLEAR_CLIENT_DATA } from "../types";
 
 export default (state, action) => {
   switch (action.type) {
@@ -12,6 +12,12 @@ export default (state, action) => {
       return {
         ...state,
         clients: [...state.clients, action.payload]
+      };
+    case CLEAR_CLIENT_DATA:
+      return {
+        ...state,
+        clients: null,
+        loadingClients: true
       };
     default:
       return state;
