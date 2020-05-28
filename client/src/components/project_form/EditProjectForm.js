@@ -20,7 +20,7 @@ import {
   StyledActionButtons,
   StyledSubmitButton,
   StyledCancelButton
-} from "../styles/formStyles";
+} from "../styles/form.styles";
 
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),

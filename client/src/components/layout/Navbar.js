@@ -4,7 +4,7 @@ import ProjectContext from "../../context/project/projectContext";
 import ClientContext from "../../context/client/clientContext";
 import AuthContext from "../../context/auth/authContext";
 
-import { StyledNav, StyledNavLink, StyledLink } from "../styles/navbarStyles";
+import { StyledNav, StyledNavLink, StyledLink } from "../styles/navbar.styles";
 
 const Navbar = () => {
   const projectContext = useContext(ProjectContext);

@@ -5,7 +5,7 @@ import Project from "./Project";
 import ProjectContext from "../../context/project/projectContext";
 import setAuthToken from "../../utils/setAuthToken";
 
-import { StyledNoProjectsMsg } from "../styles/projectStyles";
+import { StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
   const projectContext = useContext(ProjectContext);
