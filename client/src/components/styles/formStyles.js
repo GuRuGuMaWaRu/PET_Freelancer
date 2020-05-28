@@ -3,7 +3,6 @@ import { Form, Field, ErrorMessage } from "formik";
 
 export const StyledForm = styled(Form)`
   padding: 1rem 2rem;
-  ${"" /* margin: 0 20%; */}
 `;
 export const StyledTitle = styled.h1`
   font-size: 2.5rem;

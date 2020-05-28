@@ -13,7 +13,7 @@ import {
   StyledErrorMessage,
   StyledActionButtons,
   StyledSubmitButton
-} from "../styles/authStyles";
+} from "../styles/formStyles";
 
 const formSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
@@ -26,7 +26,7 @@ const Registration = () => {
   const authContext = useContext(AuthContext);
   const { registerUser } = authContext;
 
-  console.log("---Registration: rendering...");
+  // console.log("---Registration: rendering...");
   return (
     <Formik
       initialValues={{
@@ -41,12 +41,12 @@ const Registration = () => {
           registerUser(values);
           actions.setSubmitting(false);
         } catch (err) {
-          console.log(err);
           actions.setSubmitting(false);
           actions.setStatus({ msg: "Something went wrong" });
         }
       }}
-      render={({ errors, status, touched, isSubmitting }) => (
+    >
+      {({ status, isSubmitting }) => (
         <StyledForm>
           <StyledTitle>Registration</StyledTitle>
           <StyledFormGroup>
@@ -77,7 +77,7 @@ const Registration = () => {
           </StyledActionButtons>
         </StyledForm>
       )}
-    />
+    </Formik>
   );
 };
 
