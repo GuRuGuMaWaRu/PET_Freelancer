@@ -27,14 +27,14 @@ import ProjectContext from "../../context/project/projectContext";
 import AuthContext from "../../context/auth/authContext";
 
 import theme from "../styles/theme";
-import GlobalStyles from "./globalStyles";
+import GlobalStyles from "../styles/globalStyles";
 
 import {
   StyledModal,
   StyledTitleBar,
   StyledH1,
   StyledContainer
-} from "./appStyles";
+} from "../styles/appStyles";
 
 library.add(
   faPen,
