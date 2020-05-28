@@ -13,7 +13,7 @@ import {
   StyledErrorMessage,
   StyledActionButtons,
   StyledSubmitButton
-} from "./authStyles";
+} from "../styles/authStyles";
 
 const formSchema = Yup.object().shape({
   name: Yup.string().required("Required"),
