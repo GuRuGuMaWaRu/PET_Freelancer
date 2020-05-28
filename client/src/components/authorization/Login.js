@@ -23,7 +23,7 @@ const Login = () => {
   const authContext = useContext(AuthContext);
   const { loginUser } = authContext;
 
-  console.log("---Login: rendering...");
+  // console.log("---Login: rendering...");
   return (
     <Formik
       initialValues={{
@@ -37,12 +37,12 @@ const Login = () => {
 
           actions.setSubmitting(false);
         } catch (err) {
-          console.log(err);
           actions.setSubmitting(false);
           actions.setStatus({ msg: "Something went wrong" });
         }
       }}
-      render={({ errors, status, touched, isSubmitting }) => (
+    >
+      {({ status, isSubmitting }) => (
         <StyledForm>
           <StyledTitle>Login</StyledTitle>
           <StyledFormGroup>
@@ -63,7 +63,7 @@ const Login = () => {
           </StyledActionButtons>
         </StyledForm>
       )}
-    />
+    </Formik>
   );
 };
 
