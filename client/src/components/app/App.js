@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useContext } from "react";
-// import { ThemeProvider } from "styled-components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -25,9 +24,6 @@ import setAuthToken from "../../utils/setAuthToken";
 
 import ProjectContext from "../../context/project/projectContext";
 import AuthContext from "../../context/auth/authContext";
-
-// import theme from "../styles/theme";
-// import GlobalStyles from "../styles/globalStyles";
 
 import {
   StyledModal,
@@ -68,9 +64,7 @@ const App = () => {
 
   return (
     <Fragment>
-      {/* <GlobalStyles /> */}
       <Router>
-        {/* <ThemeProvider theme={theme}> */}
         {deleteId && (
           <StyledModal onClick={closeModal}>
             <DeleteDialogue />
@@ -93,7 +87,6 @@ const App = () => {
             </Route>
           </Switch>
         </StyledContainer>
-        {/* </ThemeProvider> */}
       </Router>
     </Fragment>
   );
