@@ -8,7 +8,8 @@ import {
   CLEAR_CURRENT_PROJECT,
   SET_DELETED,
   CLOSE_MODAL,
-  CLEAR_PROJECT_DATA
+  CLEAR_PROJECT_DATA,
+  TOGGLE_PAID
 } from "../types";
 
 export default (state, action) => {
@@ -87,6 +88,16 @@ export default (state, action) => {
         currentProject: null,
         deleteId: null,
         loadingProjects: true
+      };
+    case TOGGLE_PAID:
+      return {
+        ...state,
+        projects: state.projects.map(project => {
+          if ((project._id = action.id)) {
+            return { ...project, paid: !action.paid };
+          }
+          return project;
+        })
       };
     default:
       return state;

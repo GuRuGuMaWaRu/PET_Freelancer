@@ -15,6 +15,7 @@ import {
   SET_DELETED,
   CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
+  TOGGLE_PAID,
   ERROR
 } from "../types";
 
@@ -174,6 +175,12 @@ const ProjectState = props => {
     dispatch({ type: CLEAR_PROJECT_DATA });
   };
 
+  // Mark project as paid / unpaid
+  const togglePaid = (id, paid) => {
+    console.log("ProjectState --- togglePaid");
+    dispatch({ type: TOGGLE_PAID, payload: { id, paid } });
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -190,7 +197,8 @@ const ProjectState = props => {
         clearCurrent,
         setDelete,
         closeModal,
-        clearProjectData
+        clearProjectData,
+        togglePaid
       }}
     >
       {props.children}
