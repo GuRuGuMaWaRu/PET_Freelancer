@@ -1,16 +1,11 @@
 import React, { Fragment, useEffect, useContext } from "react";
-import styled from "styled-components";
 
 import Spinner from "../layout/Spinner";
 import Project from "./Project";
 import ProjectContext from "../../context/project/projectContext";
 import setAuthToken from "../../utils/setAuthToken";
 
-const StyledNoProjectsMsg = styled.h3`
-  text-align: center;
-  padding-top: 2rem;
-  margin-top: 0;
-`;
+import { StyledNoProjectsMsg } from "../styles/projectStyles";
 
 const ProjectList = () => {
   const projectContext = useContext(ProjectContext);
