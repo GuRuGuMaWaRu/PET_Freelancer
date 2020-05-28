@@ -1,26 +1,10 @@
 import React, { Fragment, useContext } from "react";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
 
 import ProjectContext from "../../context/project/projectContext";
 import ClientContext from "../../context/client/clientContext";
 import AuthContext from "../../context/auth/authContext";
 
-const StyledNav = styled.nav`
-  display: flex;
-  justify-content: center;
-`;
-const StyledNavLink = styled(NavLink)`
-  margin: 0 1.2rem;
-  color: ${props => props.theme.lightPrimary};
-  text-decoration: none;
-`;
-const StyledLink = styled.a`
-  margin: 0 1.2rem;
-  color: ${props => props.theme.lightPrimary};
-  text-decoration: none;
-  cursor: pointer;
-`;
+import { StyledNav, StyledNavLink, StyledLink } from "../styles/navbarStyles";
 
 const Navbar = () => {
   const projectContext = useContext(ProjectContext);

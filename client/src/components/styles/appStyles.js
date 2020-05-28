@@ -15,6 +15,7 @@ export const StyledModal = styled.div`
   background-color: ${props => props.theme.modal_bg_color};
   transition: opacity 0.4s, z-index 0.4s;
 `;
+
 export const StyledTitleBar = styled.div`
   display: flex;
   justify-content: space-between;
@@ -23,10 +24,12 @@ export const StyledTitleBar = styled.div`
   color: ${props => props.theme.text};
   background-color: ${props => props.theme.darkPrimary};
 `;
+
 export const StyledH1 = styled.h1`
   padding: 0.8rem 0;
   margin: 0;
 `;
+
 export const StyledContainer = styled.div`
   min-height: calc(
     100vh - 80px
