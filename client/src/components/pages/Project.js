@@ -7,8 +7,9 @@ import {
   StyledProjectDetails,
   StyledDeleteIcon,
   StyledLink,
+  StyledProjectControls,
   StyledEditIcon,
-  StyledProjectControls
+  StyledPaymentControl
 } from "../styles/project.styles";
 
 const Project = ({ project, handleDelete }) => {
@@ -24,6 +25,9 @@ const Project = ({ project, handleDelete }) => {
         Date: {moment(project.date).format("YYYY-MM-DD")}
       </StyledProjectDetails>
       <StyledProjectControls>
+        <StyledPaymentControl>
+          {project.paid ? "PAID" : "UNPAID"}
+        </StyledPaymentControl>
         <StyledDeleteIcon
           onClick={handleDelete}
           icon="trash-alt"

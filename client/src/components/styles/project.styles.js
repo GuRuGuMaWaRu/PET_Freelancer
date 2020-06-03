@@ -19,6 +19,12 @@ export const StyledProjectControls = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-self: flex-end;
+  align-items: center;
+`;
+
+export const StyledPaymentControl = styled.button`
+  margin-right: 1.4rem;
+  cursor: pointer;
 `;
 
 const StyledIcon = styled(FontAwesomeIcon)`
