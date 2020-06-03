@@ -176,9 +176,9 @@ const ProjectState = props => {
   };
 
   // Mark project as paid / unpaid
-  const togglePaid = (id, paid) => {
+  const togglePaid = id => {
     console.log("ProjectState --- togglePaid");
-    dispatch({ type: TOGGLE_PAID, payload: { id, paid } });
+    dispatch({ type: TOGGLE_PAID, payload: id });
   };
 
   return (

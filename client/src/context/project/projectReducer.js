@@ -93,8 +93,8 @@ export default (state, action) => {
       return {
         ...state,
         projects: state.projects.map(project => {
-          if ((project._id = action.id)) {
-            return { ...project, paid: !action.paid };
+          if (project._id === action.id) {
+            return { ...project, paid: !project.paid };
           }
           return project;
         })
