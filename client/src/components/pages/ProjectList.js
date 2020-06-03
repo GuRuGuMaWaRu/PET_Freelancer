@@ -9,7 +9,13 @@ import { StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
   const projectContext = useContext(ProjectContext);
-  const { projects, loadingProjects, getProjects, setDelete } = projectContext;
+  const {
+    projects,
+    loadingProjects,
+    getProjects,
+    setDelete,
+    togglePaid
+  } = projectContext;
 
   useEffect(() => {
     console.log("---ProjectList: useEffect");
@@ -43,6 +49,7 @@ const ProjectList = () => {
             key={project._id}
             project={project}
             handleDelete={() => setDelete(project._id)}
+            handlePayment={() => togglePaid(project._id)}
           />
         ))}
       </Fragment>
