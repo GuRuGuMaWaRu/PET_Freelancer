@@ -176,9 +176,20 @@ const ProjectState = props => {
   };
 
   // Mark project as paid / unpaid
-  const togglePaid = id => {
+  const togglePaid = async (id, paidStatus) => {
     console.log("ProjectState --- togglePaid");
-    dispatch({ type: TOGGLE_PAID, payload: id });
+
+    try {
+      const res = await axios.patch(`/api/v1/projects/${id}`, {
+        paid: !paidStatus
+      });
+      console.log("ProjectState --- updatedProject:", res.data.data.data);
+
+      dispatch({ type: TOGGLE_PAID, payload: id });
+    } catch (err) {
+      console.error("Error:", err.message);
+      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
+    }
   };
 
   return (

@@ -49,7 +49,7 @@ const ProjectList = () => {
             key={project._id}
             project={project}
             handleDelete={() => setDelete(project._id)}
-            handlePayment={() => togglePaid(project._id)}
+            handlePayment={() => togglePaid(project._id, project.paid)}
           />
         ))}
       </Fragment>
