@@ -14,7 +14,7 @@ import {
 
 const Project = ({ project, handleDelete, handlePayment }) => {
   return (
-    <StyledProject>
+    <StyledProject paid={project.paid}>
       <StyledProjectDetails>
         Client: {project.client.name}
         <br />

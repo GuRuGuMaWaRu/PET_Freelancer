@@ -8,6 +8,7 @@ export const StyledProject = styled.div`
   align-items: center;
   padding: 1rem 0;
   border-bottom: dotted 2px ${props => props.theme.divider};
+  opacity: ${props => (props.paid ? 0.4 : 1)};
 `;
 
 export const StyledProjectDetails = styled.div`
