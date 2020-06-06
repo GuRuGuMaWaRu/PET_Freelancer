@@ -7,7 +7,7 @@ export const StyledFilterList = styled.div`
 `;
 
 export const StyledFilterItem = styled.div`
-  padding: 0.3rem 0.7rem;
+  padding: 0.2rem 0.6rem;
   border: ${props => `1px solid ${props.theme.secondaryText}`};
   border-radius: 0.8rem;
   cursor: pointer;
