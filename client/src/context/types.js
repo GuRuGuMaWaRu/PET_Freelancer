@@ -13,6 +13,7 @@ export const CLEAR_CURRENT_PROJECT = "CLEAR_CURRENT_PROJECT";
 export const SET_DELETED = "SET_DELETED";
 export const CLOSE_MODAL = "CLOSE_MODAL";
 export const CLEAR_PROJECT_DATA = "CLEAR_PROJECT_DATA";
+export const TOGGLE_PAID = "TOGGLE_PAID";
 
 // client
 export const GET_CLIENTS = "GET_CLIENTS";

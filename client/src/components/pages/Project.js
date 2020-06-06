@@ -7,13 +7,14 @@ import {
   StyledProjectDetails,
   StyledDeleteIcon,
   StyledLink,
+  StyledProjectControls,
   StyledEditIcon,
-  StyledProjectControls
+  StyledPaymentControl
 } from "../styles/project.styles";
 
-const Project = ({ project, handleDelete }) => {
+const Project = ({ project, handleDelete, handlePayment }) => {
   return (
-    <StyledProject>
+    <StyledProject paid={project.paid}>
       <StyledProjectDetails>
         Client: {project.client.name}
         <br />
@@ -24,6 +25,9 @@ const Project = ({ project, handleDelete }) => {
         Date: {moment(project.date).format("YYYY-MM-DD")}
       </StyledProjectDetails>
       <StyledProjectControls>
+        <StyledPaymentControl onClick={handlePayment}>
+          {project.paid ? "PAID" : "UNPAID"}
+        </StyledPaymentControl>
         <StyledDeleteIcon
           onClick={handleDelete}
           icon="trash-alt"
@@ -38,7 +42,8 @@ const Project = ({ project, handleDelete }) => {
 
 Project.propTypes = {
   project: PropTypes.object.isRequired,
-  handleDelete: PropTypes.func.isRequired
+  handleDelete: PropTypes.func.isRequired,
+  handlePayment: PropTypes.func.isRequired
 };
 
 export default Project;

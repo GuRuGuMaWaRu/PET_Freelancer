@@ -8,6 +8,7 @@ export const StyledProject = styled.div`
   align-items: center;
   padding: 1rem 0;
   border-bottom: dotted 2px ${props => props.theme.divider};
+  opacity: ${props => (props.paid ? 0.4 : 1)};
 `;
 
 export const StyledProjectDetails = styled.div`
@@ -19,6 +20,12 @@ export const StyledProjectControls = styled.div`
   flex-direction: row;
   justify-content: space-around;
   align-self: flex-end;
+  align-items: center;
+`;
+
+export const StyledPaymentControl = styled.button`
+  margin-right: 1.4rem;
+  cursor: pointer;
 `;
 
 const StyledIcon = styled(FontAwesomeIcon)`

@@ -15,6 +15,7 @@ import {
   SET_DELETED,
   CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
+  TOGGLE_PAID,
   ERROR
 } from "../types";
 
@@ -174,6 +175,23 @@ const ProjectState = props => {
     dispatch({ type: CLEAR_PROJECT_DATA });
   };
 
+  // Mark project as paid / unpaid
+  const togglePaid = async (id, paidStatus) => {
+    console.log("ProjectState --- togglePaid");
+
+    try {
+      const res = await axios.patch(`/api/v1/projects/${id}`, {
+        paid: !paidStatus
+      });
+      console.log("ProjectState --- updatedProject:", res.data.data.data);
+
+      dispatch({ type: TOGGLE_PAID, payload: id });
+    } catch (err) {
+      console.error("Error:", err.message);
+      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
+    }
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -190,7 +208,8 @@ const ProjectState = props => {
         clearCurrent,
         setDelete,
         closeModal,
-        clearProjectData
+        clearProjectData,
+        togglePaid
       }}
     >
       {props.children}
