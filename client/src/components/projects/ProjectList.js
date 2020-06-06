@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useContext } from "react";
 
 import Spinner from "../layout/Spinner";
 import Project from "./Project";
-import ProjectFilters from "./ProjectFilters";
+import FilterList from "./FilterList";
 
 import ProjectContext from "../../context/project/projectContext";
 import setAuthToken from "../../utils/setAuthToken";
@@ -46,7 +46,7 @@ const ProjectList = () => {
   return (
     projects && (
       <Fragment>
-        <ProjectFilters />
+        <FilterList />
         {projects.map(project => (
           <Project
             key={project._id}
