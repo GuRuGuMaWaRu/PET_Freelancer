@@ -4,8 +4,8 @@ import { StyledFilterItem, StyledMarkIcon } from "../styles/filter.styles";
 const Filter = ({ filter }) => {
   return (
     <StyledFilterItem>
-      <StyledMarkIcon icon="check" />
-      {filter}
+      {filter.selected && <StyledMarkIcon icon="check" />}
+      {filter.name}
     </StyledFilterItem>
   );
 };
