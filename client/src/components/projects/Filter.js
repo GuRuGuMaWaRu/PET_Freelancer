@@ -4,7 +4,7 @@ import { StyledFilterItem, StyledMarkIcon } from "../styles/filter.styles";
 
 const Filter = ({ filter, onToggleFilter }) => {
   return (
-    <StyledFilterItem onClick={onToggleFilter}>
+    <StyledFilterItem onClick={onToggleFilter} selected={filter.selected}>
       {filter.selected && <StyledMarkIcon icon="check" />}
       {filter.name}
     </StyledFilterItem>
