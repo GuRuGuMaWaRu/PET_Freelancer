@@ -6,7 +6,8 @@ import {
   faTrashAlt,
   faInfoCircle,
   faExclamationCircle,
-  faTimesCircle
+  faTimesCircle,
+  faCheck
 } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "../layout/Navbar";
@@ -37,7 +38,8 @@ library.add(
   faTrashAlt,
   faInfoCircle,
   faExclamationCircle,
-  faTimesCircle
+  faTimesCircle,
+  faCheck
 );
 
 const App = () => {

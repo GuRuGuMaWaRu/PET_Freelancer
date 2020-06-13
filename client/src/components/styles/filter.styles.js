@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const StyledFilterList = styled.div`
   display: flex;
@@ -16,4 +17,8 @@ export const StyledFilterItem = styled.div`
     background-color: ${props => props.theme.secondaryText};
     color: ${props => props.theme.text};
   }
+`;
+
+export const StyledMarkIcon = styled(FontAwesomeIcon)`
+  margin-right: 0.3rem;
 `;
