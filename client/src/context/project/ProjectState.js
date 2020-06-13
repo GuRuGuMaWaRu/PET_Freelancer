@@ -16,6 +16,7 @@ import {
   CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
   TOGGLE_PAID,
+  TOGGLE_FILTER,
   ERROR
 } from "../types";
 
@@ -193,6 +194,13 @@ const ProjectState = props => {
     }
   };
 
+  const toggleFilter = filterName => {
+    dispatch({
+      type: TOGGLE_FILTER,
+      payload: filterName
+    });
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -211,7 +219,8 @@ const ProjectState = props => {
         setDelete,
         closeModal,
         clearProjectData,
-        togglePaid
+        togglePaid,
+        toggleFilter
       }}
     >
       {props.children}
