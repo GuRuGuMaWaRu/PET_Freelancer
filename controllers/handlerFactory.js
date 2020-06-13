@@ -3,7 +3,13 @@ const AppError = require("../utils/appError");
 
 exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
-    const filter = {};
+    const queryObj = { ...req.query };
+    const excludedFields = ["page", "sort", "limit", "fields"];
+    excludedFields.forEach(el => delete queryObj[el]);
+
+    console.log(queryObj);
+
+    const filter = { ...queryObj };
 
     if (req.userId) {
       filter.user = req.userId;
