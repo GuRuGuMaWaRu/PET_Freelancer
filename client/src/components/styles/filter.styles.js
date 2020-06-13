@@ -13,7 +13,7 @@ export const StyledFilterItem = styled.div`
   border-radius: 0.8rem;
   background-color: ${props =>
     props.selected ? props.theme.secondaryText : "inherit"}
-  color: ${props => (props.selected ? props.theme.text : "inherit")}
+  color: ${props => (props.selected ? props.theme.text : "inherit")};
   cursor: pointer;
   transition: color 0.1s ease-in-out, 0.1s background-color ease-in-out;
   &:hover {
