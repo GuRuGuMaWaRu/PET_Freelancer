@@ -3,26 +3,31 @@ const AppError = require("../utils/appError");
 
 exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
+    // BUILD QUERY
+    // 1a) Filtering
     const queryObj = { ...req.query };
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach(el => delete queryObj[el]);
 
-    // const filter = { ...queryObj };
-
     if (req.userId) {
-      // filter.user = req.userId;
       queryObj.user = req.userId;
     }
 
+    // 1b) Advanced filtering
     let queryString = JSON.stringify(queryObj);
     queryString = queryString.replace(
       /\b(gt|gte|lt|lte)\b/g,
       match => `$${match}`
     );
 
-    console.log(JSON.parse(queryString));
+    let query = Model.find(JSON.parse(queryString));
 
-    const query = Model.find(JSON.parse(queryString));
+    // 2) Sorting
+    if (req.query.sort) {
+      query = query.sort(req.query.sort);
+    }
+
+    console.log(JSON.parse(queryString));
 
     const docs = await query;
 
