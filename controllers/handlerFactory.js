@@ -7,19 +7,30 @@ exports.getAll = Model =>
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach(el => delete queryObj[el]);
 
-    console.log(queryObj);
-
-    const filter = { ...queryObj };
+    // const filter = { ...queryObj };
 
     if (req.userId) {
-      filter.user = req.userId;
+      // filter.user = req.userId;
+      queryObj.user = req.userId;
     }
 
-    const docs = await Model.find(filter);
+    let queryString = JSON.stringify(queryObj);
+    queryString = queryString.replace(
+      /\b(gt|gte|lt|lte)\b/g,
+      match => `$${match}`
+    );
 
-    res
-      .status(200)
-      .json({ status: "success", results: docs.length, data: { data: docs } });
+    console.log(JSON.parse(queryString));
+
+    const query = Model.find(JSON.parse(queryString));
+
+    const docs = await query;
+
+    res.status(200).json({
+      status: "success",
+      results: docs.length,
+      data: { data: docs }
+    });
   });
 
 exports.getOne = Model =>
@@ -91,5 +102,8 @@ exports.createOne = Model =>
     }
 
     const doc = await Model.create(body);
-    res.status(201).json({ status: "success", data: { data: doc } });
+    res.status(201).json({
+      status: "success",
+      data: { data: doc }
+    });
   });
