@@ -31,7 +31,8 @@ const projectSchema = new mongoose.Schema({
   },
   deleted: {
     type: Boolean,
-    default: false
+    default: false,
+    select: false
   },
   paid: {
     type: Boolean,
@@ -40,16 +41,16 @@ const projectSchema = new mongoose.Schema({
 });
 
 projectSchema.pre("find", function(next) {
-  this.find({ deleted: { $ne: true } })
-    .populate({ path: "client", select: "-_id" })
-    .select("-deleted -user -__v")
-    .sort({ date: -1 });
+  this.find({ deleted: { $ne: true } }).populate({
+    path: "client",
+    select: "-_id"
+  });
 
   next();
 });
 
 projectSchema.pre("findOne", function(next) {
-  this.select("-deleted -user -__v");
+  this.select("-user -__v");
 
   next();
 });

@@ -1,19 +1,27 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const APIFeatures = require("../utils/apiFeatures");
 
 exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
     const filter = {};
-
     if (req.userId) {
       filter.user = req.userId;
     }
 
-    const docs = await Model.find(filter);
+    const { query } = new APIFeatures(Model.find(filter), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
 
-    res
-      .status(200)
-      .json({ status: "success", results: docs.length, data: { data: docs } });
+    const docs = await query;
+
+    res.status(200).json({
+      status: "success",
+      results: docs.length,
+      data: { data: docs }
+    });
   });
 
 exports.getOne = Model =>
@@ -85,5 +93,8 @@ exports.createOne = Model =>
     }
 
     const doc = await Model.create(body);
-    res.status(201).json({ status: "success", data: { data: doc } });
+    res.status(201).json({
+      status: "success",
+      data: { data: doc }
+    });
   });

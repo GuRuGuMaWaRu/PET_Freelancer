@@ -16,6 +16,7 @@ import {
   CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
   TOGGLE_PAID,
+  TOGGLE_FILTER,
   ERROR
 } from "../types";
 
@@ -24,7 +25,8 @@ const ProjectState = props => {
     projects: null,
     currentProject: null,
     deleteId: null,
-    loadingProjects: true
+    loadingProjects: true,
+    filters: [{ name: "unpaid", selected: false }]
   };
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
@@ -33,7 +35,17 @@ const ProjectState = props => {
   const getProjects = async () => {
     console.log("ProjectState --- getProjects");
     try {
-      const res = await axios.get("/api/v1/projects");
+      // const queryString = state.filters
+      //   .map(filter => {
+      //     if (filter.name === "unpaid" && filter.selected === true) {
+      //       return "paid=false";
+      //     }
+      //     return "";
+      //   })
+      //   .join("&");
+      // console.log("queryString:", queryString);
+
+      const res = await axios.get(`/api/v1/projects`);
       console.log("ProjectState --- getProjects:", res);
       const projects = res.data.data.data;
       const projectsByMonth = projects.reduce((final, project, i) => {
@@ -192,6 +204,13 @@ const ProjectState = props => {
     }
   };
 
+  const toggleFilter = name => {
+    dispatch({
+      type: TOGGLE_FILTER,
+      payload: name
+    });
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -199,6 +218,7 @@ const ProjectState = props => {
         currentProject: state.currentProject,
         deleteId: state.deleteId,
         loadingProjects: state.loadingProjects,
+        filters: state.filters,
         getProjects,
         createProject,
         deleteProject,
@@ -209,7 +229,8 @@ const ProjectState = props => {
         setDelete,
         closeModal,
         clearProjectData,
-        togglePaid
+        togglePaid,
+        toggleFilter
       }}
     >
       {props.children}

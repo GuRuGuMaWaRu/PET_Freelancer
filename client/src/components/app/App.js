@@ -6,7 +6,8 @@ import {
   faTrashAlt,
   faInfoCircle,
   faExclamationCircle,
-  faTimesCircle
+  faTimesCircle,
+  faCheck
 } from "@fortawesome/free-solid-svg-icons";
 
 import Navbar from "../layout/Navbar";
@@ -14,7 +15,7 @@ import Login from "../authorization/Login";
 import Registration from "../authorization/Registration";
 import AddProjectForm from "../project_form/AddProjectForm";
 import EditProjectForm from "../project_form/EditProjectForm";
-import ProjectList from "../pages/ProjectList";
+import ProjectList from "../projects/ProjectList";
 import NotFound from "../pages/NotFound";
 import Alerts from "../layout/Alerts";
 import DeleteDialogue from "../layout/DeleteDialogue";
@@ -37,7 +38,8 @@ library.add(
   faTrashAlt,
   faInfoCircle,
   faExclamationCircle,
-  faTimesCircle
+  faTimesCircle,
+  faCheck
 );
 
 const App = () => {
