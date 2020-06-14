@@ -31,7 +31,8 @@ const projectSchema = new mongoose.Schema({
   },
   deleted: {
     type: Boolean,
-    default: false
+    default: false,
+    select: false
   },
   paid: {
     type: Boolean,
@@ -49,7 +50,7 @@ projectSchema.pre("find", function(next) {
 });
 
 projectSchema.pre("findOne", function(next) {
-  this.select("-deleted -user -__v");
+  this.select("-user -__v");
 
   next();
 });

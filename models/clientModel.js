@@ -13,7 +13,8 @@ const clientSchema = new mongoose.Schema({
   },
   deleted: {
     type: Boolean,
-    default: false
+    default: false,
+    select: false
   }
 });
 
