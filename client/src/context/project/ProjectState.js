@@ -35,15 +35,15 @@ const ProjectState = props => {
   const getProjects = async () => {
     console.log("ProjectState --- getProjects");
     try {
-      const queryString = state.filters
-        .map(filter => {
-          if (filter.name === "unpaid" && filter.selected === true) {
-            return "paid=false";
-          }
-          return "";
-        })
-        .join("&");
-      console.log("queryString:", queryString);
+      // const queryString = state.filters
+      //   .map(filter => {
+      //     if (filter.name === "unpaid" && filter.selected === true) {
+      //       return "paid=false";
+      //     }
+      //     return "";
+      //   })
+      //   .join("&");
+      // console.log("queryString:", queryString);
 
       const res = await axios.get(`/api/v1/projects`);
       console.log("ProjectState --- getProjects:", res);
