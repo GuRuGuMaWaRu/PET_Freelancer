@@ -24,10 +24,9 @@ exports.getAll = Model =>
 
     // 2) Sorting
     if (req.query.sort) {
-      query = query.sort(req.query.sort);
+      const sortBy = req.query.sort.split(",").join(" ");
+      query = query.sort(sortBy);
     }
-
-    console.log(JSON.parse(queryString));
 
     const docs = await query;
 
