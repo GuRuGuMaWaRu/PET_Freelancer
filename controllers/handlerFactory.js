@@ -38,6 +38,14 @@ exports.getAll = Model =>
       query = query.select("-deleted -user -__v");
     }
 
+    //--> 4) Pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 30;
+    const skip = (page - 1) * limit;
+    // if (req.query.page && req.query.limit) {
+    query = query.skip(skip).limit(limit);
+    // }
+
     const docs = await query;
 
     res.status(200).json({
