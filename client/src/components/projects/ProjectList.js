@@ -13,6 +13,7 @@ const ProjectList = () => {
   const projectContext = useContext(ProjectContext);
   const {
     projects,
+    filters,
     loadingProjects,
     getProjects,
     setDelete,
@@ -30,8 +31,6 @@ const ProjectList = () => {
   }, []);
 
   console.log("---ProjectList: rendering...");
-  // console.log("---ProjectList, loadingProjects:", loadingProjects);
-  // console.log("---ProjectList, projects:", projects);
   if (loadingProjects) {
     return <Spinner />;
   }
@@ -43,11 +42,21 @@ const ProjectList = () => {
       </StyledNoProjectsMsg>
     );
   }
+
+  let renderedProjects = [...projects];
+
+  //--> Filter projects
+  filters.forEach(filter => {
+    if (filter.name === "unpaid" && filter.selected) {
+      renderedProjects = renderedProjects.filter(project => !project.paid);
+    }
+  });
+
   return (
     projects && (
       <Fragment>
         <FilterList />
-        {projects.map(project => (
+        {renderedProjects.map(project => (
           <Project
             key={project._id}
             project={project}
