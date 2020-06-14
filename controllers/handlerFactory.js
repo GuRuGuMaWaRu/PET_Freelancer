@@ -1,50 +1,19 @@
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
+const APIFeatures = require("../utils/apiFeatures");
 
 exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
-    //--> BUILD QUERY
-    //--> 1a) Filtering
-    const queryObj = { ...req.query };
-    const excludedFields = ["page", "sort", "limit", "fields"];
-    excludedFields.forEach(el => delete queryObj[el]);
-
+    const filter = {};
     if (req.userId) {
-      queryObj.user = req.userId;
+      filter.user = req.userId;
     }
 
-    //--> 1b) Advanced filtering
-    let queryString = JSON.stringify(queryObj);
-    queryString = queryString.replace(
-      /\b(gt|gte|lt|lte)\b/g,
-      match => `$${match}`
-    );
-
-    let query = Model.find(JSON.parse(queryString));
-
-    //--> 2) Sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(",").join(" ");
-      query = query.sort(`${sortBy} -date`);
-    } else {
-      query = query.sort("-date");
-    }
-
-    //--> 3) Field limiting
-    if (req.query.fields) {
-      const fields = req.query.fields.split(",").join(" ");
-      query = query.select(fields);
-    } else {
-      query = query.select("-deleted -user -__v");
-    }
-
-    //--> 4) Pagination
-    const page = req.query.page * 1 || 1;
-    const limit = req.query.limit * 1 || 30;
-    const skip = (page - 1) * limit;
-    // if (req.query.page && req.query.limit) {
-    query = query.skip(skip).limit(limit);
-    // }
+    const { query } = new APIFeatures(Model.find(filter), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
 
     const docs = await query;
 
