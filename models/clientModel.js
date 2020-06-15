@@ -19,9 +19,7 @@ const clientSchema = new mongoose.Schema({
 });
 
 clientSchema.pre("find", function(next) {
-  this.find({ deleted: { $ne: true } })
-    .select("_id name")
-    .sort({ name: 1 });
+  this.find({ deleted: { $ne: true } }).sort({ name: 1 });
 
   next();
 });
