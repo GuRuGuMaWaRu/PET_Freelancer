@@ -21,8 +21,6 @@ class APIFeatures {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(",").join(" ");
       this.query.sort(`${sortBy} -date`);
-    } else {
-      this.query.sort("-date");
     }
 
     return this;
@@ -44,7 +42,9 @@ class APIFeatures {
     const limit = this.queryString.limit * 1 || 30;
     const skip = (page - 1) * limit;
 
-    this.query.skip(skip).limit(limit);
+    if (this.queryString.page || this.queryString.limit) {
+      this.query.skip(skip).limit(limit);
+    }
 
     return this;
   }
