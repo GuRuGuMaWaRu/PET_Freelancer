@@ -28,8 +28,8 @@ const ProjectState = props => {
     deleteId: null,
     loadingProjects: true,
     filters: [
-      { name: "unpaid", field: "paid", selected: false },
-      { name: "paid", field: "paid", selected: false }
+      { name: "unpaid", field: "paid", fieldState: false, selected: false },
+      { name: "paid", field: "paid", fieldState: true, selected: false }
     ]
   };
 
@@ -61,8 +61,13 @@ const ProjectState = props => {
         }
         return final;
       }, {});
+
+      const processedProjects = projects.map(project => {
+        return { ...project, client: project.client.name };
+      });
+
       console.log(projectsByMonth);
-      dispatch({ type: GET_PROJECTS_SUCCESS, payload: projects });
+      dispatch({ type: GET_PROJECTS_SUCCESS, payload: processedProjects });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
