@@ -26,7 +26,10 @@ const ProjectState = props => {
     currentProject: null,
     deleteId: null,
     loadingProjects: true,
-    filters: [{ name: "unpaid", selected: false }]
+    filters: [
+      { name: "unpaid", selected: false },
+      { name: "paid", selected: false }
+    ]
   };
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
