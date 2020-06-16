@@ -28,8 +28,8 @@ const ProjectState = props => {
     deleteId: null,
     loadingProjects: true,
     filters: [
-      { name: "unpaid", selected: false },
-      { name: "paid", selected: false }
+      { name: "unpaid", field: "paid", selected: false },
+      { name: "paid", field: "paid", selected: false }
     ]
   };
 
