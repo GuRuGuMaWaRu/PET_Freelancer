@@ -7,7 +7,7 @@ import FilterList from "./FilterList";
 import ProjectContext from "../../context/project/projectContext";
 import setAuthToken from "../../utils/setAuthToken";
 
-import { StyledNoProjectsMsg } from "../styles/project.styles";
+import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
   const projectContext = useContext(ProjectContext);
@@ -50,12 +50,16 @@ const ProjectList = () => {
     if (filter.name === "unpaid" && filter.selected) {
       renderedProjects = renderedProjects.filter(project => !project.paid);
     }
+    if (filter.name === "paid" && filter.selected) {
+      renderedProjects = renderedProjects.filter(project => project.paid);
+    }
   });
 
   return (
     projects && (
       <Fragment>
         <FilterList />
+        <StyledTotalText>Selected: {renderedProjects.length}</StyledTotalText>
         {renderedProjects.map(project => (
           <Project
             key={project._id}

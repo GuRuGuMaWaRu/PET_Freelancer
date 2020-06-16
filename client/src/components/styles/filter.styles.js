@@ -11,6 +11,9 @@ export const StyledFilterItem = styled.div`
   padding: 0.2rem 0.6rem;
   border: ${props => `1px solid ${props.theme.secondaryText}`};
   border-radius: 0.8rem;
+  & + & {
+    margin-left: 1rem;
+  }
   background-color: ${props =>
     props.selected ? props.theme.secondaryText : "inherit"}
   color: ${props => (props.selected ? props.theme.text : "inherit")};

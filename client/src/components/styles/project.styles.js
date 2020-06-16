@@ -2,6 +2,10 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+export const StyledTotalText = styled.div`
+  margin: 1rem 2rem;
+`;
+
 export const StyledProject = styled.div`
   display: flex;
   justify-content: space-between;
