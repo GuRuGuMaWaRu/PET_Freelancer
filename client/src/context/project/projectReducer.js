@@ -10,7 +10,8 @@ import {
   CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
   TOGGLE_PAID,
-  TOGGLE_FILTER
+  TOGGLE_FILTER,
+  ADD_CLIENT_FILTER
 } from "../types";
 
 export default (state, action) => {
@@ -109,6 +110,11 @@ export default (state, action) => {
           }
           return filter;
         })
+      };
+    case ADD_CLIENT_FILTER:
+      return {
+        ...state,
+        filters: [...state.filters, { name: action.payload, selected: false }]
       };
     default:
       return state;
