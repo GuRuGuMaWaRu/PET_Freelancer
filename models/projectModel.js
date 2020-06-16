@@ -44,7 +44,7 @@ projectSchema.pre("find", function(next) {
   this.find({ deleted: { $ne: true } })
     .populate({
       path: "client",
-      select: "-_id"
+      select: "-_id -user -__v"
     })
     .sort("-date");
 
