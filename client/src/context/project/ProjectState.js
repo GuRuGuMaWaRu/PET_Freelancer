@@ -34,7 +34,6 @@ const ProjectState = props => {
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
 
-  // Get all projects
   const getProjects = async () => {
     console.log("ProjectState --- getProjects");
     try {
@@ -68,7 +67,6 @@ const ProjectState = props => {
     }
   };
 
-  // Create project
   const createProject = async (data, client) => {
     console.log("ProjectState --- createProject");
 
@@ -97,7 +95,6 @@ const ProjectState = props => {
     }
   };
 
-  // Update project
   const updateProject = async project => {
     console.log("ProjectState --- updateProject");
 
@@ -130,7 +127,6 @@ const ProjectState = props => {
     }
   };
 
-  // Delete project
   const deleteProject = async id => {
     console.log("ProjectState --- deleteProject");
     try {
@@ -142,7 +138,6 @@ const ProjectState = props => {
     }
   };
 
-  // Set current project ID
   const setCurrent = id => {
     console.log("ProjectState --- setCurrent");
     dispatch({
@@ -151,7 +146,6 @@ const ProjectState = props => {
     });
   };
 
-  // Get current project
   const getCurrent = async id => {
     console.log("ProjectState --- getCurrent");
     try {
@@ -166,31 +160,26 @@ const ProjectState = props => {
     }
   };
 
-  // Clear current project
   const clearCurrent = () => {
     console.log("ProjectState --- clearCurrent");
     dispatch({ type: CLEAR_CURRENT_PROJECT });
   };
 
-  // Set project to be deleted
   const setDelete = id => {
     console.log("ProjectState --- setDelete");
     dispatch({ type: SET_DELETED, payload: id });
   };
 
-  // Close modal
   const closeModal = () => {
     console.log("ProjectState --- closeModal");
     dispatch({ type: CLOSE_MODAL });
   };
 
-  // Clear project data
   const clearProjectData = () => {
     console.log("ProjectState --- clearProjectData");
     dispatch({ type: CLEAR_PROJECT_DATA });
   };
 
-  // Mark project as paid / unpaid
   const togglePaid = async (id, paidStatus) => {
     console.log("ProjectState --- togglePaid");
 
