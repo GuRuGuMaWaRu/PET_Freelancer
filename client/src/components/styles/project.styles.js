@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const StyledTotalText = styled.div`
+  display: flex;
+  justify-content: space-between;
   margin: 1rem 2rem;
 `;
 
@@ -10,7 +12,10 @@ export const StyledProject = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 0 1rem 1rem;
+  & + &: {
+    padding-top: 1rem;
+  }
   border-bottom: dotted 2px ${props => props.theme.divider};
   opacity: ${props => (props.paid ? 0.4 : 1)};
 `;
