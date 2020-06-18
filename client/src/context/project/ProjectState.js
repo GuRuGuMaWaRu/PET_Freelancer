@@ -24,6 +24,11 @@ const ProjectState = props => {
   const initialState = {
     projects: null,
     currentProject: null,
+    projectSummary: {
+      thisMonth: 0,
+      thisYear: 0,
+      lastYear: 0
+    },
     deleteId: null,
     loadingProjects: true,
     filters: [
@@ -50,17 +55,48 @@ const ProjectState = props => {
       const res = await axios.get(`/api/v1/projects`);
       console.log("ProjectState --- getProjects:", res);
       const projects = res.data.data.data;
-      const projectsByMonth = projects.reduce((final, project, i) => {
+
+      //--> Get current month
+      const now = new Date();
+      const currentMonth = now.getMonth();
+      const currentYear = now.getFullYear();
+
+      const paymentByDate = projects.reduce((final, project) => {
+        const year = moment(project.date).year();
         const month = moment(project.date).month();
-        if (final[month]) {
-          final[month] += project.payment;
+
+        if (final.hasOwnProperty(year)) {
+          if (final[year].hasOwnProperty(month)) {
+            final[year][month] += project.payment;
+          } else {
+            final[year][month] = project.payment;
+          }
         } else {
-          final[month] = project.payment;
+          final[year] = { [month]: project.payment };
         }
+
         return final;
       }, {});
-      console.log(projectsByMonth);
-      dispatch({ type: GET_PROJECTS_SUCCESS, payload: projects });
+
+      const thisMonth = paymentByDate[currentYear][currentMonth];
+      const thisYear = Object.values(paymentByDate[currentYear]).reduce(
+        (total, month) => total + month
+      );
+      const lastYear = Object.values(paymentByDate[currentYear - 1]).reduce(
+        (total, month) => total + month
+      );
+
+      dispatch({
+        type: GET_PROJECTS_SUCCESS,
+        payload: {
+          projects,
+          projectSummary: {
+            thisMonth,
+            thisYear,
+            lastYear
+          }
+        }
+      });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
@@ -208,6 +244,7 @@ const ProjectState = props => {
       value={{
         projects: state.projects,
         currentProject: state.currentProject,
+        projectSummary: state.projectSummary,
         deleteId: state.deleteId,
         loadingProjects: state.loadingProjects,
         filters: state.filters,

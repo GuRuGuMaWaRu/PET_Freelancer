@@ -5,7 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const StyledTotalText = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 1rem 2rem;
+  padding: 1rem 2rem;
+  background-color: ${props => props.theme.divider};
+  & b {
+    color: ${props => props.theme.darkPrimary};
+  }
 `;
 
 export const StyledProject = styled.div`
