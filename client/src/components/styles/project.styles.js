@@ -3,14 +3,23 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const StyledTotalText = styled.div`
-  margin: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: ${props => props.theme.divider};
+  & b {
+    color: ${props => props.theme.darkPrimary};
+  }
 `;
 
 export const StyledProject = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 0 1rem 1rem;
+  & + & {
+    padding-top: 1rem;
+  }
   border-bottom: dotted 2px ${props => props.theme.divider};
   opacity: ${props => (props.paid ? 0.4 : 1)};
 `;

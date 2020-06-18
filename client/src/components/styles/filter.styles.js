@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const StyledFilterList = styled.div`
   display: flex;
   justify-content: start;
-  padding: 1rem 2rem 0;
+  padding: 1rem 2rem;
 `;
 
 export const StyledFilterItem = styled.div`

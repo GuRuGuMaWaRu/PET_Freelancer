@@ -24,6 +24,11 @@ const ProjectState = props => {
   const initialState = {
     projects: null,
     currentProject: null,
+    projectSummary: {
+      thisMonth: 0,
+      thisYear: 0,
+      lastYear: 0
+    },
     deleteId: null,
     loadingProjects: true,
     filters: [
@@ -34,7 +39,6 @@ const ProjectState = props => {
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
 
-  // Get all projects
   const getProjects = async () => {
     console.log("ProjectState --- getProjects");
     try {
@@ -51,24 +55,54 @@ const ProjectState = props => {
       const res = await axios.get(`/api/v1/projects`);
       console.log("ProjectState --- getProjects:", res);
       const projects = res.data.data.data;
-      const projectsByMonth = projects.reduce((final, project, i) => {
+
+      //--> Get current month
+      const now = new Date();
+      const currentMonth = now.getMonth();
+      const currentYear = now.getFullYear();
+
+      const paymentByDate = projects.reduce((final, project) => {
+        const year = moment(project.date).year();
         const month = moment(project.date).month();
-        if (final[month]) {
-          final[month] += project.payment;
+
+        if (final.hasOwnProperty(year)) {
+          if (final[year].hasOwnProperty(month)) {
+            final[year][month] += project.payment;
+          } else {
+            final[year][month] = project.payment;
+          }
         } else {
-          final[month] = project.payment;
+          final[year] = { [month]: project.payment };
         }
+
         return final;
       }, {});
-      console.log(projectsByMonth);
-      dispatch({ type: GET_PROJECTS_SUCCESS, payload: projects });
+
+      const thisMonth = paymentByDate[currentYear][currentMonth];
+      const thisYear = Object.values(paymentByDate[currentYear]).reduce(
+        (total, month) => total + month
+      );
+      const lastYear = Object.values(paymentByDate[currentYear - 1]).reduce(
+        (total, month) => total + month
+      );
+
+      dispatch({
+        type: GET_PROJECTS_SUCCESS,
+        payload: {
+          projects,
+          projectSummary: {
+            thisMonth,
+            thisYear,
+            lastYear
+          }
+        }
+      });
     } catch (err) {
       console.log("Error:", err.message);
       dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
     }
   };
 
-  // Create project
   const createProject = async (data, client) => {
     console.log("ProjectState --- createProject");
 
@@ -97,7 +131,6 @@ const ProjectState = props => {
     }
   };
 
-  // Update project
   const updateProject = async project => {
     console.log("ProjectState --- updateProject");
 
@@ -130,7 +163,6 @@ const ProjectState = props => {
     }
   };
 
-  // Delete project
   const deleteProject = async id => {
     console.log("ProjectState --- deleteProject");
     try {
@@ -142,7 +174,6 @@ const ProjectState = props => {
     }
   };
 
-  // Set current project ID
   const setCurrent = id => {
     console.log("ProjectState --- setCurrent");
     dispatch({
@@ -151,7 +182,6 @@ const ProjectState = props => {
     });
   };
 
-  // Get current project
   const getCurrent = async id => {
     console.log("ProjectState --- getCurrent");
     try {
@@ -166,31 +196,26 @@ const ProjectState = props => {
     }
   };
 
-  // Clear current project
   const clearCurrent = () => {
     console.log("ProjectState --- clearCurrent");
     dispatch({ type: CLEAR_CURRENT_PROJECT });
   };
 
-  // Set project to be deleted
   const setDelete = id => {
     console.log("ProjectState --- setDelete");
     dispatch({ type: SET_DELETED, payload: id });
   };
 
-  // Close modal
   const closeModal = () => {
     console.log("ProjectState --- closeModal");
     dispatch({ type: CLOSE_MODAL });
   };
 
-  // Clear project data
   const clearProjectData = () => {
     console.log("ProjectState --- clearProjectData");
     dispatch({ type: CLEAR_PROJECT_DATA });
   };
 
-  // Mark project as paid / unpaid
   const togglePaid = async (id, paidStatus) => {
     console.log("ProjectState --- togglePaid");
 
@@ -219,6 +244,7 @@ const ProjectState = props => {
       value={{
         projects: state.projects,
         currentProject: state.currentProject,
+        projectSummary: state.projectSummary,
         deleteId: state.deleteId,
         loadingProjects: state.loadingProjects,
         filters: state.filters,
