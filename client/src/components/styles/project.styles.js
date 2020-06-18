@@ -13,7 +13,7 @@ export const StyledProject = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 1rem 1rem;
-  & + &: {
+  & + & {
     padding-top: 1rem;
   }
   border-bottom: dotted 2px ${props => props.theme.divider};
