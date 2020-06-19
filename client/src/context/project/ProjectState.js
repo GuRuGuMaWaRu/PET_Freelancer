@@ -78,13 +78,13 @@ const ProjectState = props => {
         return final;
       }, {});
 
-      const thisMonth = paymentByDate[currentYear][currentMonth];
-      const thisYear = Object.values(paymentByDate[currentYear]).reduce(
-        (total, month) => total + month
-      );
-      const lastYear = Object.values(paymentByDate[currentYear - 1]).reduce(
-        (total, month) => total + month
-      );
+      const thisMonth = paymentByDate[currentYear][currentMonth].toFixed(2);
+      const thisYear = Object.values(paymentByDate[currentYear])
+        .reduce((total, month) => total + month)
+        .toFixed(2);
+      const lastYear = Object.values(paymentByDate[currentYear - 1])
+        .reduce((total, month) => total + month)
+        .toFixed(2);
       //--END--> Calculate totals
 
       dispatch({
