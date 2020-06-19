@@ -104,12 +104,15 @@ export default (state, action) => {
     case TOGGLE_FILTER:
       return {
         ...state,
-        filters: state.filters.map(filter => {
-          if (filter.name === action.payload) {
-            return { ...filter, selected: !filter.selected };
-          }
-          return filter;
-        })
+        filterableProps: state.filterableProps.map(prop => ({
+          property: prop.property,
+          filters: prop.filters.map(filter => {
+            if (filter.filterName === action.payload) {
+              return { ...filter, selected: !filter.selected };
+            }
+            return filter;
+          })
+        }))
       };
     case ADD_CLIENT_FILTER:
       return {
