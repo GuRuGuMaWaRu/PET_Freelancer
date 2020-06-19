@@ -27,22 +27,22 @@ const ProjectState = props => {
     currentProject: null,
     deleteId: null,
     loadingProjects: true,
-    filters: [
+    filterableProps: [
       {
-        name: "paid",
+        property: "paid",
         filters: [
           { filterName: "paid", status: true, selected: false },
           { filterName: "unpaid", status: false, selected: false }
         ]
       },
       {
-        name: "currency",
+        property: "currency",
         filters: [
           { filterName: "usd", status: "usd", selected: false },
           { filterName: "eur", status: "eur", selected: false }
         ]
       },
-      { name: "client", filters: [] }
+      { property: "client", filters: [] }
     ]
   };
 
@@ -247,7 +247,7 @@ const ProjectState = props => {
         currentProject: state.currentProject,
         deleteId: state.deleteId,
         loadingProjects: state.loadingProjects,
-        filters: state.filters,
+        filterableProps: state.filterableProps,
         getProjects,
         createProject,
         deleteProject,

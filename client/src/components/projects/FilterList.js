@@ -7,15 +7,20 @@ import { StyledFilterList } from "../styles/filter.styles";
 
 const FilterList = () => {
   const projectContext = useContext(ProjectContext);
-  const { filters, toggleFilter } = projectContext;
+  const { filterableProps, toggleFilter } = projectContext;
+
+  const filters = filterableProps.reduce(
+    (final, property) => [...final, ...property.filters],
+    []
+  );
 
   return (
     <StyledFilterList>
       {filters.map(filter => (
         <Filter
-          key={filter.name}
+          key={filter.filterName}
           filter={filter}
-          onToggleFilter={toggleFilter.bind(null, filter.name)}
+          onToggleFilter={toggleFilter.bind(null, filter.filterName)}
         />
       ))}
     </StyledFilterList>

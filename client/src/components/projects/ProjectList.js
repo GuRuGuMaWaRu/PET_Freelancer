@@ -13,7 +13,7 @@ const ProjectList = () => {
   const projectContext = useContext(ProjectContext);
   const {
     projects,
-    filters,
+    filterableProps,
     loadingProjects,
     getProjects,
     setDelete,
@@ -44,16 +44,17 @@ const ProjectList = () => {
   }
 
   let renderedProjects = [...projects];
+  let setFilters = [];
 
   //--> Filter projects
-  filters.forEach(filter => {
-    if (filter.name === "unpaid" && filter.selected) {
-      renderedProjects = renderedProjects.filter(project => !project.paid);
-    }
-    if (filter.name === "paid" && filter.selected) {
-      renderedProjects = renderedProjects.filter(project => project.paid);
-    }
-  });
+  // filters.forEach(filter => {
+  //   if (filter.name === "unpaid" && filter.selected) {
+  //     renderedProjects = renderedProjects.filter(project => !project.paid);
+  //   }
+  //   if (filter.name === "paid" && filter.selected) {
+  //     renderedProjects = renderedProjects.filter(project => project.paid);
+  //   }
+  // });
 
   return (
     projects && (
