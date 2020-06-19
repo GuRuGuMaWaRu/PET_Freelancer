@@ -46,6 +46,14 @@ const ProjectList = () => {
   let renderedProjects = [...projects];
   let setFilters = [];
 
+  filterableProps.forEach(prop => {
+    const selectedFiltes = prop.filters.some(filter => filter.selected);
+    if (selectedFiltes) {
+      setFilters.push(prop);
+    }
+  });
+
+  console.log(setFilters);
   //--> Filter projects
   // filters.forEach(filter => {
   //   if (filter.name === "unpaid" && filter.selected) {
