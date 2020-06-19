@@ -56,7 +56,7 @@ const ProjectState = props => {
       console.log("ProjectState --- getProjects:", res);
       const projects = res.data.data.data;
 
-      //--> Get current month
+      //--START--> Calculate totals
       const now = new Date();
       const currentMonth = now.getMonth();
       const currentYear = now.getFullYear();
@@ -85,6 +85,7 @@ const ProjectState = props => {
       const lastYear = Object.values(paymentByDate[currentYear - 1]).reduce(
         (total, month) => total + month
       );
+      //--END--> Calculate totals
 
       dispatch({
         type: GET_PROJECTS_SUCCESS,
