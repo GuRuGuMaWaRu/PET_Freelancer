@@ -17,7 +17,6 @@ export const TOGGLE_PAID = "TOGGLE_PAID";
 
 // project filters
 export const TOGGLE_FILTER = "TOGGLE_FILTER";
-export const ADD_CLIENT_FILTER = "ADD_CLIENT_FILTER";
 
 // client
 export const GET_CLIENTS = "GET_CLIENTS";

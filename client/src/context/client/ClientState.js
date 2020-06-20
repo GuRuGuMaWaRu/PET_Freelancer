@@ -7,8 +7,7 @@ import {
   GET_CLIENTS,
   CREATE_CLIENT,
   CLEAR_CLIENT_DATA,
-  TOGGLE_FILTER,
-  ADD_CLIENT_FILTER
+  TOGGLE_FILTER
 } from "../types";
 
 const ClientState = props => {
@@ -80,13 +79,6 @@ const ClientState = props => {
     });
   };
 
-  const addClientFilter = clientName => {
-    dispatch({
-      type: ADD_CLIENT_FILTER,
-      payload: clientName
-    });
-  };
-
   return (
     <ClientContext.Provider
       value={{
@@ -96,8 +88,7 @@ const ClientState = props => {
         getClients,
         createClient,
         clearClientData,
-        toggleFilter,
-        addClientFilter
+        toggleFilter
       }}
     >
       {props.children}

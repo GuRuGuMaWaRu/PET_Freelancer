@@ -2,8 +2,7 @@ import {
   GET_CLIENTS,
   CREATE_CLIENT,
   CLEAR_CLIENT_DATA,
-  TOGGLE_FILTER,
-  ADD_CLIENT_FILTER
+  TOGGLE_FILTER
 } from "../types";
 
 export default (state, action) => {
@@ -26,7 +25,19 @@ export default (state, action) => {
     case CREATE_CLIENT:
       return {
         ...state,
-        clients: [...state.clients, action.payload]
+        clients: [...state.clients, action.payload],
+        filterableProps: {
+          ...state.filterableProps,
+          client: [
+            ...state.filterableProps.client,
+            {
+              propName: "client",
+              filterName: action.payload.name,
+              status: action.payload.name,
+              selected: false
+            }
+          ]
+        }
       };
     case CLEAR_CLIENT_DATA:
       return {
@@ -46,22 +57,6 @@ export default (state, action) => {
             }
             return filter;
           })
-        }
-      };
-    case ADD_CLIENT_FILTER:
-      return {
-        ...state,
-        filterableProps: {
-          ...state.filterableProps,
-          client: [
-            ...state.filterableProps.client,
-            {
-              propName: "client",
-              filterName: action.payload,
-              status: action.payload,
-              selected: false
-            }
-          ]
         }
       };
     default:

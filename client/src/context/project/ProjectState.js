@@ -85,11 +85,11 @@ const ProjectState = props => {
       const processedProjects = projects.map(project => {
         return { ...project, client: project.client.name };
       });
-      
+
       dispatch({
         type: GET_PROJECTS_SUCCESS,
         payload: {
-          processedProjects,
+          projects: processedProjects,
           projectSummary: {
             thisMonth,
             thisYear,
