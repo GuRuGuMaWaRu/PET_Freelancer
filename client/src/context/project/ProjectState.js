@@ -27,23 +27,32 @@ const ProjectState = props => {
     currentProject: null,
     deleteId: null,
     loadingProjects: true,
-    filterableProps: [
-      {
-        property: "paid",
-        filters: [
-          { filterName: "paid", status: true, selected: false },
-          { filterName: "unpaid", status: false, selected: false }
-        ]
-      },
-      {
-        property: "currency",
-        filters: [
-          { filterName: "usd", status: "USD", selected: false },
-          { filterName: "eur", status: "EUR", selected: false }
-        ]
-      },
-      { property: "client", filters: [] }
-    ]
+    filterableProps: {
+      paid: [
+        { propName: "paid", filterName: "paid", status: true, selected: false },
+        {
+          propName: "paid",
+          filterName: "unpaid",
+          status: false,
+          selected: false
+        }
+      ],
+      currency: [
+        {
+          propName: "currency",
+          filterName: "usd",
+          status: "USD",
+          selected: false
+        },
+        {
+          propName: "currency",
+          filterName: "eur",
+          status: "EUR",
+          selected: false
+        }
+      ],
+      client: []
+    }
   };
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
@@ -226,10 +235,10 @@ const ProjectState = props => {
     }
   };
 
-  const toggleFilter = name => {
+  const toggleFilter = (filterName, propName) => {
     dispatch({
       type: TOGGLE_FILTER,
-      payload: name
+      payload: { filterName, propName }
     });
   };
 

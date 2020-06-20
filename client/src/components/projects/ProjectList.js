@@ -44,18 +44,21 @@ const ProjectList = () => {
   }
 
   //--> Filter projects -- START
-  let selectedFilterableProps = [];
+  let selectedFilterableProps = {};
 
-  filterableProps.forEach(property => {
-    const selectedFiltes = property.filters.some(filter => filter.selected);
-    if (selectedFiltes) {
-      selectedFilterableProps.push(property);
+  Object.keys(filterableProps).forEach(property => {
+    const selectedFilters = filterableProps[property].some(
+      filter => filter.selected
+    );
+
+    if (selectedFilters) {
+      selectedFilterableProps[property] = [...filterableProps[property]];
     }
   });
-
+  console.log("selectedFilterableProps:", selectedFilterableProps);
   const renderedProjects = projects.filter(project => {
-    return selectedFilterableProps.every(({ property, filters }) => {
-      return filters.some(filter => {
+    return Object.keys(selectedFilterableProps).every(property => {
+      return selectedFilterableProps[property].some(filter => {
         if (filter.selected) {
           return project[property] === filter.status;
         }

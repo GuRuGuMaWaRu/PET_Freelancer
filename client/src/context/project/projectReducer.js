@@ -102,23 +102,24 @@ export default (state, action) => {
         })
       };
     case TOGGLE_FILTER:
+      const { propName, filterName } = action.payload;
       return {
         ...state,
-        filterableProps: state.filterableProps.map(prop => ({
-          property: prop.property,
-          filters: prop.filters.map(filter => {
-            if (filter.filterName === action.payload) {
+        filterableProps: {
+          ...state.filterableProps,
+          [propName]: state.filterableProps[propName].map(filter => {
+            if (filter.filterName === filterName) {
               return { ...filter, selected: !filter.selected };
             }
             return filter;
           })
-        }))
+        }
       };
-    case ADD_CLIENT_FILTER:
-      return {
-        ...state,
-        filters: [...state.filters, { name: action.payload, selected: false }]
-      };
+    // case ADD_CLIENT_FILTER:
+    //   return {
+    //     ...state,
+    //     filters: [...state.filters, { property: "clients" action.payload, selected: false }]
+    //   };
     default:
       return state;
   }

@@ -9,18 +9,22 @@ const FilterList = () => {
   const projectContext = useContext(ProjectContext);
   const { filterableProps, toggleFilter } = projectContext;
 
-  const filters = filterableProps.reduce(
-    (final, property) => [...final, ...property.filters],
+  const renderedFilters = Object.values(filterableProps).reduce(
+    (final, filters) => [...final, ...filters],
     []
   );
 
   return (
     <StyledFilterList>
-      {filters.map(filter => (
+      {renderedFilters.map(filter => (
         <Filter
           key={filter.filterName}
           filter={filter}
-          onToggleFilter={toggleFilter.bind(null, filter.filterName)}
+          onToggleFilter={toggleFilter.bind(
+            null,
+            filter.filterName,
+            filter.propName
+          )}
         />
       ))}
     </StyledFilterList>
