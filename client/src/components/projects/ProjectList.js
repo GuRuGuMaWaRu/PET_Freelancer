@@ -5,12 +5,14 @@ import Project from "./Project";
 import FilterList from "./FilterList";
 
 import ProjectContext from "../../context/project/projectContext";
+import ClientContext from "../../context/client/clientContext";
 import setAuthToken from "../../utils/setAuthToken";
 
 import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
   const projectContext = useContext(ProjectContext);
+  const clientContext = useContext(ClientContext);
   const {
     projects,
     filterableProps,
@@ -19,6 +21,7 @@ const ProjectList = () => {
     setDelete,
     togglePaid
   } = projectContext;
+  const { loadingClients, getClients } = clientContext;
 
   useEffect(() => {
     console.log("---ProjectList: useEffect");
@@ -26,6 +29,9 @@ const ProjectList = () => {
       console.log("---ProjectList: useEffect: loadingProjects");
       setAuthToken(localStorage.getItem("freelancer_token"));
       getProjects();
+    }
+    if (loadingClients) {
+      getClients();
     }
     // eslint-disable-next-line
   }, []);
