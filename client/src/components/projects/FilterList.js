@@ -1,21 +1,30 @@
 import React, { useContext } from "react";
 
 import Filter from "./Filter";
-import ProjectContext from "../../context/project/projectContext";
+import ClientContext from "../../context/client/clientContext";
 
 import { StyledFilterList } from "../styles/filter.styles";
 
 const FilterList = () => {
-  const projectContext = useContext(ProjectContext);
-  const { filters, toggleFilter } = projectContext;
+  const clientContext = useContext(ClientContext);
+  const { filterableProps, toggleFilter } = clientContext;
+
+  const renderedFilters = Object.values(filterableProps).reduce(
+    (final, filters) => [...final, ...filters],
+    []
+  );
 
   return (
     <StyledFilterList>
-      {filters.map(filter => (
+      {renderedFilters.map(filter => (
         <Filter
-          key={filter.name}
+          key={filter.filterName}
           filter={filter}
-          onToggleFilter={toggleFilter.bind(null, filter.name)}
+          onToggleFilter={toggleFilter.bind(
+            null,
+            filter.filterName,
+            filter.propName
+          )}
         />
       ))}
     </StyledFilterList>

@@ -16,7 +16,7 @@ const Project = ({ project, handleDelete, handlePayment }) => {
   return (
     <StyledProject paid={project.paid}>
       <StyledProjectDetails>
-        Client: {project.client.name}
+        Client: {project.client}
         <br />
         Project Nr: {project.projectNr}
         <br />

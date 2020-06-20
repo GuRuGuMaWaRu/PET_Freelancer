@@ -5,21 +5,23 @@ import Project from "./Project";
 import FilterList from "./FilterList";
 
 import ProjectContext from "../../context/project/projectContext";
+import ClientContext from "../../context/client/clientContext";
 import setAuthToken from "../../utils/setAuthToken";
 
 import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
   const projectContext = useContext(ProjectContext);
+  const clientContext = useContext(ClientContext);
   const {
     projects,
     projectSummary,
-    filters,
     loadingProjects,
     getProjects,
     setDelete,
     togglePaid
   } = projectContext;
+  const { loadingClients, getClients, filterableProps } = clientContext;
 
   useEffect(() => {
     console.log("---ProjectList: useEffect");
@@ -27,6 +29,9 @@ const ProjectList = () => {
       console.log("---ProjectList: useEffect: loadingProjects");
       setAuthToken(localStorage.getItem("freelancer_token"));
       getProjects();
+    }
+    if (loadingClients) {
+      getClients();
     }
     // eslint-disable-next-line
   }, []);
@@ -44,17 +49,30 @@ const ProjectList = () => {
     );
   }
 
-  let renderedProjects = [...projects];
+  //--> Filter projects -- START
+  let selectedFilterableProps = {};
 
-  //--> Filter projects
-  filters.forEach(filter => {
-    if (filter.name === "unpaid" && filter.selected) {
-      renderedProjects = renderedProjects.filter(project => !project.paid);
-    }
-    if (filter.name === "paid" && filter.selected) {
-      renderedProjects = renderedProjects.filter(project => project.paid);
+  Object.keys(filterableProps).forEach(property => {
+    const selectedFilters = filterableProps[property].some(
+      filter => filter.selected
+    );
+
+    if (selectedFilters) {
+      selectedFilterableProps[property] = [...filterableProps[property]];
     }
   });
+
+  const renderedProjects = projects.filter(project => {
+    return Object.keys(selectedFilterableProps).every(property => {
+      return selectedFilterableProps[property].some(filter => {
+        if (filter.selected) {
+          return project[property] === filter.status;
+        }
+        return false;
+      });
+    });
+  });
+  //--> Filter projects -- END
 
   return (
     projects && (

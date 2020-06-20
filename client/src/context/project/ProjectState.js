@@ -16,7 +16,6 @@ import {
   CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
   TOGGLE_PAID,
-  TOGGLE_FILTER,
   ERROR
 } from "../types";
 
@@ -30,11 +29,7 @@ const ProjectState = props => {
       lastYear: 0
     },
     deleteId: null,
-    loadingProjects: true,
-    filters: [
-      { name: "unpaid", selected: false },
-      { name: "paid", selected: false }
-    ]
+    loadingProjects: true
   };
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
@@ -87,10 +82,14 @@ const ProjectState = props => {
         .toFixed(2);
       //--END--> Calculate totals
 
+      const processedProjects = projects.map(project => {
+        return { ...project, client: project.client.name };
+      });
+      
       dispatch({
         type: GET_PROJECTS_SUCCESS,
         payload: {
-          projects,
+          processedProjects,
           projectSummary: {
             thisMonth,
             thisYear,
@@ -118,10 +117,11 @@ const ProjectState = props => {
         payment: newProject.payment,
         currency: newProject.currency,
         projectNr: newProject.projectNr,
-        client: { name: client },
+        client: client,
         date: newProject.date
       };
 
+      console.log(returnProject);
       dispatch({
         type: CREATE_PROJECT_SUCCESS,
         payload: returnProject
@@ -233,13 +233,6 @@ const ProjectState = props => {
     }
   };
 
-  const toggleFilter = name => {
-    dispatch({
-      type: TOGGLE_FILTER,
-      payload: name
-    });
-  };
-
   return (
     <ProjectContext.Provider
       value={{
@@ -248,7 +241,6 @@ const ProjectState = props => {
         projectSummary: state.projectSummary,
         deleteId: state.deleteId,
         loadingProjects: state.loadingProjects,
-        filters: state.filters,
         getProjects,
         createProject,
         deleteProject,
@@ -259,8 +251,7 @@ const ProjectState = props => {
         setDelete,
         closeModal,
         clearProjectData,
-        togglePaid,
-        toggleFilter
+        togglePaid
       }}
     >
       {props.children}

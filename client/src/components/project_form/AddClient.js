@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 
 import ClientContext from "../../context/client/clientContext";
+import ProjectContext from "../../context/project/projectContext";
 
 import {
   StyledForm,
@@ -22,8 +23,10 @@ const formSchema = Yup.object().shape({
 
 const AddClient = ({ clients }) => {
   const clientContext = useContext(ClientContext);
+  const projectContext = useContext(ProjectContext);
 
   const { createClient } = clientContext;
+  const { addClientFilter } = projectContext;
 
   return (
     <Formik
@@ -42,6 +45,7 @@ const AddClient = ({ clients }) => {
           }
 
           createClient(newClient);
+          addClientFilter(newClient);
           actions.setSubmitting(false);
         } catch (err) {
           actions.setSubmitting(false);

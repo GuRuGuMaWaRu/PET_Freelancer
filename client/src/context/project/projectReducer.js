@@ -9,8 +9,7 @@ import {
   SET_DELETED,
   CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
-  TOGGLE_PAID,
-  TOGGLE_FILTER
+  TOGGLE_PAID
 } from "../types";
 
 export default (state, action) => {
@@ -99,16 +98,6 @@ export default (state, action) => {
             return { ...project, paid: !project.paid };
           }
           return project;
-        })
-      };
-    case TOGGLE_FILTER:
-      return {
-        ...state,
-        filters: state.filters.map(filter => {
-          if (filter.name === action.payload) {
-            return { ...filter, selected: !filter.selected };
-          }
-          return filter;
         })
       };
     default:
