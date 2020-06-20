@@ -12,7 +12,16 @@ export default (state, action) => {
       return {
         ...state,
         clients: action.payload,
-        loadingClients: false
+        loadingClients: false,
+        filterableProps: {
+          ...state.filterableProps,
+          client: action.payload.map(client => ({
+            propName: "client",
+            filterName: client.name,
+            status: client.name,
+            selected: false
+          }))
+        }
       };
     case CREATE_CLIENT:
       return {
