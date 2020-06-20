@@ -9,7 +9,7 @@ export const StyledFilterList = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  padding: 1rem 2rem 0;
+  padding: 1rem 2rem 1rem;
 `;
 
 export const StyledFilterItem = styled.div`
