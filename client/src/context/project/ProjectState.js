@@ -111,10 +111,11 @@ const ProjectState = props => {
         payment: newProject.payment,
         currency: newProject.currency,
         projectNr: newProject.projectNr,
-        client: { name: client },
+        client: client,
         date: newProject.date
       };
 
+      console.log(returnProject);
       dispatch({
         type: CREATE_PROJECT_SUCCESS,
         payload: returnProject

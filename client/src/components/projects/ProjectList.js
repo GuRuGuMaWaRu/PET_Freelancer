@@ -55,7 +55,7 @@ const ProjectList = () => {
       selectedFilterableProps[property] = [...filterableProps[property]];
     }
   });
-  console.log("selectedFilterableProps:", selectedFilterableProps);
+
   const renderedProjects = projects.filter(project => {
     return Object.keys(selectedFilterableProps).every(property => {
       return selectedFilterableProps[property].some(filter => {
