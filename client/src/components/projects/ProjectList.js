@@ -43,26 +43,27 @@ const ProjectList = () => {
     );
   }
 
-  let renderedProjects = [...projects];
-  let setFilters = [];
+  //--> Filter projects -- START
+  let selectedFilterableProps = [];
 
-  filterableProps.forEach(prop => {
-    const selectedFiltes = prop.filters.some(filter => filter.selected);
+  filterableProps.forEach(property => {
+    const selectedFiltes = property.filters.some(filter => filter.selected);
     if (selectedFiltes) {
-      setFilters.push(prop);
+      selectedFilterableProps.push(property);
     }
   });
 
-  console.log(setFilters);
-  //--> Filter projects
-  // filters.forEach(filter => {
-  //   if (filter.name === "unpaid" && filter.selected) {
-  //     renderedProjects = renderedProjects.filter(project => !project.paid);
-  //   }
-  //   if (filter.name === "paid" && filter.selected) {
-  //     renderedProjects = renderedProjects.filter(project => project.paid);
-  //   }
-  // });
+  const renderedProjects = projects.filter(project => {
+    return selectedFilterableProps.every(({ property, filters }) => {
+      return filters.some(filter => {
+        if (filter.selected) {
+          return project[property] === filter.status;
+        }
+        return false;
+      });
+    });
+  });
+  //--> Filter projects -- END
 
   return (
     projects && (

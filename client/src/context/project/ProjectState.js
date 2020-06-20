@@ -38,8 +38,8 @@ const ProjectState = props => {
       {
         property: "currency",
         filters: [
-          { filterName: "usd", status: "usd", selected: false },
-          { filterName: "eur", status: "eur", selected: false }
+          { filterName: "usd", status: "USD", selected: false },
+          { filterName: "eur", status: "EUR", selected: false }
         ]
       },
       { property: "client", filters: [] }
