@@ -2,8 +2,10 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const StyledFilterList = styled.div`
-  display: flex;
-  justify-content: start;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-gap: 5px;
+  grid-auto-flow: dense;
   padding: 1rem 2rem 0;
 `;
 
@@ -11,9 +13,9 @@ export const StyledFilterItem = styled.div`
   padding: 0.2rem 0.6rem;
   border: ${props => `1px solid ${props.theme.secondaryText}`};
   border-radius: 0.8rem;
-  & + & {
+  ${"" /* & + & {
     margin-left: 1rem;
-  }
+  } */}
   background-color: ${props =>
     props.selected ? props.theme.secondaryText : "inherit"}
   color: ${props => (props.selected ? props.theme.text : "inherit")};
