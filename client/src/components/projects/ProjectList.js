@@ -15,13 +15,12 @@ const ProjectList = () => {
   const clientContext = useContext(ClientContext);
   const {
     projects,
-    filterableProps,
     loadingProjects,
     getProjects,
     setDelete,
     togglePaid
   } = projectContext;
-  const { loadingClients, getClients } = clientContext;
+  const { loadingClients, getClients, filterableProps } = clientContext;
 
   useEffect(() => {
     console.log("---ProjectList: useEffect");

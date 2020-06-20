@@ -3,12 +3,44 @@ import axios from "axios";
 
 import ClientContext from "./clientContext";
 import clientReducer from "./clientReducer";
-import { GET_CLIENTS, CREATE_CLIENT, CLEAR_CLIENT_DATA } from "../types";
+import {
+  GET_CLIENTS,
+  CREATE_CLIENT,
+  CLEAR_CLIENT_DATA,
+  TOGGLE_FILTER,
+  ADD_CLIENT_FILTER
+} from "../types";
 
 const ClientState = props => {
   const initialState = {
     clients: null,
-    loadingClients: true
+    loadingClients: true,
+    filterableProps: {
+      paid: [
+        { propName: "paid", filterName: "paid", status: true, selected: false },
+        {
+          propName: "paid",
+          filterName: "unpaid",
+          status: false,
+          selected: false
+        }
+      ],
+      currency: [
+        {
+          propName: "currency",
+          filterName: "usd",
+          status: "USD",
+          selected: false
+        },
+        {
+          propName: "currency",
+          filterName: "eur",
+          status: "EUR",
+          selected: false
+        }
+      ],
+      client: []
+    }
   };
 
   const [state, dispatch] = useReducer(clientReducer, initialState);
@@ -41,14 +73,31 @@ const ClientState = props => {
     dispatch({ type: CLEAR_CLIENT_DATA });
   };
 
+  const toggleFilter = (filterName, propName) => {
+    dispatch({
+      type: TOGGLE_FILTER,
+      payload: { filterName, propName }
+    });
+  };
+
+  const addClientFilter = clientName => {
+    dispatch({
+      type: ADD_CLIENT_FILTER,
+      payload: clientName
+    });
+  };
+
   return (
     <ClientContext.Provider
       value={{
         clients: state.clients,
         loadingClients: state.loadingClients,
+        filterableProps: state.filterableProps,
         getClients,
         createClient,
-        clearClientData
+        clearClientData,
+        toggleFilter,
+        addClientFilter
       }}
     >
       {props.children}

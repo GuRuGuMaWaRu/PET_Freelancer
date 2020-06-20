@@ -9,9 +9,7 @@ import {
   SET_DELETED,
   CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
-  TOGGLE_PAID,
-  TOGGLE_FILTER,
-  ADD_CLIENT_FILTER
+  TOGGLE_PAID
 } from "../types";
 
 export default (state, action) => {
@@ -100,36 +98,6 @@ export default (state, action) => {
           }
           return project;
         })
-      };
-    case TOGGLE_FILTER:
-      const { propName, filterName } = action.payload;
-      return {
-        ...state,
-        filterableProps: {
-          ...state.filterableProps,
-          [propName]: state.filterableProps[propName].map(filter => {
-            if (filter.filterName === filterName) {
-              return { ...filter, selected: !filter.selected };
-            }
-            return filter;
-          })
-        }
-      };
-    case ADD_CLIENT_FILTER:
-      return {
-        ...state,
-        filterableProps: {
-          ...state.filterableProps,
-          client: [
-            ...state.filterableProps.client,
-            {
-              propName: "client",
-              filterName: action.payload,
-              status: action.payload,
-              selected: false
-            }
-          ]
-        }
       };
     default:
       return state;

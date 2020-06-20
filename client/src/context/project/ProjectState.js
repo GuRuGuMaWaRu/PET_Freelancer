@@ -16,8 +16,6 @@ import {
   CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
   TOGGLE_PAID,
-  TOGGLE_FILTER,
-  ADD_CLIENT_FILTER,
   ERROR
 } from "../types";
 
@@ -26,33 +24,7 @@ const ProjectState = props => {
     projects: null,
     currentProject: null,
     deleteId: null,
-    loadingProjects: true,
-    filterableProps: {
-      paid: [
-        { propName: "paid", filterName: "paid", status: true, selected: false },
-        {
-          propName: "paid",
-          filterName: "unpaid",
-          status: false,
-          selected: false
-        }
-      ],
-      currency: [
-        {
-          propName: "currency",
-          filterName: "usd",
-          status: "USD",
-          selected: false
-        },
-        {
-          propName: "currency",
-          filterName: "eur",
-          status: "EUR",
-          selected: false
-        }
-      ],
-      client: []
-    }
+    loadingProjects: true
   };
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
@@ -236,20 +208,6 @@ const ProjectState = props => {
     }
   };
 
-  const toggleFilter = (filterName, propName) => {
-    dispatch({
-      type: TOGGLE_FILTER,
-      payload: { filterName, propName }
-    });
-  };
-
-  const addClientFilter = clientName => {
-    dispatch({
-      type: ADD_CLIENT_FILTER,
-      payload: clientName
-    });
-  };
-
   return (
     <ProjectContext.Provider
       value={{
@@ -257,7 +215,6 @@ const ProjectState = props => {
         currentProject: state.currentProject,
         deleteId: state.deleteId,
         loadingProjects: state.loadingProjects,
-        filterableProps: state.filterableProps,
         getProjects,
         createProject,
         deleteProject,
@@ -268,9 +225,7 @@ const ProjectState = props => {
         setDelete,
         closeModal,
         clearProjectData,
-        togglePaid,
-        toggleFilter,
-        addClientFilter
+        togglePaid
       }}
     >
       {props.children}
