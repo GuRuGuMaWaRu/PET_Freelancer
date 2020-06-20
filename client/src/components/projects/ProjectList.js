@@ -15,6 +15,7 @@ const ProjectList = () => {
   const clientContext = useContext(ClientContext);
   const {
     projects,
+    projectSummary,
     loadingProjects,
     getProjects,
     setDelete,
@@ -76,8 +77,21 @@ const ProjectList = () => {
   return (
     projects && (
       <Fragment>
+        <StyledTotalText>
+          <div>
+            Selected: <b>{renderedProjects.length}</b>
+          </div>
+          <div>
+            This month: <b>${projectSummary.thisMonth}</b>
+          </div>
+          <div>
+            This year: <b>${projectSummary.thisYear}</b>
+          </div>
+          <div>
+            Last year: <b>${projectSummary.lastYear}</b>
+          </div>
+        </StyledTotalText>
         <FilterList />
-        <StyledTotalText>Selected: {renderedProjects.length}</StyledTotalText>
         {renderedProjects.map(project => (
           <Project
             key={project._id}
