@@ -115,11 +115,22 @@ export default (state, action) => {
           })
         }
       };
-    // case ADD_CLIENT_FILTER:
-    //   return {
-    //     ...state,
-    //     filters: [...state.filters, { property: "clients" action.payload, selected: false }]
-    //   };
+    case ADD_CLIENT_FILTER:
+      return {
+        ...state,
+        filterableProps: {
+          ...state.filterableProps,
+          client: [
+            ...state.filterableProps.client,
+            {
+              propName: "client",
+              filterName: action.payload,
+              status: action.payload,
+              selected: false
+            }
+          ]
+        }
+      };
     default:
       return state;
   }
