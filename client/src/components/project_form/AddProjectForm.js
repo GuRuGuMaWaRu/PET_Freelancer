@@ -37,13 +37,13 @@ const AddProjectForm = ({ history }) => {
   const { clients, loadingClients, getClients } = clientContext;
   const { addAlert } = alertContext;
 
-  useEffect(() => {
-    console.log("---AddProjectForm: useEffect");
-    if (loadingClients) {
-      getClients();
-    }
-    // eslint-disable-next-line
-  }, [loadingClients]);
+  // useEffect(() => {
+  //   console.log("---AddProjectForm: useEffect");
+  //   if (loadingClients) {
+  //     getClients();
+  //   }
+  //   // eslint-disable-next-line
+  // }, [loadingClients]);
 
   console.log("---AddProjectForm: rendering...");
   console.log("---AddProjectForm, loadingClients:", loadingClients);
