@@ -46,26 +46,21 @@ const EditProjectForm = () => {
   const { clients, loadingClients, getClients } = clientContext;
   const { addAlert } = alertContext;
 
-  // useEffect(() => {
-  //   console.log("---EditProjectForm: useEffect");
-  //   if (loadingClients) {
-  //     getClients();
-  //   }
-  //   if (id) {
-  //     getCurrent(id);
-  //   }
+  useEffect(() => {
+    console.log("---EditProjectForm: useEffect");
+    if (loadingClients) {
+      getClients();
+    }
+    if (id) {
+      getCurrent(id);
+    }
 
-  //   return () => {
-  //     console.log("---EditProjectForm: useEffect - clear on exit");
-  //     clearCurrent();
-  //   };
-  //   // eslint-disable-next-line
-  // }, []);
-
-  // console.log("---EditProjectForm: rendering...");
-  // console.log("---EditProjectForm, loadingClients:", loadingClients);
-  // console.log("---EditProjectForm, currentProject:", currentProject);
-  // console.log("---EditProjectForm, clients:", clients);
+    return () => {
+      console.log("---EditProjectForm: useEffect - clear on exit");
+      clearCurrent();
+    };
+    // eslint-disable-next-line
+  }, []);
 
   if (loadingClients || (id && !currentProject)) {
     return <Spinner />;
