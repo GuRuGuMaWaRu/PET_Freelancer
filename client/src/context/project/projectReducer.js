@@ -17,8 +17,7 @@ export default (state, action) => {
     case GET_PROJECTS_SUCCESS:
       return {
         ...state,
-        projects: action.payload.projects,
-        projectSummary: action.payload.projectSummary,
+        projects: action.payload,
         loadingProjects: false
       };
     case CREATE_PROJECT_SUCCESS:
