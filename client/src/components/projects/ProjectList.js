@@ -7,6 +7,7 @@ import FilterList from "./FilterList";
 import ProjectContext from "../../context/project/projectContext";
 import ClientContext from "../../context/client/clientContext";
 import setAuthToken from "../../utils/setAuthToken";
+import calculateTotals from "../../utils/calculateTotals";
 
 import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
@@ -15,7 +16,6 @@ const ProjectList = () => {
   const clientContext = useContext(ClientContext);
   const {
     projects,
-    projectSummary,
     loadingProjects,
     getProjects,
     setDelete,
@@ -74,6 +74,8 @@ const ProjectList = () => {
   });
   //--> Filter projects -- END
 
+  const totals = calculateTotals(renderedProjects);
+
   return (
     projects && (
       <Fragment>
@@ -82,13 +84,13 @@ const ProjectList = () => {
             Selected: <b>{renderedProjects.length}</b>
           </div>
           <div>
-            This month: <b>${projectSummary.thisMonth}</b>
+            This month: <b>${totals.thisMonth}</b>
           </div>
           <div>
-            This year: <b>${projectSummary.thisYear}</b>
+            This year: <b>${totals.thisYear}</b>
           </div>
           <div>
-            Last year: <b>${projectSummary.lastYear}</b>
+            Last year: <b>${totals.lastYear}</b>
           </div>
         </StyledTotalText>
         <FilterList />

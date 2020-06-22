@@ -23,11 +23,6 @@ const ProjectState = props => {
   const initialState = {
     projects: null,
     currentProject: null,
-    projectSummary: {
-      thisMonth: 0,
-      thisYear: 0,
-      lastYear: 0
-    },
     deleteId: null,
     loadingProjects: true
   };
@@ -51,51 +46,13 @@ const ProjectState = props => {
       console.log("ProjectState --- getProjects:", res);
       const projects = res.data.data.data;
 
-      //--START--> Calculate totals
-      const now = new Date();
-      const currentMonth = now.getMonth();
-      const currentYear = now.getFullYear();
-
-      const paymentByDate = projects.reduce((final, project) => {
-        const year = moment(project.date).year();
-        const month = moment(project.date).month();
-
-        if (final.hasOwnProperty(year)) {
-          if (final[year].hasOwnProperty(month)) {
-            final[year][month] += project.payment;
-          } else {
-            final[year][month] = project.payment;
-          }
-        } else {
-          final[year] = { [month]: project.payment };
-        }
-
-        return final;
-      }, {});
-
-      const thisMonth = paymentByDate[currentYear][currentMonth].toFixed(2);
-      const thisYear = Object.values(paymentByDate[currentYear])
-        .reduce((total, month) => total + month)
-        .toFixed(2);
-      const lastYear = Object.values(paymentByDate[currentYear - 1])
-        .reduce((total, month) => total + month)
-        .toFixed(2);
-      //--END--> Calculate totals
-
       const processedProjects = projects.map(project => {
         return { ...project, client: project.client.name };
       });
 
       dispatch({
         type: GET_PROJECTS_SUCCESS,
-        payload: {
-          projects: processedProjects,
-          projectSummary: {
-            thisMonth,
-            thisYear,
-            lastYear
-          }
-        }
+        payload: processedProjects
       });
     } catch (err) {
       console.log("Error:", err.message);
