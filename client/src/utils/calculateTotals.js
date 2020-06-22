@@ -22,8 +22,6 @@ const calculateTotals = projects => {
     return final;
   }, {});
 
-  console.log("paymentByDate:", paymentByDate);
-
   let thisMonth = 0;
   let thisYear = 0;
   let lastYear = 0;
