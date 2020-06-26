@@ -45,10 +45,17 @@ const calculateTotals = projects => {
       .toFixed(2);
   }
 
+  console.log(Object.values(paymentByDate));
+  const superTotal = Object.values(paymentByDate).reduce((total, item) => {
+    return total + Object.values(item).reduce((sum, month) => sum + month);
+  }, 0);
+  console.log(superTotal);
+
   return {
     thisMonth,
     thisYear,
-    lastYear
+    lastYear,
+    superTotal
   };
 };
 
