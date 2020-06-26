@@ -92,6 +92,9 @@ const ProjectList = () => {
           <div>
             Last year: <b>${totals.lastYear}</b>
           </div>
+          <div>
+            Total: <b>${totals.superTotal}</b>
+          </div>
         </StyledTotalText>
         <FilterList />
         {renderedProjects.map(project => (
