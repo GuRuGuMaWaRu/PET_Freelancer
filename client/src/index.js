@@ -2,8 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { configureStore } from "@reduxjs/toolkit";
 import { ThemeProvider } from "styled-components";
+import { Provider } from "react-redux";
 
-import rootReducer from "./reducers/rootReducer";
+import rootReducer from "./reducers";
 
 import theme from "./components/styles/theme";
 import GlobalStyles from "./components/styles/global.styles";
@@ -19,17 +20,19 @@ const store = configureStore({
 });
 
 ReactDOM.render(
-  <AuthState>
-    <ProjectState>
-      <ClientState>
-        <AlertState>
-          <GlobalStyles />
-          <ThemeProvider theme={theme}>
-            <App store={store} />
-          </ThemeProvider>
-        </AlertState>
-      </ClientState>
-    </ProjectState>
-  </AuthState>,
+  <Provider store={store}>
+    <AuthState>
+      <ProjectState>
+        <ClientState>
+          <AlertState>
+            <GlobalStyles />
+            <ThemeProvider theme={theme}>
+              <App />
+            </ThemeProvider>
+          </AlertState>
+        </ClientState>
+      </ProjectState>
+    </AuthState>
+  </Provider>,
   document.getElementById("root")
 );

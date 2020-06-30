@@ -1,11 +1,9 @@
-const INITIAL_STATE = {
-  items: [],
-  users: []
-};
+import { combineReducers } from "@reduxjs/toolkit";
 
-export default (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
+import clientsReducer from "./clientsSlice";
+
+const rootReducer = combineReducers({
+  clients: clientsReducer
+});
+
+export default rootReducer;
