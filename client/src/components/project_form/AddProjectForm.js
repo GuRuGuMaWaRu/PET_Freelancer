@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, Fragment } from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import * as Yup from "yup";
 import { Formik } from "formik";
@@ -7,8 +8,9 @@ import { Formik } from "formik";
 import AddClient from "./AddClient";
 import Spinner from "../layout/Spinner";
 import ProjectContext from "../../context/project/projectContext";
-import ClientContext from "../../context/client/clientContext";
+// import ClientContext from "../../context/client/clientContext";
 import AlertContext from "../../context/alert/alertContext";
+import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
 import {
   StyledForm,
   StyledTitle,
@@ -29,27 +31,39 @@ const formSchema = Yup.object().shape({
 });
 
 const AddProjectForm = ({ history }) => {
+  const clients = useSelector(selectAllClients);
+  const clientsLoading = useSelector(state => state.clients.loading);
+  const dispatch = useDispatch();
+
   const projectContext = useContext(ProjectContext);
-  const clientContext = useContext(ClientContext);
+  // const clientContext = useContext(ClientContext);
   const alertContext = useContext(AlertContext);
 
   const { createProject } = projectContext;
-  const { clients, loadingClients, getClients } = clientContext;
+  // const { clients, loadingClients, getClients } = clientContext;
   const { addAlert } = alertContext;
 
+  // useEffect(() => {
+  //   console.log("---AddProjectForm: useEffect");
+  //   if (loadingClients) {
+  //     getClients();
+  //   }
+  //   // eslint-disable-next-line
+  // }, [loadingClients]);
+
   useEffect(() => {
-    console.log("---AddProjectForm: useEffect");
-    if (loadingClients) {
-      getClients();
-    }
+    dispatch(fetchClients());
     // eslint-disable-next-line
-  }, [loadingClients]);
+  }, []);
 
   console.log("---AddProjectForm: rendering...");
-  console.log("---AddProjectForm, loadingClients:", loadingClients);
-  console.log("---AddProjectForm, clients:", clients);
+  // console.log("---AddProjectForm, loadingClients:", loadingClients);
+  // console.log("---AddProjectForm, clients:", clients);
 
-  if (loadingClients) {
+  // if (loadingClients) {
+  //   return <Spinner />;
+  // }
+  if (clientsLoading) {
     return <Spinner />;
   }
 

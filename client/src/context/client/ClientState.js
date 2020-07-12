@@ -47,7 +47,6 @@ const ClientState = props => {
   const getClients = async () => {
     try {
       const res = await axios.get("/api/v1/clients");
-
       const clients = res.data.data.data;
 
       dispatch({ type: GET_CLIENTS, payload: clients });

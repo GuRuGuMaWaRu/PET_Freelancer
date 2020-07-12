@@ -1,51 +1,38 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  createEntityAdapter
+} from "@reduxjs/toolkit";
+import axios from "axios";
 
-const initialState = {
-  clients: [],
-  loadingClients: false,
-  filterableProps: {
-    paid: [
-      { propName: "paid", filterName: "paid", status: true, selected: false },
-      {
-        propName: "paid",
-        filterName: "unpaid",
-        status: false,
-        selected: false
-      }
-    ],
-    currency: [
-      {
-        propName: "currency",
-        filterName: "usd",
-        status: "USD",
-        selected: false
-      },
-      {
-        propName: "currency",
-        filterName: "eur",
-        status: "EUR",
-        selected: false
-      }
-    ],
-    client: []
-  }
-};
+export const fetchClients = createAsyncThunk("clients/fetchAll", async () => {
+  const res = await axios.get("/api/v1/clients");
+  return res.data.data.data;
+});
 
-const clientsSlice = createSlice({
+export const clientsAdapter = createEntityAdapter({
+  selectId: client => client._id
+});
+
+const initialState = clientsAdapter.getInitialState({ loading: false });
+
+export const slice = createSlice({
   name: "clients",
   initialState,
-  reducers: {
-    getClients(state, action) {},
-    createClient(state, action) {},
-    clearClientData(state, action) {},
-    toggleFilter(state, action) {}
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(fetchClients.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchClients.fulfilled, (state, action) => {
+      clientsAdapter.upsertMany(state, action.payload);
+      state.loading = false;
+    });
   }
 });
 
-export const {
-  getClients,
-  createClient,
-  clearClientData
-} = clientsSlice.actions;
+export const { selectAll: selectAllClients } = clientsAdapter.getSelectors(
+  state => state.clients
+);
 
-export default clientsSlice.reducer;
+export default slice.reducer;
