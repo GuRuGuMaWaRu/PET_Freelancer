@@ -8,7 +8,6 @@ import { Formik } from "formik";
 import AddClient from "./AddClient";
 import Spinner from "../layout/Spinner";
 import ProjectContext from "../../context/project/projectContext";
-// import ClientContext from "../../context/client/clientContext";
 import AlertContext from "../../context/alert/alertContext";
 import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
 import {
@@ -36,20 +35,10 @@ const AddProjectForm = ({ history }) => {
   const dispatch = useDispatch();
 
   const projectContext = useContext(ProjectContext);
-  // const clientContext = useContext(ClientContext);
   const alertContext = useContext(AlertContext);
 
   const { createProject } = projectContext;
-  // const { clients, loadingClients, getClients } = clientContext;
   const { addAlert } = alertContext;
-
-  // useEffect(() => {
-  //   console.log("---AddProjectForm: useEffect");
-  //   if (loadingClients) {
-  //     getClients();
-  //   }
-  //   // eslint-disable-next-line
-  // }, [loadingClients]);
 
   useEffect(() => {
     dispatch(fetchClients());
@@ -57,12 +46,7 @@ const AddProjectForm = ({ history }) => {
   }, []);
 
   console.log("---AddProjectForm: rendering...");
-  // console.log("---AddProjectForm, loadingClients:", loadingClients);
-  // console.log("---AddProjectForm, clients:", clients);
 
-  // if (loadingClients) {
-  //   return <Spinner />;
-  // }
   if (clientsLoading) {
     return <Spinner />;
   }
