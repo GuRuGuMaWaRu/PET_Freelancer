@@ -7,7 +7,6 @@ import theme from "./components/styles/theme";
 import GlobalStyles from "./components/styles/global.styles";
 
 import ProjectState from "./context/project/ProjectState";
-import ClientState from "./context/client/ClientState";
 import AlertState from "./context/alert/AlertState";
 import AuthState from "./context/auth/AuthState";
 import store from "./store";
@@ -19,14 +18,12 @@ const render = () => {
     <Provider store={store}>
       <AuthState>
         <ProjectState>
-          <ClientState>
-            <AlertState>
-              <GlobalStyles />
-              <ThemeProvider theme={theme}>
-                <App />
-              </ThemeProvider>
-            </AlertState>
-          </ClientState>
+          <AlertState>
+            <GlobalStyles />
+            <ThemeProvider theme={theme}>
+              <App />
+            </ThemeProvider>
+          </AlertState>
         </ProjectState>
       </AuthState>
     </Provider>,
