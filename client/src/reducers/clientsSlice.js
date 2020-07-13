@@ -5,10 +5,30 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchClients = createAsyncThunk("clients/fetchAll", async () => {
-  const res = await axios.get("/api/v1/clients");
-  return res.data.data.data;
-});
+export const fetchClients = createAsyncThunk(
+  "clients/fetchAll",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axios.get("/api/v1/clients");
+      return res.data.data.data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const createClient = createAsyncThunk(
+  "clients/createOne",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axios.post("/api/v1/clients", { name: data });
+
+      return res.data.data.data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
 
 export const clientsAdapter = createEntityAdapter({
   selectId: client => client._id
@@ -25,8 +45,11 @@ export const slice = createSlice({
       state.loading = true;
     });
     builder.addCase(fetchClients.fulfilled, (state, action) => {
-      clientsAdapter.upsertMany(state, action.payload);
+      clientsAdapter.addMany(state, action.payload);
       state.loading = false;
+    });
+    builder.addCase(createClient.fulfilled, (state, action) => {
+      clientsAdapter.addOne(state, action.payload);
     });
   }
 });
