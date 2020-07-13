@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useContext } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Spinner from "../layout/Spinner";
 import Project from "./Project";
@@ -7,7 +7,6 @@ import FilterList from "./FilterList";
 
 import { fetchClients } from "../../reducers/clientsSlice";
 import ProjectContext from "../../context/project/projectContext";
-import ClientContext from "../../context/client/clientContext";
 import setAuthToken from "../../utils/setAuthToken";
 import calculateTotals from "../../utils/calculateTotals";
 
@@ -15,9 +14,9 @@ import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
   const dispatch = useDispatch();
+  const filterableProps = useSelector(state => state.filters);
 
   const projectContext = useContext(ProjectContext);
-  const clientContext = useContext(ClientContext);
   const {
     projects,
     loadingProjects,
@@ -25,7 +24,6 @@ const ProjectList = () => {
     setDelete,
     togglePaid
   } = projectContext;
-  const { filterableProps } = clientContext;
 
   useEffect(() => {
     console.log("---ProjectList: useEffect");
