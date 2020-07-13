@@ -48,7 +48,9 @@ const AddProjectForm = ({ history }) => {
   console.log("---AddProjectForm: rendering...");
 
   if (clientsLoading) {
-    return <Spinner />;
+    setTimeout(() => {
+      return <Spinner />;
+    }, 1000);
   }
 
   const initialValues = {
