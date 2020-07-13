@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchClients, createClient } from "./clientsSlice";
+import { fetchClients } from "./clientsSlice";
 
 const initialState = {
   paid: [
