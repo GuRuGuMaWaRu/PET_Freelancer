@@ -51,14 +51,6 @@ export const slice = createSlice({
         selected: false
       }));
     });
-    builder.addCase(createClient.fulfilled, (state, action) => {
-      state.client.push({
-        propName: "client",
-        filterName: action.payload.name,
-        status: action.payload.name,
-        selected: false
-      });
-    });
   }
 });
 
