@@ -32,7 +32,16 @@ const initialState = {
 export const slice = createSlice({
   name: "filters",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleFilter(state, action) {
+      const { filterName, propName } = action.payload;
+      state[propName].forEach(filter => {
+        if (filter.filterName === filterName) {
+          filter.selected = !filter.selected;
+        }
+      });
+    }
+  },
   extraReducers: builder => {
     builder.addCase(fetchClients.fulfilled, (state, action) => {
       state.client = action.payload.map(client => ({
@@ -52,5 +61,7 @@ export const slice = createSlice({
     });
   }
 });
+
+export const { toggleFilter } = slice.actions;
 
 export default slice.reducer;
