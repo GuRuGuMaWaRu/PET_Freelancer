@@ -1,15 +1,17 @@
 import React, { useEffect, useContext, Fragment } from "react";
 import PropTypes from "prop-types";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
+import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
+import ProjectContext from "../../context/project/projectContext";
+import AlertContext from "../../context/alert/alertContext";
+
 import AddClient from "./AddClient";
 import Spinner from "../layout/Spinner";
-import ProjectContext from "../../context/project/projectContext";
-import ClientContext from "../../context/client/clientContext";
-import AlertContext from "../../context/alert/alertContext";
 import {
   StyledForm,
   StyledTitle,
@@ -33,8 +35,12 @@ const formSchema = Yup.object().shape({
 const EditProjectForm = () => {
   const history = useHistory();
   const { id } = useParams();
+
+  const clients = useSelector(selectAllClients);
+  const clientsLoading = useSelector(state => state.clients.loading);
+  const dispatch = useDispatch();
+
   const projectContext = useContext(ProjectContext);
-  const clientContext = useContext(ClientContext);
   const alertContext = useContext(AlertContext);
 
   const {
@@ -43,14 +49,13 @@ const EditProjectForm = () => {
     clearCurrent,
     getCurrent
   } = projectContext;
-  const { clients, loadingClients, getClients } = clientContext;
   const { addAlert } = alertContext;
 
   useEffect(() => {
     console.log("---EditProjectForm: useEffect");
-    if (loadingClients) {
-      getClients();
-    }
+
+    dispatch(fetchClients());
+
     if (id) {
       getCurrent(id);
     }
@@ -62,7 +67,7 @@ const EditProjectForm = () => {
     // eslint-disable-next-line
   }, []);
 
-  if (loadingClients || (id && !currentProject)) {
+  if (clientsLoading || (id && !currentProject)) {
     return <Spinner />;
   }
 
@@ -105,7 +110,7 @@ const EditProjectForm = () => {
                   editedFields[field] = values[field];
                 }
               }
-              // console.log("editedFields:", editedFields);
+
               updateProject({ editedFields, _id: currentProject._id });
               addAlert({
                 msg: `Edited project "${values.projectNr}" from ${client}`,
@@ -115,7 +120,6 @@ const EditProjectForm = () => {
               actions.setSubmitting(false);
               history.push("/");
             } catch (err) {
-              // console.log(err);
               actions.setSubmitting(false);
               actions.setStatus({ msg: "Something went wrong" });
             }

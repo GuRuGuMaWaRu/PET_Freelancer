@@ -41,7 +41,7 @@ export const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchClients.pending, (state, action) => {
+    builder.addCase(fetchClients.pending, (state, _) => {
       state.loading = true;
     });
     builder.addCase(fetchClients.fulfilled, (state, action) => {
