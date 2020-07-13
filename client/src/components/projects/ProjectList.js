@@ -1,9 +1,11 @@
 import React, { Fragment, useEffect, useContext } from "react";
+import { useDispatch } from "react-redux";
 
 import Spinner from "../layout/Spinner";
 import Project from "./Project";
 import FilterList from "./FilterList";
 
+import { fetchClients } from "../../reducers/clientsSlice";
 import ProjectContext from "../../context/project/projectContext";
 import ClientContext from "../../context/client/clientContext";
 import setAuthToken from "../../utils/setAuthToken";
@@ -12,6 +14,8 @@ import calculateTotals from "../../utils/calculateTotals";
 import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
+  const dispatch = useDispatch();
+
   const projectContext = useContext(ProjectContext);
   const clientContext = useContext(ClientContext);
   const {
@@ -21,7 +25,7 @@ const ProjectList = () => {
     setDelete,
     togglePaid
   } = projectContext;
-  const { loadingClients, getClients, filterableProps } = clientContext;
+  const { filterableProps } = clientContext;
 
   useEffect(() => {
     console.log("---ProjectList: useEffect");
@@ -30,9 +34,8 @@ const ProjectList = () => {
       setAuthToken(localStorage.getItem("freelancer_token"));
       getProjects();
     }
-    if (loadingClients) {
-      getClients();
-    }
+
+    dispatch(fetchClients());
     // eslint-disable-next-line
   }, []);
 
