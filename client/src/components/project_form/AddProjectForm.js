@@ -8,7 +8,6 @@ import { Formik } from "formik";
 import AddClient from "./AddClient";
 import Spinner from "../layout/Spinner";
 import ProjectContext from "../../context/project/projectContext";
-import AlertContext from "../../context/alert/alertContext";
 import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
 import {
   StyledForm,
@@ -35,10 +34,8 @@ const AddProjectForm = ({ history }) => {
   const dispatch = useDispatch();
 
   const projectContext = useContext(ProjectContext);
-  const alertContext = useContext(AlertContext);
 
   const { createProject } = projectContext;
-  const { addAlert } = alertContext;
 
   useEffect(() => {
     dispatch(fetchClients());
@@ -79,10 +76,10 @@ const AddProjectForm = ({ history }) => {
               ).name;
 
               createProject(values, client);
-              addAlert({
-                msg: `Added new project "${values.projectNr}" from ${client}`,
-                type: "info"
-              });
+              // addAlert({
+              //   msg: `Added new project "${values.projectNr}" from ${client}`,
+              //   type: "info"
+              // });
 
               actions.setSubmitting(false);
               history.push("/");

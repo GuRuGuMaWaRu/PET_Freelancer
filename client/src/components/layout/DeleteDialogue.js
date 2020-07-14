@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import ProjectContext from "../../context/project/projectContext";
-import AlertContext from "../../context/alert/alertContext";
 
 import {
   StyledActions,
@@ -17,17 +16,11 @@ const DeleteDialogue = () => {
   };
 
   const projectContext = useContext(ProjectContext);
-  const alertContext = useContext(AlertContext);
 
   const { deleteId, deleteProject, closeModal } = projectContext;
-  const { addAlert } = alertContext;
 
   const handleDelete = async () => {
     deleteProject(deleteId);
-    addAlert({
-      msg: "Deleted a project",
-      type: "info"
-    });
   };
 
   return (

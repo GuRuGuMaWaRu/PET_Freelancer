@@ -8,7 +8,6 @@ import { Formik } from "formik";
 
 import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
 import ProjectContext from "../../context/project/projectContext";
-import AlertContext from "../../context/alert/alertContext";
 
 import AddClient from "./AddClient";
 import Spinner from "../layout/Spinner";
@@ -41,7 +40,6 @@ const EditProjectForm = () => {
   const dispatch = useDispatch();
 
   const projectContext = useContext(ProjectContext);
-  const alertContext = useContext(AlertContext);
 
   const {
     currentProject,
@@ -49,7 +47,6 @@ const EditProjectForm = () => {
     clearCurrent,
     getCurrent
   } = projectContext;
-  const { addAlert } = alertContext;
 
   useEffect(() => {
     console.log("---EditProjectForm: useEffect");
@@ -112,10 +109,10 @@ const EditProjectForm = () => {
               }
 
               updateProject({ editedFields, _id: currentProject._id });
-              addAlert({
-                msg: `Edited project "${values.projectNr}" from ${client}`,
-                type: "info"
-              });
+              // addAlert({
+              //   msg: `Edited project "${values.projectNr}" from ${client}`,
+              //   type: "info"
+              // });
 
               actions.setSubmitting(false);
               history.push("/");
