@@ -39,7 +39,6 @@ export const slice = createSlice({
     });
 
     builder.addCase(fetchProjects.fulfilled, (state, action) => {
-      console.log(action.payload);
       projectsAdapter.addMany(state, action.payload);
       state.loading = false;
     });

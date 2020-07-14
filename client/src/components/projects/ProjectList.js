@@ -35,7 +35,9 @@ const ProjectList = () => {
 
   console.log("---ProjectList: rendering...");
   if (projectsLoading) {
-    return <Spinner />;
+    setTimeout(() => {
+      return <Spinner />;
+    }, 1000);
   }
 
   if (!projects || projects.length === 0) {
