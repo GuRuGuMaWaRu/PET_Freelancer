@@ -10,28 +10,37 @@ export const fetchProjects = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(`/api/v1/projects`);
-      return res.data.data.data;
+      const projects = res.data.data.data;
+
+      const processedProjects = projects.map(project => {
+        return { ...project, client: project.client.name };
+      });
+
+      return processedProjects;
     } catch (err) {
       return rejectWithValue(err.message);
     }
   }
 );
 
-export const projectsAdapter = createEntityAdapter({ loading: false });
+export const projectsAdapter = createEntityAdapter({
+  selectId: project => project._id
+});
 
-const initialState = projectsAdapter.getInitialState();
+const initialState = projectsAdapter.getInitialState({ loading: false });
 
 export const slice = createSlice({
   name: "projects",
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchProjects.pending, (state, action) => {
+    builder.addCase(fetchProjects.pending, (state, _) => {
       state.loading = true;
     });
 
     builder.addCase(fetchProjects.fulfilled, (state, action) => {
-      projectsAdapter.addMany(action.payload);
+      console.log(action.payload);
+      projectsAdapter.addMany(state, action.payload);
       state.loading = false;
     });
   }

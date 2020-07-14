@@ -6,6 +6,7 @@ import Project from "./Project";
 import FilterList from "./FilterList";
 
 import { fetchClients } from "../../reducers/clientsSlice";
+import { fetchProjects, selectAllProjects } from "../../reducers/projectsSlice";
 import ProjectContext from "../../context/project/projectContext";
 import setAuthToken from "../../utils/setAuthToken";
 import calculateTotals from "../../utils/calculateTotals";
@@ -15,30 +16,25 @@ import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 const ProjectList = () => {
   const dispatch = useDispatch();
   const filterableProps = useSelector(state => state.filters);
+  const projects = useSelector(selectAllProjects);
+  const projectsLoading = useSelector(state => state.projects.loading);
 
   const projectContext = useContext(ProjectContext);
-  const {
-    projects,
-    loadingProjects,
-    getProjects,
-    setDelete,
-    togglePaid
-  } = projectContext;
+  const { setDelete, togglePaid } = projectContext;
 
   useEffect(() => {
     console.log("---ProjectList: useEffect");
-    if (loadingProjects) {
-      console.log("---ProjectList: useEffect: loadingProjects");
-      setAuthToken(localStorage.getItem("freelancer_token"));
-      getProjects();
-    }
+
+    setAuthToken(localStorage.getItem("freelancer_token"));
+
+    dispatch(fetchProjects());
 
     dispatch(fetchClients());
     // eslint-disable-next-line
   }, []);
 
   console.log("---ProjectList: rendering...");
-  if (loadingProjects) {
+  if (projectsLoading) {
     return <Spinner />;
   }
 
