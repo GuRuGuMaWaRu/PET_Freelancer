@@ -5,7 +5,7 @@ import Spinner from "../layout/Spinner";
 import Project from "./Project";
 import FilterList from "./FilterList";
 
-import { fetchClients } from "../../reducers/clientsSlice";
+import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
 import {
   fetchProjects,
   togglePaid,
@@ -21,27 +21,29 @@ const ProjectList = () => {
   const dispatch = useDispatch();
   const filterableProps = useSelector(state => state.filters);
   const projects = useSelector(selectAllProjects);
+  const clients = useSelector(selectAllClients);
   const projectsLoading = useSelector(state => state.projects.loading);
 
   const projectContext = useContext(ProjectContext);
   const { setDelete } = projectContext;
 
   useEffect(() => {
-    console.log("---ProjectList: useEffect");
-
     setAuthToken(localStorage.getItem("freelancer_token"));
+    if (projects.length === 0) {
+      dispatch(fetchProjects());
+    }
 
-    dispatch(fetchProjects());
-
-    dispatch(fetchClients());
+    if (clients.length === 0) {
+      dispatch(fetchClients());
+    }
     // eslint-disable-next-line
   }, []);
 
-  console.log("---ProjectList: rendering...");
   if (projectsLoading) {
-    setTimeout(() => {
-      return <Spinner />;
-    }, 1000);
+    // setTimeout(() => {
+    //   return <Spinner />;
+    // }, 1000);
+    return <Spinner />;
   }
 
   if (!projects || projects.length === 0) {

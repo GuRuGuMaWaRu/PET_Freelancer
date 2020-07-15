@@ -29,27 +29,6 @@ const ProjectState = props => {
 
   const [state, dispatch] = useReducer(projectReducer, initialState);
 
-  const getProjects = async () => {
-    console.log("ProjectState --- getProjects");
-    try {
-      const res = await axios.get(`/api/v1/projects`);
-      console.log("ProjectState --- getProjects:", res);
-      const projects = res.data.data.data;
-
-      const processedProjects = projects.map(project => {
-        return { ...project, client: project.client.name };
-      });
-
-      dispatch({
-        type: GET_PROJECTS_SUCCESS,
-        payload: processedProjects
-      });
-    } catch (err) {
-      console.log("Error:", err.message);
-      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
-    }
-  };
-
   const createProject = async (data, client) => {
     console.log("ProjectState --- createProject");
 
@@ -164,22 +143,6 @@ const ProjectState = props => {
     dispatch({ type: CLEAR_PROJECT_DATA });
   };
 
-  const togglePaid = async (id, paidStatus) => {
-    console.log("ProjectState --- togglePaid");
-
-    try {
-      const res = await axios.patch(`/api/v1/projects/${id}`, {
-        paid: !paidStatus
-      });
-      console.log("ProjectState --- updatedProject:", res.data.data.data);
-
-      dispatch({ type: TOGGLE_PAID, payload: id });
-    } catch (err) {
-      console.error("Error:", err.message);
-      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
-    }
-  };
-
   return (
     <ProjectContext.Provider
       value={{
@@ -188,7 +151,6 @@ const ProjectState = props => {
         projectSummary: state.projectSummary,
         deleteId: state.deleteId,
         loadingProjects: state.loadingProjects,
-        getProjects,
         createProject,
         deleteProject,
         updateProject,
@@ -197,8 +159,7 @@ const ProjectState = props => {
         clearCurrent,
         setDelete,
         closeModal,
-        clearProjectData,
-        togglePaid
+        clearProjectData
       }}
     >
       {props.children}
