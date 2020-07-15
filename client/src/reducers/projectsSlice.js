@@ -39,16 +39,38 @@ export const togglePaid = createAsyncThunk(
   }
 );
 
+export const deleteProject = createAsyncThunk(
+  "projects/deleteOne",
+  async (id, { rejectWithValue }) => {
+    try {
+      await axios.delete(`/api/v1/projects/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 export const projectsAdapter = createEntityAdapter({
   selectId: project => project._id
 });
 
-const initialState = projectsAdapter.getInitialState({ loading: false });
+const initialState = projectsAdapter.getInitialState({
+  loading: false,
+  selectedId: null
+});
 
 export const slice = createSlice({
   name: "projects",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedId(state, action) {
+      state.selectedId = action.payload;
+    },
+    closeModal(state, _) {
+      state.selectedId = null;
+    }
+  },
   extraReducers: builder => {
     builder.addCase(fetchProjects.pending, (state, _) => {
       state.loading = true;
@@ -64,8 +86,14 @@ export const slice = createSlice({
         changes: { paid: !paidStatus }
       });
     });
+    builder.addCase(deleteProject.fulfilled, (state, action) => {
+      projectsAdapter.removeOne(state, action.payload);
+      state.selectedId = null;
+    });
   }
 });
+
+export const { setSelectedId, closeModal } = slice.actions;
 
 export const { selectAll: selectAllProjects } = projectsAdapter.getSelectors(
   state => state.projects

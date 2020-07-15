@@ -1,21 +1,15 @@
 import React, { useReducer } from "react";
 import axios from "axios";
-import moment from "moment";
 
 import ProjectContext from "./projectContext";
 import projectReducer from "./projectReducer";
 import {
-  GET_PROJECTS_SUCCESS,
   CREATE_PROJECT_SUCCESS,
-  DELETE_PROJECT_SUCCESS,
   UPDATE_PROJECT_SUCCESS,
   SET_CURRENT_PROJECT_ID,
   GET_CURRENT_SUCCESS,
   CLEAR_CURRENT_PROJECT,
-  SET_DELETED,
-  CLOSE_MODAL,
   CLEAR_PROJECT_DATA,
-  TOGGLE_PAID,
   ERROR
 } from "../types";
 
@@ -23,7 +17,6 @@ const ProjectState = props => {
   const initialState = {
     projects: null,
     currentProject: null,
-    deleteId: null,
     loadingProjects: true
   };
 
@@ -90,17 +83,6 @@ const ProjectState = props => {
     }
   };
 
-  const deleteProject = async id => {
-    console.log("ProjectState --- deleteProject");
-    try {
-      await axios.delete(`/api/v1/projects/${id}`);
-      dispatch({ type: DELETE_PROJECT_SUCCESS, payload: id });
-    } catch (err) {
-      console.log("Error:", err.message);
-      dispatch({ type: ERROR, payload: { msg: err.message, type: "error" } });
-    }
-  };
-
   const setCurrent = id => {
     console.log("ProjectState --- setCurrent");
     dispatch({
@@ -128,16 +110,6 @@ const ProjectState = props => {
     dispatch({ type: CLEAR_CURRENT_PROJECT });
   };
 
-  const setDelete = id => {
-    console.log("ProjectState --- setDelete");
-    dispatch({ type: SET_DELETED, payload: id });
-  };
-
-  const closeModal = () => {
-    console.log("ProjectState --- closeModal");
-    dispatch({ type: CLOSE_MODAL });
-  };
-
   const clearProjectData = () => {
     console.log("ProjectState --- clearProjectData");
     dispatch({ type: CLEAR_PROJECT_DATA });
@@ -149,16 +121,12 @@ const ProjectState = props => {
         projects: state.projects,
         currentProject: state.currentProject,
         projectSummary: state.projectSummary,
-        deleteId: state.deleteId,
         loadingProjects: state.loadingProjects,
         createProject,
-        deleteProject,
         updateProject,
         setCurrent,
         getCurrent,
         clearCurrent,
-        setDelete,
-        closeModal,
         clearProjectData
       }}
     >

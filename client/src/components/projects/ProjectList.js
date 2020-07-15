@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useContext } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import Spinner from "../layout/Spinner";
@@ -9,9 +9,9 @@ import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
 import {
   fetchProjects,
   togglePaid,
+  setSelectedId,
   selectAllProjects
 } from "../../reducers/projectsSlice";
-import ProjectContext from "../../context/project/projectContext";
 import setAuthToken from "../../utils/setAuthToken";
 import calculateTotals from "../../utils/calculateTotals";
 
@@ -23,9 +23,6 @@ const ProjectList = () => {
   const projects = useSelector(selectAllProjects);
   const clients = useSelector(selectAllClients);
   const projectsLoading = useSelector(state => state.projects.loading);
-
-  const projectContext = useContext(ProjectContext);
-  const { setDelete } = projectContext;
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("freelancer_token"));
@@ -106,7 +103,7 @@ const ProjectList = () => {
           <Project
             key={project._id}
             project={project}
-            handleDelete={() => setDelete(project._id)}
+            handleDelete={() => dispatch(setSelectedId(project._id))}
             handlePayment={() =>
               dispatch(
                 togglePaid({ id: project._id, paidStatus: project.paid })

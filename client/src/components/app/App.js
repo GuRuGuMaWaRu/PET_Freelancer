@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect, useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -23,7 +24,7 @@ import PrivateRoute from "../routing/PrivateRoute";
 import AuthRoute from "../routing/AuthRoute";
 import setAuthToken from "../../utils/setAuthToken";
 
-import ProjectContext from "../../context/project/projectContext";
+import { closeModal } from "../../reducers/projectsSlice";
 import AuthContext from "../../context/auth/authContext";
 
 import {
@@ -43,10 +44,11 @@ library.add(
 );
 
 const App = () => {
-  const projectContext = useContext(ProjectContext);
+  const dispatch = useDispatch();
+  const selectedId = useSelector(state => state.projects.selectedId);
+
   const authContext = useContext(AuthContext);
 
-  const { deleteId, closeModal } = projectContext;
   const { getUser, setLoadingUser } = authContext;
 
   useEffect(() => {
@@ -67,8 +69,8 @@ const App = () => {
   return (
     <Fragment>
       <Router>
-        {deleteId && (
-          <StyledModal onClick={closeModal}>
+        {selectedId && (
+          <StyledModal onClick={() => dispatch(closeModal())}>
             <DeleteDialogue />
           </StyledModal>
         )}

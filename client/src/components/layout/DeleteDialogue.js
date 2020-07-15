@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import ProjectContext from "../../context/project/projectContext";
+import { closeModal, deleteProject } from "../../reducers/projectsSlice";
 
 import {
   StyledActions,
@@ -11,24 +12,21 @@ import {
 } from "../styles/deleteDialogue.styles";
 
 const DeleteDialogue = () => {
+  const selectedId = useSelector(state => state.projects.selectedId);
+  const dispatch = useDispatch();
+
   const handlePropagation = e => {
     e.stopPropagation();
-  };
-
-  const projectContext = useContext(ProjectContext);
-
-  const { deleteId, deleteProject, closeModal } = projectContext;
-
-  const handleDelete = async () => {
-    deleteProject(deleteId);
   };
 
   return (
     <StyledDialogue onClick={handlePropagation}>
       <StyledHeading>Delete this project?</StyledHeading>
       <StyledActions>
-        <StyledYesButton onClick={handleDelete}>Yes</StyledYesButton>
-        <StyledButton onClick={closeModal}>No</StyledButton>
+        <StyledYesButton onClick={() => dispatch(deleteProject(selectedId))}>
+          Yes
+        </StyledYesButton>
+        <StyledButton onClick={() => dispatch(closeModal())}>No</StyledButton>
       </StyledActions>
     </StyledDialogue>
   );
