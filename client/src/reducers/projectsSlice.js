@@ -23,6 +23,22 @@ export const fetchProjects = createAsyncThunk(
   }
 );
 
+export const togglePaid = createAsyncThunk(
+  "projects/togglePaid",
+  async (params, { rejectWithValue }) => {
+    try {
+      const { id, paidStatus } = params;
+
+      const res = await axios.patch(`/api/v1/projects/${id}`, {
+        paid: !paidStatus
+      });
+      return { id, paidStatus };
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 export const projectsAdapter = createEntityAdapter({
   selectId: project => project._id
 });
@@ -37,10 +53,16 @@ export const slice = createSlice({
     builder.addCase(fetchProjects.pending, (state, _) => {
       state.loading = true;
     });
-
     builder.addCase(fetchProjects.fulfilled, (state, action) => {
       projectsAdapter.addMany(state, action.payload);
       state.loading = false;
+    });
+    builder.addCase(togglePaid.fulfilled, (state, action) => {
+      const { id, paidStatus } = action.payload;
+      projectsAdapter.updateOne(state, {
+        id,
+        changes: { paid: !paidStatus }
+      });
     });
   }
 });

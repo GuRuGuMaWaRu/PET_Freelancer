@@ -6,7 +6,11 @@ import Project from "./Project";
 import FilterList from "./FilterList";
 
 import { fetchClients } from "../../reducers/clientsSlice";
-import { fetchProjects, selectAllProjects } from "../../reducers/projectsSlice";
+import {
+  fetchProjects,
+  togglePaid,
+  selectAllProjects
+} from "../../reducers/projectsSlice";
 import ProjectContext from "../../context/project/projectContext";
 import setAuthToken from "../../utils/setAuthToken";
 import calculateTotals from "../../utils/calculateTotals";
@@ -20,7 +24,7 @@ const ProjectList = () => {
   const projectsLoading = useSelector(state => state.projects.loading);
 
   const projectContext = useContext(ProjectContext);
-  const { setDelete, togglePaid } = projectContext;
+  const { setDelete } = projectContext;
 
   useEffect(() => {
     console.log("---ProjectList: useEffect");
@@ -101,7 +105,11 @@ const ProjectList = () => {
             key={project._id}
             project={project}
             handleDelete={() => setDelete(project._id)}
-            handlePayment={() => togglePaid(project._id, project.paid)}
+            handlePayment={() =>
+              dispatch(
+                togglePaid({ id: project._id, paidStatus: project.paid })
+              )
+            }
           />
         ))}
       </Fragment>
