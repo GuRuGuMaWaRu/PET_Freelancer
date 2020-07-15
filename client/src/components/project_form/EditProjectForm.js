@@ -51,7 +51,9 @@ const EditProjectForm = () => {
   useEffect(() => {
     console.log("---EditProjectForm: useEffect");
 
-    dispatch(fetchClients());
+    if (clients.length === 0) {
+      dispatch(fetchClients());
+    }
 
     if (id) {
       getCurrent(id);

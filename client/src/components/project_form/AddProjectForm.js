@@ -38,7 +38,9 @@ const AddProjectForm = ({ history }) => {
   const { createProject } = projectContext;
 
   useEffect(() => {
-    dispatch(fetchClients());
+    if (clients.length === 0) {
+      dispatch(fetchClients());
+    }
     // eslint-disable-next-line
   }, []);
 
