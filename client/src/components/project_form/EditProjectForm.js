@@ -49,8 +49,6 @@ const EditProjectForm = () => {
   } = projectContext;
 
   useEffect(() => {
-    console.log("---EditProjectForm: useEffect");
-
     if (clients.length === 0) {
       dispatch(fetchClients());
     }
@@ -60,7 +58,6 @@ const EditProjectForm = () => {
     }
 
     return () => {
-      console.log("---EditProjectForm: useEffect - clear on exit");
       clearCurrent();
     };
     // eslint-disable-next-line

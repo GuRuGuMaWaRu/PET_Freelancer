@@ -44,8 +44,6 @@ const AddProjectForm = ({ history }) => {
     // eslint-disable-next-line
   }, []);
 
-  console.log("---AddProjectForm: rendering...");
-
   if (clientsLoading) {
     setTimeout(() => {
       return <Spinner />;
