@@ -2,7 +2,7 @@ import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 import uuid from "uuid";
 
 import { createClient } from "./clientsSlice";
-import { updateProject } from "./projectsSlice";
+import { updateProject, deleteProject } from "./projectsSlice";
 
 export const alertsAdapter = createEntityAdapter();
 
@@ -33,6 +33,13 @@ export const slice = createSlice({
         id: uuid(),
         type: "info",
         msg: `Updated project ${projectNr} from ${client}`
+      });
+    });
+    builder.addCase(deleteProject.fulfilled, (state, action) => {
+      alertsAdapter.addOne(state, {
+        id: uuid(),
+        type: "info",
+        msg: `Deleted a project`
       });
     });
   }
