@@ -63,6 +63,30 @@ export const updateProject = createAsyncThunk(
   }
 );
 
+export const createProject = createAsyncThunk(
+  "projects/createOne",
+  async (project, { rejectWithValue }) => {
+    try {
+      const res = await axios.post("/api/v1/projects", project.values);
+
+      const newProject = res.data.data.data;
+
+      const returnProject = {
+        _id: newProject._id,
+        payment: newProject.payment,
+        currency: newProject.currency,
+        projectNr: newProject.projectNr,
+        client: project.client,
+        date: newProject.date
+      };
+
+      return returnProject;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 export const deleteProject = createAsyncThunk(
   "projects/deleteOne",
   async (id, { rejectWithValue }) => {
@@ -137,6 +161,9 @@ export const slice = createSlice({
         id: _id,
         changes: updatedProject
       });
+    });
+    builder.addCase(createProject.fulfilled, (state, action) => {
+      projectsAdapter.addOne(state, action.payload);
     });
     builder.addCase(togglePaid.fulfilled, (state, action) => {
       const { id, paidStatus } = action.payload;

@@ -6,7 +6,7 @@ import Alert from "./Alert";
 import { removeAlert, selectAllAlerts } from "../../reducers/alertsSlice";
 import { StyledAlertList } from "../styles/alert.styles";
 
-const duration = 500;
+const duration = 200;
 
 const Alerts = () => {
   const alerts = useSelector(selectAllAlerts);

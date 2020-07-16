@@ -11,6 +11,7 @@ import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
 import {
   fetchProject,
   updateProject,
+  createProject,
   clearSelectedProject
 } from "../../reducers/projectsSlice";
 import {
@@ -106,21 +107,22 @@ const ProjectForm = () => {
                 client => client._id === values.client
               ).name;
 
-              // Handle editing
-              const editedFields = {};
-
-              // Filter out only edited fields
-              for (let field in values) {
-                if (values[field] !== initialValues[field]) {
-                  editedFields[field] = values[field];
-                }
-              }
-
+              /* Handle editing */
               if (selectedProject) {
+                const editedFields = {};
+
+                // Filter out only edited fields
+                for (let field in values) {
+                  if (values[field] !== initialValues[field]) {
+                    editedFields[field] = values[field];
+                  }
+                }
+
                 dispatch(
                   updateProject({ editedFields, _id: selectedProject._id })
                 );
               } else {
+                dispatch(createProject({ values, client }));
               }
 
               actions.setSubmitting(false);
