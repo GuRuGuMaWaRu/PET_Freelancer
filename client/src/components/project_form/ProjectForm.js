@@ -1,5 +1,4 @@
-import React, { useEffect, useContext, Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
@@ -8,8 +7,12 @@ import { Formik } from "formik";
 
 import AddClient from "./AddClient";
 import Spinner from "../layout/Spinner";
-import ProjectContext from "../../context/project/projectContext";
 import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
+import {
+  fetchProject,
+  updateProject,
+  clearSelectedProject
+} from "../../reducers/projectsSlice";
 import {
   StyledForm,
   StyledTitle,
@@ -30,22 +33,15 @@ const formSchema = Yup.object().shape({
   payment: Yup.number().required("Required")
 });
 
-const EditProjectForm = () => {
+const ProjectForm = () => {
   const history = useHistory();
   const { id } = useParams();
 
   const clients = useSelector(selectAllClients);
   const clientsLoading = useSelector(state => state.clients.loading);
+  const projectLoading = useSelector(state => state.projects.projectLoading);
+  const selectedProject = useSelector(state => state.projects.selectedProject);
   const dispatch = useDispatch();
-
-  const projectContext = useContext(ProjectContext);
-
-  const {
-    currentProject,
-    updateProject,
-    clearCurrent,
-    getCurrent
-  } = projectContext;
 
   useEffect(() => {
     if (clients.length === 0) {
@@ -53,35 +49,49 @@ const EditProjectForm = () => {
     }
 
     if (id) {
-      getCurrent(id);
+      dispatch(fetchProject(id));
     }
 
     return () => {
-      clearCurrent();
+      dispatch(clearSelectedProject());
     };
     // eslint-disable-next-line
   }, []);
 
-  if (clientsLoading || (id && !currentProject)) {
+  if (clientsLoading || projectLoading) {
     return <Spinner />;
   }
 
-  const initialValues = {
-    date: moment(currentProject.date).format("YYYY-MM-DD"),
-    client: currentProject.client,
-    projectNr: currentProject.projectNr,
-    currency: currentProject.currency,
-    payment: currentProject.payment
+  /* Add Project Form values */
+  let initialValues = {
+    date: moment().format("YYYY-MM-DD"),
+    client: "",
+    projectNr: "",
+    currency: "USD",
+    payment: 0
   };
 
+  /* Edit Project Form values */
+  if (selectedProject) {
+    initialValues = {
+      date: moment(selectedProject.date).format("YYYY-MM-DD"),
+      client: selectedProject.client,
+      projectNr: selectedProject.projectNr,
+      currency: selectedProject.currency,
+      payment: selectedProject.payment
+    };
+  }
+
   const handleCancel = () => {
-    clearCurrent();
+    dispatch(clearSelectedProject());
     history.push("/");
   };
 
   return (
     <Fragment>
-      <StyledTitle>Edit Project</StyledTitle>
+      <StyledTitle>
+        {selectedProject ? "Edit Project" : "New Project"}
+      </StyledTitle>
       <AddClient clients={clients} />
       {clients && (
         <Formik
@@ -106,11 +116,12 @@ const EditProjectForm = () => {
                 }
               }
 
-              updateProject({ editedFields, _id: currentProject._id });
-              // addAlert({
-              //   msg: `Edited project "${values.projectNr}" from ${client}`,
-              //   type: "info"
-              // });
+              if (selectedProject) {
+                dispatch(
+                  updateProject({ editedFields, _id: selectedProject._id })
+                );
+              } else {
+              }
 
               actions.setSubmitting(false);
               history.push("/");
@@ -158,12 +169,13 @@ const EditProjectForm = () => {
               </StyledFormGroup>
               {status && status.msg && <div>{status.msg}</div>}
               <StyledActionButtons>
-                <StyledCancelButton type="button" onClick={handleCancel}>
-                  Cancel
-                </StyledCancelButton>
-
+                {selectedProject && (
+                  <StyledCancelButton type="button" onClick={handleCancel}>
+                    Cancel
+                  </StyledCancelButton>
+                )}
                 <StyledSubmitButton type="submit" disabled={isSubmitting}>
-                  Update Project
+                  {selectedProject ? "Update Project" : "Add Project"}
                 </StyledSubmitButton>
               </StyledActionButtons>
             </StyledForm>
@@ -174,8 +186,4 @@ const EditProjectForm = () => {
   );
 };
 
-EditProjectForm.propTypes = {
-  history: PropTypes.object.isRequired
-};
-
-export default EditProjectForm;
+export default ProjectForm;

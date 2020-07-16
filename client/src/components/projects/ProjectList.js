@@ -22,7 +22,7 @@ const ProjectList = () => {
   const filterableProps = useSelector(state => state.filters);
   const projects = useSelector(selectAllProjects);
   const clients = useSelector(selectAllClients);
-  const projectsLoading = useSelector(state => state.projects.loading);
+  const projectsLoading = useSelector(state => state.projects.projectsLoading);
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("freelancer_token"));
@@ -37,9 +37,6 @@ const ProjectList = () => {
   }, []);
 
   if (projectsLoading) {
-    // setTimeout(() => {
-    //   return <Spinner />;
-    // }, 1000);
     return <Spinner />;
   }
 

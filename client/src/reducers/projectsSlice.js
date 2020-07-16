@@ -23,16 +23,40 @@ export const fetchProjects = createAsyncThunk(
   }
 );
 
-export const togglePaid = createAsyncThunk(
-  "projects/togglePaid",
-  async (params, { rejectWithValue }) => {
+export const fetchProject = createAsyncThunk(
+  "project/fetchOne",
+  async (id, { rejectWithValue }) => {
     try {
-      const { id, paidStatus } = params;
+      const res = await axios.get(`/api/v1/projects/${id}`);
 
-      const res = await axios.patch(`/api/v1/projects/${id}`, {
-        paid: !paidStatus
-      });
-      return { id, paidStatus };
+      return res.data.data.data;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const updateProject = createAsyncThunk(
+  "projects/updateOne",
+  async (project, { rejectWithValue }) => {
+    try {
+      const res = await axios.patch(
+        `/api/v1/projects/${project._id}`,
+        project.editedFields
+      );
+
+      const updatedProject = res.data.data.data;
+
+      const returnProject = {
+        _id: updatedProject._id,
+        payment: updatedProject.payment,
+        currency: updatedProject.currency,
+        projectNr: updatedProject.projectNr,
+        client: updatedProject.client.name,
+        date: updatedProject.date
+      };
+
+      return returnProject;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -51,13 +75,31 @@ export const deleteProject = createAsyncThunk(
   }
 );
 
+export const togglePaid = createAsyncThunk(
+  "projects/togglePaid",
+  async (params, { rejectWithValue }) => {
+    try {
+      const { id, paidStatus } = params;
+
+      const res = await axios.patch(`/api/v1/projects/${id}`, {
+        paid: !paidStatus
+      });
+      return { id, paidStatus };
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 export const projectsAdapter = createEntityAdapter({
   selectId: project => project._id
 });
 
 const initialState = projectsAdapter.getInitialState({
-  loading: false,
-  selectedId: null
+  projectsLoading: false,
+  projectLoading: false,
+  selectedId: null,
+  selectedProject: null
 });
 
 export const slice = createSlice({
@@ -69,15 +111,32 @@ export const slice = createSlice({
     },
     closeModal(state, _) {
       state.selectedId = null;
+    },
+    clearSelectedProject(state, _) {
+      state.selectedProject = null;
     }
   },
   extraReducers: builder => {
     builder.addCase(fetchProjects.pending, (state, _) => {
-      state.loading = true;
+      state.projectsLoading = true;
     });
     builder.addCase(fetchProjects.fulfilled, (state, action) => {
       projectsAdapter.addMany(state, action.payload);
-      state.loading = false;
+      state.projectsLoading = false;
+    });
+    builder.addCase(fetchProject.pending, (state, _) => {
+      state.projectLoading = true;
+    });
+    builder.addCase(fetchProject.fulfilled, (state, action) => {
+      state.selectedProject = action.payload;
+      state.projectLoading = false;
+    });
+    builder.addCase(updateProject.fulfilled, (state, action) => {
+      const { _id, ...updatedProject } = action.payload;
+      projectsAdapter.updateOne(state, {
+        id: _id,
+        changes: updatedProject
+      });
     });
     builder.addCase(togglePaid.fulfilled, (state, action) => {
       const { id, paidStatus } = action.payload;
@@ -93,7 +152,11 @@ export const slice = createSlice({
   }
 });
 
-export const { setSelectedId, closeModal } = slice.actions;
+export const {
+  setSelectedId,
+  closeModal,
+  clearSelectedProject
+} = slice.actions;
 
 export const { selectAll: selectAllProjects } = projectsAdapter.getSelectors(
   state => state.projects

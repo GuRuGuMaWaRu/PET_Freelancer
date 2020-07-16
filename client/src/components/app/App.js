@@ -14,8 +14,7 @@ import {
 import Navbar from "../layout/Navbar";
 import Login from "../authorization/Login";
 import Registration from "../authorization/Registration";
-import AddProjectForm from "../project_form/AddProjectForm";
-import EditProjectForm from "../project_form/EditProjectForm";
+import ProjectForm from "../project_form/ProjectForm";
 import ProjectList from "../projects/ProjectList";
 import NotFound from "../pages/NotFound";
 import Alerts from "../layout/Alerts";
@@ -82,8 +81,8 @@ const App = () => {
           <Alerts />
           <Switch>
             <PrivateRoute exact path="/" component={ProjectList} />
-            <PrivateRoute path="/add" component={AddProjectForm} />
-            <PrivateRoute path="/project/:id" component={EditProjectForm} />
+            <PrivateRoute path="/add" component={ProjectForm} />
+            <PrivateRoute path="/project/:id" component={ProjectForm} />
             <AuthRoute path="/login" component={Login} />
             <AuthRoute path="/registration" component={Registration} />
             <Route>
