@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 import theme from "./components/styles/theme";
 import GlobalStyles from "./components/styles/global.styles";
 
-import ProjectState from "./context/project/ProjectState";
 import AuthState from "./context/auth/AuthState";
 import store from "./store";
 
@@ -16,12 +15,10 @@ const render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <AuthState>
-        <ProjectState>
-          <GlobalStyles />
-          <ThemeProvider theme={theme}>
-            <App />
-          </ThemeProvider>
-        </ProjectState>
+        <GlobalStyles />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </AuthState>
     </Provider>,
     document.getElementById("root")

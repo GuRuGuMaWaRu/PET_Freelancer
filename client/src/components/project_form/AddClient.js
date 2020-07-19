@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 
 import { createClient } from "../../reducers/clientsSlice";
-
 import {
   StyledForm,
   StyledFormGroup,

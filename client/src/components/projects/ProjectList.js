@@ -12,6 +12,7 @@ import {
   setSelectedId,
   selectAllProjects
 } from "../../reducers/projectsSlice";
+
 import setAuthToken from "../../utils/setAuthToken";
 import calculateTotals from "../../utils/calculateTotals";
 
