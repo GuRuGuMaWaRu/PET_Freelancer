@@ -17,7 +17,7 @@ import Registration from "../authorization/Registration";
 import ProjectForm from "../project_form/ProjectForm";
 import ProjectList from "../projects/ProjectList";
 import NotFound from "../pages/NotFound";
-import Alerts from "../layout/Alerts";
+import Notification from "../layout/Notification";
 import DeleteDialogue from "../layout/DeleteDialogue";
 import PrivateRoute from "../routing/PrivateRoute";
 import AuthRoute from "../routing/AuthRoute";
@@ -78,7 +78,7 @@ const App = () => {
           <Navbar />
         </StyledTitleBar>
         <StyledContainer>
-          <Alerts />
+          <Notification />
           <Switch>
             <PrivateRoute exact path="/" component={ProjectList} />
             <PrivateRoute path="/add" component={ProjectForm} />
