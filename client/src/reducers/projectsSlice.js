@@ -116,7 +116,8 @@ export const togglePaid = createAsyncThunk(
 );
 
 export const projectsAdapter = createEntityAdapter({
-  selectId: project => project._id
+  selectId: project => project._id,
+  sortComparer: (a, b) => new Date(b.date) - new Date(a.date)
 });
 
 const initialState = projectsAdapter.getInitialState({
