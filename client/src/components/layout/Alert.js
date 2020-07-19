@@ -9,7 +9,7 @@ import {
 
 const Alert = ({ alert, state, duration, removeAlert }) => {
   useEffect(() => {
-    setTimeout(() => removeAlert(alert.id), 6000);
+    setTimeout(() => removeAlert(alert.id), 1000);
     // eslint-disable-next-line
   }, []);
 
