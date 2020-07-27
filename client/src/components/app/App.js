@@ -23,6 +23,7 @@ import PrivateRoute from "../routing/PrivateRoute";
 import AuthRoute from "../routing/AuthRoute";
 import setAuthToken from "../../utils/setAuthToken";
 
+import { getUser } from "../../reducers/authSlice";
 import { closeModal } from "../../reducers/projectsSlice";
 import AuthContext from "../../context/auth/authContext";
 
@@ -48,14 +49,16 @@ const App = () => {
 
   const authContext = useContext(AuthContext);
 
-  const { getUser, setLoadingUser } = authContext;
+  // const { getUser, setLoadingUser } = authContext;
+  // const { setLoadingUser } = authContext;
 
   useEffect(() => {
     if (localStorage.freelancer_token) {
       setAuthToken(localStorage.freelancer_token);
-      getUser();
+      // getUser();
+      dispatch(getUser());
     } else {
-      setLoadingUser(false);
+      // setLoadingUser(false);
     }
     // eslint-disable-next-line
   }, []);
