@@ -34,6 +34,9 @@ export const slice = createSlice({
       state.currentUser = action.payload.user;
       state.loading = false;
     });
+    builder.addCase(getUser.rejected, (state, _) => {
+      state.loading = false;
+    });
   }
 });
 
