@@ -17,10 +17,12 @@ const Notifcation = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(() => dispatch(removeNotification()), 1000);
+    if (showMessage) {
+      setTimeout(() => dispatch(removeNotification()), 2000);
+    }
 
     // eslint-disable-next-line
-  }, []);
+  }, [showMessage]);
 
   if (!showMessage) {
     return null;
