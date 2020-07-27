@@ -16,13 +16,20 @@ const Notifcation = () => {
   const showMessage = useSelector(state => state.notifications.show);
   const dispatch = useDispatch();
 
+  let timeoutId = null;
+
   useEffect(() => {
     if (showMessage) {
-      setTimeout(() => dispatch(removeNotification()), 2000);
+      timeoutId = setTimeout(() => dispatch(removeNotification()), 2000);
     }
 
     // eslint-disable-next-line
   }, [showMessage]);
+
+  const handleCloseNotification = () => {
+    clearTimeout(timeoutId);
+    dispatch(removeNotification());
+  };
 
   if (!showMessage) {
     return null;
@@ -39,9 +46,7 @@ const Notifcation = () => {
           )}
           <p>{message.msg}</p>
           <StyledCloseIcon
-            onClick={() => dispatch(removeNotification())}
-            state={state}
-            duration={duration}
+            onClick={handleCloseNotification}
             icon="times-circle"
           ></StyledCloseIcon>
         </StyledAlert>
