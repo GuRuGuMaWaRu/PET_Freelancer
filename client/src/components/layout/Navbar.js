@@ -1,13 +1,12 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
+import { useSelector } from "react-redux";
 
-import AuthContext from "../../context/auth/authContext";
-
+import { logoutUser } from "../../reducers/authSlice";
 import { StyledNav, StyledNavLink, StyledLink } from "../styles/navbar.styles";
 
 const Navbar = () => {
-  const authContext = useContext(AuthContext);
-
-  const { isAuthenticated, loadingUser, logoutUser } = authContext;
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const loadingUser = useSelector(state => state.auth.loading);
 
   const handleLogout = () => {
     logoutUser();

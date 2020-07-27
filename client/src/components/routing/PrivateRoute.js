@@ -1,15 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Spinner from "../layout/Spinner";
-import AuthContext from "../../context/auth/authContext";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const authContext = useContext(AuthContext);
-  const { isAuthenticated, loadingUser } = authContext;
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const loadingUser = useSelector(state => state.auth.loading);
 
-  console.log("---PrivateRoute: isAuthenticated:", isAuthenticated);
-  console.log("---PrivateRoute: loadingUser:", loadingUser);
   return (
     <Route
       {...rest}

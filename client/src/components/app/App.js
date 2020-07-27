@@ -25,7 +25,7 @@ import setAuthToken from "../../utils/setAuthToken";
 
 import { getUser } from "../../reducers/authSlice";
 import { closeModal } from "../../reducers/projectsSlice";
-import AuthContext from "../../context/auth/authContext";
+// import AuthContext from "../../context/auth/authContext";
 
 import {
   StyledModal,
@@ -47,7 +47,7 @@ const App = () => {
   const dispatch = useDispatch();
   const selectedId = useSelector(state => state.projects.selectedId);
 
-  const authContext = useContext(AuthContext);
+  // const authContext = useContext(AuthContext);
 
   // const { getUser, setLoadingUser } = authContext;
   // const { setLoadingUser } = authContext;

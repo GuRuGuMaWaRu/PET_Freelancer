@@ -24,7 +24,12 @@ const initialState = {
 export const slice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logoutUser(state, _) {
+      state.isAuthenticated = false;
+      state.currentUser = null;
+    }
+  },
   extraReducers: builder => {
     builder.addCase(getUser.pending, (state, _) => {
       state.loading = true;
@@ -40,6 +45,6 @@ export const slice = createSlice({
   }
 });
 
-export const {} = slice.actions;
+export const { logoutUser } = slice.actions;
 
 export default slice.reducer;
