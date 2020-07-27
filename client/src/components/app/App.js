@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useContext } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -25,7 +25,6 @@ import setAuthToken from "../../utils/setAuthToken";
 
 import { getUser } from "../../reducers/authSlice";
 import { closeModal } from "../../reducers/projectsSlice";
-// import AuthContext from "../../context/auth/authContext";
 
 import {
   StyledModal,
@@ -47,18 +46,10 @@ const App = () => {
   const dispatch = useDispatch();
   const selectedId = useSelector(state => state.projects.selectedId);
 
-  // const authContext = useContext(AuthContext);
-
-  // const { getUser, setLoadingUser } = authContext;
-  // const { setLoadingUser } = authContext;
-
   useEffect(() => {
     if (localStorage.freelancer_token) {
       setAuthToken(localStorage.freelancer_token);
-      // getUser();
       dispatch(getUser());
-    } else {
-      // setLoadingUser(false);
     }
     // eslint-disable-next-line
   }, []);
