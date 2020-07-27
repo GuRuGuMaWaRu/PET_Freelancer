@@ -51,15 +51,10 @@ const App = () => {
   const { getUser, setLoadingUser } = authContext;
 
   useEffect(() => {
-    console.log("---App: useEffect");
-    // place token into axios headers
     if (localStorage.freelancer_token) {
-      console.log("---App: with token");
-      // setLoadingUser(true);
       setAuthToken(localStorage.freelancer_token);
       getUser();
     } else {
-      console.log("---App: without token");
       setLoadingUser(false);
     }
     // eslint-disable-next-line
