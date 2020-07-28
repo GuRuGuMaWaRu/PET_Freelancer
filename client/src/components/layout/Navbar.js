@@ -1,15 +1,16 @@
 import React, { Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { logoutUser } from "../../reducers/authSlice";
 import { StyledNav, StyledNavLink, StyledLink } from "../styles/navbar.styles";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
   const loadingUser = useSelector(state => state.auth.loading);
 
   const handleLogout = () => {
-    logoutUser();
+    dispatch(logoutUser());
   };
 
   const authLinks = (

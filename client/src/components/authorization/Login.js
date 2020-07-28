@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import AuthContext from "../../context/auth/authContext";
+import { loginUser } from "../../reducers/authSlice";
 import {
   StyledForm,
   StyledTitle,
@@ -20,10 +21,8 @@ const formSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const authContext = useContext(AuthContext);
-  const { loginUser } = authContext;
+  const dispatch = useDispatch();
 
-  // console.log("---Login: rendering...");
   return (
     <Formik
       initialValues={{
@@ -33,7 +32,7 @@ const Login = () => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
-          loginUser(values);
+          dispatch(loginUser(values));
 
           actions.setSubmitting(false);
         } catch (err) {

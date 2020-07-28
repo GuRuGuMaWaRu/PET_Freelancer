@@ -46,13 +46,10 @@ const AuthState = props => {
 
   // Login
   const loginUser = async values => {
-    console.log("AuthState --- loginUser");
-
     try {
       const res = await axios.post("/api/v1/auth", values, {
         headers: { "Content-Type": "application/json" }
       });
-      console.log("AuthState --- loginUser:", res);
       localStorage.setItem("freelancer_token", res.data.token);
       dispatch({ type: LOGIN });
     } catch (err) {
@@ -63,8 +60,7 @@ const AuthState = props => {
       } else {
         message = "Bad request";
       }
-      // console.log("loginUser:", err);
-      // console.log("Error:", err.message);
+
       dispatch({
         type: LOGIN_ERROR,
         payload: { msg: message, type: "error" }

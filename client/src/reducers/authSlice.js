@@ -15,6 +15,26 @@ export const getUser = createAsyncThunk(
   }
 );
 
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async (values, { rejectWithValue }) => {
+    try {
+      const res = await axios.post("/api/v1/auth", values);
+      localStorage.setItem("freelancer_token", res.data.token);
+    } catch (err) {
+      let message = "";
+
+      if (err.message === "Request failed with status code 400") {
+        message = "Wrong credentials";
+      } else {
+        message = "Bad request";
+      }
+
+      return rejectWithValue({ msg: message, type: "error" });
+    }
+  }
+);
+
 const initialState = {
   isAuthenticated: false,
   currentUser: null,
@@ -40,6 +60,16 @@ export const slice = createSlice({
       state.loading = false;
     });
     builder.addCase(getUser.rejected, (state, _) => {
+      state.loading = false;
+    });
+    builder.addCase(loginUser.pending, (state, _) => {
+      state.loading = true;
+    });
+    builder.addCase(loginUser.fulfilled, (state, _) => {
+      state.isAuthenticated = true;
+      state.loading = true;
+    });
+    builder.addCase(loginUser.rejected, (state, _) => {
       state.loading = false;
     });
   }
