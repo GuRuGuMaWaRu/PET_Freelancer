@@ -105,7 +105,7 @@ export const togglePaid = createAsyncThunk(
     try {
       const { id, paidStatus } = params;
 
-      const res = await axios.patch(`/api/v1/projects/${id}`, {
+      await axios.patch(`/api/v1/projects/${id}`, {
         paid: !paidStatus
       });
       return { id, paidStatus };
