@@ -36,7 +36,7 @@ const AddClient = ({ clients }) => {
               client => client.name.toLowerCase() === newClient.toLowerCase()
             )
           ) {
-            throw "There is already a client with this name";
+            throw new Error("There is already a client with this name");
           }
 
           dispatch(createClient(newClient));

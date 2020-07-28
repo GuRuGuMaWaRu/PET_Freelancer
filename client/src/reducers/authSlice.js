@@ -35,6 +35,18 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async (values, { rejectWithValue }) => {
+    try {
+      const res = await axios.post("/api/v1/users/signup", values);
+      localStorage.setItem("freelancer_token", res.data.token);
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 const initialState = {
   isAuthenticated: false,
   currentUser: null,
@@ -59,7 +71,8 @@ export const slice = createSlice({
       state.currentUser = action.payload.user;
       state.loading = false;
     });
-    builder.addCase(getUser.rejected, (state, _) => {
+    builder.addCase(getUser.rejected, (state, action) => {
+      console.log(action.payload);
       state.loading = false;
     });
     builder.addCase(loginUser.pending, (state, _) => {
@@ -69,7 +82,19 @@ export const slice = createSlice({
       state.isAuthenticated = true;
       state.loading = true;
     });
-    builder.addCase(loginUser.rejected, (state, _) => {
+    builder.addCase(loginUser.rejected, (state, action) => {
+      console.log(action.payload);
+      state.loading = false;
+    });
+    builder.addCase(registerUser.pending, (state, _) => {
+      state.loading = true;
+    });
+    builder.addCase(registerUser.fulfilled, (state, _) => {
+      state.isAuthenticated = true;
+      state.loading = true;
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
+      console.log(action.payload);
       state.loading = false;
     });
   }
