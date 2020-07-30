@@ -50,7 +50,7 @@ export const registerUser = createAsyncThunk(
 const initialState = {
   isAuthenticated: false,
   currentUser: null,
-  loading: false
+  loading: true
 };
 
 export const slice = createSlice({
