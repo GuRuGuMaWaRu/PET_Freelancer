@@ -31,7 +31,8 @@ export const createClient = createAsyncThunk(
 );
 
 export const clientsAdapter = createEntityAdapter({
-  selectId: client => client._id
+  selectId: client => client._id,
+  sortComparer: (a, b) => a.name.localeCompare(b.name)
 });
 
 const initialState = clientsAdapter.getInitialState({ loading: false });
