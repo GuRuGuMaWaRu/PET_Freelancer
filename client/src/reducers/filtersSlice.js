@@ -58,6 +58,9 @@ export const slice = createSlice({
         status: action.payload.name,
         selected: false
       });
+      state.client = state.client.sort((a, b) =>
+        a.filterName.localeCompare(b.filterName)
+      );
     });
   }
 });
