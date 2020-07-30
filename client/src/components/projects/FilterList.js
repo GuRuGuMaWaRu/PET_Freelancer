@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import Filter from "./Filter";
-import ClientContext from "../../context/client/clientContext";
-
+import { toggleFilter } from "../../reducers/filtersSlice";
 import { StyledFilterList } from "../styles/filter.styles";
 
 const FilterList = () => {
-  const clientContext = useContext(ClientContext);
-  const { filterableProps, toggleFilter } = clientContext;
+  const filterableProps = useSelector(state => state.filters);
+  const dispatch = useDispatch();
 
   const renderedFilters = Object.values(filterableProps).reduce(
     (final, filters) => [...final, ...filters],
@@ -20,11 +20,14 @@ const FilterList = () => {
         <Filter
           key={filter.filterName}
           filter={filter}
-          onToggleFilter={toggleFilter.bind(
-            null,
-            filter.filterName,
-            filter.propName
-          )}
+          onToggleFilter={() =>
+            dispatch(
+              toggleFilter({
+                filterName: filter.filterName,
+                propName: filter.propName
+              })
+            )
+          }
         />
       ))}
     </StyledFilterList>

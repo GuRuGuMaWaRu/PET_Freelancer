@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import AuthContext from "../../context/auth/authContext";
+import { registerUser } from "../../reducers/authSlice";
 import {
   StyledForm,
   StyledTitle,
@@ -23,10 +24,8 @@ const formSchema = Yup.object().shape({
 });
 
 const Registration = () => {
-  const authContext = useContext(AuthContext);
-  const { registerUser } = authContext;
+  const dispatch = useDispatch();
 
-  // console.log("---Registration: rendering...");
   return (
     <Formik
       initialValues={{
@@ -38,7 +37,7 @@ const Registration = () => {
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
-          registerUser(values);
+          dispatch(registerUser(values));
           actions.setSubmitting(false);
         } catch (err) {
           actions.setSubmitting(false);

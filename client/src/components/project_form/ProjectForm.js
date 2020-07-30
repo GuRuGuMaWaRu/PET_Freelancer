@@ -1,14 +1,19 @@
-import React, { useEffect, useContext, Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
 import AddClient from "./AddClient";
 import Spinner from "../layout/Spinner";
-import ProjectContext from "../../context/project/projectContext";
-import ClientContext from "../../context/client/clientContext";
-import AlertContext from "../../context/alert/alertContext";
+import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
+import {
+  fetchProject,
+  updateProject,
+  createProject,
+  clearSelectedProject
+} from "../../reducers/projectsSlice";
 import {
   StyledForm,
   StyledTitle,
@@ -17,7 +22,8 @@ import {
   StyledField,
   StyledErrorMessage,
   StyledActionButtons,
-  StyledSubmitButton
+  StyledSubmitButton,
+  StyledCancelButton
 } from "../styles/form.styles";
 
 const formSchema = Yup.object().shape({
@@ -28,32 +34,37 @@ const formSchema = Yup.object().shape({
   payment: Yup.number().required("Required")
 });
 
-const AddProjectForm = ({ history }) => {
-  const projectContext = useContext(ProjectContext);
-  const clientContext = useContext(ClientContext);
-  const alertContext = useContext(AlertContext);
+const ProjectForm = () => {
+  const history = useHistory();
+  const { id } = useParams();
 
-  const { createProject } = projectContext;
-  const { clients, loadingClients, getClients } = clientContext;
-  const { addAlert } = alertContext;
+  const clients = useSelector(selectAllClients);
+  const clientsLoading = useSelector(state => state.clients.loading);
+  const projectLoading = useSelector(state => state.projects.projectLoading);
+  const selectedProject = useSelector(state => state.projects.selectedProject);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("---AddProjectForm: useEffect");
-    if (loadingClients) {
-      getClients();
+    if (clients.length === 0) {
+      dispatch(fetchClients());
     }
+
+    if (id) {
+      dispatch(fetchProject(id));
+    }
+
+    return () => {
+      dispatch(clearSelectedProject());
+    };
     // eslint-disable-next-line
-  }, [loadingClients]);
+  }, []);
 
-  console.log("---AddProjectForm: rendering...");
-  console.log("---AddProjectForm, loadingClients:", loadingClients);
-  console.log("---AddProjectForm, clients:", clients);
-
-  if (loadingClients) {
+  if (clientsLoading || projectLoading) {
     return <Spinner />;
   }
 
-  const initialValues = {
+  /* Add Project Form values */
+  let initialValues = {
     date: moment().format("YYYY-MM-DD"),
     client: "",
     projectNr: "",
@@ -61,9 +72,27 @@ const AddProjectForm = ({ history }) => {
     payment: 0
   };
 
+  /* Edit Project Form values */
+  if (selectedProject) {
+    initialValues = {
+      date: moment(selectedProject.date).format("YYYY-MM-DD"),
+      client: selectedProject.client,
+      projectNr: selectedProject.projectNr,
+      currency: selectedProject.currency,
+      payment: selectedProject.payment
+    };
+  }
+
+  const handleCancel = () => {
+    dispatch(clearSelectedProject());
+    history.push("/");
+  };
+
   return (
     <Fragment>
-      <StyledTitle>New Project</StyledTitle>
+      <StyledTitle>
+        {selectedProject ? "Edit Project" : "New Project"}
+      </StyledTitle>
       <AddClient clients={clients} />
       {clients && (
         <Formik
@@ -78,16 +107,27 @@ const AddProjectForm = ({ history }) => {
                 client => client._id === values.client
               ).name;
 
-              createProject(values, client);
-              addAlert({
-                msg: `Added new project "${values.projectNr}" from ${client}`,
-                type: "info"
-              });
+              /* Handle editing */
+              if (selectedProject) {
+                const editedFields = {};
+
+                // Filter out only edited fields
+                for (let field in values) {
+                  if (values[field] !== initialValues[field]) {
+                    editedFields[field] = values[field];
+                  }
+                }
+
+                dispatch(
+                  updateProject({ editedFields, _id: selectedProject._id })
+                );
+              } else {
+                dispatch(createProject({ values, client }));
+              }
 
               actions.setSubmitting(false);
               history.push("/");
             } catch (err) {
-              console.log(err);
               actions.setSubmitting(false);
               actions.setStatus({ msg: "Something went wrong" });
             }
@@ -131,8 +171,13 @@ const AddProjectForm = ({ history }) => {
               </StyledFormGroup>
               {status && status.msg && <div>{status.msg}</div>}
               <StyledActionButtons>
+                {selectedProject && (
+                  <StyledCancelButton type="button" onClick={handleCancel}>
+                    Cancel
+                  </StyledCancelButton>
+                )}
                 <StyledSubmitButton type="submit" disabled={isSubmitting}>
-                  Add Project
+                  {selectedProject ? "Update Project" : "Add Project"}
                 </StyledSubmitButton>
               </StyledActionButtons>
             </StyledForm>
@@ -143,8 +188,4 @@ const AddProjectForm = ({ history }) => {
   );
 };
 
-AddProjectForm.propTypes = {
-  history: PropTypes.object.isRequired
-};
-
-export default AddProjectForm;
+export default ProjectForm;

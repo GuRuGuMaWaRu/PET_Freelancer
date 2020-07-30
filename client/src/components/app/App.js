@@ -1,4 +1,5 @@
-import React, { Fragment, useEffect, useContext } from "react";
+import React, { Fragment, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -13,18 +14,17 @@ import {
 import Navbar from "../layout/Navbar";
 import Login from "../authorization/Login";
 import Registration from "../authorization/Registration";
-import AddProjectForm from "../project_form/AddProjectForm";
-import EditProjectForm from "../project_form/EditProjectForm";
+import ProjectForm from "../project_form/ProjectForm";
 import ProjectList from "../projects/ProjectList";
 import NotFound from "../pages/NotFound";
-import Alerts from "../layout/Alerts";
+import Notification from "../layout/Notification";
 import DeleteDialogue from "../layout/DeleteDialogue";
 import PrivateRoute from "../routing/PrivateRoute";
 import AuthRoute from "../routing/AuthRoute";
 import setAuthToken from "../../utils/setAuthToken";
 
-import ProjectContext from "../../context/project/projectContext";
-import AuthContext from "../../context/auth/authContext";
+import { getUser } from "../../reducers/authSlice";
+import { closeModal } from "../../reducers/projectsSlice";
 
 import {
   StyledModal,
@@ -43,23 +43,13 @@ library.add(
 );
 
 const App = () => {
-  const projectContext = useContext(ProjectContext);
-  const authContext = useContext(AuthContext);
-
-  const { deleteId, closeModal } = projectContext;
-  const { getUser, setLoadingUser } = authContext;
+  const dispatch = useDispatch();
+  const selectedId = useSelector(state => state.projects.selectedId);
 
   useEffect(() => {
-    console.log("---App: useEffect");
-    // place token into axios headers
     if (localStorage.freelancer_token) {
-      console.log("---App: with token");
-      // setLoadingUser(true);
       setAuthToken(localStorage.freelancer_token);
-      getUser();
-    } else {
-      console.log("---App: without token");
-      setLoadingUser(false);
+      dispatch(getUser());
     }
     // eslint-disable-next-line
   }, []);
@@ -67,8 +57,8 @@ const App = () => {
   return (
     <Fragment>
       <Router>
-        {deleteId && (
-          <StyledModal onClick={closeModal}>
+        {selectedId && (
+          <StyledModal onClick={() => dispatch(closeModal())}>
             <DeleteDialogue />
           </StyledModal>
         )}
@@ -77,11 +67,11 @@ const App = () => {
           <Navbar />
         </StyledTitleBar>
         <StyledContainer>
-          <Alerts />
+          <Notification />
           <Switch>
             <PrivateRoute exact path="/" component={ProjectList} />
-            <PrivateRoute path="/add" component={AddProjectForm} />
-            <PrivateRoute path="/project/:id" component={EditProjectForm} />
+            <PrivateRoute path="/add" component={ProjectForm} />
+            <PrivateRoute path="/project/:id" component={ProjectForm} />
             <AuthRoute path="/login" component={Login} />
             <AuthRoute path="/registration" component={Registration} />
             <Route>

@@ -1,24 +1,16 @@
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-import ProjectContext from "../../context/project/projectContext";
-import ClientContext from "../../context/client/clientContext";
-import AuthContext from "../../context/auth/authContext";
-
+import { logoutUser } from "../../reducers/authSlice";
 import { StyledNav, StyledNavLink, StyledLink } from "../styles/navbar.styles";
 
 const Navbar = () => {
-  const projectContext = useContext(ProjectContext);
-  const clientContext = useContext(ClientContext);
-  const authContext = useContext(AuthContext);
-
-  const { clearProjectData } = projectContext;
-  const { clearClientData } = clientContext;
-  const { isAuthenticated, loadingUser, logoutUser } = authContext;
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const loadingUser = useSelector(state => state.auth.loading);
 
   const handleLogout = () => {
-    clearProjectData();
-    clearClientData();
-    logoutUser();
+    dispatch(logoutUser());
   };
 
   const authLinks = (

@@ -4,12 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const StyledAlertList = styled.div`
   display: flex;
   flex-direction: column;
-  position: absolute;
-  width: 80%;
-  top: 80px;
 `;
 
 export const StyledAlert = styled.div`
+  position: absolute;
+  width: 80%;
+  top: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;

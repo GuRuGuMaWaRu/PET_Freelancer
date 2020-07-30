@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import ClientContext from "../../context/client/clientContext";
-
+import { createClient } from "../../reducers/clientsSlice";
 import {
   StyledForm,
   StyledFormGroup,
@@ -21,9 +21,7 @@ const formSchema = Yup.object().shape({
 });
 
 const AddClient = ({ clients }) => {
-  const clientContext = useContext(ClientContext);
-
-  const { createClient } = clientContext;
+  const dispatch = useDispatch();
 
   return (
     <Formik
@@ -38,10 +36,11 @@ const AddClient = ({ clients }) => {
               client => client.name.toLowerCase() === newClient.toLowerCase()
             )
           ) {
-            throw "There is already a client with this name";
+            throw new Error("There is already a client with this name");
           }
 
-          createClient(newClient);
+          dispatch(createClient(newClient));
+          values.client = "";
           actions.setSubmitting(false);
         } catch (err) {
           actions.setSubmitting(false);

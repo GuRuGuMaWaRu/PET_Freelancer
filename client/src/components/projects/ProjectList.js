@@ -1,43 +1,43 @@
-import React, { Fragment, useEffect, useContext } from "react";
+import React, { Fragment, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import Spinner from "../layout/Spinner";
 import Project from "./Project";
 import FilterList from "./FilterList";
 
-import ProjectContext from "../../context/project/projectContext";
-import ClientContext from "../../context/client/clientContext";
+import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
+import {
+  fetchProjects,
+  togglePaid,
+  setSelectedId,
+  selectAllProjects
+} from "../../reducers/projectsSlice";
+
 import setAuthToken from "../../utils/setAuthToken";
 import calculateTotals from "../../utils/calculateTotals";
 
 import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
-  const projectContext = useContext(ProjectContext);
-  const clientContext = useContext(ClientContext);
-  const {
-    projects,
-    loadingProjects,
-    getProjects,
-    setDelete,
-    togglePaid
-  } = projectContext;
-  const { loadingClients, getClients, filterableProps } = clientContext;
+  const dispatch = useDispatch();
+  const filterableProps = useSelector(state => state.filters);
+  const projects = useSelector(selectAllProjects);
+  const clients = useSelector(selectAllClients);
+  const projectsLoading = useSelector(state => state.projects.projectsLoading);
 
   useEffect(() => {
-    console.log("---ProjectList: useEffect");
-    if (loadingProjects) {
-      console.log("---ProjectList: useEffect: loadingProjects");
-      setAuthToken(localStorage.getItem("freelancer_token"));
-      getProjects();
+    setAuthToken(localStorage.getItem("freelancer_token"));
+    if (projects.length === 0) {
+      dispatch(fetchProjects());
     }
-    if (loadingClients) {
-      getClients();
+
+    if (clients.length === 0) {
+      dispatch(fetchClients());
     }
     // eslint-disable-next-line
   }, []);
 
-  console.log("---ProjectList: rendering...");
-  if (loadingProjects) {
+  if (projectsLoading) {
     return <Spinner />;
   }
 
@@ -101,8 +101,12 @@ const ProjectList = () => {
           <Project
             key={project._id}
             project={project}
-            handleDelete={() => setDelete(project._id)}
-            handlePayment={() => togglePaid(project._id, project.paid)}
+            handleDelete={() => dispatch(setSelectedId(project._id))}
+            handlePayment={() =>
+              dispatch(
+                togglePaid({ id: project._id, paidStatus: project.paid })
+              )
+            }
           />
         ))}
       </Fragment>

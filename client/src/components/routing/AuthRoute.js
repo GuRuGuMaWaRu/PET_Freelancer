@@ -1,13 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Route, Redirect } from "react-router-dom";
-
-import AuthContext from "../../context/auth/authContext";
+import { useSelector } from "react-redux";
 
 const AuthRoute = ({ component: Component, ...rest }) => {
-  const authContext = useContext(AuthContext);
-  const { isAuthenticated } = authContext;
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
-  console.log("---AuthRoute: isAuthenticated:", isAuthenticated);
   return (
     <Route
       {...rest}
