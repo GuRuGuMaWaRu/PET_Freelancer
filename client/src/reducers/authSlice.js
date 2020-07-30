@@ -58,6 +58,7 @@ export const slice = createSlice({
   initialState,
   reducers: {
     logoutUser(state, _) {
+      localStorage.setItem("freelancer_token", null);
       state.isAuthenticated = false;
       state.currentUser = null;
     }
