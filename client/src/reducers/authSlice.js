@@ -50,7 +50,7 @@ export const registerUser = createAsyncThunk(
 const initialState = {
   isAuthenticated: false,
   currentUser: null,
-  loading: false
+  loading: true
 };
 
 export const slice = createSlice({
@@ -58,6 +58,7 @@ export const slice = createSlice({
   initialState,
   reducers: {
     logoutUser(state, _) {
+      localStorage.setItem("freelancer_token", null);
       state.isAuthenticated = false;
       state.currentUser = null;
     }
