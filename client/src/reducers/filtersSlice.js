@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchClients } from "./clientsSlice";
+import { fetchClients, createClient } from "./clientsSlice";
 
 const initialState = {
   paid: [
@@ -50,6 +50,14 @@ export const slice = createSlice({
         status: client.name,
         selected: false
       }));
+    });
+    builder.addCase(createClient.fulfilled, (state, action) => {
+      state.client.push({
+        propName: "client",
+        filterName: action.payload.name,
+        status: action.payload.name,
+        selected: false
+      });
     });
   }
 });
