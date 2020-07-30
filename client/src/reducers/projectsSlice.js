@@ -121,7 +121,7 @@ export const projectsAdapter = createEntityAdapter({
 });
 
 const initialState = projectsAdapter.getInitialState({
-  projectsLoading: false,
+  projectsLoading: true,
   projectLoading: false,
   selectedId: null,
   selectedProject: null
