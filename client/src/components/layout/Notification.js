@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Transition } from "react-transition-group";
 
@@ -16,18 +16,21 @@ const Notifcation = () => {
   const showMessage = useSelector(state => state.notifications.show);
   const dispatch = useDispatch();
 
-  let timeoutId = null;
+  const timeoutId = useRef();
 
   useEffect(() => {
     if (showMessage) {
-      timeoutId = setTimeout(() => dispatch(removeNotification()), 2000);
+      timeoutId.current = setTimeout(
+        () => dispatch(removeNotification()),
+        2000
+      );
     }
 
     // eslint-disable-next-line
   }, [showMessage]);
 
   const handleCloseNotification = () => {
-    clearTimeout(timeoutId);
+    clearTimeout(timeoutId.current);
     dispatch(removeNotification());
   };
 
