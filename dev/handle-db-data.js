@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Project = require("../models/Project");
+const Project = require("../models/projectModel");
 
 require("dotenv").config({ path: "process.env" });
 

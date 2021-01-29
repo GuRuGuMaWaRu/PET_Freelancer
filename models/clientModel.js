@@ -26,6 +26,7 @@ clientSchema.pre("find", function(next) {
 
 clientSchema.pre("findOne", function(next) {
   this.select("name -_id");
+
   next();
 });
 
