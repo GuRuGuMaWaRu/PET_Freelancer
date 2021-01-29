@@ -29,7 +29,7 @@ exports.createUser = catchAsync(async (req, res, next) => {
 // @access    Private
 exports.updateUser = factory.updateOne(User);
 
-// @route     DELETE useres/:id
+// @route     DELETE users/:id
 // @desc      Delete user
 // @access    Private
 exports.deleteUser = factory.deleteOne(User);
