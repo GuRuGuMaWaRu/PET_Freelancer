@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const Project = require("../models/Project");
-const Client = require("../models/Client");
+const Project = require("../models/projectModel");
+const Client = require("../models/clientModel");
 
 before(done => {
   mongoose.connect(process.env.DB_TEST, {
@@ -14,7 +14,7 @@ before(done => {
 
 beforeEach(done => {
   function clearDB() {
-    var promises = [Project.deleteMany().exec(), Client.deleteMany().exec()];
+    const promises = [Project.deleteMany().exec(), Client.deleteMany().exec()];
 
     Promise.all(promises).then(() => done());
   }

@@ -1,8 +1,8 @@
 const assert = require("assert");
 const request = require("supertest");
 const app = require("../app");
-const Project = require("../models/Project");
-const Client = require("../models/Client");
+const Project = require("../models/projectModel");
+const Client = require("../models/clientModel");
 
 describe("Project Controller", () => {
   it("should update a particular project on PATCH request to /project/:id", done => {
