@@ -7,17 +7,17 @@ const factory = require("./handlerFactory");
 // @route     GET users/
 // @desc      Get all users
 // @access    Private
-exports.getAllUsers = factory.getAll(User);
+const getAllUsers = factory.getAll(User);
 
 // @route     GET users/:id
 // @desc      Get user
 // @access    Private
-exports.getUser = factory.getOne(User);
+const getUser = factory.getOne(User);
 
 // @route     POST users/
 // @desc      Create user
 // @access    Private
-exports.createUser = catchAsync(async (req, res, next) => {
+const createUser = catchAsync(async (req, res, next) => {
   res.status(500).json({
     status: "error",
     message: "This route is not defined! Please use /signup instead"
@@ -27,9 +27,17 @@ exports.createUser = catchAsync(async (req, res, next) => {
 // @route     PATCH users/:id
 // @desc      Update user
 // @access    Private
-exports.updateUser = factory.updateOne(User);
+const updateUser = factory.updateOne(User);
 
 // @route     DELETE users/:id
 // @desc      Delete user
 // @access    Private
-exports.deleteUser = factory.deleteOne(User);
+const deleteUser = factory.deleteOne(User);
+
+module.exports = {
+  getAllUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser
+};

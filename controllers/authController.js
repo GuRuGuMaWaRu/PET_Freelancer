@@ -8,7 +8,7 @@ const AppError = require("../utils/appError");
 // @route     POST users/
 // @desc      Register a user
 // @access    Public
-exports.signUp = catchAsync(async (req, res, next) => {
+const signUp = catchAsync(async (req, res, next) => {
   // Handle Registration form errors
   const { name, email, password1 } = req.body;
 
@@ -48,7 +48,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
 // @route     POST api/auth
 // @desc      Log in user
 // @access    Public
-exports.loginUser = catchAsync(async (req, res, next) => {
+const loginUser = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -80,7 +80,7 @@ exports.loginUser = catchAsync(async (req, res, next) => {
 // @route     GET api/auth
 // @desc      Get logged in user
 // @access    Private
-exports.getUser = catchAsync(async (req, res, next) => {
+const getUser = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.userId).select("-password");
   // Get new token
   const payload = {
@@ -97,3 +97,9 @@ exports.getUser = catchAsync(async (req, res, next) => {
     }
   );
 });
+
+module.exports = {
+  signUp,
+  loginUser,
+  getUser
+};

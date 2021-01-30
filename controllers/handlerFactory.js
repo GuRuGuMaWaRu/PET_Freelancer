@@ -2,9 +2,10 @@ const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/apiFeatures");
 
-exports.getAll = Model =>
+const getAll = Model =>
   catchAsync(async (req, res, next) => {
     const filter = {};
+
     if (req.userId) {
       filter.user = req.userId;
     }
@@ -24,7 +25,7 @@ exports.getAll = Model =>
     });
   });
 
-exports.getOne = Model =>
+const getOne = Model =>
   catchAsync(async (req, res, next) => {
     const filter = { _id: req.params.id };
 
@@ -44,7 +45,7 @@ exports.getOne = Model =>
     });
   });
 
-exports.updateOne = Model =>
+const updateOne = Model =>
   catchAsync(async (req, res, next) => {
     const filter = { _id: req.params.id };
 
@@ -67,7 +68,7 @@ exports.updateOne = Model =>
     });
   });
 
-exports.deleteOne = Model =>
+const deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     const filter = { _id: req.params.id };
 
@@ -91,16 +92,26 @@ exports.deleteOne = Model =>
     });
   });
 
-exports.createOne = Model =>
+const createOne = Model =>
   catchAsync(async (req, res, next) => {
     const body = { ...req.body };
+
     if (req.userId) {
       body.user = req.userId;
     }
 
     const doc = await Model.create(body);
+
     res.status(201).json({
       status: "success",
       data: { data: doc }
     });
   });
+
+module.exports = {
+  getAll,
+  getOne,
+  updateOne,
+  deleteOne,
+  createOne
+};
