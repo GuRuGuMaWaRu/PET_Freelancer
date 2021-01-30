@@ -7,22 +7,22 @@ const factory = require("./handlerFactory");
 // @route     GET projects/
 // @desc      Get all projects
 // @access    Private
-exports.getAllProjects = factory.getAll(Project);
+const getAllProjects = factory.getAll(Project);
 
 // @route     GET projects/:id
 // @desc      Get project
 // @access    Private
-exports.getProject = factory.getOne(Project);
+const getProject = factory.getOne(Project);
 
 // @route     POST projects/
 // @desc      Create project
 // @access    Private
-exports.createProject = factory.createOne(Project);
+const createProject = factory.createOne(Project);
 
 // @route     POST projects/withClient/
 // @desc      Create project and (possibly) client
 // @access    Private
-exports.createProjectWithClient = catchAsync(async (req, res, next) => {
+const createProjectWithClient = catchAsync(async (req, res, next) => {
   let newClient = null;
 
   //--> Create new client OR get existing client id
@@ -64,12 +64,12 @@ exports.createProjectWithClient = catchAsync(async (req, res, next) => {
 // @route     PATCH projects/:id
 // @desc      Update project
 // @access    Private
-exports.updateProject = factory.updateOne(Project);
+const updateProject = factory.updateOne(Project);
 
 // @route     PATCH projects/:id/withClient/
 // @desc      Update project and (possibly) client
 // @access    Private
-exports.updateProjectWithClient = catchAsync(async (req, res, next) => {
+const updateProjectWithClient = catchAsync(async (req, res, next) => {
   let newClient = null;
 
   //--> Create new client OR get existing client id
@@ -116,4 +116,14 @@ exports.updateProjectWithClient = catchAsync(async (req, res, next) => {
 // @route     DELETE projects/:id
 // @desc      Delete project
 // @access    Private
-exports.deleteProject = factory.deleteOne(Project);
+const deleteProject = factory.deleteOne(Project);
+
+module.exports = {
+  getAllProjects,
+  getProject,
+  createProject,
+  createProjectWithClient,
+  updateProject,
+  updateProjectWithClient,
+  deleteProject
+};
