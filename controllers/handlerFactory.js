@@ -5,6 +5,7 @@ const APIFeatures = require("../utils/apiFeatures");
 exports.getAll = Model =>
   catchAsync(async (req, res, next) => {
     const filter = {};
+
     if (req.userId) {
       filter.user = req.userId;
     }
@@ -88,11 +89,13 @@ exports.deleteOne = Model =>
 exports.createOne = Model =>
   catchAsync(async (req, res, next) => {
     const body = { ...req.body };
+
     if (req.userId) {
       body.user = req.userId;
     }
 
     const doc = await Model.create(body);
+
     res.status(201).json({
       status: "success",
       data: { data: doc }
