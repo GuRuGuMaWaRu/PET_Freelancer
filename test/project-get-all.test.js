@@ -1,8 +1,8 @@
 const assert = require("assert");
 const request = require("supertest");
 const app = require("../app");
-const Project = require("../models/Project");
-const Client = require("../models/Client");
+const Project = require("../models/projectModel");
+const Client = require("../models/clientModel");
 
 describe("Project controller", () => {
   it("should return all existing projects on GET request to /projects", done => {

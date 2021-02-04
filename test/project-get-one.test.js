@@ -1,7 +1,7 @@
 const assert = require("assert");
 const request = require("supertest");
 const app = require("../app");
-const Project = require("../models/Project");
+const Project = require("../models/projectModel");
 
 describe("Project controller", () => {
   it("should return a particular project on GET request to /projects/:id", done => {

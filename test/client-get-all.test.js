@@ -1,7 +1,7 @@
 const assert = require("assert");
 const request = require("supertest");
 const app = require("../app");
-const Client = require("../models/Client");
+const Client = require("../models/clientModel");
 
 describe("Client controller", () => {
   it("should return all clients on GET request to /clients", done => {
