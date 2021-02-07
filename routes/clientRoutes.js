@@ -5,30 +5,32 @@ const clientController = require("../controllers/clientController");
 
 const router = express.Router();
 
+router.use(auth);
+
 router
   .route("/")
   // @route     GET clients/
   // @desc      Get all clients
   // @access    Private
-  .get(auth, clientController.getAllClients)
+  .get(clientController.getAllClients)
   // @route     POST clients/
   // @desc      Create client
   // @access    Private
-  .post(auth, clientController.createClient);
+  .post(clientController.createClient);
 
 router
   .route("/:id")
   // @route     GET clients/:id
   // @desc      Get client
   // @access    Private
-  .get(auth, clientController.getClient)
+  .get(clientController.getClient)
   // @route     PATCH clients/:id
   // @desc      Update client
   // @access    Private
-  .patch(auth, clientController.updateClient)
+  .patch(clientController.updateClient)
   // @route     DELETE clients/:id
   // @desc      Delete client
   // @access    Private
-  .delete(auth, clientController.deleteClient);
+  .delete(clientController.deleteClient);
 
 module.exports = router;
