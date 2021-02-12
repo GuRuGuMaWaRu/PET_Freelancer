@@ -18,6 +18,14 @@ const clientSchema = new mongoose.Schema({
   }
 });
 
+clientSchema.index(
+  {
+    user: 1,
+    name: 1
+  },
+  { unique: true }
+);
+
 clientSchema.pre("find", function(next) {
   this.find({ deleted: { $ne: true } }).sort({ name: 1 });
 
