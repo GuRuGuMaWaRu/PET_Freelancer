@@ -40,6 +40,11 @@ const projectSchema = new mongoose.Schema({
   }
 });
 
+projectSchema.index({
+  user: 1,
+  client: 1
+});
+
 projectSchema.pre("find", function(next) {
   this.find({ deleted: { $ne: true } })
     .populate({
