@@ -16,7 +16,7 @@ const getAll = Model =>
       .limitFields()
       .paginate();
 
-    const docs = await query;
+    const docs = await query.lean().exec();
 
     res.status(200).json({
       status: "success",
@@ -33,7 +33,9 @@ const getOne = Model =>
       filter.user = req.userId;
     }
 
-    const doc = await Model.findOne(filter);
+    const doc = await Model.findOne(filter)
+      .lean()
+      .exec();
 
     if (!doc) {
       return next(new AppError("No doc found with this ID", 404));
@@ -56,7 +58,9 @@ const updateOne = Model =>
     const doc = await Model.findOneAndUpdate(filter, req.body, {
       new: true,
       runValidators: true
-    });
+    })
+      .lean()
+      .exec();
 
     if (!doc) {
       return next(new AppError("No doc found with this ID", 404));
@@ -80,7 +84,9 @@ const deleteOne = Model =>
       filter,
       { deleted: true },
       { new: true }
-    );
+    )
+      .lean()
+      .exec();
 
     if (!doc) {
       return next(new AppError("No doc found with this ID", 404));
@@ -104,7 +110,7 @@ const createOne = Model =>
 
     res.status(201).json({
       status: "success",
-      data: { data: doc }
+      data: { data: doc.toJSON() }
     });
   });
 
