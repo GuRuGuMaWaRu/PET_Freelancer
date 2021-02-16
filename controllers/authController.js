@@ -50,7 +50,9 @@ const signUp = catchAsync(async (req, res, next) => {
 // @access    Public
 const loginUser = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email })
+    .lean()
+    .exec();
 
   if (!user) {
     return next(new AppError("Invalid credentials", 400));
