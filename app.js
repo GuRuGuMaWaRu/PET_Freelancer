@@ -2,6 +2,7 @@ const dotenv = require("dotenv");
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
+const cors = require("cors");
 const compression = require("compression");
 
 const AppError = require("./utils/appError");
@@ -34,15 +35,7 @@ app.use(compression());
 app.use(express.json({ limit: "10kb" }));
 
 // Set CORS headers so that React SPA is able to communicate with this server
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,POST,PUT,PATCH,DELETE,OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+app.use(cors());
 
 // Set up routes
 app.use("/api/v1/users", userRouter);
