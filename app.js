@@ -10,7 +10,7 @@ const globalErrorHandler = require("./controllers/errorController");
 const userRouter = require("./routes/userRoutes");
 const authRouter = require("./routes/authRoutes");
 const clientRouter = require("./routes/clientRoutes");
-const projectRouter = require("./routes/projectRoutes");
+const projectRouter = require("./resources/project/project.router");
 
 // Set environament variables
 if (process.env.NODE_ENV !== "production") {
@@ -23,6 +23,7 @@ require("./db");
 const app = express();
 
 app.disable("x-powered-by");
+
 // Development logging
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));

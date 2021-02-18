@@ -1,7 +1,7 @@
 const express = require("express");
 
-const auth = require("../middleware/auth");
-const projectController = require("../controllers/projectController");
+const auth = require("../../middleware/auth");
+const projectControllers = require("./project.controller");
 
 const router = express.Router();
 
@@ -12,25 +12,25 @@ router
   // @route     GET projects/
   // @desc      Get all projects
   // @access    Private
-  .get(projectController.getAllProjects)
+  .get(projectControllers.getAll)
   // @route     POST projects/
   // @desc      Create project
   // @access    Private
-  .post(projectController.createProject);
+  .post(projectControllers.createOne);
 
 router
   .route("/:id")
   // @route     GET projects/:id
   // @desc      Get project
   // @access    Private
-  .get(projectController.getProject)
+  .get(projectControllers.getOne)
   // @route     PATCH projects/:id
   // @desc      Update project
   // @access    Private
-  .patch(projectController.updateProject)
+  .patch(projectControllers.updateOne)
   // @route     DELETE projects/:id
   // @desc      Delete project
   // @access    Private
-  .delete(projectController.deleteProject);
+  .delete(projectControllers.deleteOne);
 
 module.exports = router;
