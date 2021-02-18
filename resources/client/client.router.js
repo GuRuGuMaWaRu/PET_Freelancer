@@ -1,7 +1,7 @@
 const express = require("express");
 
-const auth = require("../middleware/auth");
-const clientController = require("../controllers/clientController");
+const auth = require("../../middleware/auth");
+const clientControllers = require("./client.controllers");
 
 const router = express.Router();
 
@@ -12,25 +12,25 @@ router
   // @route     GET clients/
   // @desc      Get all clients
   // @access    Private
-  .get(clientController.getAllClients)
+  .get(clientControllers.getAll)
   // @route     POST clients/
   // @desc      Create client
   // @access    Private
-  .post(clientController.createClient);
+  .post(clientControllers.createOne);
 
 router
   .route("/:id")
   // @route     GET clients/:id
   // @desc      Get client
   // @access    Private
-  .get(clientController.getClient)
+  .get(clientControllers.getOne)
   // @route     PATCH clients/:id
   // @desc      Update client
   // @access    Private
-  .patch(clientController.updateClient)
+  .patch(clientControllers.updateOne)
   // @route     DELETE clients/:id
   // @desc      Delete client
   // @access    Private
-  .delete(clientController.deleteClient);
+  .delete(clientControllers.deleteOne);
 
 module.exports = router;

@@ -9,7 +9,7 @@ const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 const userRouter = require("./routes/userRoutes");
 const authRouter = require("./routes/authRoutes");
-const clientRouter = require("./routes/clientRoutes");
+const clientRouter = require("./resources/client/client.router");
 const projectRouter = require("./resources/project/project.router");
 
 // Set environament variables
