@@ -6,8 +6,7 @@ const cors = require("cors");
 const compression = require("compression");
 
 const AppError = require("./utils/appError");
-const globalErrorHandler = require("./controllers/errorController");
-const userRouter = require("./routes/userRoutes");
+const globalErrorHandler = require("./utils/errorHandler");
 const authRouter = require("./routes/authRoutes");
 const clientRouter = require("./resources/client/client.router");
 const projectRouter = require("./resources/project/project.router");
@@ -39,7 +38,6 @@ app.use(express.json({ limit: "10kb" }));
 app.use(cors());
 
 // Set up routes
-app.use("/api/v1/users", userRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/clients", clientRouter);
