@@ -1,11 +1,11 @@
 const express = require("express");
 
-const auth = require("../../middleware/auth");
+const { protect } = require("../../utils/auth");
 const clientControllers = require("./client.controllers");
 
 const router = express.Router();
 
-router.use(auth);
+router.use(protect);
 
 router
   .route("/")
