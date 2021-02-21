@@ -10,6 +10,8 @@ const globalErrorHandler = require("./utils/errorHandler");
 const authRouter = require("./routes/authRoutes");
 const clientRouter = require("./resources/client/client.router");
 const projectRouter = require("./resources/project/project.router");
+const userRouter = require("./resources/user/user.router");
+const { signUp } = require("./utils/auth");
 
 // Set environament variables
 if (process.env.NODE_ENV !== "production") {
@@ -38,9 +40,11 @@ app.use(express.json({ limit: "10kb" }));
 app.use(cors());
 
 // Set up routes
+app.use("/signup", signUp);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/clients", clientRouter);
+app.use("/api/v1/users", userRouter);
 
 // Heroku deployment --- serve static assets in production
 if (process.env.NODE_ENV === "production") {
