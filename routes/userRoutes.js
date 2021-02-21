@@ -1,7 +1,6 @@
 const express = require("express");
 const { check } = require("express-validator");
 
-const userController = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const { validateForm } = require("../utils/validation");
 
@@ -26,33 +25,5 @@ router
     validateForm,
     authController.signUp
   );
-
-//--> Admin routes
-
-router
-  .route("/")
-  // @route     GET users/
-  // @desc      Get all users
-  // @access    Private
-  .get(userController.getAllUsers)
-  // @route     POST users/
-  // @desc      Create user
-  // @access    Private
-  .post(userController.createUser);
-
-router
-  .route("/:id")
-  // @route     GET users/:id
-  // @desc      Get user
-  // @access    Private
-  .get(userController.getUser)
-  // @route     PATCH users/:id
-  // @desc      Update user
-  // @access    Private
-  .patch(userController.updateUser)
-  // @route     DELETE useres/:id
-  // @desc      Delete user
-  // @access    Private
-  .delete(userController.deleteUser);
 
 module.exports = router;

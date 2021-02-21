@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.use(protect);
 
+//--> Admin routes
+
 router
   .route("/")
   // @route     GET users/
