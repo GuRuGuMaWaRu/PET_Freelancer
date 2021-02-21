@@ -6,7 +6,7 @@ const getAll = Model =>
   catchAsync(async (req, res, next) => {
     const filter = {};
 
-    if (req.userId) {
+    if (req.userId && Model.collection.collectionName !== "users") {
       filter.user = req.userId;
     }
 
@@ -29,7 +29,7 @@ const getOne = Model =>
   catchAsync(async (req, res, next) => {
     const filter = { _id: req.params.id };
 
-    if (req.userId) {
+    if (req.userId && Model.collection.collectionName !== "users") {
       filter.user = req.userId;
     }
 
@@ -51,7 +51,7 @@ const updateOne = Model =>
   catchAsync(async (req, res, next) => {
     const filter = { _id: req.params.id };
 
-    if (req.userId) {
+    if (req.userId && Model.collection.collectionName !== "users") {
       filter.user = req.userId;
     }
 
@@ -76,7 +76,7 @@ const deleteOne = Model =>
   catchAsync(async (req, res, next) => {
     const filter = { _id: req.params.id };
 
-    if (req.userId) {
+    if (req.userId && Model.collection.collectionName !== "users") {
       filter.user = req.userId;
     }
 
@@ -102,7 +102,7 @@ const createOne = Model =>
   catchAsync(async (req, res, next) => {
     const body = { ...req.body };
 
-    if (req.userId) {
+    if (req.userId && Model.collection.collectionName !== "users") {
       body.user = req.userId;
     }
 
