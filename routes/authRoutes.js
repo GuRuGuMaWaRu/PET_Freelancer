@@ -1,8 +1,8 @@
 const express = require("express");
 const { check } = require("express-validator");
 
-const auth = require("../middleware/auth");
-const { validateForm } = require("../middleware/validation");
+const { protect } = require("../utils/auth");
+const { validateForm } = require("../utils/validation");
 const authController = require("../controllers/authController");
 
 const router = express.Router();
@@ -12,7 +12,7 @@ router
   // @route     GET api/auth
   // @desc      Get logged in user
   // @access    Private
-  .get(auth, authController.getUser)
+  .get(protect, authController.getUser)
   // @route     POST api/auth
   // @desc      Log in user
   // @access    Public

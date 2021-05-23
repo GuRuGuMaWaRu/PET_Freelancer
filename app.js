@@ -2,14 +2,16 @@ const dotenv = require("dotenv");
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
+const cors = require("cors");
 const compression = require("compression");
 
 const AppError = require("./utils/appError");
-const globalErrorHandler = require("./controllers/errorController");
-const userRouter = require("./routes/userRoutes");
+const globalErrorHandler = require("./utils/errorHandler");
 const authRouter = require("./routes/authRoutes");
-const clientRouter = require("./routes/clientRoutes");
-const projectRouter = require("./routes/projectRoutes");
+const clientRouter = require("./resources/client/client.router");
+const projectRouter = require("./resources/project/project.router");
+const userRouter = require("./resources/user/user.router");
+const { signUp } = require("./utils/auth");
 
 // Set environament variables
 if (process.env.NODE_ENV !== "production") {
@@ -20,6 +22,8 @@ if (process.env.NODE_ENV !== "production") {
 require("./db");
 
 const app = express();
+
+app.disable("x-powered-by");
 
 // Development logging
 if (process.env.NODE_ENV !== "production") {
@@ -33,21 +37,14 @@ app.use(compression());
 app.use(express.json({ limit: "10kb" }));
 
 // Set CORS headers so that React SPA is able to communicate with this server
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,POST,PUT,PATCH,DELETE,OPTIONS"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+app.use(cors());
 
 // Set up routes
-app.use("/api/v1/users", userRouter);
+app.use("/signup", signUp);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/clients", clientRouter);
+app.use("/api/v1/users", userRouter);
 
 // Heroku deployment --- serve static assets in production
 if (process.env.NODE_ENV === "production") {
