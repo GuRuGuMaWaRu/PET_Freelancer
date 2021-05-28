@@ -3,6 +3,7 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const cors = require("cors");
+const helmet = require("helmet");
 const compression = require("compression");
 
 const AppError = require("./utils/appError");
@@ -23,7 +24,8 @@ require("./db");
 
 const app = express();
 
-app.disable("x-powered-by");
+// Secure HTTP headers
+app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV !== "production") {
