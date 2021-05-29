@@ -25,7 +25,8 @@ require("./db");
 const app = express();
 
 // Secure HTTP headers
-app.use(helmet());
+app.disable("x-powered-by");
+// app.use(helmet());
 
 // Development logging
 if (process.env.NODE_ENV !== "production") {
