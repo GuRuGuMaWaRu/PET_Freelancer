@@ -30,7 +30,8 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       useDefaults: true,
-      fontSrc: ["https://fonts.googleapis.com"]
+      fontSrc: ["https://fonts.googleapis.com"],
+      sciptSrc: ["'self'"]
     }
   })
 );
