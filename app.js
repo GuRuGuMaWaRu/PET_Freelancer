@@ -26,7 +26,11 @@ const app = express();
 
 // Secure HTTP headers
 // app.disable("x-powered-by");
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false
+  })
+);
 
 // Development logging
 if (process.env.NODE_ENV !== "production") {
