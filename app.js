@@ -30,7 +30,7 @@ app.use(
   helmet({
     contentSecurityPolicy: {
       useDefaults: true,
-      sciptSrc: ["'self'", "'unsafe-inline'"]
+      scriptSrc: ["'self'", "'unsafe-inline'"]
     }
   })
 );
