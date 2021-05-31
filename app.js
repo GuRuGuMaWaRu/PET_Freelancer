@@ -28,7 +28,10 @@ const app = express();
 // app.disable("x-powered-by");
 app.use(
   helmet({
-    contentSecurityPolicy: false
+    contentSecurityPolicy: {
+      useDefaults: true,
+      fontSrc: ["https://fonts.googleapis.com"]
+    }
   })
 );
 
