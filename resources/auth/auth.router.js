@@ -1,9 +1,9 @@
 const express = require("express");
 const { check } = require("express-validator");
 
-const { protect } = require("../utils/auth");
-const { validateForm } = require("../utils/validation");
-const authController = require("../controllers/authController");
+const { protect } = require("../../utils/auth");
+const { validateForm } = require("../../utils/validation");
+const authController = require("./auth.controller");
 
 const router = express.Router();
 

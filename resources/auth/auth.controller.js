@@ -1,9 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const User = require("../resources/user/user.model");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
+const User = require("../user/user.model");
+const catchAsync = require("../../utils/catchAsync");
+const AppError = require("../../utils/appError");
 
 // @route     POST api/auth
 // @desc      Log in user

@@ -8,7 +8,7 @@ const compression = require("compression");
 
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./utils/errorHandler");
-const authRouter = require("./routes/authRoutes");
+const authRouter = require("./resources/auth/auth.router");
 const clientRouter = require("./resources/client/client.router");
 const projectRouter = require("./resources/project/project.router");
 const userRouter = require("./resources/user/user.router");
