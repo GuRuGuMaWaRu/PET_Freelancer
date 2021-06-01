@@ -5,7 +5,7 @@ export const getUser = createAsyncThunk(
   "auth/getUser",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get("/api/v1/auth");
+      const res = await axios.get("/api/v1/users/getUser");
       localStorage.setItem("freelancer_token", res.data.token);
 
       return res.data.data;
@@ -19,7 +19,7 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (values, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/api/v1/auth", values);
+      const res = await axios.post("/api/v1/users/login", values);
       localStorage.setItem("freelancer_token", res.data.token);
     } catch (err) {
       let message = "";
@@ -39,7 +39,7 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (values, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/signup", values);
+      const res = await axios.post("/api/v1/users/signup", values);
       localStorage.setItem("freelancer_token", res.data.token);
     } catch (err) {
       return rejectWithValue(err.message);
