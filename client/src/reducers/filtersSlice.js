@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { fetchClients, createClient } from "./clientsSlice";
+import { logoutUser } from "./authSlice";
 
 const initialState = {
   paid: [
@@ -61,6 +62,9 @@ export const slice = createSlice({
       state.client = state.client.sort((a, b) =>
         a.filterName.localeCompare(b.filterName)
       );
+    });
+    builder.addCase(logoutUser, state => {
+      state.client = [];
     });
   }
 });
