@@ -5,6 +5,8 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
+import { logoutUser } from "./authSlice";
+
 export const fetchClients = createAsyncThunk(
   "clients/fetchAll",
   async (_, { rejectWithValue }) => {
@@ -37,6 +39,7 @@ export const clientsAdapter = createEntityAdapter({
 
 const initialState = clientsAdapter.getInitialState({ loading: false });
 
+console.log(logoutUser);
 export const slice = createSlice({
   name: "clients",
   initialState,
@@ -51,6 +54,9 @@ export const slice = createSlice({
     });
     builder.addCase(createClient.fulfilled, (state, action) => {
       clientsAdapter.addOne(state, action.payload);
+    });
+    builder.addCase(logoutUser, state => {
+      clientsAdapter.removeAll(state);
     });
   }
 });
