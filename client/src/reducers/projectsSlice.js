@@ -5,6 +5,8 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
+import { logoutUser } from "./authSlice";
+
 export const fetchProjects = createAsyncThunk(
   "projects/fetchAll",
   async (_, { rejectWithValue }) => {
@@ -176,6 +178,9 @@ export const slice = createSlice({
     builder.addCase(deleteProject.fulfilled, (state, action) => {
       projectsAdapter.removeOne(state, action.payload);
       state.selectedId = null;
+    });
+    builder.addCase(logoutUser, state => {
+      projectsAdapter.removeAll(state);
     });
   }
 });
