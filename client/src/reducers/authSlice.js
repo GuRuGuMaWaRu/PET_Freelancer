@@ -81,7 +81,7 @@ export const slice = createSlice({
     });
     builder.addCase(loginUser.fulfilled, (state, _) => {
       state.isAuthenticated = true;
-      state.loading = true;
+      state.loading = false;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       console.log(action.payload);
@@ -92,7 +92,7 @@ export const slice = createSlice({
     });
     builder.addCase(registerUser.fulfilled, (state, _) => {
       state.isAuthenticated = true;
-      state.loading = true;
+      state.loading = false;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
       console.log(action.payload);
