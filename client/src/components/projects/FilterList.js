@@ -1,12 +1,17 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Filter from "./Filter";
 import { toggleFilter } from "../../reducers/filtersSlice";
-import { StyledFilterList } from "../styles/filter.styles";
+import { StyledFilterList, StyledCancelAllBtn } from "../styles/filter.styles";
 
 const CancelButton = () => {
-  return <button>Cancel All</button>;
+  return (
+    <StyledCancelAllBtn>
+      <FontAwesomeIcon icon="times" />
+    </StyledCancelAllBtn>
+  );
 };
 
 const FilterList = () => {
