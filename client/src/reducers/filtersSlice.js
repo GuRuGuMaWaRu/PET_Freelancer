@@ -57,7 +57,6 @@ export const slice = createSlice({
       state.client.forEach(filter => {
         filter.selected = false;
       });
-      // state.forEach(category => cancelCategory(category));
     }
   },
   extraReducers: builder => {

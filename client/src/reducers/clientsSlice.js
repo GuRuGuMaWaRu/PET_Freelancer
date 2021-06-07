@@ -39,7 +39,6 @@ export const clientsAdapter = createEntityAdapter({
 
 const initialState = clientsAdapter.getInitialState({ loading: false });
 
-console.log(logoutUser);
 export const slice = createSlice({
   name: "clients",
   initialState,
