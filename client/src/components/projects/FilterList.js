@@ -5,6 +5,10 @@ import Filter from "./Filter";
 import { toggleFilter } from "../../reducers/filtersSlice";
 import { StyledFilterList } from "../styles/filter.styles";
 
+const CancelButton = () => {
+  return <button>Cancel All</button>;
+};
+
 const FilterList = () => {
   const filterableProps = useSelector(state => state.filters);
   const dispatch = useDispatch();
@@ -14,6 +18,9 @@ const FilterList = () => {
     []
   );
 
+  const isFilterSelected = renderedFilters.some(filter => filter.selected);
+
+  console.log(isFilterSelected);
   return (
     <StyledFilterList>
       {renderedFilters.map(filter => (
@@ -30,6 +37,7 @@ const FilterList = () => {
           }
         />
       ))}
+      {isFilterSelected && <CancelButton />}
     </StyledFilterList>
   );
 };
