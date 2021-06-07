@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Filter from "./Filter";
-import { toggleFilter } from "../../reducers/filtersSlice";
+import { toggleFilter, cancelAllFilters } from "../../reducers/filtersSlice";
 import { StyledFilterList, StyledCancelAllBtn } from "../styles/filter.styles";
 
 const CancelButton = () => {
+  const dispatch = useDispatch();
+
   return (
-    <StyledCancelAllBtn>
+    <StyledCancelAllBtn onClick={() => dispatch(cancelAllFilters())}>
       <FontAwesomeIcon icon="times" />
     </StyledCancelAllBtn>
   );
@@ -25,7 +27,6 @@ const FilterList = () => {
 
   const isFilterSelected = renderedFilters.some(filter => filter.selected);
 
-  console.log(isFilterSelected);
   return (
     <StyledFilterList>
       {renderedFilters.map(filter => (

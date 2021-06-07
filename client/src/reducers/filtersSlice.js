@@ -3,6 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchClients, createClient } from "./clientsSlice";
 import { logoutUser } from "./authSlice";
 
+const cancelCategory = category => {
+  category.forEach(filter => (filter.selected = false));
+};
+
 const initialState = {
   paid: [
     { propName: "paid", filterName: "paid", status: true, selected: false },
@@ -36,11 +40,24 @@ export const slice = createSlice({
   reducers: {
     toggleFilter(state, action) {
       const { filterName, propName } = action.payload;
+
       state[propName].forEach(filter => {
         if (filter.filterName === filterName) {
           filter.selected = !filter.selected;
         }
       });
+    },
+    cancelAllFilters(state) {
+      state.paid.forEach(filter => {
+        filter.selected = false;
+      });
+      state.currency.forEach(filter => {
+        filter.selected = false;
+      });
+      state.client.forEach(filter => {
+        filter.selected = false;
+      });
+      // state.forEach(category => cancelCategory(category));
     }
   },
   extraReducers: builder => {
@@ -69,6 +86,6 @@ export const slice = createSlice({
   }
 });
 
-export const { toggleFilter } = slice.actions;
+export const { toggleFilter, cancelAllFilters } = slice.actions;
 
 export default slice.reducer;
