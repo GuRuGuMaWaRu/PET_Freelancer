@@ -28,19 +28,29 @@ export const StyledFilterList = styled.div`
 
 export const StyledFilterItem = styled.div`
   padding: 0.2rem 0.6rem;
-  border: ${props => `1px solid ${props.theme.secondaryText}`};
+  border: ${props =>
+    `1px solid ${
+      props.native ? props.theme.nativeSelector : props.theme.secondaryText
+    }`};
   border-radius: 0.8rem;
   margin: .2rem;
-  ${"" /* & + & {
-    margin-left: 1rem;
-  } */}
   background-color: ${props =>
-    props.selected ? props.theme.secondaryText : "inherit"}
-  color: ${props => (props.selected ? props.theme.text : "inherit")};
+    props.selected
+      ? props.native
+        ? props.theme.nativeSelector
+        : props.theme.secondaryText
+      : "inherit"}
+  color: ${props =>
+    props.selected
+      ? props.theme.text
+      : props.native
+      ? props.theme.nativeSelector
+      : "inherit"};
   cursor: pointer;
   transition: color 0.1s ease-in-out, 0.1s background-color ease-in-out;
   &:hover {
-    background-color: ${props => props.theme.secondaryText};
+    background-color: ${props =>
+      props.native ? props.theme.nativeSelector : props.theme.secondaryText};
     color: ${props => props.theme.text};
   }
 `;
