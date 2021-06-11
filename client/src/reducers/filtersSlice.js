@@ -3,18 +3,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchClients, createClient } from "./clientsSlice";
 import { logoutUser } from "./authSlice";
 
-const cancelCategory = category => {
-  category.forEach(filter => (filter.selected = false));
-};
-
 const initialState = {
   paid: [
-    { propName: "paid", filterName: "paid", status: true, selected: false },
+    {
+      propName: "paid",
+      filterName: "paid",
+      status: true,
+      selected: false,
+      native: true
+    },
     {
       propName: "paid",
       filterName: "unpaid",
       status: false,
-      selected: false
+      selected: false,
+      native: true
     }
   ],
   currency: [
@@ -22,13 +25,15 @@ const initialState = {
       propName: "currency",
       filterName: "usd",
       status: "USD",
-      selected: false
+      selected: false,
+      native: true
     },
     {
       propName: "currency",
       filterName: "eur",
       status: "EUR",
-      selected: false
+      selected: false,
+      native: true
     }
   ],
   client: []

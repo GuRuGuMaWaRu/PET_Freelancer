@@ -10,5 +10,6 @@ export default {
   container: "#eee",
   minorButton: "rgb(196, 196, 196)",
   modal_bg_color: "hsla(200, 40%, 10%, 0.4)",
-  mediumseagreen: "mediumseagreen"
+  mediumseagreen: "mediumseagreen",
+  nativeSelector: "purple"
 };
