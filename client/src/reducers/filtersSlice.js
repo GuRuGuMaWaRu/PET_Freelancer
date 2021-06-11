@@ -9,12 +9,19 @@ const cancelCategory = category => {
 
 const initialState = {
   paid: [
-    { propName: "paid", filterName: "paid", status: true, selected: false },
+    {
+      propName: "paid",
+      filterName: "paid",
+      status: true,
+      selected: false,
+      native: true
+    },
     {
       propName: "paid",
       filterName: "unpaid",
       status: false,
-      selected: false
+      selected: false,
+      native: true
     }
   ],
   currency: [
@@ -22,13 +29,15 @@ const initialState = {
       propName: "currency",
       filterName: "usd",
       status: "USD",
-      selected: false
+      selected: false,
+      native: true
     },
     {
       propName: "currency",
       filterName: "eur",
       status: "EUR",
-      selected: false
+      selected: false,
+      native: true
     }
   ],
   client: []
