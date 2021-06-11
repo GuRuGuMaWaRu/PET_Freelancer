@@ -3,10 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchClients, createClient } from "./clientsSlice";
 import { logoutUser } from "./authSlice";
 
-const cancelCategory = category => {
-  category.forEach(filter => (filter.selected = false));
-};
-
 const initialState = {
   paid: [
     {
