@@ -31,7 +31,8 @@ const formSchema = Yup.object().shape({
   client: Yup.string().required("Required"),
   projectNr: Yup.string().required("Required"),
   currency: Yup.string(),
-  payment: Yup.number().required("Required")
+  payment: Yup.number().required("Required"),
+  comments: Yup.string()
 });
 
 const ProjectForm = () => {
@@ -69,7 +70,8 @@ const ProjectForm = () => {
     client: "",
     projectNr: "",
     currency: "USD",
-    payment: 0
+    payment: 0,
+    comments: ""
   };
 
   /* Edit Project Form values */
@@ -79,7 +81,8 @@ const ProjectForm = () => {
       client: selectedProject.client,
       projectNr: selectedProject.projectNr,
       currency: selectedProject.currency,
-      payment: selectedProject.payment
+      payment: selectedProject.payment,
+      comments: selectedProject.comments
     };
   }
 
@@ -101,6 +104,8 @@ const ProjectForm = () => {
           onSubmit={async (values, actions) => {
             try {
               values.projectNr = values.projectNr.trim();
+              values.comments = values.comments.trim();
+              console.log(values);
 
               // Get client name to display inside alert message
               const client = clients.find(
@@ -168,6 +173,14 @@ const ProjectForm = () => {
               <StyledFormGroup>
                 <StyledLabel htmlFor="payment">Payment:</StyledLabel>
                 <StyledField type="number" name="payment" placeholder="0" />
+              </StyledFormGroup>
+              <StyledFormGroup>
+                <StyledLabel htmlFor="comments">Comments:</StyledLabel>
+                <StyledField
+                  name="comments"
+                  component="textarea"
+                  placeholder=""
+                />
               </StyledFormGroup>
               {status && status.msg && <div>{status.msg}</div>}
               <StyledActionButtons>
