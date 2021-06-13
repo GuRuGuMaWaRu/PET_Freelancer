@@ -55,7 +55,8 @@ export const updateProject = createAsyncThunk(
         currency: updatedProject.currency,
         projectNr: updatedProject.projectNr,
         client: updatedProject.client.name,
-        date: updatedProject.date
+        date: updatedProject.date,
+        comments: updatedProject.comments
       };
 
       return returnProject;
@@ -79,7 +80,8 @@ export const createProject = createAsyncThunk(
         currency: newProject.currency,
         projectNr: newProject.projectNr,
         client: project.client,
-        date: newProject.date
+        date: newProject.date,
+        comments: newProject.comments
       };
 
       return returnProject;
