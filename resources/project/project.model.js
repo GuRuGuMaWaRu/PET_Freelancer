@@ -37,6 +37,9 @@ const projectSchema = new mongoose.Schema({
   paid: {
     type: Boolean,
     default: false
+  },
+  comments: {
+    type: String
   }
 });
 
