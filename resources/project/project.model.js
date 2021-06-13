@@ -37,6 +37,9 @@ const projectSchema = new mongoose.Schema({
   paid: {
     type: Boolean,
     default: false
+  },
+  comments: {
+    type: String
   }
 });
 
@@ -64,7 +67,7 @@ projectSchema.pre("findOne", function(next) {
 
 projectSchema.pre("findOneAndUpdate", function(next) {
   this.populate("client").select(
-    "client currency date payment paid projectNr _id"
+    "client currency date payment paid projectNr _id comments"
   );
 
   next();
