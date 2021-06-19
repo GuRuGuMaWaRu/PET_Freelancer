@@ -31,7 +31,7 @@ const formSchema = Yup.object().shape({
   client: Yup.string().required("Required"),
   projectNr: Yup.string().required("Required"),
   currency: Yup.string(),
-  payment: Yup.number().required("Required"),
+  payment: Yup.number(),
   comments: Yup.string()
 });
 
@@ -70,7 +70,7 @@ const ProjectForm = () => {
     client: "",
     projectNr: "",
     currency: "USD",
-    payment: 0,
+    payment: undefined,
     comments: ""
   };
 
@@ -105,13 +105,16 @@ const ProjectForm = () => {
             try {
               values.projectNr = values.projectNr.trim();
               values.comments = values.comments.trim();
-              console.log(values);
 
               // Get client name to display inside alert message
               const client = clients.find(
                 client => client._id === values.client
               ).name;
 
+              // Prevent NULL being sent to DB
+              if (!values.payment) {
+                values.payment = 0;
+              }
               /* Handle editing */
               if (selectedProject) {
                 const editedFields = {};
