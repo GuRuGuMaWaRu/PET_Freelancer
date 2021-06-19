@@ -111,6 +111,10 @@ const ProjectForm = () => {
                 client => client._id === values.client
               ).name;
 
+              // Prevent NULL being sent to DB
+              if (!values.payment) {
+                values.payment = 0;
+              }
               /* Handle editing */
               if (selectedProject) {
                 const editedFields = {};
