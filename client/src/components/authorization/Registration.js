@@ -40,6 +40,9 @@ const Registration = () => {
           dispatch(registerUser(values));
           actions.setSubmitting(false);
         } catch (err) {
+          // looks like this is never called even if there was an error in registerUser
+          // No matter, I can set notifications inside reducers
+          // But it would be satisfying to make this work as well - after all it SHOULD work
           actions.setSubmitting(false);
           actions.setStatus({ msg: "Something went wrong" });
         }
