@@ -10,6 +10,9 @@ export const getUser = createAsyncThunk(
 
       return res.data.data;
     } catch (err) {
+      // TODO
+      // rejectWithValue works as intended
+      // now I need to wire it up to show Notifications with proper messages
       return rejectWithValue(err.message);
     }
   }
@@ -42,6 +45,10 @@ export const registerUser = createAsyncThunk(
       const res = await axios.post("/api/v1/users/signup", values);
       localStorage.setItem("freelancer_token", res.data.token);
     } catch (err) {
+      console.log(err);
+      console.log(err.response.data); // now I can get status and message that I've set server-side
+      console.log("Error inside registerUser");
+      // return "We got played!";
       return rejectWithValue(err.message);
     }
   }
@@ -79,7 +86,8 @@ export const slice = createSlice({
     builder.addCase(loginUser.pending, (state, _) => {
       state.loading = true;
     });
-    builder.addCase(loginUser.fulfilled, (state, _) => {
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      console.log(action.payload);
       state.isAuthenticated = true;
       state.loading = false;
     });
