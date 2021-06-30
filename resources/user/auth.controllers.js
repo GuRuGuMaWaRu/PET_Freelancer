@@ -17,15 +17,13 @@ const newToken = payload => {
 // @access    Public
 const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email })
-    .lean()
-    .exec();
+  const user = await User.findOne({ email });
 
   if (!user) {
     return next(new AppError("Invalid credentials", 400));
   }
 
-  const isMatch = await bcrypt.compare(password, user.password);
+  const isMatch = await user.comparePasswords(password, user.password);
 
   if (!isMatch) {
     return next(new AppError("Invalid credentials", 400));
