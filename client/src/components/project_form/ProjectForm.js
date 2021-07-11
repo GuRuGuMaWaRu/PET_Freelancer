@@ -70,7 +70,7 @@ const ProjectForm = () => {
     client: "",
     projectNr: "",
     currency: "USD",
-    payment: undefined,
+    payment: 0,
     comments: ""
   };
 
@@ -112,6 +112,7 @@ const ProjectForm = () => {
               ).name;
 
               // Prevent NULL being sent to DB
+              // Will fix this later on backend side
               if (!values.payment) {
                 values.payment = 0;
               }
