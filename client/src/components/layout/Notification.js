@@ -11,6 +11,33 @@ import {
 
 const duration = 200;
 
+const constructMessage = (msgType, data) => {
+  switch (msgType) {
+    case "create client":
+      return (
+        <p>
+          Created client: <span>{data[0]}</span>
+        </p>
+      );
+    case "update project":
+      return (
+        <p>
+          Updated project <span>{data[0]}</span> from <span>{data[1]}</span>
+        </p>
+      );
+    case "create project":
+      return (
+        <p>
+          Created project <span>{data[0]}</span> from <span>{data[1]}</span>
+        </p>
+      );
+    case "delete project":
+      return "Deleted a project";
+    default:
+      return "Something happened";
+  }
+};
+
 const Notifcation = () => {
   const message = useSelector(state => state.notifications.message);
   const showMessage = useSelector(state => state.notifications.show);
@@ -22,7 +49,7 @@ const Notifcation = () => {
     if (showMessage) {
       timeoutId.current = setTimeout(
         () => dispatch(removeNotification()),
-        2000
+        2000000
       );
     }
 
@@ -47,7 +74,7 @@ const Notifcation = () => {
           ) : (
             <StyledTypeIcon icon="exclamation-circle"></StyledTypeIcon>
           )}
-          <p>{message.msg}</p>
+          {constructMessage(message.subType, message.data)}
           <StyledCloseIcon
             onClick={handleCloseNotification}
             icon="times-circle"
