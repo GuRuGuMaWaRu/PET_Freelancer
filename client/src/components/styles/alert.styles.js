@@ -1,23 +1,19 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const StyledAlertList = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 export const StyledAlert = styled.div`
-  position: absolute;
+  position: fixed;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   text-align: center;
-  padding: .4rem;
-  border-radius: 0 0 8px 8px;
+  padding: 0.4rem;
+  border-radius: 8px 8px 0 0;
   background-color: #000000b8;
-  color: ${props => props.theme.text}
-  font-size: .8rem;
+  color: ${props => props.theme.text};
+  font-size: 0.8rem;
   opacity: ${({ state }) => {
     switch (state) {
       case "entering":
@@ -35,15 +31,15 @@ export const StyledAlert = styled.div`
   transform: ${({ state }) => {
     switch (state) {
       case "entering":
-        return "translateY(-20px)";
+        return "translateY(20px) translateX(-50%)";
       case "entered":
-        return "translateY(0)";
+        return "translateY(0) translateX(-50%)";
       case "exiting":
-        return "translateY(0)";
+        return "translateY(0) translateX(-50%)";
       case "exited":
-        return "translateY(-20px)";
+        return "translateY(20px) translateX(-50%)";
       default:
-        return "translateY(-20px)";
+        return "translateY(20px) translateX(-50%)";
     }
   }};
   transition: ${({ duration }) =>
@@ -54,6 +50,7 @@ export const StyledAlert = styled.div`
       color: tomato;
     }
   }
+  z-index: 20;
 `;
 
 export const StyledTypeIcon = styled(FontAwesomeIcon)`

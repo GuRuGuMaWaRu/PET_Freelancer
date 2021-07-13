@@ -49,7 +49,7 @@ const Notifcation = () => {
     if (showMessage) {
       timeoutId.current = setTimeout(
         () => dispatch(removeNotification()),
-        2000000
+        2000
       );
     }
 
