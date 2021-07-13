@@ -44,13 +44,13 @@ export const StyledAlert = styled.div`
 export const StyledTypeIcon = styled(FontAwesomeIcon)`
   font-size: 1.8rem;
   color: ${props => props.theme.lightPrimary};
-  margin: 0 0.7rem;
+  margin: 0 0.7rem 0 0.35rem;
 `;
 
 export const StyledCloseIcon = styled(FontAwesomeIcon)`
   font-size: 1.2rem;
   cursor: pointer;
-  margin: 0 0.7rem;
+  margin: 0 0.35rem 0 0.7rem;
   transition: color 0.2s;
   &:hover {
     color: ${props => props.theme.primary};
