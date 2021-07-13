@@ -21,7 +21,7 @@ export const StyledAlert = styled.div`
   opacity: ${({ state }) => {
     switch (state) {
       case "entering":
-        return 0;
+        return 1;
       case "entered":
         return 1;
       case "exiting":
@@ -31,8 +31,23 @@ export const StyledAlert = styled.div`
       default:
         return 0;
     }
-  }}
-  transition: ${({ duration }) => `opacity ${duration}ms ease-in-out`};
+  }};
+  transform: ${({ state }) => {
+    switch (state) {
+      case "entering":
+        return "translateY(0)";
+      case "entered":
+        return "translateY(0)";
+      case "exiting":
+        return "translateY(-20px)";
+      case "exited":
+        return "translateY(-20px)";
+      default:
+        return "translateY(-20px)";
+    }
+  }};
+  transition: ${({ duration }) =>
+    `opacity ${duration}ms, transform ${duration}ms`};
   & p {
     margin: 0.5rem;
     span {

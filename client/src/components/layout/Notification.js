@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Transition } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 
 import { removeNotification } from "../../reducers/notificationsSlice";
 import {
@@ -9,7 +9,7 @@ import {
   StyledTypeIcon
 } from "../styles/alert.styles";
 
-const duration = 200;
+const duration = 300;
 
 const constructMessage = (msgType, data) => {
   switch (msgType) {
@@ -61,12 +61,8 @@ const Notifcation = () => {
     dispatch(removeNotification());
   };
 
-  if (!showMessage) {
-    return null;
-  }
-
   return (
-    <Transition in={showMessage} timeout={duration}>
+    <CSSTransition in={showMessage} timeout={duration} appear mountOnEnter>
       {state => (
         <StyledAlert state={state} duration={duration}>
           {message.type === "info" ? (
@@ -81,7 +77,7 @@ const Notifcation = () => {
           ></StyledCloseIcon>
         </StyledAlert>
       )}
-    </Transition>
+    </CSSTransition>
   );
 };
 
