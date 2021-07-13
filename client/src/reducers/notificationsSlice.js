@@ -13,7 +13,6 @@ export const slice = createSlice({
   initialState,
   reducers: {
     removeNotification(state, _) {
-      // state.message = null;
       state.show = false;
     }
   },
