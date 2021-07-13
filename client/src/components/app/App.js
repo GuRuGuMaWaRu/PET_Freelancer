@@ -59,6 +59,7 @@ const App = () => {
   return (
     <Fragment>
       <Router>
+        <Notification />
         {selectedId && (
           <StyledModal onClick={() => dispatch(closeModal())}>
             <DeleteDialogue />
@@ -69,7 +70,6 @@ const App = () => {
           <Navbar />
         </StyledTitleBar>
         <StyledContainer>
-          <Notification />
           <Switch>
             <PrivateRoute exact path="/" component={ProjectList} />
             <PrivateRoute path="/add" component={ProjectForm} />

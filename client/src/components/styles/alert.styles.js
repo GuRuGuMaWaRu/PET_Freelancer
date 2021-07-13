@@ -8,16 +8,16 @@ export const StyledAlertList = styled.div`
 
 export const StyledAlert = styled.div`
   position: absolute;
-  width: 80%;
-  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: space-between;
   align-items: center;
   text-align: center;
-  padding: 1rem;
-  border: 8px solid ${props => props.theme.lightPrimary};
-  border-radius: 8px;
-  background-color: #fff;
+  padding: .4rem;
+  border-radius: 0 0 8px 8px;
+  background-color: #000000b8;
+  color: ${props => props.theme.text}
+  font-size: .8rem;
   opacity: ${({ state }) => {
     switch (state) {
       case "entering":
@@ -25,24 +25,47 @@ export const StyledAlert = styled.div`
       case "entered":
         return 1;
       case "exiting":
-        return 0;
+        return 1;
       case "exited":
         return 0;
       default:
         return 0;
     }
-  }}
-  transition: ${({ duration }) => `opacity ${duration}ms ease-in-out`};
+  }};
+  transform: ${({ state }) => {
+    switch (state) {
+      case "entering":
+        return "translateY(-20px)";
+      case "entered":
+        return "translateY(0)";
+      case "exiting":
+        return "translateY(0)";
+      case "exited":
+        return "translateY(-20px)";
+      default:
+        return "translateY(-20px)";
+    }
+  }};
+  transition: ${({ duration }) =>
+    `opacity ${duration}ms, transform ${duration}ms`};
+  & p {
+    margin: 0.5rem;
+    span {
+      color: tomato;
+    }
+  }
 `;
 
 export const StyledTypeIcon = styled(FontAwesomeIcon)`
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: ${props => props.theme.lightPrimary};
+  margin: 0 0.7rem 0 0.35rem;
 `;
 
 export const StyledCloseIcon = styled(FontAwesomeIcon)`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   cursor: pointer;
+  margin: 0 0.35rem 0 0.7rem;
   transition: color 0.2s;
   &:hover {
     color: ${props => props.theme.primary};
