@@ -21,11 +21,11 @@ export const StyledAlert = styled.div`
   opacity: ${({ state }) => {
     switch (state) {
       case "entering":
-        return 1;
+        return 0;
       case "entered":
         return 1;
       case "exiting":
-        return 0;
+        return 1;
       case "exited":
         return 0;
       default:
@@ -35,11 +35,11 @@ export const StyledAlert = styled.div`
   transform: ${({ state }) => {
     switch (state) {
       case "entering":
-        return "translateY(0)";
+        return "translateY(-20px)";
       case "entered":
         return "translateY(0)";
       case "exiting":
-        return "translateY(-20px)";
+        return "translateY(0)";
       case "exited":
         return "translateY(-20px)";
       default:
