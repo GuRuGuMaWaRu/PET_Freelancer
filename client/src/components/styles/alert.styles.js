@@ -1,13 +1,9 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const StyledAlertList = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 export const StyledAlert = styled.div`
   position: absolute;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -35,15 +31,15 @@ export const StyledAlert = styled.div`
   transform: ${({ state }) => {
     switch (state) {
       case "entering":
-        return "translateY(-20px)";
+        return "translateY(-20px) translateX(-50%)";
       case "entered":
-        return "translateY(0)";
+        return "translateY(0) translateX(-50%)";
       case "exiting":
-        return "translateY(0)";
+        return "translateY(0) translateX(-50%)";
       case "exited":
-        return "translateY(-20px)";
+        return "translateY(-20px) translateX(-50%)";
       default:
-        return "translateY(-20px)";
+        return "translateY(-20px) translateX(-50%)";
     }
   }};
   transition: ${({ duration }) =>
@@ -53,7 +49,8 @@ export const StyledAlert = styled.div`
     span {
       color: tomato;
     }
-  }
+  };
+  z-index: 20;
 `;
 
 export const StyledTypeIcon = styled(FontAwesomeIcon)`

@@ -23,6 +23,8 @@ export const StyledTitleBar = styled.div`
   height: 80px; /* helps with container 100% height */
   color: ${props => props.theme.text};
   background-color: ${props => props.theme.darkPrimary};
+  position: sticky;
+  top: 0;
 `;
 
 export const StyledH1 = styled.h1`
