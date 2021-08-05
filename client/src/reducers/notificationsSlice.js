@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { createClient } from "./clientsSlice";
 import { updateProject, createProject, deleteProject } from "./projectsSlice";
+import { getUser, loginUser, registerUser } from "./authSlice";
 
 const initialState = {
   message: null,
@@ -49,6 +50,36 @@ export const slice = createSlice({
         type: "delete",
         subType: "delete project",
         data: []
+      };
+    });
+    builder.addCase(getUser.rejected, (state, action) => {
+      const { message, status } = action.payload;
+
+      state.show = true;
+      state.message = {
+        type: status,
+        subType: "auth error",
+        data: message
+      };
+    });
+    builder.addCase(loginUser.rejected, (state, action) => {
+      const { message, status } = action.payload;
+
+      state.show = true;
+      state.message = {
+        type: status,
+        subType: "auth error",
+        data: message
+      };
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
+      const { message, status } = action.payload;
+
+      state.show = true;
+      state.message = {
+        type: status,
+        subType: "auth error",
+        data: message
       };
     });
   }

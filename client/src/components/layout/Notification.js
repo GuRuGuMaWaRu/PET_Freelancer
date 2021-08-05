@@ -33,6 +33,8 @@ const constructMessage = (msgType, data) => {
       );
     case "delete project":
       return "Deleted a project";
+    case "auth error":
+      return data;
     default:
       return "Something happened";
   }
@@ -49,7 +51,7 @@ const Notifcation = () => {
     if (showMessage) {
       timeoutId.current = setTimeout(
         () => dispatch(removeNotification()),
-        2000
+        4000
       );
     }
     return () => clearTimeout(timeoutId.current);
@@ -71,7 +73,7 @@ const Notifcation = () => {
               msgtype={message.type}
             ></StyledTypeIcon>
           )}
-          {message.type === "error" && (
+          {(message.type === "error" || message.type === "fail") && (
             <StyledTypeIcon
               icon="exclamation-circle"
               msgtype={message.type}
