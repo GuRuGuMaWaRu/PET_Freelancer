@@ -47,19 +47,36 @@ export const StyledAlert = styled.div`
   & p {
     margin: 0.5rem;
     span {
-      color: ${props =>
-        props.msgType === "info" ? props.theme.notificationSuccess : "tomato"};
-    }
+      color: ${props => {
+        switch (props.msgtype) {
+          case "create":
+            return props.theme.notificationCreate;
+          case "delete":
+            return props.theme.notificationDelete;
+          case "error":
+            return props.theme.notificationError;
+          default:
+            return "#fff";
+        }
+      }};
   }
   z-index: 20;
 `;
 
 export const StyledTypeIcon = styled(FontAwesomeIcon)`
   font-size: 1.8rem;
-  color: ${props =>
-    props.msgType === "info"
-      ? props.theme.notificationSuccess
-      : props.theme.lightPrimary};
+  color: ${props => {
+    switch (props.msgtype) {
+      case "create":
+        return props.theme.notificationCreate;
+      case "delete":
+        return props.theme.notificationDelete;
+      case "error":
+        return props.theme.notificationError;
+      default:
+        return "#fff";
+    }
+  }};
   margin: 0 0.7rem 0 0.35rem;
 `;
 

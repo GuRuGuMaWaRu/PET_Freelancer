@@ -49,7 +49,7 @@ const Notifcation = () => {
     if (showMessage) {
       timeoutId.current = setTimeout(
         () => dispatch(removeNotification()),
-        200000
+        2000
       );
     }
     return () => clearTimeout(timeoutId.current);
@@ -64,16 +64,17 @@ const Notifcation = () => {
   return (
     <CSSTransition in={showMessage} timeout={duration} appear mountOnEnter>
       {state => (
-        <StyledAlert state={state} duration={duration} msgType={message.type}>
-          {message.type === "info" ? (
+        <StyledAlert state={state} duration={duration} msgtype={message.type}>
+          {(message.type === "create" || message.type === "delete") && (
             <StyledTypeIcon
               icon="check"
-              msgType={message.type}
+              msgtype={message.type}
             ></StyledTypeIcon>
-          ) : (
+          )}
+          {message.type === "error" && (
             <StyledTypeIcon
               icon="exclamation-circle"
-              msgType={message.type}
+              msgtype={message.type}
             ></StyledTypeIcon>
           )}
           {constructMessage(message.subType, message.data)}

@@ -20,7 +20,7 @@ export const slice = createSlice({
     builder.addCase(createClient.fulfilled, (state, action) => {
       state.show = true;
       state.message = {
-        type: "info",
+        type: "create",
         subType: "create client",
         data: [action.payload.name]
       };
@@ -29,7 +29,7 @@ export const slice = createSlice({
       const { projectNr, client } = action.payload;
       state.show = true;
       state.message = {
-        type: "info",
+        type: "create",
         subType: "update project",
         data: [projectNr, client]
       };
@@ -38,7 +38,7 @@ export const slice = createSlice({
       const { projectNr, client } = action.payload;
       state.show = true;
       state.message = {
-        type: "info",
+        type: "create",
         subType: "create project",
         data: [projectNr, client]
       };
@@ -46,7 +46,7 @@ export const slice = createSlice({
     builder.addCase(deleteProject.fulfilled, (state, action) => {
       state.show = true;
       state.message = {
-        type: "info",
+        type: "delete",
         subType: "delete project",
         data: []
       };
