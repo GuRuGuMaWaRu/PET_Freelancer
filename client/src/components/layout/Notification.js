@@ -7,7 +7,7 @@ import {
   StyledAlert,
   StyledCloseIcon,
   StyledTypeIcon
-} from "../styles/alert.styles";
+} from "../styles/noitification.styles";
 
 const duration = 300;
 
@@ -64,11 +64,17 @@ const Notifcation = () => {
   return (
     <CSSTransition in={showMessage} timeout={duration} appear mountOnEnter>
       {state => (
-        <StyledAlert state={state} duration={duration}>
+        <StyledAlert state={state} duration={duration} msgType={message.type}>
           {message.type === "info" ? (
-            <StyledTypeIcon icon="info-circle"></StyledTypeIcon>
+            <StyledTypeIcon
+              icon="check"
+              msgType={message.type}
+            ></StyledTypeIcon>
           ) : (
-            <StyledTypeIcon icon="exclamation-circle"></StyledTypeIcon>
+            <StyledTypeIcon
+              icon="exclamation-circle"
+              msgType={message.type}
+            ></StyledTypeIcon>
           )}
           {constructMessage(message.subType, message.data)}
           <StyledCloseIcon

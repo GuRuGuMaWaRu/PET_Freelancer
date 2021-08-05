@@ -47,7 +47,8 @@ export const StyledAlert = styled.div`
   & p {
     margin: 0.5rem;
     span {
-      color: tomato;
+      color: ${props =>
+        props.msgType === "info" ? props.theme.notificationSuccess : "tomato"};
     }
   }
   z-index: 20;
@@ -55,7 +56,10 @@ export const StyledAlert = styled.div`
 
 export const StyledTypeIcon = styled(FontAwesomeIcon)`
   font-size: 1.8rem;
-  color: ${props => props.theme.lightPrimary};
+  color: ${props =>
+    props.msgType === "info"
+      ? props.theme.notificationSuccess
+      : props.theme.lightPrimary};
   margin: 0 0.7rem 0 0.35rem;
 `;
 
