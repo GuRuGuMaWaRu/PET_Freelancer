@@ -7,7 +7,7 @@ import {
   StyledAlert,
   StyledCloseIcon,
   StyledTypeIcon
-} from "../styles/alert.styles";
+} from "../styles/noitification.styles";
 
 const duration = 300;
 
@@ -33,6 +33,8 @@ const constructMessage = (msgType, data) => {
       );
     case "delete project":
       return "Deleted a project";
+    case "auth error":
+      return data;
     default:
       return "Something happened";
   }
@@ -49,10 +51,10 @@ const Notifcation = () => {
     if (showMessage) {
       timeoutId.current = setTimeout(
         () => dispatch(removeNotification()),
-        2000
+        4000
       );
     }
-
+    return () => clearTimeout(timeoutId.current);
     // eslint-disable-next-line
   }, [showMessage]);
 
@@ -64,11 +66,18 @@ const Notifcation = () => {
   return (
     <CSSTransition in={showMessage} timeout={duration} appear mountOnEnter>
       {state => (
-        <StyledAlert state={state} duration={duration}>
-          {message.type === "info" ? (
-            <StyledTypeIcon icon="info-circle"></StyledTypeIcon>
-          ) : (
-            <StyledTypeIcon icon="exclamation-circle"></StyledTypeIcon>
+        <StyledAlert state={state} duration={duration} msgtype={message.type}>
+          {(message.type === "create" || message.type === "delete") && (
+            <StyledTypeIcon
+              icon="check"
+              msgtype={message.type}
+            ></StyledTypeIcon>
+          )}
+          {(message.type === "error" || message.type === "fail") && (
+            <StyledTypeIcon
+              icon="exclamation-circle"
+              msgtype={message.type}
+            ></StyledTypeIcon>
           )}
           {constructMessage(message.subType, message.data)}
           <StyledCloseIcon

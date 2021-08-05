@@ -1,6 +1,20 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+const setNotificationColor = props => {
+  switch (props.msgtype) {
+    case "create":
+      return props.theme.notificationCreate;
+    case "delete":
+      return props.theme.notificationDelete;
+    case "error":
+    case "fail":
+      return props.theme.notificationError;
+    default:
+      return "#fff";
+  }
+};
+
 export const StyledAlert = styled.div`
   position: fixed;
   bottom: 0;
@@ -13,7 +27,7 @@ export const StyledAlert = styled.div`
   border-radius: 8px 8px 0 0;
   background-color: #000000b8;
   color: ${props => props.theme.text};
-  font-size: 0.8rem;
+  font-size: 1rem;
   opacity: ${({ state }) => {
     switch (state) {
       case "entering":
@@ -47,22 +61,22 @@ export const StyledAlert = styled.div`
   & p {
     margin: 0.5rem;
     span {
-      color: tomato;
+      color: ${setNotificationColor};
     }
   }
   z-index: 20;
 `;
 
 export const StyledTypeIcon = styled(FontAwesomeIcon)`
-  font-size: 1.8rem;
-  color: ${props => props.theme.lightPrimary};
-  margin: 0 0.7rem 0 0.35rem;
+  font-size: 3.2rem;
+  color: ${setNotificationColor};
+  margin: 0.35rem 1.7rem 0.35rem 1.35rem;
 `;
 
 export const StyledCloseIcon = styled(FontAwesomeIcon)`
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   cursor: pointer;
-  margin: 0 0.35rem 0 0.7rem;
+  margin: 0 1rem 0 2.7rem;
   transition: color 0.2s;
   &:hover {
     color: ${props => props.theme.primary};

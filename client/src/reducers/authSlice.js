@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk(
         message = "Bad request";
       }
 
-      return rejectWithValue({ msg: message, type: "error" });
+      return rejectWithValue({ message, status: "error" });
     }
   }
 );
@@ -45,11 +45,10 @@ export const registerUser = createAsyncThunk(
       const res = await axios.post("/api/v1/users/signup", values);
       localStorage.setItem("freelancer_token", res.data.token);
     } catch (err) {
-      console.log(err);
-      console.log(err.response.data); // now I can get status and message that I've set server-side
-      console.log("Error inside registerUser");
-      // return "We got played!";
-      return rejectWithValue(err.message);
+      return rejectWithValue({
+        message: err.response.data.message,
+        status: err.response.data.status
+      });
     }
   }
 );
@@ -80,19 +79,16 @@ export const slice = createSlice({
       state.loading = false;
     });
     builder.addCase(getUser.rejected, (state, action) => {
-      console.log(action.payload);
       state.loading = false;
     });
     builder.addCase(loginUser.pending, (state, _) => {
       state.loading = true;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      console.log(action.payload);
       state.isAuthenticated = true;
       state.loading = false;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
-      console.log(action.payload);
       state.loading = false;
     });
     builder.addCase(registerUser.pending, (state, _) => {
@@ -103,7 +99,6 @@ export const slice = createSlice({
       state.loading = false;
     });
     builder.addCase(registerUser.rejected, (state, action) => {
-      console.log(action.payload);
       state.loading = false;
     });
   }

@@ -10,6 +10,9 @@ export default {
   container: "#eee",
   minorButton: "rgb(196, 196, 196)",
   modal_bg_color: "hsla(200, 40%, 10%, 0.4)",
+  notificationCreate: "#33e141",
+  notificationDelete: "#ff8c49",
+  notificationError: "tomato",
   mediumseagreen: "mediumseagreen",
   nativeSelector: "purple"
 };

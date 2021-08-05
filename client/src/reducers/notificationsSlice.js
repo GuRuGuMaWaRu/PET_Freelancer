@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { createClient } from "./clientsSlice";
 import { updateProject, createProject, deleteProject } from "./projectsSlice";
+import { getUser, loginUser, registerUser } from "./authSlice";
 
 const initialState = {
   message: null,
@@ -20,7 +21,7 @@ export const slice = createSlice({
     builder.addCase(createClient.fulfilled, (state, action) => {
       state.show = true;
       state.message = {
-        type: "info",
+        type: "create",
         subType: "create client",
         data: [action.payload.name]
       };
@@ -29,7 +30,7 @@ export const slice = createSlice({
       const { projectNr, client } = action.payload;
       state.show = true;
       state.message = {
-        type: "info",
+        type: "create",
         subType: "update project",
         data: [projectNr, client]
       };
@@ -38,7 +39,7 @@ export const slice = createSlice({
       const { projectNr, client } = action.payload;
       state.show = true;
       state.message = {
-        type: "info",
+        type: "create",
         subType: "create project",
         data: [projectNr, client]
       };
@@ -46,9 +47,39 @@ export const slice = createSlice({
     builder.addCase(deleteProject.fulfilled, (state, action) => {
       state.show = true;
       state.message = {
-        type: "info",
+        type: "delete",
         subType: "delete project",
         data: []
+      };
+    });
+    builder.addCase(getUser.rejected, (state, action) => {
+      const { message, status } = action.payload;
+
+      state.show = true;
+      state.message = {
+        type: status,
+        subType: "auth error",
+        data: message
+      };
+    });
+    builder.addCase(loginUser.rejected, (state, action) => {
+      const { message, status } = action.payload;
+
+      state.show = true;
+      state.message = {
+        type: status,
+        subType: "auth error",
+        data: message
+      };
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
+      const { message, status } = action.payload;
+
+      state.show = true;
+      state.message = {
+        type: status,
+        subType: "auth error",
+        data: message
       };
     });
   }
