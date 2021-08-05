@@ -49,10 +49,10 @@ const Notifcation = () => {
     if (showMessage) {
       timeoutId.current = setTimeout(
         () => dispatch(removeNotification()),
-        2000
+        200000
       );
     }
-
+    return () => clearTimeout(timeoutId.current);
     // eslint-disable-next-line
   }, [showMessage]);
 
