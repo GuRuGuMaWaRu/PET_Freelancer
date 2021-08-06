@@ -13,6 +13,7 @@ export default {
   notificationCreate: "#33e141",
   notificationDelete: "#ff8c49",
   notificationError: "tomato",
+  notificationBg: "#000000b8",
   mediumseagreen: "mediumseagreen",
   nativeSelector: "purple"
 };
