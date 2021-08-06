@@ -23,9 +23,8 @@ export const StyledAlert = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  padding: 0.4rem;
   border-radius: 8px 8px 0 0;
-  background-color: #000000b8;
+  background-color: ${props => props.theme.notificationBg};
   color: ${props => props.theme.text};
   font-size: 1rem;
   opacity: ${({ state }) => {
@@ -58,6 +57,11 @@ export const StyledAlert = styled.div`
   }};
   transition: ${({ duration }) =>
     `opacity ${duration}ms, transform ${duration}ms`};
+  & div {
+    margin-right: 2rem;
+    border-radius: 8px 0 0 0;
+    background-color: ${setNotificationColor};
+  }
   & p {
     margin: 0.5rem;
     span {
@@ -69,14 +73,14 @@ export const StyledAlert = styled.div`
 
 export const StyledTypeIcon = styled(FontAwesomeIcon)`
   font-size: 3.2rem;
-  color: ${setNotificationColor};
-  margin: 0.35rem 1.7rem 0.35rem 1.35rem;
+  color: ${props => props.theme.notificationBg};
+  margin: 0.8rem 1.2rem 0.8rem 1.2rem;
 `;
 
 export const StyledCloseIcon = styled(FontAwesomeIcon)`
   font-size: 1.6rem;
   cursor: pointer;
-  margin: 0 1rem 0 2.7rem;
+  margin: 0 1.5rem 0 2.7rem;
   transition: color 0.2s;
   &:hover {
     color: ${props => props.theme.primary};

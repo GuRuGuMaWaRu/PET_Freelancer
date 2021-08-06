@@ -67,18 +67,20 @@ const Notifcation = () => {
     <CSSTransition in={showMessage} timeout={duration} appear mountOnEnter>
       {state => (
         <StyledAlert state={state} duration={duration} msgtype={message.type}>
-          {(message.type === "create" || message.type === "delete") && (
-            <StyledTypeIcon
-              icon="check"
-              msgtype={message.type}
-            ></StyledTypeIcon>
-          )}
-          {(message.type === "error" || message.type === "fail") && (
-            <StyledTypeIcon
-              icon="exclamation-circle"
-              msgtype={message.type}
-            ></StyledTypeIcon>
-          )}
+          <div>
+            {(message.type === "create" || message.type === "delete") && (
+              <StyledTypeIcon
+                icon="check"
+                msgtype={message.type}
+              ></StyledTypeIcon>
+            )}
+            {(message.type === "error" || message.type === "fail") && (
+              <StyledTypeIcon
+                icon="exclamation-circle"
+                msgtype={message.type}
+              ></StyledTypeIcon>
+            )}
+          </div>
           {constructMessage(message.subType, message.data)}
           <StyledCloseIcon
             onClick={handleCloseNotification}
