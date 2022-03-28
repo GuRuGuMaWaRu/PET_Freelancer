@@ -12,7 +12,7 @@ const clientRouter = require("./resources/client/client.router");
 const projectRouter = require("./resources/project/project.router");
 const userRouter = require("./resources/user/user.router");
 
-// Set environament variables
+// Set environment variables
 if (process.env.NODE_ENV !== "production") {
   dotenv.config({ path: "process.env" });
 }
