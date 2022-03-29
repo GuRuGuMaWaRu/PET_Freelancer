@@ -6,11 +6,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 
-const AppError = require("./utils/appError");
-const globalErrorHandler = require("./utils/errorHandler");
-const clientRouter = require("./resources/client/client.router");
-const projectRouter = require("./resources/project/project.router");
-const userRouter = require("./resources/user/user.router");
+const { AppError, globalErrorHandler } = require("./utils");
+const { clientRouter, projectRouter, userRouter } = require("./resources");
 
 // Set environment variables
 if (process.env.NODE_ENV !== "production") {
@@ -23,7 +20,6 @@ require("./db");
 const app = express();
 
 // Secure HTTP headers
-// app.disable("x-powered-by");
 app.use(
   helmet({
     contentSecurityPolicy: {
