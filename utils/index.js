@@ -1,17 +1,7 @@
-const APIFeatures = require("./apiFeatures");
-const AppError = require("./appError");
-const { protect } = require("./auth");
-const catchAsync = require("./catchAsync");
-const crudControllers = require("./crud");
-const globalErrorHandler = require("./errorHandler");
-const { validateForm } = require("./validation");
-
-module.exports = {
-  APIFeatures,
-  AppError,
-  protect,
-  catchAsync,
-  crudControllers,
-  globalErrorHandler,
-  validateForm
-};
+exports.APIFeatures = require("./apiFeatures");
+exports.AppError = require("./appError");
+exports.protect = require("./auth").protect;
+exports.catchAsync = require("./catchAsync");
+exports.crudControllers = require("./crud");
+exports.globalErrorHandler = require("./errorHandler");
+exports.validateForm = require("./validation");
