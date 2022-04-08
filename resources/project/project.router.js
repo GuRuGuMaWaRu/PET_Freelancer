@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { protect } = require("../../utils/auth");
+const { protect } = require("../../utils");
 const projectControllers = require("./project.controllers");
 
 const router = express.Router();
