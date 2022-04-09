@@ -1,13 +1,17 @@
 class AppError extends Error {
-  constructor(message, statusCode) {
+  constructor(statusCode, message, isOperational = true, stack = "") {
     super(message);
     this.statusCode = statusCode;
-    this.status = `${statusCode}`.startsWith("4") ? "fail" : "error";
     // errors we can predict (user not providing required fields)
-    this.isOperational = true;
+    this.isOperational = isOperational;
+    this.status = `${statusCode}`.startsWith("4") ? "fail" : "error";
 
-    // remove AppError from stack trace
-    Error.captureStackTrace(this, this.constructor);
+    if (stack) {
+      this.stack = stack;
+    } else {
+      // remove AppError from stack trace
+      Error.captureStackTrace(this, this.constructor);
+    }
   }
 }
 

@@ -18,13 +18,13 @@ const login = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return next(new AppError("Invalid credentials", 400));
+    return next(new AppError(400, "Invalid credentials"));
   }
 
   const isMatch = await user.comparePasswords(password, user.password);
 
   if (!isMatch) {
-    return next(new AppError("Invalid credentials", 400));
+    return next(new AppError(400, "Invalid credentials"));
   }
 
   const payload = {
@@ -77,7 +77,7 @@ const signup = catchAsync(async (req, res, next) => {
     let user = await User.findOne({ email });
 
     if (user) {
-      return next(new AppError("User already exists", 400));
+      return next(new AppError(400, "User already exists"));
     }
 
     user = await User.create({

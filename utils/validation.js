@@ -6,7 +6,7 @@ const validateForm = (req, res, next) => {
 
   if (!errors.isEmpty()) {
     // console.log(errors.array());
-    return new AppError("Validation error", 422);
+    return new AppError(422, "Validation error");
   }
 
   next();

@@ -5,7 +5,7 @@ const protect = (req, res, next) => {
   const bearer = req.headers.authorization;
 
   if (!bearer || !bearer.startsWith("Bearer ")) {
-    return next(new AppError("No token provided, authorization denied", 401));
+    return next(new AppError(401, "No token provided, authorization denied"));
   }
 
   const token = bearer.split(" ")[1].trim();
@@ -15,7 +15,7 @@ const protect = (req, res, next) => {
     req.userId = decoded.id;
     next();
   } catch (err) {
-    next(new AppError("Token is not valid", 401));
+    next(new AppError(401, "Token is not valid"));
   }
 };
 
