@@ -36,7 +36,7 @@ const getOne = Model =>
       .exec();
 
     if (!doc) {
-      return next(new AppError("No doc found with this ID", 404));
+      return next(new AppError(404, "No doc found with this ID"));
     }
 
     res.status(200).json({
@@ -63,7 +63,7 @@ const updateOne = Model =>
       .exec();
 
     if (!doc) {
-      return next(new AppError("No doc found with this ID", 404));
+      return next(new AppError(404, "No doc found with this ID"));
     }
 
     res.status(200).json({
@@ -89,7 +89,7 @@ const deleteOne = Model =>
       .exec();
 
     if (!doc) {
-      return next(new AppError("No doc found with this ID", 404));
+      return next(new AppError(404, "No doc found with this ID"));
     }
 
     res.status(204).json({
