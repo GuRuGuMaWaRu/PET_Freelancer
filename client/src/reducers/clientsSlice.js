@@ -12,7 +12,7 @@ export const fetchClients = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get("/api/v1/clients");
-      return res.data.data.data;
+      return res.data.data;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -25,7 +25,7 @@ export const createClient = createAsyncThunk(
     try {
       const res = await axios.post("/api/v1/clients", { name: data });
 
-      return res.data.data.data;
+      return res.data.data;
     } catch (err) {
       return rejectWithValue(err.message);
     }

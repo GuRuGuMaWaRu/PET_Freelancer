@@ -12,7 +12,7 @@ export const fetchProjects = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get(`/api/v1/projects`);
-      const projects = res.data.data.data;
+      const projects = res.data.data;
 
       const processedProjects = projects.map(project => {
         return { ...project, client: project.client.name };
@@ -31,7 +31,7 @@ export const fetchProject = createAsyncThunk(
     try {
       const res = await axios.get(`/api/v1/projects/${id}`);
 
-      return res.data.data.data;
+      return res.data.data;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -47,7 +47,7 @@ export const updateProject = createAsyncThunk(
         project.editedFields
       );
 
-      const updatedProject = res.data.data.data;
+      const updatedProject = res.data.data;
 
       const returnProject = {
         _id: updatedProject._id,
@@ -72,7 +72,7 @@ export const createProject = createAsyncThunk(
     try {
       const res = await axios.post("/api/v1/projects", project.values);
 
-      const newProject = res.data.data.data;
+      const newProject = res.data.data;
 
       const returnProject = {
         _id: newProject._id,
