@@ -12,7 +12,6 @@ const activeStyle = {
 const Navbar = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  const loadingUser = useSelector(state => state.auth.loading);
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -47,15 +46,11 @@ const Navbar = () => {
     </Fragment>
   );
 
-  if (!isAuthenticated && loadingUser) {
+  if (!isAuthenticated) {
     return <StyledNav>{guestLinks}</StyledNav>;
   }
 
-  return (
-    <StyledNav>
-      {!isAuthenticated && !loadingUser ? guestLinks : authLinks}
-    </StyledNav>
-  );
+  return <StyledNav>{authLinks}</StyledNav>;
 };
 
 export default Navbar;
