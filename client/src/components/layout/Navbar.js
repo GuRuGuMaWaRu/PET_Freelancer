@@ -4,6 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../reducers/authSlice";
 import { StyledNav, StyledNavLink, StyledLink } from "../styles/navbar.styles";
 
+const activeStyle = {
+  fontWeight: "bold",
+  color: "#fff"
+};
+
 const Navbar = () => {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -15,23 +20,10 @@ const Navbar = () => {
 
   const authLinks = (
     <Fragment>
-      <StyledNavLink
-        exact
-        to="/"
-        activeStyle={{
-          fontWeight: "bold",
-          color: "#fff"
-        }}
-      >
+      <StyledNavLink exact to="/" activeStyle={activeStyle}>
         Projects
       </StyledNavLink>
-      <StyledNavLink
-        to="/add"
-        activeStyle={{
-          fontWeight: "bold",
-          color: "#fff"
-        }}
-      >
+      <StyledNavLink to="/add" activeStyle={activeStyle}>
         Add Project
       </StyledNavLink>
       <StyledLink onClick={handleLogout}>Logout</StyledLink>
@@ -40,13 +32,7 @@ const Navbar = () => {
 
   const guestLinks = (
     <Fragment>
-      <StyledNavLink
-        to="/login"
-        activeStyle={{
-          fontWeight: "bold",
-          color: "#fff"
-        }}
-      >
+      <StyledNavLink to="/login" activeStyle={activeStyle}>
         Login
       </StyledNavLink>
       <StyledNavLink
