@@ -30,15 +30,9 @@ const Login = () => {
         password: ""
       }}
       validationSchema={formSchema}
-      onSubmit={async (values, actions) => {
-        try {
-          dispatch(loginUser(values));
-
-          actions.setSubmitting(false);
-        } catch (err) {
-          actions.setSubmitting(false);
-          actions.setStatus({ msg: "Something went wrong" });
-        }
+      onSubmit={(values, actions) => {
+        dispatch(loginUser(values));
+        actions.setSubmitting(false);
       }}
     >
       {({ status, isSubmitting }) => (
@@ -54,7 +48,7 @@ const Login = () => {
             <StyledField type="password" name="password" />
             <StyledErrorMessage name="password" component="div" />
           </StyledFormGroup>
-          {status && status.msg && <div>{status.msg}</div>}
+          {status?.msg && <div>{status.msg}</div>}
           <StyledActionButtons>
             <StyledSubmitButton type="submit" disabled={isSubmitting}>
               Login

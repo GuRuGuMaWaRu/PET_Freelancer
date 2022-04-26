@@ -36,16 +36,8 @@ const Registration = () => {
       }}
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
-        try {
-          dispatch(registerUser(values));
-          actions.setSubmitting(false);
-        } catch (err) {
-          // looks like this is never called even if there was an error in registerUser
-          // No matter, I can set notifications inside reducers
-          // But it would be satisfying to make this work as well - after all it SHOULD work
-          actions.setSubmitting(false);
-          actions.setStatus({ msg: "Something went wrong" });
-        }
+        dispatch(registerUser(values));
+        actions.setSubmitting(false);
       }}
     >
       {({ status, isSubmitting }) => (
@@ -71,7 +63,7 @@ const Registration = () => {
             <StyledField type="password" name="password2" />
             <StyledErrorMessage name="password2" component="div" />
           </StyledFormGroup>
-          {status && status.msg && <div>{status.msg}</div>}
+          {status?.msg && <div>{status.msg}</div>}
           <StyledActionButtons>
             <StyledSubmitButton type="submit" disabled={isSubmitting}>
               Register
