@@ -1,7 +1,6 @@
 import React, { useEffect, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import moment from "moment";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
@@ -66,7 +65,7 @@ const ProjectForm = () => {
 
   /* Add Project Form values */
   let initialValues = {
-    date: moment().format("YYYY-MM-DD"),
+    date: new Date().toISOString().split("T")[0],
     client: "",
     projectNr: "",
     currency: "USD",
@@ -77,7 +76,7 @@ const ProjectForm = () => {
   /* Edit Project Form values */
   if (selectedProject) {
     initialValues = {
-      date: moment(selectedProject.date).format("YYYY-MM-DD"),
+      date: new Date(selectedProject.date).toISOString().split("T")[0],
       client: selectedProject.client,
       projectNr: selectedProject.projectNr,
       currency: selectedProject.currency,

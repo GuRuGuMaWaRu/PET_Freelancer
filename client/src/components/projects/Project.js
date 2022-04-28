@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from "moment";
 import truncate from "lodash.truncate";
 
 import {
@@ -23,7 +22,12 @@ const Project = ({ project, handleDelete, handlePayment }) => {
         <br />
         Payment: {project.payment} {project.currency}
         <br />
-        Date: {moment(project.date).format("YYYY-MM-DD")}
+        Date:{" "}
+        {new Date(project.date).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric"
+        })}
         <br />
         {project.comments && `Comments: ${truncate(project.comments)}`}
       </StyledProjectDetails>

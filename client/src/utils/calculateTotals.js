@@ -1,16 +1,21 @@
-import moment from "moment";
-
 const calculateTotals = projects => {
-  const now = new Date();
-  const currentMonth = now.getMonth();
-  const currentYear = now.getFullYear();
+  const currentMonth = new Date().toLocaleDateString("en-US", {
+    month: "numeric"
+  });
+  const currentYear = new Date().toLocaleDateString("en-US", {
+    year: "numeric"
+  });
 
   const paymentByDate = projects.reduce((final, project) => {
-    const year = moment(project.date).year();
-    const month = moment(project.date).month();
+    const year = new Date(project.date).toLocaleDateString("en-US", {
+      year: "numeric"
+    });
+    const month = new Date(project.date).toLocaleDateString("en-US", {
+      month: "numeric"
+    });
 
-    if (final.hasOwnProperty(year)) {
-      if (final[year].hasOwnProperty(month)) {
+    if (year in final) {
+      if (month in final[year]) {
         final[year][month] += project.payment;
       } else {
         final[year][month] = project.payment;
@@ -27,19 +32,19 @@ const calculateTotals = projects => {
   let lastYear = 0;
 
   if (
-    paymentByDate.hasOwnProperty(currentYear) &&
-    paymentByDate[currentYear].hasOwnProperty(currentMonth)
+    currentYear in paymentByDate &&
+    currentMonth in paymentByDate[currentYear]
   ) {
     thisMonth = paymentByDate[currentYear][currentMonth].toFixed(2);
   }
 
-  if (paymentByDate.hasOwnProperty(currentYear)) {
+  if (currentYear in paymentByDate) {
     thisYear = Object.values(paymentByDate[currentYear])
       .reduce((total, month) => total + month)
       .toFixed(2);
   }
 
-  if (paymentByDate.hasOwnProperty(currentYear - 1)) {
+  if (currentYear - 1 in paymentByDate) {
     lastYear = Object.values(paymentByDate[currentYear - 1])
       .reduce((total, month) => total + month)
       .toFixed(2);
