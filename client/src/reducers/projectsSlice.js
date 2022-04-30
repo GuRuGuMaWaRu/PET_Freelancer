@@ -40,12 +40,11 @@ export const fetchProject = createAsyncThunk(
 
 export const updateProject = createAsyncThunk(
   "projects/updateOne",
-  async (project, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
+    const { id, editedFields } = payload;
+
     try {
-      const res = await axios.patch(
-        `/api/v1/projects/${project._id}`,
-        project.editedFields
-      );
+      const res = await axios.patch(`/api/v1/projects/${id}`, editedFields);
 
       const updatedProject = res.data.data;
 
@@ -68,20 +67,21 @@ export const updateProject = createAsyncThunk(
 
 export const createProject = createAsyncThunk(
   "projects/createOne",
-  async (project, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
+    const { newProject, clientName } = data;
     try {
-      const res = await axios.post("/api/v1/projects", project.values);
+      const res = await axios.post("/api/v1/projects", newProject);
 
-      const newProject = res.data.data;
+      const createdProject = res.data.data;
 
       const returnProject = {
-        _id: newProject._id,
-        payment: newProject.payment,
-        currency: newProject.currency,
-        projectNr: newProject.projectNr,
-        client: project.client,
-        date: newProject.date,
-        comments: newProject.comments
+        _id: createdProject._id,
+        payment: createdProject.payment,
+        currency: createdProject.currency,
+        projectNr: createdProject.projectNr,
+        client: clientName,
+        date: createdProject.date,
+        comments: createdProject.comments
       };
 
       return returnProject;
@@ -96,6 +96,7 @@ export const deleteProject = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       await axios.delete(`/api/v1/projects/${id}`);
+
       return id;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -112,6 +113,7 @@ export const togglePaid = createAsyncThunk(
       await axios.patch(`/api/v1/projects/${id}`, {
         paid: !paidStatus
       });
+
       return { id, paidStatus };
     } catch (err) {
       return rejectWithValue(err.message);
@@ -162,6 +164,7 @@ export const slice = createSlice({
     });
     builder.addCase(updateProject.fulfilled, (state, action) => {
       const { _id, ...updatedProject } = action.payload;
+
       projectsAdapter.updateOne(state, {
         id: _id,
         changes: updatedProject
@@ -172,6 +175,7 @@ export const slice = createSlice({
     });
     builder.addCase(togglePaid.fulfilled, (state, action) => {
       const { id, paidStatus } = action.payload;
+
       projectsAdapter.updateOne(state, {
         id,
         changes: { paid: !paidStatus }

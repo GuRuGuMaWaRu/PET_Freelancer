@@ -25,6 +25,19 @@ import {
   StyledCancelButton
 } from "../styles/form.styles";
 
+const getInitialValues = selectedProject => {
+  return {
+    date: selectedProject
+      ? new Date(selectedProject.date).toISOString().split("T")[0]
+      : new Date().toISOString().split("T")[0],
+    client: selectedProject?.client ?? "",
+    projectNr: selectedProject?.projectNr ?? "",
+    currency: selectedProject?.currency ?? "USD",
+    payment: selectedProject?.payment ?? 0,
+    comments: selectedProject?.comments ?? ""
+  };
+};
+
 const formSchema = Yup.object().shape({
   date: Yup.date().required("Required"),
   client: Yup.string().required("Required"),
@@ -63,30 +76,10 @@ const ProjectForm = () => {
     return <Spinner />;
   }
 
-  /* Add Project Form values */
-  let initialValues = {
-    date: new Date().toISOString().split("T")[0],
-    client: "",
-    projectNr: "",
-    currency: "USD",
-    payment: 0,
-    comments: ""
-  };
-
-  /* Edit Project Form values */
-  if (selectedProject) {
-    initialValues = {
-      date: new Date(selectedProject.date).toISOString().split("T")[0],
-      client: selectedProject.client,
-      projectNr: selectedProject.projectNr,
-      currency: selectedProject.currency,
-      payment: selectedProject.payment,
-      comments: selectedProject.comments
-    };
-  }
+  /* "Add Project" form values */
+  const initialValues = getInitialValues(selectedProject);
 
   const handleCancel = () => {
-    dispatch(clearSelectedProject());
     history.push("/");
   };
 
@@ -100,45 +93,35 @@ const ProjectForm = () => {
         <Formik
           initialValues={initialValues}
           validationSchema={formSchema}
-          onSubmit={async (values, actions) => {
-            try {
-              values.projectNr = values.projectNr.trim();
-              values.comments = values.comments.trim();
+          onSubmit={(values, actions) => {
+            const newProject = {
+              ...values,
+              payment: values.payment ?? 0,
+              projectNr: values.projectNr.trim(),
+              comments: values.comments.trim()
+            };
 
-              // Get client name to display inside alert message
-              const client = clients.find(
+            if (selectedProject) {
+              const editedFields = {};
+
+              // Filter out only edited fields
+              for (let field in values) {
+                if (values[field] !== initialValues[field]) {
+                  editedFields[field] = values[field];
+                }
+              }
+
+              dispatch(
+                updateProject({ id: selectedProject._id, editedFields })
+              );
+            } else {
+              const clientName = clients.find(
                 client => client._id === values.client
               ).name;
-
-              // Prevent NULL being sent to DB
-              // Will fix this later on backend side
-              if (!values.payment) {
-                values.payment = 0;
-              }
-              /* Handle editing */
-              if (selectedProject) {
-                const editedFields = {};
-
-                // Filter out only edited fields
-                for (let field in values) {
-                  if (values[field] !== initialValues[field]) {
-                    editedFields[field] = values[field];
-                  }
-                }
-
-                dispatch(
-                  updateProject({ editedFields, _id: selectedProject._id })
-                );
-              } else {
-                dispatch(createProject({ values, client }));
-              }
-
-              actions.setSubmitting(false);
-              history.push("/");
-            } catch (err) {
-              actions.setSubmitting(false);
-              actions.setStatus({ msg: "Something went wrong" });
+              dispatch(createProject({ newProject, clientName }));
             }
+            actions.setSubmitting(false);
+            history.push("/");
           }}
         >
           {({ status, isSubmitting }) => (

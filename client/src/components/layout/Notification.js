@@ -35,7 +35,7 @@ const constructMessage = (msgType, data) => {
       );
     case "delete project":
       return "Deleted a project";
-    case "auth error":
+    case "error":
       return data;
     default:
       return "Something happened";

@@ -28,6 +28,7 @@ export const slice = createSlice({
     });
     builder.addCase(updateProject.fulfilled, (state, action) => {
       const { projectNr, client } = action.payload;
+
       state.show = true;
       state.message = {
         type: "create",
@@ -35,13 +36,30 @@ export const slice = createSlice({
         data: [projectNr, client]
       };
     });
+    builder.addCase(updateProject.rejected, (state, action) => {
+      state.show = true;
+      state.message = {
+        type: "error",
+        subType: "error",
+        data: "Could not update project"
+      };
+    });
     builder.addCase(createProject.fulfilled, (state, action) => {
       const { projectNr, client } = action.payload;
+
       state.show = true;
       state.message = {
         type: "create",
         subType: "create project",
         data: [projectNr, client]
+      };
+    });
+    builder.addCase(createProject.rejected, (state, action) => {
+      state.show = true;
+      state.message = {
+        type: "error",
+        subType: "error",
+        data: "Could not create project"
       };
     });
     builder.addCase(deleteProject.fulfilled, (state, action) => {
@@ -58,7 +76,7 @@ export const slice = createSlice({
       state.show = true;
       state.message = {
         type: status,
-        subType: "auth error",
+        subType: "error",
         data: message
       };
     });
@@ -68,7 +86,7 @@ export const slice = createSlice({
       state.show = true;
       state.message = {
         type: status,
-        subType: "auth error",
+        subType: "error",
         data: message
       };
     });
@@ -78,7 +96,7 @@ export const slice = createSlice({
       state.show = true;
       state.message = {
         type: status,
-        subType: "auth error",
+        subType: "error",
         data: message
       };
     });
