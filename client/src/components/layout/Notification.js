@@ -7,9 +7,11 @@ import {
   StyledAlert,
   StyledCloseIcon,
   StyledTypeIcon
-} from "../styles/noitification.styles";
-
-const duration = 300;
+} from "../styles/notification.styles";
+import {
+  NOTIFICATION_DURATION,
+  NOTIFICATION_ANIMATION_DURATION
+} from "../../config";
 
 const constructMessage = (msgType, data) => {
   switch (msgType) {
@@ -40,7 +42,7 @@ const constructMessage = (msgType, data) => {
   }
 };
 
-const Notifcation = () => {
+const Notification = () => {
   const message = useSelector(state => state.notifications.message);
   const showMessage = useSelector(state => state.notifications.show);
   const dispatch = useDispatch();
@@ -51,7 +53,7 @@ const Notifcation = () => {
     if (showMessage) {
       timeoutId.current = setTimeout(
         () => dispatch(removeNotification()),
-        4000
+        NOTIFICATION_DURATION
       );
     }
     return () => clearTimeout(timeoutId.current);
@@ -63,23 +65,29 @@ const Notifcation = () => {
     dispatch(removeNotification());
   };
 
+  const messageIcon =
+    message?.type === "create" || message?.type === "delete"
+      ? "check"
+      : "exclamation-circle";
+
   return (
-    <CSSTransition in={showMessage} timeout={duration} appear mountOnEnter>
+    <CSSTransition
+      in={showMessage}
+      timeout={NOTIFICATION_ANIMATION_DURATION}
+      appear
+      mountOnEnter
+    >
       {state => (
-        <StyledAlert state={state} duration={duration} msgtype={message.type}>
+        <StyledAlert
+          state={state}
+          duration={NOTIFICATION_ANIMATION_DURATION}
+          msgtype={message.type}
+        >
           <div>
-            {(message.type === "create" || message.type === "delete") && (
-              <StyledTypeIcon
-                icon="check"
-                msgtype={message.type}
-              ></StyledTypeIcon>
-            )}
-            {(message.type === "error" || message.type === "fail") && (
-              <StyledTypeIcon
-                icon="exclamation-circle"
-                msgtype={message.type}
-              ></StyledTypeIcon>
-            )}
+            <StyledTypeIcon
+              icon={messageIcon}
+              msgtype={message.type}
+            ></StyledTypeIcon>
           </div>
           {constructMessage(message.subType, message.data)}
           <StyledCloseIcon
@@ -92,4 +100,4 @@ const Notifcation = () => {
   );
 };
 
-export default Notifcation;
+export default Notification;
