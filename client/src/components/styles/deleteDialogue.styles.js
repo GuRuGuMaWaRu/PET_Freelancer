@@ -1,10 +1,18 @@
 import styled from "styled-components";
 
 export const StyledDialogue = styled.div`
-  position: relative;
-  padding: 2rem 3rem;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 10rem;
   background-color: ${props => props.theme.container};
-  z-index: 100;
+  border-radius: 9px;
+
+  padding: 3rem 4rem;
+  box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  transition: all 0.5s;
 `;
 
 export const StyledHeading = styled.h2`

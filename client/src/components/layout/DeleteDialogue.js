@@ -14,12 +14,8 @@ const DeleteDialogue = () => {
   const selectedId = useSelector(state => state.projects.selectedId);
   const dispatch = useDispatch();
 
-  const handlePropagation = e => {
-    e.stopPropagation();
-  };
-
   return (
-    <StyledDialogue onClick={handlePropagation}>
+    <StyledDialogue>
       <StyledHeading>Delete this project?</StyledHeading>
       <StyledActions>
         <StyledYesButton onClick={() => dispatch(deleteProject(selectedId))}>

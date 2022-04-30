@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -57,32 +57,31 @@ const App = () => {
   }, []);
 
   return (
-    <Fragment>
-      <Router>
-        <Notification />
-        {selectedId && (
-          <StyledModal onClick={() => dispatch(closeModal())}>
-            <DeleteDialogue />
-          </StyledModal>
-        )}
-        <StyledTitleBar>
-          <StyledH1>Freelancer</StyledH1>
-          <Navbar />
-        </StyledTitleBar>
-        <StyledContainer>
-          <Switch>
-            <PrivateRoute exact path="/" component={ProjectList} />
-            <PrivateRoute path="/add" component={ProjectForm} />
-            <PrivateRoute path="/project/:id" component={ProjectForm} />
-            <AuthRoute path="/login" component={Login} />
-            <AuthRoute path="/registration" component={Registration} />
-            <Route>
-              <NotFound />
-            </Route>
-          </Switch>
-        </StyledContainer>
-      </Router>
-    </Fragment>
+    <Router>
+      <Notification />
+      {selectedId && (
+        <>
+          <StyledModal onClick={() => dispatch(closeModal())}></StyledModal>
+          <DeleteDialogue />
+        </>
+      )}
+      <StyledTitleBar>
+        <StyledH1>Freelancer</StyledH1>
+        <Navbar />
+      </StyledTitleBar>
+      <StyledContainer>
+        <Switch>
+          <PrivateRoute exact path="/" component={ProjectList} />
+          <PrivateRoute path="/add" component={ProjectForm} />
+          <PrivateRoute path="/project/:id" component={ProjectForm} />
+          <AuthRoute path="/login" component={Login} />
+          <AuthRoute path="/registration" component={Registration} />
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+      </StyledContainer>
+    </Router>
   );
 };
 

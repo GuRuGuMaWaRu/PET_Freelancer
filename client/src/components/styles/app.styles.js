@@ -1,19 +1,16 @@
 import styled from "styled-components";
 
 export const StyledModal = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: fixed;
-  opacity: 1;
-  z-index: 1;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  overflow: auto;
-  background-color: ${props => props.theme.modal_bg_color};
-  transition: opacity 0.4s, z-index 0.4s;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  opacity: 1;
+  transition: all 0.5s;
 `;
 
 export const StyledTitleBar = styled.div`
@@ -37,6 +34,6 @@ export const StyledContainer = styled.div`
     100vh - 80px
   ); /* set 100% height considering header 80px height */
   margin: 0 10%;
-  color: {$props => props.theme.primaryText};
+  color: ${props => props.theme.primaryText};
   background-color: ${props => props.theme.container};
 `;
