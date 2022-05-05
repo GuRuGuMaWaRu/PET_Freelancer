@@ -1,5 +1,25 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getErrorMessage } from '../utils/getErrorMessage';
+
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+}
+
+interface IState {
+  isAuthenticated: boolean;
+  currentUser: IUser | null;
+  loading: boolean;
+}
+
+const initialState: IState = {
+  isAuthenticated: false,
+  currentUser: null,
+  loading: true
+};
 
 export const getUser = createAsyncThunk(
   "auth/getUser",
@@ -13,7 +33,10 @@ export const getUser = createAsyncThunk(
       // TODO
       // rejectWithValue works as intended
       // now I need to wire it up to show Notifications with proper messages
-      return rejectWithValue(err.message);
+      return rejectWithValue({
+        status: 'error',
+        message: getErrorMessage(err),
+      });
     }
   }
 );
@@ -25,15 +48,19 @@ export const loginUser = createAsyncThunk(
       const res = await axios.post("/api/v1/users/login", values);
       localStorage.setItem("freelancer_token", res.data.token);
     } catch (err) {
-      let message = "";
+      const message = getErrorMessage(err);
 
-      if (err.message === "Request failed with status code 400") {
-        message = "Wrong credentials";
-      } else {
-        message = "Bad request";
+      if (message === "Request failed with status code 400") {
+        return rejectWithValue({ 
+          status: "error",
+          message: "Wrong credentials",
+        });
       }
 
-      return rejectWithValue({ message, status: "error" });
+      return rejectWithValue({ 
+        status: "error",
+        message: "Bad request",
+      });
     }
   }
 );
@@ -45,60 +72,53 @@ export const registerUser = createAsyncThunk(
       const res = await axios.post("/api/v1/users/signup", values);
       localStorage.setItem("freelancer_token", res.data.token);
     } catch (err) {
-      return rejectWithValue({
-        message: err.response.data.message,
-        status: err.response.data.status
-      });
+      const message = getErrorMessage(err);
+
+      return rejectWithValue({ status: "error", message });
     }
   }
 );
-
-const initialState = {
-  isAuthenticated: false,
-  currentUser: null,
-  loading: true
-};
 
 export const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     logoutUser(state, _) {
-      localStorage.setItem("freelancer_token", null);
+      localStorage.setItem("freelancer_token", '');
       state.isAuthenticated = false;
       state.currentUser = null;
     }
   },
   extraReducers: builder => {
-    builder.addCase(getUser.pending, (state, _) => {
+    builder.addCase(getUser.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getUser.fulfilled, (state, action) => {
+    builder.addCase(getUser.fulfilled, (state, action: PayloadAction<IUser>) => {
       state.isAuthenticated = true;
-      state.currentUser = action.payload.user;
+      state.currentUser = action.payload;
       state.loading = false;
     });
-    builder.addCase(getUser.rejected, (state, action) => {
+    builder.addCase(getUser.rejected, (state) => {
       state.loading = false;
     });
-    builder.addCase(loginUser.pending, (state, _) => {
+    builder.addCase(loginUser.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.isAuthenticated = true;
-      state.loading = false;
-    });
-    builder.addCase(loginUser.rejected, (state, action) => {
-      state.loading = false;
-    });
-    builder.addCase(registerUser.pending, (state, _) => {
-      state.loading = true;
-    });
-    builder.addCase(registerUser.fulfilled, (state, _) => {
+    builder.addCase(loginUser.fulfilled, (state) => {
       state.isAuthenticated = true;
       state.loading = false;
     });
-    builder.addCase(registerUser.rejected, (state, action) => {
+    builder.addCase(loginUser.rejected, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(registerUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(registerUser.fulfilled, (state) => {
+      state.isAuthenticated = true;
+      state.loading = false;
+    });
+    builder.addCase(registerUser.rejected, (state) => {
       state.loading = false;
     });
   }

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -12,27 +11,29 @@ import {
   faCheck
 } from "@fortawesome/free-solid-svg-icons";
 
-import Navbar from "../layout/Navbar";
-import Login from "../authorization/Login";
-import Registration from "../authorization/Registration";
-import ProjectForm from "../project_form/ProjectForm";
-import ProjectList from "../projects/ProjectList";
-import NotFound from "../pages/NotFound";
-import Notification from "../layout/Notification";
-import DeleteDialogue from "../layout/DeleteDialogue";
-import PrivateRoute from "../routing/PrivateRoute";
-import AuthRoute from "../routing/AuthRoute";
-import setAuthToken from "../../utils/setAuthToken";
+import { useAppDispatch, useAppSelector } from "./hooks";
 
-import { getUser } from "../../reducers/authSlice";
-import { closeModal } from "../../reducers/projectsSlice";
+import Navbar from "./components/layout/Navbar";
+import Login from "./components/authorization/Login";
+import Registration from "./components/authorization/Registration";
+import ProjectForm from "./components/project_form/ProjectForm";
+import ProjectList from "./components/projects/ProjectList";
+import NotFound from "./components/pages/NotFound";
+import Notification from "./components/layout/Notification";
+import DeleteDialogue from "./components/layout/DeleteDialogue";
+import PrivateRoute from "./components/routing/PrivateRoute";
+import AuthRoute from "./components/routing/AuthRoute";
+import setAuthToken from "./utils/setAuthToken";
+
+import { getUser } from "./reducers/authSlice";
+import { closeModal } from "./reducers/projectsSlice";
 
 import {
   StyledModal,
   StyledTitleBar,
   StyledH1,
   StyledContainer
-} from "../styles/app.styles";
+} from "./components/styles/app.styles";
 
 library.add(
   faPen,
@@ -45,8 +46,8 @@ library.add(
 );
 
 const App = () => {
-  const dispatch = useDispatch();
-  const selectedId = useSelector(state => state.projects.selectedId);
+  const dispatch = useAppDispatch();
+  const selectedId = useAppSelector(state => state.projects.selectedId);
 
   useEffect(() => {
     if (localStorage.freelancer_token) {

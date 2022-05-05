@@ -61,7 +61,7 @@ const getUser = catchAsync(async (req, res, next) => {
     { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
-      res.status(200).json({ status: "success", token, data: { user } });
+      res.status(200).json({ status: "success", token, data: user });
     }
   );
 });

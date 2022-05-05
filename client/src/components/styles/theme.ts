@@ -1,4 +1,6 @@
-export default {
+export type ThemeType = typeof theme;
+
+const theme = {
   darkPrimary: "#E64A19",
   lightPrimary: "#FFCCBC",
   primary: "#FF5722",
@@ -17,3 +19,5 @@ export default {
   mediumseagreen: "mediumseagreen",
   nativeSelector: "purple"
 };
+
+export default theme;

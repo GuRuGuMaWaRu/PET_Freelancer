@@ -1,20 +1,38 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   createSlice,
   createAsyncThunk,
   createEntityAdapter
 } from "@reduxjs/toolkit";
 import axios from "axios";
+import {getErrorMessage} from '../utils/getErrorMessage';
 
 import { logoutUser } from "./authSlice";
+
+interface IClient {
+  _id: string;
+  name: string;
+}
+
+interface IState {
+  loading: boolean;
+}
+
+export const clientsAdapter = createEntityAdapter<IClient>({
+  selectId: client => client._id,
+  sortComparer: (a, b) => a.name.localeCompare(b.name)
+});
+
+const initialState = clientsAdapter.getInitialState<IState>({ loading: false });
 
 export const fetchClients = createAsyncThunk(
   "clients/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get("/api/v1/clients");
+      const res = await axios.get<{ status: string, results: number, data: IClient[] }>("/api/v1/clients");
       return res.data.data;
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
@@ -23,35 +41,28 @@ export const createClient = createAsyncThunk(
   "clients/createOne",
   async (data, { rejectWithValue }) => {
     try {
-      const res = await axios.post("/api/v1/clients", { name: data });
+      const res = await axios.post<{status: string, data: IClient}>("/api/v1/clients", { name: data });
 
       return res.data.data;
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
-
-export const clientsAdapter = createEntityAdapter({
-  selectId: client => client._id,
-  sortComparer: (a, b) => a.name.localeCompare(b.name)
-});
-
-const initialState = clientsAdapter.getInitialState({ loading: false });
 
 export const slice = createSlice({
   name: "clients",
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchClients.pending, (state, _) => {
+    builder.addCase(fetchClients.pending, state => {
       state.loading = true;
     });
-    builder.addCase(fetchClients.fulfilled, (state, action) => {
+    builder.addCase(fetchClients.fulfilled, (state, action: PayloadAction<IClient[]>) => {
       clientsAdapter.addMany(state, action.payload);
       state.loading = false;
     });
-    builder.addCase(createClient.fulfilled, (state, action) => {
+    builder.addCase(createClient.fulfilled, (state, action: PayloadAction<IClient>) => {
       clientsAdapter.addOne(state, action.payload);
     });
     builder.addCase(logoutUser, state => {

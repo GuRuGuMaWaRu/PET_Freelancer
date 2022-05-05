@@ -6,10 +6,10 @@ import { Provider } from "react-redux";
 import theme from "./components/styles/theme";
 import GlobalStyles from "./components/styles/global.styles";
 
-import store from "./store";
+import { store } from "./store";
 
 const render = () => {
-  const App = require("./components/app/App").default;
+  const App = require("./App").default;
 
   ReactDOM.render(
     <Provider store={store}>
@@ -25,5 +25,5 @@ const render = () => {
 render();
 
 if (process.env.NODE_ENV === "development" && module.hot) {
-  module.hot.accept("./components/app/App", render);
+  module.hot.accept("./App", render);
 }

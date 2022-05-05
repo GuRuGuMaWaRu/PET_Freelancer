@@ -1,18 +1,18 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 
+import { useAppSelector, useAppDispatch } from "../../hooks";
 import { closeModal, deleteProject } from "../../reducers/projectsSlice";
 import {
   StyledActions,
   StyledButton,
-  StyledDialogue,
   StyledHeading,
+  StyledDialogue,
   StyledYesButton
 } from "../styles/deleteDialogue.styles";
 
 const DeleteDialogue = () => {
-  const selectedId = useSelector(state => state.projects.selectedId);
-  const dispatch = useDispatch();
+  const selectedId = useAppSelector(state => state.projects.selectedId);
+  const dispatch = useAppDispatch();
 
   return (
     <StyledDialogue>

@@ -1,17 +1,49 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk
 } from "@reduxjs/toolkit";
 import axios from "axios";
+import {getErrorMessage} from '../utils/getErrorMessage';
 
 import { logoutUser } from "./authSlice";
+
+interface IProject {
+  _id: string;
+  payment: number;
+  currency: string;
+  paid: boolean;
+  date: string;
+  client: string;
+  projectNr: string;
+  comments: string;
+}
+
+interface IState {
+  projectsLoading: boolean;
+  projectLoading: boolean;
+  selectedId: string | null;
+  selectedProject: IProject | null;
+}
+
+export const projectsAdapter = createEntityAdapter<IProject>({
+  selectId: project => project._id,
+  sortComparer: (a, b) => Number(new Date(b.date)) - Number(new Date(a.date)),
+});
+
+const initialState = projectsAdapter.getInitialState<IState>({
+  projectsLoading: true,
+  projectLoading: false,
+  selectedId: null,
+  selectedProject: null
+});
 
 export const fetchProjects = createAsyncThunk(
   "projects/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`/api/v1/projects`);
+      const res = await axios.get<{ status: string, results: number, data: IProject[] }>(`/api/v1/projects`);
       const projects = res.data.data;
 
       const processedProjects = projects.map(project => {
@@ -20,7 +52,7 @@ export const fetchProjects = createAsyncThunk(
 
       return processedProjects;
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
@@ -33,7 +65,7 @@ export const fetchProject = createAsyncThunk(
 
       return res.data.data;
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
@@ -60,7 +92,7 @@ export const updateProject = createAsyncThunk(
 
       return returnProject;
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
@@ -69,6 +101,7 @@ export const createProject = createAsyncThunk(
   "projects/createOne",
   async (data, { rejectWithValue }) => {
     const { newProject, clientName } = data;
+    
     try {
       const res = await axios.post("/api/v1/projects", newProject);
 
@@ -86,7 +119,7 @@ export const createProject = createAsyncThunk(
 
       return returnProject;
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
@@ -99,7 +132,7 @@ export const deleteProject = createAsyncThunk(
 
       return id;
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
@@ -116,34 +149,22 @@ export const togglePaid = createAsyncThunk(
 
       return { id, paidStatus };
     } catch (err) {
-      return rejectWithValue(err.message);
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
 
-export const projectsAdapter = createEntityAdapter({
-  selectId: project => project._id,
-  sortComparer: (a, b) => new Date(b.date) - new Date(a.date)
-});
-
-const initialState = projectsAdapter.getInitialState({
-  projectsLoading: true,
-  projectLoading: false,
-  selectedId: null,
-  selectedProject: null
-});
-
-export const slice = createSlice({
+export const projectsSlice = createSlice({
   name: "projects",
   initialState,
   reducers: {
-    setSelectedId(state, action) {
+    setSelectedId(state, action: PayloadAction<string>) {
       state.selectedId = action.payload;
     },
-    closeModal(state, _) {
+    closeModal(state) {
       state.selectedId = null;
     },
-    clearSelectedProject(state, _) {
+    clearSelectedProject(state) {
       state.selectedProject = null;
     }
   },
@@ -151,18 +172,18 @@ export const slice = createSlice({
     builder.addCase(fetchProjects.pending, (state, _) => {
       state.projectsLoading = true;
     });
-    builder.addCase(fetchProjects.fulfilled, (state, action) => {
+    builder.addCase(fetchProjects.fulfilled, (state, action: PayloadAction<IProject[]>) => {
       projectsAdapter.addMany(state, action.payload);
       state.projectsLoading = false;
     });
     builder.addCase(fetchProject.pending, (state, _) => {
       state.projectLoading = true;
     });
-    builder.addCase(fetchProject.fulfilled, (state, action) => {
+    builder.addCase(fetchProject.fulfilled, (state, action: PayloadAction<IProject>) => {
       state.selectedProject = action.payload;
       state.projectLoading = false;
     });
-    builder.addCase(updateProject.fulfilled, (state, action) => {
+    builder.addCase(updateProject.fulfilled, (state, action: PayloadAction<{ _id: string }>) => {
       const { _id, ...updatedProject } = action.payload;
 
       projectsAdapter.updateOne(state, {
@@ -170,7 +191,7 @@ export const slice = createSlice({
         changes: updatedProject
       });
     });
-    builder.addCase(createProject.fulfilled, (state, action) => {
+    builder.addCase(createProject.fulfilled, (state, action: PayloadAction<IProject>) => {
       projectsAdapter.addOne(state, action.payload);
     });
     builder.addCase(togglePaid.fulfilled, (state, action) => {
@@ -181,7 +202,7 @@ export const slice = createSlice({
         changes: { paid: !paidStatus }
       });
     });
-    builder.addCase(deleteProject.fulfilled, (state, action) => {
+    builder.addCase(deleteProject.fulfilled, (state, action: PayloadAction<string>) => {
       projectsAdapter.removeOne(state, action.payload);
       state.selectedId = null;
     });
@@ -195,10 +216,10 @@ export const {
   setSelectedId,
   closeModal,
   clearSelectedProject
-} = slice.actions;
+} = projectsSlice.actions;
 
 export const { selectAll: selectAllProjects } = projectsAdapter.getSelectors(
   state => state.projects
 );
 
-export default slice.reducer;
+export default projectsSlice.reducer;
