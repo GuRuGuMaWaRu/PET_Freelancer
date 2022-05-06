@@ -52,7 +52,7 @@ projectSchema.pre("find", function(next) {
   this.find({ deleted: { $ne: true } })
     .populate({
       path: "client",
-      select: "-_id -user -__v"
+      select: "-user -__v"
     })
     .sort("-date");
 
@@ -66,7 +66,7 @@ projectSchema.pre("findOne", function(next) {
 });
 
 projectSchema.pre("findOneAndUpdate", function(next) {
-  this.populate("client").select(
+  this.populate({ path: "client", select: "-user -__v" }).select(
     "client currency date payment paid projectNr _id comments"
   );
 

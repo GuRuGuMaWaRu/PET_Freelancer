@@ -74,7 +74,7 @@ const App = () => {
         <Switch>
           <PrivateRoute exact path="/" component={ProjectList} />
           <PrivateRoute path="/add" component={ProjectForm} />
-          <PrivateRoute path="/project/:id" component={ProjectForm} />
+          <PrivateRoute path="/project/:projectId" component={ProjectForm} />
           <AuthRoute path="/login" component={Login} />
           <AuthRoute path="/registration" component={Registration} />
           <Route>

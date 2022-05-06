@@ -1,6 +1,6 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
@@ -8,10 +8,9 @@ import AddClient from "./AddClient";
 import Spinner from "../layout/Spinner";
 import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
 import {
-  fetchProject,
   updateProject,
   createProject,
-  clearSelectedProject
+  selectProjectById
 } from "../../reducers/projectsSlice";
 import {
   StyledForm,
@@ -30,7 +29,7 @@ const getInitialValues = selectedProject => {
     date: selectedProject
       ? new Date(selectedProject.date).toISOString().split("T")[0]
       : new Date().toISOString().split("T")[0],
-    client: selectedProject?.client ?? "",
+    client: selectedProject?.client._id ?? "",
     projectNr: selectedProject?.projectNr ?? "",
     currency: selectedProject?.currency ?? "USD",
     payment: selectedProject?.payment ?? 0,
@@ -47,37 +46,31 @@ const formSchema = Yup.object().shape({
   comments: Yup.string()
 });
 
-const ProjectForm = () => {
+const ProjectForm = ({ match }) => {
   const history = useHistory();
-  const { id } = useParams();
+  const { projectId } = match.params;
 
   const clients = useSelector(selectAllClients);
   const clientsLoading = useSelector(state => state.clients.loading);
   const projectLoading = useSelector(state => state.projects.projectLoading);
-  const selectedProject = useSelector(state => state.projects.selectedProject);
+  const selectedProject = useSelector(state =>
+    selectProjectById(state, projectId)
+  );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (clients.length === 0) {
       dispatch(fetchClients());
     }
-
-    if (id) {
-      dispatch(fetchProject(id));
-    }
-
-    return () => {
-      dispatch(clearSelectedProject());
-    };
     // eslint-disable-next-line
   }, []);
+
+  const initialValues = getInitialValues(selectedProject);
 
   if (clientsLoading || projectLoading) {
     return <Spinner />;
   }
-
-  /* "Add Project" form values */
-  const initialValues = getInitialValues(selectedProject);
 
   const handleCancel = () => {
     history.push("/");
@@ -85,9 +78,7 @@ const ProjectForm = () => {
 
   return (
     <Fragment>
-      <StyledTitle>
-        {selectedProject ? "Edit Project" : "New Project"}
-      </StyledTitle>
+      <StyledTitle>{projectId ? "Edit Project" : "New Project"}</StyledTitle>
       <AddClient clients={clients} />
       {clients && (
         <Formik
@@ -101,7 +92,7 @@ const ProjectForm = () => {
               comments: values.comments.trim()
             };
 
-            if (selectedProject) {
+            if (projectId) {
               const editedFields = {};
 
               // Filter out only edited fields
@@ -170,13 +161,13 @@ const ProjectForm = () => {
               </StyledFormGroup>
               {status && status.msg && <div>{status.msg}</div>}
               <StyledActionButtons>
-                {selectedProject && (
+                {projectId && (
                   <StyledCancelButton type="button" onClick={handleCancel}>
                     Cancel
                   </StyledCancelButton>
                 )}
                 <StyledSubmitButton type="submit" disabled={isSubmitting}>
-                  {selectedProject ? "Update Project" : "Add Project"}
+                  {projectId ? "Update Project" : "Add Project"}
                 </StyledSubmitButton>
               </StyledActionButtons>
             </StyledForm>

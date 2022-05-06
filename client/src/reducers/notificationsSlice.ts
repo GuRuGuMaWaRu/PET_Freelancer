@@ -1,4 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { IProject } from './projectsSlice';
 import { createSlice } from "@reduxjs/toolkit";
 
 import { createClient } from "./clientsSlice";
@@ -42,14 +43,14 @@ export const slice = createSlice({
         data: [action.payload.name]
       };
     });
-    builder.addCase(updateProject.fulfilled, (state, action: PayloadAction<{projectNr: string, client: string}>) => {
+    builder.addCase(updateProject.fulfilled, (state, action: PayloadAction<IProject>) => {
       const { projectNr, client } = action.payload;
 
       state.show = true;
       state.message = {
         type: Type.Create,
         subType: "update project",
-        data: [projectNr, client]
+        data: [projectNr, client.name]
       };
     });
     builder.addCase(updateProject.rejected, (state) => {
