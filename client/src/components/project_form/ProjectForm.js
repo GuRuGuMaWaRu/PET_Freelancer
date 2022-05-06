@@ -84,6 +84,7 @@ const ProjectForm = ({ match }) => {
         <Formik
           initialValues={initialValues}
           validationSchema={formSchema}
+          enableReinitialize
           onSubmit={(values, actions) => {
             const newProject = {
               ...values,
