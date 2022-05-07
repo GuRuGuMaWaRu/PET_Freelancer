@@ -14,16 +14,12 @@ interface IClient {
   name: string;
 }
 
-interface IState {
-  loading: boolean;
-}
-
 export const clientsAdapter = createEntityAdapter<IClient>({
   selectId: client => client._id,
   sortComparer: (a, b) => a.name.localeCompare(b.name)
 });
 
-const initialState = clientsAdapter.getInitialState<IState>({ loading: false });
+const initialState = clientsAdapter.getInitialState();
 
 export const fetchClients = createAsyncThunk(
   "clients/fetchAll",

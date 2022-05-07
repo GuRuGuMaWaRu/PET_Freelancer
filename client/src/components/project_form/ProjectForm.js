@@ -1,12 +1,11 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
 import AddClient from "./AddClient";
-import Spinner from "../layout/Spinner";
-import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
+import { selectAllClients } from "../../reducers/clientsSlice";
 import {
   updateProject,
   createProject,
@@ -51,30 +50,23 @@ const ProjectForm = ({ match }) => {
   const { projectId } = match.params;
 
   const clients = useSelector(selectAllClients);
-  const clientsLoading = useSelector(state => state.clients.loading);
-  const projectLoading = useSelector(state => state.projects.projectLoading);
   const selectedProject = useSelector(state =>
     selectProjectById(state, projectId)
   );
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (clients.length === 0) {
-      dispatch(fetchClients());
-    }
-    // eslint-disable-next-line
-  }, []);
-
   const initialValues = getInitialValues(selectedProject);
-
-  if (clientsLoading || projectLoading) {
-    return <Spinner />;
-  }
 
   const handleCancel = () => {
     history.push("/");
   };
+
+  const clientOptions = clients.map(client => (
+    <option key={client._id} value={client._id}>
+      {client.name}
+    </option>
+  ));
 
   return (
     <Fragment>
@@ -116,7 +108,7 @@ const ProjectForm = ({ match }) => {
             history.push("/");
           }}
         >
-          {({ status, isSubmitting }) => (
+          {props => (
             <StyledForm>
               <StyledFormGroup>
                 <StyledLabel htmlFor="date">* Date:</StyledLabel>
@@ -127,12 +119,7 @@ const ProjectForm = ({ match }) => {
                 <StyledLabel htmlFor="client">* Client:</StyledLabel>
                 <StyledField name="client" component="select">
                   <option value="">--- Choose client ---</option>
-                  {clients &&
-                    clients.map((client, i) => (
-                      <option key={client._id} value={client._id}>
-                        {client.name}
-                      </option>
-                    ))}
+                  {clients && clientOptions}
                 </StyledField>
                 <StyledErrorMessage name="client" component="div" />
               </StyledFormGroup>
@@ -160,14 +147,16 @@ const ProjectForm = ({ match }) => {
                   placeholder=""
                 />
               </StyledFormGroup>
-              {status && status.msg && <div>{status.msg}</div>}
+              {props.status && props.status.msg && (
+                <div>{props.status.msg}</div>
+              )}
               <StyledActionButtons>
                 {projectId && (
                   <StyledCancelButton type="button" onClick={handleCancel}>
                     Cancel
                   </StyledCancelButton>
                 )}
-                <StyledSubmitButton type="submit" disabled={isSubmitting}>
+                <StyledSubmitButton type="submit" disabled={props.isSubmitting}>
                   {projectId ? "Update Project" : "Add Project"}
                 </StyledSubmitButton>
               </StyledActionButtons>

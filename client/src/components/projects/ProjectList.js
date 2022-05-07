@@ -5,7 +5,6 @@ import Spinner from "../layout/Spinner";
 import Project from "./Project";
 import FilterList from "./FilterList";
 
-import { fetchClients, selectAllClients } from "../../reducers/clientsSlice";
 import {
   fetchProjects,
   togglePaid,
@@ -22,19 +21,14 @@ const ProjectList = () => {
   const dispatch = useDispatch();
   const filterableProps = useSelector(state => state.filters);
   const projects = useSelector(selectAllProjects);
-  const clients = useSelector(selectAllClients);
   const projectStatus = useSelector(state => state.projects.status);
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("freelancer_token"));
+
     if (projectStatus === "idle") {
       dispatch(fetchProjects());
     }
-
-    if (clients.length === 0) {
-      dispatch(fetchClients());
-    }
-    // eslint-disable-next-line
   }, [projectStatus, dispatch]);
 
   if (projectStatus === "loading") {

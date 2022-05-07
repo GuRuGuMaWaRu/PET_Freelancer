@@ -27,6 +27,7 @@ import setAuthToken from "./utils/setAuthToken";
 
 import { getUser } from "./reducers/authSlice";
 import { closeModal } from "./reducers/projectsSlice";
+import { fetchClients } from "./reducers/clientsSlice";
 
 import {
   StyledModal,
@@ -48,14 +49,20 @@ library.add(
 const App = () => {
   const dispatch = useAppDispatch();
   const selectedId = useAppSelector(state => state.projects.selectedId);
+  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
   useEffect(() => {
     if (localStorage.freelancer_token) {
       setAuthToken(localStorage.freelancer_token);
       dispatch(getUser());
     }
-    // eslint-disable-next-line
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchClients());
+    }
+  }, [isAuthenticated, dispatch]);
 
   return (
     <Router>
