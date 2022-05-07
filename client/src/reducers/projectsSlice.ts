@@ -27,7 +27,7 @@ interface IState {
 
 export const projectsAdapter = createEntityAdapter<IProject>({
   selectId: project => project._id,
-  sortComparer: (a, b) => Number(new Date(b.date)) - Number(new Date(a.date)),
+  sortComparer: (a, b) => b.date.localeCompare(a.date),
 });
 
 const initialState = projectsAdapter.getInitialState<IState>({
