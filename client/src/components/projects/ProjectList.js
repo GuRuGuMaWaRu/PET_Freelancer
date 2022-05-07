@@ -23,11 +23,11 @@ const ProjectList = () => {
   const filterableProps = useSelector(state => state.filters);
   const projects = useSelector(selectAllProjects);
   const clients = useSelector(selectAllClients);
-  const projectsLoading = useSelector(state => state.projects.projectsLoading);
+  const projectStatus = useSelector(state => state.projects.status);
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("freelancer_token"));
-    if (projects.length === 0) {
+    if (projectStatus === "idle") {
       dispatch(fetchProjects());
     }
 
@@ -35,13 +35,13 @@ const ProjectList = () => {
       dispatch(fetchClients());
     }
     // eslint-disable-next-line
-  }, []);
+  }, [projectStatus, dispatch]);
 
-  if (projectsLoading) {
+  if (projectStatus === "loading") {
     return <Spinner />;
   }
 
-  if (!projects || projects.length === 0) {
+  if (projectStatus === "idle" || !projects || projects.length === 0) {
     return (
       <StyledNoProjectsMsg>
         There are no projects, please add one.

@@ -21,7 +21,7 @@ export interface IProject {
 }
 
 interface IState {
-  projectsLoading: boolean;
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
   selectedId: string | null;
 }
 
@@ -31,7 +31,7 @@ export const projectsAdapter = createEntityAdapter<IProject>({
 });
 
 const initialState = projectsAdapter.getInitialState<IState>({
-  projectsLoading: true,
+  status: 'idle',
   selectedId: null,
 });
 
@@ -133,12 +133,15 @@ export const projectsSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(fetchProjects.pending, (state, _) => {
-      state.projectsLoading = true;
+      state.status = 'loading';
     });
     builder.addCase(fetchProjects.fulfilled, (state, action: PayloadAction<IProject[]>) => {
+      state.status = 'succeeded';
       projectsAdapter.addMany(state, action.payload);
-      state.projectsLoading = false;
     });
+    builder.addCase(fetchProjects.rejected, (state) => {
+      state.status = 'failed';
+    })
     builder.addCase(updateProject.fulfilled, (state, action: PayloadAction<IProject>) => {
       const { _id, ...updatedProject } = action.payload;
 
@@ -164,6 +167,7 @@ export const projectsSlice = createSlice({
     });
     builder.addCase(logoutUser, state => {
       projectsAdapter.removeAll(state);
+      state.status = 'idle';
     });
   }
 });
