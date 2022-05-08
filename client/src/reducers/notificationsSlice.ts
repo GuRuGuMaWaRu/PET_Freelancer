@@ -61,14 +61,14 @@ export const slice = createSlice({
         data: "Could not update project"
       };
     });
-    builder.addCase(createProject.fulfilled, (state, action: PayloadAction<{projectNr: string, client: string}>) => {
-      const { projectNr, client } = action.payload;
+    builder.addCase(createProject.fulfilled, (state, action: PayloadAction<{projectNr: string, client: { _id: string, name: string }}>) => {
+      const { projectNr, client: { name: clientName } } = action.payload;
 
       state.show = true;
       state.message = {
         type: Type.Create,
         subType: "create project",
-        data: [projectNr, client]
+        data: [projectNr, clientName]
       };
     });
     builder.addCase(createProject.rejected, (state) => {

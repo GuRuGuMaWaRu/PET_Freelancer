@@ -78,9 +78,10 @@ export const createProject = createAsyncThunk(
         payment: createdProject.payment,
         currency: createdProject.currency,
         projectNr: createdProject.projectNr,
-        client: clientName,
+        client: { _id: createdProject.client, name: clientName },
         date: createdProject.date,
-        comments: createdProject.comments
+        comments: createdProject.comments,
+        paid: false,
       };
 
       return returnProject;
