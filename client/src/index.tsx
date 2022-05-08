@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { ThemeProvider } from "styled-components";
 import { Provider } from "react-redux";
+import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 
 import theme from "./components/styles/theme";
 import GlobalStyles from "./components/styles/global.styles";
@@ -23,6 +24,10 @@ const render = () => {
 };
 
 render();
+
+if (process.env.NODE_ENV === "production") {
+  disableReactDevTools();
+}
 
 if (process.env.NODE_ENV === "development" && module.hot) {
   module.hot.accept("./App", render);
