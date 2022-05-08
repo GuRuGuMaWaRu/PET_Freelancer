@@ -51,12 +51,8 @@ export const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchClients.pending, state => {
-      state.loading = true;
-    });
     builder.addCase(fetchClients.fulfilled, (state, action: PayloadAction<IClient[]>) => {
       clientsAdapter.addMany(state, action.payload);
-      state.loading = false;
     });
     builder.addCase(createClient.fulfilled, (state, action: PayloadAction<IClient>) => {
       clientsAdapter.addOne(state, action.payload);
