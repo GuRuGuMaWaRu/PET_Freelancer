@@ -1,8 +1,8 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
+import { useAppDispatch } from "../../hooks";
 import { loginUser } from "../../reducers/authSlice";
 import {
   StyledForm,
@@ -21,7 +21,7 @@ const formSchema = Yup.object().shape({
 });
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <Formik

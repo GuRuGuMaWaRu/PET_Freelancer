@@ -1,13 +1,13 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import Filter from "./Filter";
+import { useAppSelector, useAppDispatch } from "../../hooks";
 import { toggleFilter, cancelAllFilters } from "../../reducers/filtersSlice";
 import { StyledFilterList, StyledCancelAllBtn } from "../styles/filter.styles";
+import Filter from "./Filter";
 
 const CancelButton = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <StyledCancelAllBtn onClick={() => dispatch(cancelAllFilters())}>
@@ -17,8 +17,8 @@ const CancelButton = () => {
 };
 
 const FilterList = () => {
-  const filterableProps = useSelector(state => state.filters);
-  const dispatch = useDispatch();
+  const filterableProps = useAppSelector(state => state.filters);
+  const dispatch = useAppDispatch();
 
   const renderedFilters = Object.values(filterableProps).reduce(
     (final, filters) => [...final, ...filters],

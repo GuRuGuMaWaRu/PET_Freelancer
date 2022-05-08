@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
+import { useAppDispatch } from "../../hooks";
 import { createClient } from "../../reducers/clientsSlice";
 import {
   StyledForm,
@@ -21,7 +21,7 @@ const formSchema = Yup.object().shape({
 });
 
 const AddClient = ({ clients }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <Formik
@@ -43,8 +43,9 @@ const AddClient = ({ clients }) => {
           values.client = "";
           actions.setSubmitting(false);
         } catch (err) {
+          console.error(err);
           actions.setSubmitting(false);
-          actions.setStatus({ msg: err });
+          actions.setStatus({ msg: err.message });
           setTimeout(() => actions.setStatus({ msg: "" }), 2000);
         }
       }}

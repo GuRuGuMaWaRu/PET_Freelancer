@@ -1,9 +1,10 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
+
+import { useAppSelector } from "../../hooks";
 
 const AuthRoute = ({ component: Component, ...rest }) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
   return (
     <Route

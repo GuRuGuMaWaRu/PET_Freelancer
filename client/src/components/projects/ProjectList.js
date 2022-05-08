@@ -1,27 +1,25 @@
 import React, { Fragment, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
-import Spinner from "../layout/Spinner";
-import Project from "./Project";
-import FilterList from "./FilterList";
-
+import { useAppSelector, useAppDispatch } from "../../hooks";
 import {
   fetchProjects,
   togglePaid,
   setSelectedId,
   selectAllProjects
 } from "../../reducers/projectsSlice";
-
 import setAuthToken from "../../utils/setAuthToken";
 import calculateTotals from "../../utils/calculateTotals";
+import Spinner from "../layout/Spinner";
+import Project from "./Project";
+import FilterList from "./FilterList";
 
 import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
-  const dispatch = useDispatch();
-  const filterableProps = useSelector(state => state.filters);
-  const projects = useSelector(selectAllProjects);
-  const projectStatus = useSelector(state => state.projects.status);
+  const dispatch = useAppDispatch();
+  const filterableProps = useAppSelector(state => state.filters);
+  const projects = useAppSelector(selectAllProjects);
+  const projectStatus = useAppSelector(state => state.projects.status);
 
   useEffect(() => {
     setAuthToken(localStorage.getItem("freelancer_token"));

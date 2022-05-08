@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 
+import { useAppSelector, useAppDispatch } from "../../hooks";
 import { removeNotification } from "../../reducers/notificationsSlice";
 import {
   StyledAlert,
@@ -43,9 +43,9 @@ const constructMessage = (msgType, data) => {
 };
 
 const Notification = () => {
-  const message = useSelector(state => state.notifications.message);
-  const showMessage = useSelector(state => state.notifications.show);
-  const dispatch = useDispatch();
+  const message = useAppSelector(state => state.notifications.message);
+  const showMessage = useAppSelector(state => state.notifications.show);
+  const dispatch = useAppDispatch();
 
   const timeoutId = useRef();
 

@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
 
+import { useAppSelector } from "../../hooks";
 import Spinner from "../layout/Spinner";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-  const loadingUser = useSelector(state => state.auth.loading);
+  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
+  const loadingUser = useAppSelector(state => state.auth.loading);
 
   return (
     <Route

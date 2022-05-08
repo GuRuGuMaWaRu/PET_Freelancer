@@ -1,10 +1,9 @@
 import React, { Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import AddClient from "./AddClient";
+import { useAppSelector, useAppDispatch } from "../../hooks";
 import { selectAllClients } from "../../reducers/clientsSlice";
 import {
   updateProject,
@@ -22,6 +21,7 @@ import {
   StyledSubmitButton,
   StyledCancelButton
 } from "../styles/form.styles";
+import AddClient from "./AddClient";
 
 const getInitialValues = selectedProject => {
   return {
@@ -49,12 +49,11 @@ const ProjectForm = ({ match }) => {
   const history = useHistory();
   const { projectId } = match.params;
 
-  const clients = useSelector(selectAllClients);
-  const selectedProject = useSelector(state =>
+  const dispatch = useAppDispatch();
+  const clients = useAppSelector(selectAllClients);
+  const selectedProject = useAppSelector(state =>
     selectProjectById(state, projectId)
   );
-
-  const dispatch = useDispatch();
 
   const initialValues = getInitialValues(selectedProject);
 
