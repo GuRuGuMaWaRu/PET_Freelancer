@@ -56,7 +56,7 @@ const ProjectList = () => {
     }
   });
 
-  const renderedProjects = projects.filter(project => {
+  const displayedProjects = projects.filter(project => {
     return Object.keys(selectedFilterableProps).every(property => {
       return selectedFilterableProps[property].some(filter => {
         if (filter.selected) {
@@ -68,14 +68,27 @@ const ProjectList = () => {
   });
   //--> Filter projects -- END
 
-  const totals = calculateTotals(renderedProjects);
+  const renderedProjects = displayedProjects.map(project => {
+    return (
+      <Project
+        key={project._id}
+        project={project}
+        handleDelete={() => dispatch(setSelectedId(project._id))}
+        handlePayment={() =>
+          dispatch(togglePaid({ id: project._id, paidStatus: project.paid }))
+        }
+      />
+    );
+  });
+
+  const totals = calculateTotals(displayedProjects);
 
   return (
     projects && (
       <Fragment>
         <StyledTotalText>
           <div>
-            Selected: <b>{renderedProjects.length}</b>
+            Selected: <b>{displayedProjects.length}</b>
           </div>
           <div>
             This month: <b>${totals.thisMonth}</b>
@@ -91,18 +104,7 @@ const ProjectList = () => {
           </div>
         </StyledTotalText>
         <FilterList />
-        {renderedProjects.map(project => (
-          <Project
-            key={project._id}
-            project={project}
-            handleDelete={() => dispatch(setSelectedId(project._id))}
-            handlePayment={() =>
-              dispatch(
-                togglePaid({ id: project._id, paidStatus: project.paid })
-              )
-            }
-          />
-        ))}
+        {renderedProjects}
       </Fragment>
     )
   );
