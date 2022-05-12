@@ -1,7 +1,7 @@
 import React from "react";
 
-import { useAppSelector, useAppDispatch } from "../../hooks";
-import { closeModal, deleteProject } from "../../reducers/projectsSlice";
+import { useAppDispatch } from "../../hooks";
+import { deleteProject } from "../../reducers/projectsSlice";
 import {
   StyledActions,
   StyledButton,
@@ -10,18 +10,20 @@ import {
   StyledYesButton
 } from "../styles/deleteDialogue.styles";
 
-const DeleteDialogue = () => {
-  const selectedId = useAppSelector(state => state.projects.selectedId);
+const DeleteDialogue = ({ modalProject, onCloseModal }) => {
   const dispatch = useAppDispatch();
+
+  const onDeleteProject = () => {
+    dispatch(deleteProject(modalProject));
+    onCloseModal();
+  };
 
   return (
     <StyledDialogue>
       <StyledHeading>Delete this project?</StyledHeading>
       <StyledActions>
-        <StyledYesButton onClick={() => dispatch(deleteProject(selectedId))}>
-          Yes
-        </StyledYesButton>
-        <StyledButton onClick={() => dispatch(closeModal())}>No</StyledButton>
+        <StyledYesButton onClick={onDeleteProject}>Yes</StyledYesButton>
+        <StyledButton onClick={onCloseModal}>No</StyledButton>
       </StyledActions>
     </StyledDialogue>
   );

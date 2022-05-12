@@ -1,23 +1,25 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useCallback } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import {
   fetchProjects,
   togglePaid,
-  setSelectedId,
   selectAllProjects
 } from "../../reducers/projectsSlice";
 import setAuthToken from "../../utils/setAuthToken";
 import calculateTotals from "../../utils/calculateTotals";
 import Spinner from "../layout/Spinner";
-import Project from "./Project";
-import FilterList from "./FilterList";
+import ProjectMemo from "./Project";
+import FilterListMemo from "./FilterList";
+import DeleteDialogue from "../layout/DeleteDialogue";
+import { StyledModal } from "../styles/app.styles";
 
 import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
 const ProjectList = () => {
+  const [modalProject, setModalProject] = useState(null);
   const dispatch = useAppDispatch();
-  const filterableProps = useAppSelector(state => state.filters);
+  const filters = useAppSelector(state => state.filters);
   const projects = useAppSelector(selectAllProjects);
   const projectStatus = useAppSelector(state => state.projects.status);
 
@@ -28,6 +30,20 @@ const ProjectList = () => {
       dispatch(fetchProjects());
     }
   }, [projectStatus, dispatch]);
+
+  const handleDelete = useCallback(
+    id => {
+      setModalProject(id);
+    },
+    [setModalProject]
+  );
+
+  const handlePayment = useCallback(
+    ({ id, paidStatus }) => {
+      dispatch(togglePaid({ id, paidStatus }));
+    },
+    [dispatch]
+  );
 
   if (projectStatus === "loading") {
     return <Spinner />;
@@ -42,21 +58,19 @@ const ProjectList = () => {
   }
 
   //--> Filter projects -- START
-  let selectedFilterableProps = {};
+  let selectedFilters = [];
 
-  Object.keys(filterableProps).forEach(property => {
-    const selectedFilters = filterableProps[property].some(
-      filter => filter.selected
-    );
+  Object.keys(filters).forEach(property => {
+    const isAnySelected = filters[property].some(filter => filter.selected);
 
-    if (selectedFilters) {
-      selectedFilterableProps[property] = [...filterableProps[property]];
+    if (isAnySelected) {
+      selectedFilters.push(property);
     }
   });
 
   const displayedProjects = projects.filter(project => {
-    return Object.keys(selectedFilterableProps).every(property => {
-      return selectedFilterableProps[property].some(filter => {
+    return selectedFilters.every(property => {
+      return filters[property].some(filter => {
         if (filter.selected) {
           return project[property] === filter.status;
         }
@@ -64,26 +78,33 @@ const ProjectList = () => {
       });
     });
   });
-  //--> Filter projects -- END
 
   const renderedProjects = displayedProjects.map(project => {
     return (
-      <Project
+      <ProjectMemo
         key={project._id}
         project={project}
-        handleDelete={() => dispatch(setSelectedId(project._id))}
-        handlePayment={() =>
-          dispatch(togglePaid({ id: project._id, paidStatus: project.paid }))
-        }
+        handleDelete={handleDelete}
+        handlePayment={handlePayment}
       />
     );
   });
+  //--> Filter projects -- END
 
   const totals = calculateTotals(displayedProjects);
 
   return (
     projects && (
       <Fragment>
+        {modalProject && (
+          <>
+            <StyledModal onClick={() => setModalProject(null)}></StyledModal>
+            <DeleteDialogue
+              modalProject={modalProject}
+              onCloseModal={() => setModalProject(null)}
+            />
+          </>
+        )}
         <StyledTotalText>
           <div>
             Selected: <b>{displayedProjects.length}</b>
@@ -101,7 +122,7 @@ const ProjectList = () => {
             Total: <b>${totals.superTotal}</b>
           </div>
         </StyledTotalText>
-        <FilterList />
+        <FilterListMemo />
         {renderedProjects}
       </Fragment>
     )

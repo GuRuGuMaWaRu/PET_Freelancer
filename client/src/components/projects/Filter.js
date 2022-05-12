@@ -19,8 +19,7 @@ const Filter = ({ filter, onToggleFilter }) => {
 Filter.propTypes = {
   filter: PropTypes.shape({
     filterName: PropTypes.string.isRequired,
-    selected: PropTypes.bool.isRequired,
-    status: PropTypes.any
+    selected: PropTypes.bool.isRequired
   }),
   onToggleFilter: PropTypes.func.isRequired
 };

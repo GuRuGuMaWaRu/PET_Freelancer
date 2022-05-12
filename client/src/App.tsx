@@ -20,17 +20,14 @@ import ProjectForm from "./components/project_form/ProjectForm";
 import ProjectList from "./components/projects/ProjectList";
 import NotFound from "./components/pages/NotFound";
 import Notification from "./components/layout/Notification";
-import DeleteDialogue from "./components/layout/DeleteDialogue";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import AuthRoute from "./components/routing/AuthRoute";
 import setAuthToken from "./utils/setAuthToken";
 
 import { getUser } from "./reducers/authSlice";
-import { closeModal } from "./reducers/projectsSlice";
 import { fetchClients } from "./reducers/clientsSlice";
 
 import {
-  StyledModal,
   StyledTitleBar,
   StyledH1,
   StyledContainer
@@ -48,7 +45,6 @@ library.add(
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const selectedId = useAppSelector(state => state.projects.selectedId);
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
   useEffect(() => {
@@ -67,12 +63,6 @@ const App = () => {
   return (
     <Router>
       <Notification />
-      {selectedId && (
-        <>
-          <StyledModal onClick={() => dispatch(closeModal())}></StyledModal>
-          <DeleteDialogue />
-        </>
-      )}
       <StyledTitleBar>
         <StyledH1>Freelancer</StyledH1>
         <Navbar />

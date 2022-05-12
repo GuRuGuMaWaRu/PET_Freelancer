@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import truncate from "lodash.truncate";
 
 import {
@@ -32,11 +31,15 @@ const Project = ({ project, handleDelete, handlePayment }) => {
         {project.comments && `Comments: ${truncate(project.comments)}`}
       </StyledProjectDetails>
       <StyledProjectControls>
-        <StyledPaymentControl onClick={handlePayment}>
+        <StyledPaymentControl
+          onClick={() =>
+            handlePayment({ id: project._id, paidStatus: project.paid })
+          }
+        >
           {project.paid ? "PAID" : "UNPAID"}
         </StyledPaymentControl>
         <StyledDeleteIcon
-          onClick={handleDelete}
+          onClick={() => handleDelete(project._id)}
           icon="trash-alt"
         ></StyledDeleteIcon>
         <StyledLink to={`/project/${project._id}`}>
@@ -47,10 +50,4 @@ const Project = ({ project, handleDelete, handlePayment }) => {
   );
 };
 
-Project.propTypes = {
-  project: PropTypes.object.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-  handlePayment: PropTypes.func.isRequired
-};
-
-export default Project;
+export default React.memo(Project);

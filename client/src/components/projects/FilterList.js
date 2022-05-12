@@ -48,4 +48,4 @@ const FilterList = () => {
   );
 };
 
-export default FilterList;
+export default React.memo(FilterList);
