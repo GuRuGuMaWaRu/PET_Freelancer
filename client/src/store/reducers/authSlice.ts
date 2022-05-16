@@ -1,7 +1,7 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getErrorMessage } from '../utils/getErrorMessage';
+import { getErrorMessage } from '../../utils/getErrorMessage';
 
 interface IUser {
   id: string;

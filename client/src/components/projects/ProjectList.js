@@ -1,11 +1,11 @@
 import React, { Fragment, useState, useEffect, useCallback } from "react";
 
-import { useAppSelector, useAppDispatch } from "../../hooks";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import {
   fetchProjects,
   togglePaid,
   selectAllProjects
-} from "../../reducers/projectsSlice";
+} from "../../store/reducers/projectsSlice";
 import setAuthToken from "../../utils/setAuthToken";
 import calculateTotals from "../../utils/calculateTotals";
 import Spinner from "../layout/Spinner";

@@ -2,8 +2,8 @@ import React from "react";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import { useAppDispatch } from "../../hooks";
-import { loginUser } from "../../reducers/authSlice";
+import { useAppDispatch } from "../../hooks/redux";
+import { loginUser } from "../../store/reducers/authSlice";
 import {
   StyledForm,
   StyledTitle,

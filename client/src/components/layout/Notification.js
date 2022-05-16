@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 
-import { useAppSelector, useAppDispatch } from "../../hooks";
-import { removeNotification } from "../../reducers/notificationsSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import { removeNotification } from "../../store/reducers/notificationsSlice";
 import {
   StyledAlert,
   StyledCloseIcon,

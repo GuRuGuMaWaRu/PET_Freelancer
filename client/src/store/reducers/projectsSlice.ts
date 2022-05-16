@@ -1,28 +1,16 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
+import type { IProject, IReturnProject } from "../../models/IProject";
 import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk
 } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getErrorMessage } from '../utils/getErrorMessage';
+import { getErrorMessage } from '../../utils/getErrorMessage';
 
 import { logoutUser } from "./authSlice";
 
-export interface IProject {
-  _id: string;
-  payment: number;
-  currency: string;
-  paid: boolean;
-  date: string;
-  client: { _id: string, name: string };
-  projectNr: string;
-  comments: string;
-}
-
 interface IState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  selectedId: string | null;
 }
 
 export const projectsAdapter = createEntityAdapter<IProject>({
@@ -32,7 +20,6 @@ export const projectsAdapter = createEntityAdapter<IProject>({
 
 const initialState = projectsAdapter.getInitialState<IState>({
   status: 'idle',
-  selectedId: null,
 });
 
 export const fetchProjects = createAsyncThunk(
@@ -50,11 +37,11 @@ export const fetchProjects = createAsyncThunk(
 
 export const updateProject = createAsyncThunk(
   "projects/updateOne",
-  async (payload, { rejectWithValue }) => {
+  async (payload: {id: string, editedFields: IProject}, { rejectWithValue }) => {
     const { id, editedFields } = payload;
 
     try {
-      const res = await axios.patch(`/api/v1/projects/${id}`, editedFields);
+      const res = await axios.patch<{ status: string, data: IProject }>(`/api/v1/projects/${id}`, editedFields);
 
       return res.data.data;
     } catch (err) {
@@ -65,15 +52,15 @@ export const updateProject = createAsyncThunk(
 
 export const createProject = createAsyncThunk(
   "projects/createOne",
-  async (data, { rejectWithValue }) => {
+  async (data: { newProject: IProject, clientName: string }, { rejectWithValue }) => {
     const { newProject, clientName } = data;
     
     try {
-      const res = await axios.post("/api/v1/projects", newProject);
+      const res = await axios.post<{ status: string, data: IReturnProject }>("/api/v1/projects", newProject);
 
       const createdProject = res.data.data;
-
-      const returnProject = {
+      console.log(createdProject)
+      const returnProject: IProject = {
         _id: createdProject._id,
         payment: createdProject.payment,
         currency: createdProject.currency,
@@ -93,7 +80,7 @@ export const createProject = createAsyncThunk(
 
 export const deleteProject = createAsyncThunk(
   "projects/deleteOne",
-  async (id, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       await axios.delete(`/api/v1/projects/${id}`);
 
@@ -106,10 +93,10 @@ export const deleteProject = createAsyncThunk(
 
 export const togglePaid = createAsyncThunk(
   "projects/togglePaid",
-  async (params, { rejectWithValue }) => {
+  async (params: { id: string, paidStatus: boolean }, { rejectWithValue }) => {
     try {
       const { id, paidStatus } = params;
-
+      
       await axios.patch(`/api/v1/projects/${id}`, {
         paid: !paidStatus
       });
@@ -124,47 +111,49 @@ export const togglePaid = createAsyncThunk(
 export const projectsSlice = createSlice({
   name: "projects",
   initialState,
-  reducers: {
-    setSelectedId(state, action: PayloadAction<string>) {
-      state.selectedId = action.payload;
-    },
-    closeModal(state) {
-      state.selectedId = null;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchProjects.pending, (state, _) => {
       state.status = 'loading';
     });
-    builder.addCase(fetchProjects.fulfilled, (state, action: PayloadAction<IProject[]>) => {
+    builder.addCase(fetchProjects.fulfilled, (state, action) => {
       state.status = 'succeeded';
-      projectsAdapter.addMany(state, action.payload);
+      projectsAdapter.upsertMany(state, action.payload);
     });
     builder.addCase(fetchProjects.rejected, (state) => {
       state.status = 'failed';
     })
-    builder.addCase(updateProject.fulfilled, (state, action: PayloadAction<IProject>) => {
-      const { _id, ...updatedProject } = action.payload;
+    builder.addCase(updateProject.fulfilled, (state, action) => {
+      const { _id, ...updatedProps } = action.payload;
 
+      // const existingProject = state.entities[_id];
+
+      // if (existingProject) {
+      //   for (const prop in updatedProps) {
+      //     existingProject[prop] = updatedProps[prop];
+      //   }
+      // }
       projectsAdapter.updateOne(state, {
         id: _id,
-        changes: updatedProject
+        changes: updatedProps
       });
     });
-    builder.addCase(createProject.fulfilled, (state, action: PayloadAction<IProject>) => {
-      projectsAdapter.addOne(state, action.payload);
-    });
+    builder.addCase(createProject.fulfilled, projectsAdapter.addOne);
     builder.addCase(togglePaid.fulfilled, (state, action) => {
       const { id, paidStatus } = action.payload;
 
-      projectsAdapter.updateOne(state, {
-        id,
-        changes: { paid: !paidStatus }
-      });
+      const existingProject = state.entities[id];
+
+      if (existingProject) {
+        existingProject.paid = !paidStatus;
+      }
+      // projectsAdapter.updateOne(state, {
+      //   id,
+      //   changes: { paid: !paidStatus }
+      // });
     });
-    builder.addCase(deleteProject.fulfilled, (state, action: PayloadAction<string>) => {
+    builder.addCase(deleteProject.fulfilled, (state, action) => {
       projectsAdapter.removeOne(state, action.payload);
-      state.selectedId = null;
     });
     builder.addCase(logoutUser, state => {
       projectsAdapter.removeAll(state);
@@ -173,15 +162,11 @@ export const projectsSlice = createSlice({
   }
 });
 
-export const {
-  setSelectedId,
-  closeModal,
-} = projectsSlice.actions;
-
 export const { 
   selectAll: selectAllProjects,
-  selectById: selectProjectById
-} = projectsAdapter.getSelectors(
+  selectById: selectProjectById,
+  selectIds: selectProjectIds,
+} = projectsAdapter.getSelectors<typeof initialState>(
   state => state.projects
 );
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-import { useAppSelector } from "../../hooks";
+import { useAppSelector } from "../../hooks/redux";
 
 const AuthRoute = ({ component: Component, ...rest }) => {
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);

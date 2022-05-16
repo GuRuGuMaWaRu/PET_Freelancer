@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-import { useAppSelector } from "../../hooks";
+import { useAppSelector } from "../../hooks/redux";
 import Spinner from "../layout/Spinner";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {

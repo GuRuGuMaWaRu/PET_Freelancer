@@ -11,7 +11,7 @@ import {
   faCheck
 } from "@fortawesome/free-solid-svg-icons";
 
-import { useAppDispatch, useAppSelector } from "./hooks";
+import { useAppDispatch, useAppSelector } from "./hooks/redux";
 
 import Navbar from "./components/layout/Navbar";
 import Login from "./components/authorization/Login";
@@ -24,8 +24,8 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 import AuthRoute from "./components/routing/AuthRoute";
 import setAuthToken from "./utils/setAuthToken";
 
-import { getUser } from "./reducers/authSlice";
-import { fetchClients } from "./reducers/clientsSlice";
+import { getUser } from "./store/reducers/authSlice";
+import { fetchClients } from "./store/reducers/clientsSlice";
 
 import {
   StyledTitleBar,

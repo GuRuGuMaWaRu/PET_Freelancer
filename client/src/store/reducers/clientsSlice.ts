@@ -5,7 +5,7 @@ import {
   createEntityAdapter
 } from "@reduxjs/toolkit";
 import axios from "axios";
-import {getErrorMessage} from '../utils/getErrorMessage';
+import {getErrorMessage} from '../../utils/getErrorMessage';
 
 import { logoutUser } from "./authSlice";
 
@@ -51,13 +51,10 @@ export const slice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchClients.fulfilled, (state, action: PayloadAction<IClient[]>) => {
-      clientsAdapter.addMany(state, action.payload);
-    });
-    builder.addCase(createClient.fulfilled, (state, action: PayloadAction<IClient>) => {
-      clientsAdapter.addOne(state, action.payload);
-    });
+    builder.addCase(fetchClients.fulfilled, clientsAdapter.setAll);
+    builder.addCase(createClient.fulfilled, clientsAdapter.addOne);
     builder.addCase(logoutUser, state => {
+      console.log('logging out');
       clientsAdapter.removeAll(state);
     });
   }

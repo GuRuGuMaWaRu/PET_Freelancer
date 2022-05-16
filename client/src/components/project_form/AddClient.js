@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import { useAppDispatch } from "../../hooks";
-import { createClient } from "../../reducers/clientsSlice";
+import { useAppDispatch } from "../../hooks/redux";
+import { createClient } from "../../store/reducers/clientsSlice";
 import {
   StyledForm,
   StyledFormGroup,

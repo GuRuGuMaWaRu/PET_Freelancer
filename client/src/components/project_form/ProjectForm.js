@@ -3,13 +3,13 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
 
-import { useAppSelector, useAppDispatch } from "../../hooks";
-import { selectAllClients } from "../../reducers/clientsSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import { selectAllClients } from "../../store/reducers/clientsSlice";
 import {
   updateProject,
   createProject,
   selectProjectById
-} from "../../reducers/projectsSlice";
+} from "../../store/reducers/projectsSlice";
 import {
   StyledForm,
   StyledTitle,

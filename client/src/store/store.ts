@@ -20,6 +20,7 @@ export const store = configureStore({
 });
 
 export type AddDispatch = typeof store.dispatch;
+// export type AppStore = ReturnType<typeof store>;
 export type RootState = ReturnType<typeof store.getState>;
 
 if (process.env.NODE_ENV === "development" && module.hot) {

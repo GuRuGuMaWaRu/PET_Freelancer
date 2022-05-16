@@ -1,7 +1,7 @@
 import React from "react";
 
-import { useAppDispatch } from "../../hooks";
-import { deleteProject } from "../../reducers/projectsSlice";
+import { useAppDispatch } from "../../hooks/redux";
+import { deleteProject } from "../../store/reducers/projectsSlice";
 import {
   StyledActions,
   StyledButton,

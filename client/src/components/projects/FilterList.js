@@ -1,8 +1,11 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { useAppSelector, useAppDispatch } from "../../hooks";
-import { toggleFilter, cancelAllFilters } from "../../reducers/filtersSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import {
+  toggleFilter,
+  cancelAllFilters
+} from "../../store/reducers/filtersSlice";
 import { StyledFilterList, StyledCancelAllBtn } from "../styles/filter.styles";
 import Filter from "./Filter";
 

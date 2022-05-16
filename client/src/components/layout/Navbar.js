@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 
-import { useAppSelector, useAppDispatch } from "../../hooks";
-import { logoutUser } from "../../reducers/authSlice";
+import { useAppSelector, useAppDispatch } from "../../hooks/redux";
+import { logoutUser } from "../../store/reducers/authSlice";
 import { StyledNav, StyledNavLink, StyledLink } from "../styles/navbar.styles";
 
 const activeStyle = {
