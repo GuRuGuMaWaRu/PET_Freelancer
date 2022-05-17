@@ -1,18 +1,14 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   createSlice,
   createAsyncThunk,
   createEntityAdapter
 } from "@reduxjs/toolkit";
 import axios from "axios";
+
+import type { IClient } from "../../models/IClient";
 import {getErrorMessage} from '../../utils/getErrorMessage';
 
 import { logoutUser } from "./authSlice";
-
-interface IClient {
-  _id: string;
-  name: string;
-}
 
 export const clientsAdapter = createEntityAdapter<IClient>({
   selectId: client => client._id,
@@ -21,7 +17,11 @@ export const clientsAdapter = createEntityAdapter<IClient>({
 
 const initialState = clientsAdapter.getInitialState();
 
-export const fetchClients = createAsyncThunk(
+export const fetchClients = createAsyncThunk<
+  IClient[], // Return type
+  null, // Arguments
+  { rejectValue: string } // Extra arguments
+>(
   "clients/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
@@ -33,7 +33,11 @@ export const fetchClients = createAsyncThunk(
   }
 );
 
-export const createClient = createAsyncThunk(
+export const createClient = createAsyncThunk<
+  IClient, // Return type
+  IClient, // Arguments
+  { rejectValue: string } // Extra arguments
+>(
   "clients/createOne",
   async (data, { rejectWithValue }) => {
     try {
