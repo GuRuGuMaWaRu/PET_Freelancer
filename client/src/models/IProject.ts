@@ -4,11 +4,18 @@ export interface IProject {
   currency: string;
   paid: boolean;
   date: string;
-  client: string | { _id: string; name: string };
+  client: { _id: string; name: string };
   projectNr: string;
   comments: string;
 }
 
-export interface IReturnProject extends IProject {
+export interface IReturnProject {
+  _id: string;
+  payment: number;
+  currency: string;
+  paid: boolean;
+  date: string;
   client: string;
+  projectNr: string;
+  comments: string;
 }
