@@ -22,7 +22,11 @@ const initialState = projectsAdapter.getInitialState<IState>({
   status: 'idle',
 });
 
-export const fetchProjects = createAsyncThunk(
+export const fetchProjects = createAsyncThunk<
+  IProject[], // Return type
+  null, // Arguments
+  { rejectValue: string } // Extra arguments
+>(
   "projects/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
@@ -35,14 +39,18 @@ export const fetchProjects = createAsyncThunk(
   }
 );
 
-export const updateProject = createAsyncThunk(
+export const updateProject = createAsyncThunk<
+  IProject, // Return type
+  { id: string, editedFields: IProject }, // Arguments
+  { rejectValue: string } // Extra arguments
+>(
   "projects/updateOne",
-  async (payload: {id: string, editedFields: IProject}, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     const { id, editedFields } = payload;
 
     try {
       const res = await axios.patch<{ status: string, data: IProject }>(`/api/v1/projects/${id}`, editedFields);
-
+      console.log(res.data.data);
       return res.data.data;
     } catch (err) {
       return rejectWithValue(getErrorMessage(err));
@@ -50,9 +58,12 @@ export const updateProject = createAsyncThunk(
   }
 );
 
-export const createProject = createAsyncThunk(
-  "projects/createOne",
-  async (data: { newProject: IProject, clientName: string }, { rejectWithValue }) => {
+export const createProject = createAsyncThunk<
+  IProject, 
+  { newProject: IProject, clientName: string },
+  { rejectValue: string }
+  >("projects/createOne",
+  async (data, { rejectWithValue }) => {
     const { newProject, clientName } = data;
     
     try {
@@ -78,9 +89,13 @@ export const createProject = createAsyncThunk(
   }
 );
 
-export const deleteProject = createAsyncThunk(
+export const deleteProject = createAsyncThunk<
+  string,
+  string,
+  { rejectValue: string }
+>(
   "projects/deleteOne",
-  async (id: string, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
       await axios.delete(`/api/v1/projects/${id}`);
 
@@ -91,9 +106,13 @@ export const deleteProject = createAsyncThunk(
   }
 );
 
-export const togglePaid = createAsyncThunk(
+export const togglePaid = createAsyncThunk<
+  { id: string, paidStatus: boolean },
+  { id: string, paidStatus: boolean },
+  { rejectValue: string }
+>(
   "projects/togglePaid",
-  async (params: { id: string, paidStatus: boolean }, { rejectWithValue }) => {
+  async (params, { rejectWithValue }) => {
     try {
       const { id, paidStatus } = params;
       
