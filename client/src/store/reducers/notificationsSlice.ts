@@ -1,12 +1,12 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { IProject } from './projectsSlice';
+import type { IProject } from '../../models/IProject';
 import { createSlice } from "@reduxjs/toolkit";
 
 import { createClient } from "./clientsSlice";
 import { updateProject, createProject, deleteProject } from "./projectsSlice";
 import { getUser, loginUser, registerUser } from "./authSlice";
 
-enum Type {
+enum NotificationType {
   Create = "create",
   Error = "error",
   Delete = "delete",
@@ -14,7 +14,7 @@ enum Type {
 
 interface IState {
   message: {
-    type: Type;
+    type: NotificationType;
     subType: string;
     data: string | string[];
   } | null;
@@ -30,25 +30,25 @@ export const slice = createSlice({
   name: "notifications",
   initialState,
   reducers: {
-    removeNotification(state, _) {
+    removeNotification(state: IState) {
       state.show = false;
     }
   },
   extraReducers: builder => {
-    builder.addCase(createClient.fulfilled, (state, action: PayloadAction<{name: string}>) => {
+    builder.addCase(createClient.fulfilled, (state, action) => {
       state.show = true;
       state.message = {
-        type: Type.Create,
+        type: NotificationType.Create,
         subType: "create client",
         data: [action.payload.name]
       };
     });
-    builder.addCase(updateProject.fulfilled, (state, action: PayloadAction<IProject>) => {
+    builder.addCase(updateProject.fulfilled, (state, action) => {
       const { projectNr, client } = action.payload;
 
       state.show = true;
       state.message = {
-        type: Type.Create,
+        type: NotificationType.Create,
         subType: "update project",
         data: [projectNr, client.name]
       };
@@ -56,17 +56,17 @@ export const slice = createSlice({
     builder.addCase(updateProject.rejected, (state) => {
       state.show = true;
       state.message = {
-        type: Type.Error,
+        type: NotificationType.Error,
         subType: "error",
         data: "Could not update project"
       };
     });
-    builder.addCase(createProject.fulfilled, (state, action: PayloadAction<{projectNr: string, client: { _id: string, name: string }}>) => {
+    builder.addCase(createProject.fulfilled, (state, action) => {
       const { projectNr, client: { name: clientName } } = action.payload;
 
       state.show = true;
       state.message = {
-        type: Type.Create,
+        type: NotificationType.Create,
         subType: "create project",
         data: [projectNr, clientName]
       };
@@ -74,7 +74,7 @@ export const slice = createSlice({
     builder.addCase(createProject.rejected, (state) => {
       state.show = true;
       state.message = {
-        type: Type.Error,
+        type: NotificationType.Error,
         subType: "error",
         data: "Could not create project"
       };
@@ -82,40 +82,33 @@ export const slice = createSlice({
     builder.addCase(deleteProject.fulfilled, (state) => {
       state.show = true;
       state.message = {
-        type: Type.Delete,
+        type: NotificationType.Delete,
         subType: "delete project",
         data: []
       };
     });
-    builder.addCase(getUser.rejected, (state, action: PayloadAction<{message: string, status: string}>) => {
-      const { message, status } = action.payload;
-
-      
+    builder.addCase(getUser.rejected, (state, action) => { 
       state.show = true;
       state.message = {
-        type: status,
+        type: NotificationType.Error,
         subType: "error",
-        data: message
+        data: action.payload || "Could not get user"
       };
     });
-    builder.addCase(loginUser.rejected, (state, action: PayloadAction<{message: string, status: string}>) => {
-      const { message, status } = action.payload;
-
+    builder.addCase(loginUser.rejected, (state, action) => {
       state.show = true;
       state.message = {
-        type: status,
+        type: NotificationType.Error,
         subType: "error",
-        data: message
+        data: action.payload || "Could not login"
       };
     });
-    builder.addCase(registerUser.rejected, (state, action: PayloadAction<{message: string, status: string}>) => {
-      const { message, status } = action.payload;
-
+    builder.addCase(registerUser.rejected, (state, action) => {
       state.show = true;
       state.message = {
-        type: status,
+        type: NotificationType.Error,
         subType: "error",
-        data: message
+        data: action.payload || "Could not register"
       };
     });
   }

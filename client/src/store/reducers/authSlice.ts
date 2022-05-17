@@ -1,13 +1,8 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getErrorMessage } from '../../utils/getErrorMessage';
 
-interface IUser {
-  id: string;
-  name: string;
-  email: string;
-}
+import type { IUser } from "../../models/IUser";
+import { getErrorMessage } from '../../utils/getErrorMessage';
 
 interface IState {
   isAuthenticated: boolean;
@@ -21,7 +16,11 @@ const initialState: IState = {
   loading: true
 };
 
-export const getUser = createAsyncThunk(
+export const getUser = createAsyncThunk<
+  IUser, // Return type
+  null, // Arguments
+  { rejectValue: string } // Extra arguments
+>(
   "auth/getUser",
   async (_, { rejectWithValue }) => {
     try {
@@ -30,18 +29,16 @@ export const getUser = createAsyncThunk(
 
       return res.data.data;
     } catch (err) {
-      // TODO
-      // rejectWithValue works as intended
-      // now I need to wire it up to show Notifications with proper messages
-      return rejectWithValue({
-        status: 'error',
-        message: getErrorMessage(err),
-      });
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
 
-export const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk<
+  undefined, // Return type
+  { email: string, password: string }, // Arguments
+  { rejectValue: string } // Extra arguments
+>(
   "auth/loginUser",
   async (values, { rejectWithValue }) => {
     try {
@@ -51,30 +48,26 @@ export const loginUser = createAsyncThunk(
       const message = getErrorMessage(err);
 
       if (message === "Request failed with status code 400") {
-        return rejectWithValue({ 
-          status: "error",
-          message: "Wrong credentials",
-        });
+        return rejectWithValue("Wrong credentials");
       }
 
-      return rejectWithValue({ 
-        status: "error",
-        message: "Bad request",
-      });
+      return rejectWithValue("Bad request");
     }
   }
 );
 
-export const registerUser = createAsyncThunk(
+export const registerUser = createAsyncThunk<
+  undefined, // Return type
+  { name: string, email: string, password1: string, password2: string }, // Arguments
+  { rejectValue: string } // Extra arguments
+>(
   "auth/registerUser",
   async (values, { rejectWithValue }) => {
     try {
       const res = await axios.post("/api/v1/users/signup", values);
       localStorage.setItem("freelancer_token", res.data.token);
     } catch (err) {
-      const message = getErrorMessage(err);
-
-      return rejectWithValue({ status: "error", message });
+      return rejectWithValue(getErrorMessage(err));
     }
   }
 );
@@ -83,7 +76,7 @@ export const slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logoutUser(state, _) {
+    logoutUser(state: IState) {
       localStorage.setItem("freelancer_token", '');
       state.isAuthenticated = false;
       state.currentUser = null;
@@ -93,7 +86,7 @@ export const slice = createSlice({
     builder.addCase(getUser.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(getUser.fulfilled, (state, action: PayloadAction<IUser>) => {
+    builder.addCase(getUser.fulfilled, (state, action) => {
       state.isAuthenticated = true;
       state.currentUser = action.payload;
       state.loading = false;
