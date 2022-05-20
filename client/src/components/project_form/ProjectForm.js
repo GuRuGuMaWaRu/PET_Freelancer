@@ -95,7 +95,7 @@ const ProjectForm = ({ match }) => {
               }
 
               dispatch(
-                updateProject({ id: selectedProject._id, editedFields })
+                updateProject({ id: selectedProject._id, ...editedFields })
               );
             } else {
               const clientName = clients.find(
