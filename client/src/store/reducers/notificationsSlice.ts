@@ -1,5 +1,3 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-import type { IProject } from '../../models/IProject';
 import { createSlice } from "@reduxjs/toolkit";
 
 import { createClient } from "./clientsSlice";
@@ -9,7 +7,7 @@ import { getUser, loginUser, registerUser } from "./authSlice";
 enum NotificationType {
   Create = "create",
   Error = "error",
-  Delete = "delete",
+  Delete = "delete"
 }
 
 interface IState {
@@ -53,7 +51,7 @@ export const slice = createSlice({
         data: [projectNr, client.name]
       };
     });
-    builder.addCase(updateProject.rejected, (state) => {
+    builder.addCase(updateProject.rejected, state => {
       state.show = true;
       state.message = {
         type: NotificationType.Error,
@@ -62,7 +60,10 @@ export const slice = createSlice({
       };
     });
     builder.addCase(createProject.fulfilled, (state, action) => {
-      const { projectNr, client: { name: clientName } } = action.payload;
+      const {
+        projectNr,
+        client: { name: clientName }
+      } = action.payload;
 
       state.show = true;
       state.message = {
@@ -71,7 +72,7 @@ export const slice = createSlice({
         data: [projectNr, clientName]
       };
     });
-    builder.addCase(createProject.rejected, (state) => {
+    builder.addCase(createProject.rejected, state => {
       state.show = true;
       state.message = {
         type: NotificationType.Error,
@@ -79,7 +80,7 @@ export const slice = createSlice({
         data: "Could not create project"
       };
     });
-    builder.addCase(deleteProject.fulfilled, (state) => {
+    builder.addCase(deleteProject.fulfilled, state => {
       state.show = true;
       state.message = {
         type: NotificationType.Delete,
@@ -87,7 +88,7 @@ export const slice = createSlice({
         data: []
       };
     });
-    builder.addCase(getUser.rejected, (state, action) => { 
+    builder.addCase(getUser.rejected, (state, action) => {
       state.show = true;
       state.message = {
         type: NotificationType.Error,
