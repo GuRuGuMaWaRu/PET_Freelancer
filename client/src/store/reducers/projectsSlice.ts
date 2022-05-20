@@ -13,6 +13,20 @@ interface IState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
 }
 
+interface FetchProjectsResponse {
+  status: string;
+  results: number;
+  data: IProject[];
+}
+interface UpdateProjectResponse {
+  status: string;
+  data: IProject;
+}
+interface CreateProjectResponse {
+  status: string;
+  data: IReturnProject;
+}
+
 export const projectsAdapter = createEntityAdapter<IProject>({
   selectId: project => project._id,
   sortComparer: (a, b) => b.date.localeCompare(a.date),
@@ -30,7 +44,7 @@ export const fetchProjects = createAsyncThunk<
   "projects/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get<{ status: string, results: number, data: IProject[] }>(`/api/v1/projects`);
+      const res = await axios.get<FetchProjectsResponse>(`/api/v1/projects`);
 
       return res.data.data;
     } catch (err) {
@@ -41,15 +55,15 @@ export const fetchProjects = createAsyncThunk<
 
 export const updateProject = createAsyncThunk<
   IProject, // Return type
-  { id: string, editedFields: IProject }, // Arguments
+  { id: string & Partial<IProject> }, // Arguments
   { rejectValue: string } // Extra arguments
 >(
   "projects/updateOne",
   async (payload, { rejectWithValue }) => {
-    const { id, editedFields } = payload;
+    const { id, ...editedFields } = payload;
 
     try {
-      const res = await axios.patch<{ status: string, data: IProject }>(`/api/v1/projects/${id}`, editedFields);
+      const res = await axios.patch<UpdateProjectResponse>(`/api/v1/projects/${id}`, editedFields);
       console.log(res.data.data);
       return res.data.data;
     } catch (err) {
@@ -67,7 +81,7 @@ export const createProject = createAsyncThunk<
     const { newProject, clientName } = data;
     
     try {
-      const res = await axios.post<{ status: string, data: IReturnProject }>("/api/v1/projects", newProject);
+      const res = await axios.post<CreateProjectResponse>("/api/v1/projects", newProject);
 
       const createdProject = res.data.data;
       console.log(createdProject)
@@ -185,7 +199,7 @@ export const {
   selectAll: selectAllProjects,
   selectById: selectProjectById,
   selectIds: selectProjectIds,
-} = projectsAdapter.getSelectors<typeof initialState>(
+} = projectsAdapter.getSelectors(
   state => state.projects
 );
 
