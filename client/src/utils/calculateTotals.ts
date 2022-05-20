@@ -1,12 +1,22 @@
-const calculateTotals = projects => {
+import { IProject } from "../models/IProject";
+
+interface IPaymentByDate {
+  [year: string]: {
+    [month: string]: number;
+  };
+}
+
+const calculateTotals = (projects: IProject[]) => {
   const currentMonth = new Date().toLocaleDateString("en-US", {
     month: "numeric"
   });
-  const currentYear = new Date().toLocaleDateString("en-US", {
-    year: "numeric"
-  });
+  const currentYear = Number(
+    new Date().toLocaleDateString("en-US", {
+      year: "numeric"
+    })
+  );
 
-  const paymentByDate = projects.reduce((final, project) => {
+  const paymentByDate = projects.reduce((final: IPaymentByDate, project) => {
     const year = new Date(project.date).toLocaleDateString("en-US", {
       year: "numeric"
     });
@@ -35,19 +45,23 @@ const calculateTotals = projects => {
     currentYear in paymentByDate &&
     currentMonth in paymentByDate[currentYear]
   ) {
-    thisMonth = paymentByDate[currentYear][currentMonth].toFixed(2);
+    thisMonth = +paymentByDate[currentYear][currentMonth].toFixed(2);
   }
 
   if (currentYear in paymentByDate) {
-    thisYear = Object.values(paymentByDate[currentYear])
-      .reduce((total, month) => total + month)
-      .toFixed(2);
+    thisYear = Number(
+      Object.values(paymentByDate[currentYear])
+        .reduce((total, month) => total + month)
+        .toFixed(2)
+    );
   }
 
   if (currentYear - 1 in paymentByDate) {
-    lastYear = Object.values(paymentByDate[currentYear - 1])
-      .reduce((total, month) => total + month)
-      .toFixed(2);
+    lastYear = Number(
+      Object.values(paymentByDate[currentYear - 1])
+        .reduce((total, month) => total + month)
+        .toFixed(2)
+    );
   }
 
   const superTotal = Object.values(paymentByDate)
