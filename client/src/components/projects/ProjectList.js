@@ -70,8 +70,12 @@ const ProjectList = () => {
 
   const displayedProjects = projects.filter(project => {
     return selectedFilters.every(property => {
+      console.log(property);
       return filters[property].some(filter => {
         if (filter.selected) {
+          if (property === "client") {
+            return project[property].name === filter.status;
+          }
           return project[property] === filter.status;
         }
         return false;
