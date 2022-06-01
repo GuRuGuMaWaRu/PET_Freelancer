@@ -27,6 +27,7 @@ const calculateTotals = projects => {
     return final;
   }, {});
 
+  let prevMonth = 0;
   let thisMonth = 0;
   let thisYear = 0;
   let lastYear = 0;
@@ -36,6 +37,13 @@ const calculateTotals = projects => {
     currentMonth in paymentByDate[currentYear]
   ) {
     thisMonth = paymentByDate[currentYear][currentMonth].toFixed(2);
+  }
+
+  if (
+    currentYear in paymentByDate &&
+    currentMonth - 1 in paymentByDate[currentYear]
+  ) {
+    prevMonth = paymentByDate[currentYear][currentMonth - 1].toFixed(2);
   }
 
   if (currentYear in paymentByDate) {
@@ -57,6 +65,7 @@ const calculateTotals = projects => {
     .toFixed(2);
 
   return {
+    prevMonth,
     thisMonth,
     thisYear,
     lastYear,
