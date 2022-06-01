@@ -114,6 +114,9 @@ const ProjectList = () => {
             Selected: <b>{displayedProjects.length}</b>
           </div>
           <div>
+            Last month: <b>${totals.prevMonth}</b>
+          </div>
+          <div>
             This month: <b>${totals.thisMonth}</b>
           </div>
           <div>
