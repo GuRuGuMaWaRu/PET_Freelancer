@@ -2,7 +2,7 @@
   "name": "pet-freelancer",
   "version": "0.2.0",
   "engines": {
-    "node": ">=8.3.0"
+    "node": "16.x"
   },
   "description": "log freelance jobs",
   "main": "index.js",
