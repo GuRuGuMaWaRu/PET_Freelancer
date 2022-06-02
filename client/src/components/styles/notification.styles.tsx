@@ -1,21 +1,28 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { ThemeType } from './theme';
 
-const setNotificationColor = props => {
-  switch (props.msgtype) {
+const setNotificationColor = ({ msgtype, theme }: { msgtype: string, theme: ThemeType }) => {
+  switch (msgtype) {
     case "create":
-      return props.theme.notificationCreate;
+      return theme.notificationCreate;
     case "delete":
-      return props.theme.notificationDelete;
+      return theme.notificationDelete;
     case "error":
     case "fail":
-      return props.theme.notificationError;
+      return theme.notificationError;
     default:
       return "#fff";
   }
 };
 
-export const StyledAlert = styled.div`
+interface StyledAlertProps {
+  state: string;
+  msgtype: string;
+  duration: number;
+}
+
+export const StyledAlert = styled.div<StyledAlertProps>`
   position: fixed;
   bottom: 0;
   left: 50%;
@@ -71,7 +78,11 @@ export const StyledAlert = styled.div`
   z-index: 20;
 `;
 
-export const StyledTypeIcon = styled(FontAwesomeIcon)`
+interface StyledTypeIconProps {
+  msgtype: string;
+}
+
+export const StyledTypeIcon = styled(FontAwesomeIcon)<StyledTypeIconProps>`
   font-size: 3.2rem;
   color: ${props => props.theme.notificationBg};
   margin: 0.8rem 1.2rem 0.8rem 1.2rem;

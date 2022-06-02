@@ -13,7 +13,7 @@ import {
   NOTIFICATION_ANIMATION_DURATION
 } from "../../config";
 
-const constructMessage = (msgType, data) => {
+const constructMessage = (msgType: string, data: string[]) => {
   switch (msgType) {
     case "create client":
       return (
@@ -36,27 +36,27 @@ const constructMessage = (msgType, data) => {
     case "delete project":
       return "Deleted a project";
     case "error":
-      return data;
+      return data[0];
     default:
       return "Something happened";
   }
 };
 
-const Notification = () => {
+const Notification: React.FC = () => {
   const message = useAppSelector(state => state.notifications.message);
   const showMessage = useAppSelector(state => state.notifications.show);
   const dispatch = useAppDispatch();
 
-  const timeoutId = useRef();
+  const timeoutId = useRef<number>();
 
   useEffect(() => {
     if (showMessage) {
-      timeoutId.current = setTimeout(
+      timeoutId.current = window.setTimeout(
         () => dispatch(removeNotification()),
         NOTIFICATION_DURATION
       );
     }
-    return () => clearTimeout(timeoutId.current);
+    return () => window.clearTimeout(timeoutId.current);
     // eslint-disable-next-line
   }, [showMessage]);
 
@@ -69,6 +69,10 @@ const Notification = () => {
     message?.type === "create" || message?.type === "delete"
       ? "check"
       : "exclamation-circle";
+
+  if (!message) {
+    return null;
+  }
 
   return (
     <CSSTransition

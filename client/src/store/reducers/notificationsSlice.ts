@@ -14,7 +14,7 @@ interface IState {
   message: {
     type: NotificationType;
     subType: string;
-    data: string | string[];
+    data: string[];
   } | null;
   show: boolean;
 }
@@ -56,7 +56,7 @@ export const slice = createSlice({
       state.message = {
         type: NotificationType.Error,
         subType: "error",
-        data: "Could not update project"
+        data: ["Could not update project"]
       };
     });
     builder.addCase(createProject.fulfilled, (state, action) => {
@@ -77,7 +77,7 @@ export const slice = createSlice({
       state.message = {
         type: NotificationType.Error,
         subType: "error",
-        data: "Could not create project"
+        data: ["Could not create project"]
       };
     });
     builder.addCase(deleteProject.fulfilled, state => {
@@ -93,7 +93,7 @@ export const slice = createSlice({
       state.message = {
         type: NotificationType.Error,
         subType: "error",
-        data: action.payload || "Could not get user"
+        data: action.payload ? [action.payload] : ["Could not get user"]
       };
     });
     builder.addCase(loginUser.rejected, (state, action) => {
@@ -101,7 +101,7 @@ export const slice = createSlice({
       state.message = {
         type: NotificationType.Error,
         subType: "error",
-        data: action.payload || "Could not login"
+        data: action.payload ? [action.payload] : ["Could not login"]
       };
     });
     builder.addCase(registerUser.rejected, (state, action) => {
@@ -109,7 +109,7 @@ export const slice = createSlice({
       state.message = {
         type: NotificationType.Error,
         subType: "error",
-        data: action.payload || "Could not register"
+        data: action.payload ? [action.payload] : ["Could not register"]
       };
     });
   }
