@@ -9,7 +9,7 @@ const activeStyle = {
   color: "#fff"
 };
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
