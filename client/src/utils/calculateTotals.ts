@@ -10,6 +10,12 @@ const calculateTotals = (projects: IProject[]) => {
   const currentMonth = new Date().toLocaleDateString("en-US", {
     month: "numeric"
   });
+  const previousMonth = new Date(
+    new Date().setMonth(new Date().getMonth() - 1)
+  ).toLocaleDateString("en-US", {
+    month: "numeric"
+  });
+
   const currentYear = Number(
     new Date().toLocaleDateString("en-US", {
       year: "numeric"
@@ -49,11 +55,12 @@ const calculateTotals = (projects: IProject[]) => {
     thisMonth = +paymentByDate[currentYear][currentMonth].toFixed(2);
   }
 
+  // TODO: what if a previous month is in the previous year?
   if (
     currentYear in paymentByDate &&
-    currentMonth - 1 in paymentByDate[currentYear]
+    previousMonth in paymentByDate[currentYear]
   ) {
-    prevMonth = paymentByDate[currentYear][currentMonth - 1].toFixed(2);
+    prevMonth = +paymentByDate[currentYear][previousMonth].toFixed(2);
   }
 
   if (currentYear in paymentByDate) {
