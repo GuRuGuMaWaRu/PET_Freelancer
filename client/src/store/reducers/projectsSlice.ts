@@ -1,13 +1,14 @@
-import type { IProject, IReturnProject } from "../../models/IProject";
+import axios from "axios";
 import {
   createSlice,
   createEntityAdapter,
   createAsyncThunk
 } from "@reduxjs/toolkit";
-import axios from "axios";
-import { getErrorMessage } from '../../utils/getErrorMessage';
 
+import type { IProject, IReturnProject } from "../../models/IProject";
+import { getErrorMessage } from '../../utils/getErrorMessage';
 import { logoutUser } from "./authSlice";
+import { RootState } from '../store';
 
 interface IState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -199,7 +200,7 @@ export const {
   selectAll: selectAllProjects,
   selectById: selectProjectById,
   selectIds: selectProjectIds,
-} = projectsAdapter.getSelectors(
+} = projectsAdapter.getSelectors<RootState>(
   state => state.projects
 );
 

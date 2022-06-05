@@ -1,14 +1,14 @@
+import axios from "axios";
 import {
   createSlice,
   createAsyncThunk,
   createEntityAdapter
 } from "@reduxjs/toolkit";
-import axios from "axios";
 
 import type { IClient } from "../../models/IClient";
 import {getErrorMessage} from '../../utils/getErrorMessage';
-
 import { logoutUser } from "./authSlice";
+import { RootState } from '../store'
 
 export const clientsAdapter = createEntityAdapter<IClient>({
   selectId: client => client._id,
@@ -64,7 +64,7 @@ export const slice = createSlice({
   }
 });
 
-export const { selectAll: selectAllClients } = clientsAdapter.getSelectors(
+export const { selectAll: selectAllClients } = clientsAdapter.getSelectors<RootState>(
   state => state.clients
 );
 
