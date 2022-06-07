@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect, useCallback } from "react";
 
+import type { IProject } from '../../models/IProject';
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import {
   fetchProjects,
@@ -16,8 +17,8 @@ import { StyledModal } from "../styles/app.styles";
 
 import { StyledTotalText, StyledNoProjectsMsg } from "../styles/project.styles";
 
-const ProjectList = () => {
-  const [modalProject, setModalProject] = useState(null);
+const ProjectList: React.FC = () => {
+  const [modalProject, setModalProject] = useState<string>();
   const dispatch = useAppDispatch();
   const filters = useAppSelector(state => state.filters);
   const projects = useAppSelector(selectAllProjects);
@@ -32,14 +33,14 @@ const ProjectList = () => {
   }, [projectStatus, dispatch]);
 
   const handleDelete = useCallback(
-    id => {
+    (id: string) => {
       setModalProject(id);
     },
     [setModalProject]
   );
 
   const handlePayment = useCallback(
-    ({ id, paidStatus }) => {
+    ({ id, paidStatus }: { id: string; paidStatus: boolean }) => {
       dispatch(togglePaid({ id, paidStatus }));
     },
     [dispatch]
@@ -58,7 +59,7 @@ const ProjectList = () => {
   }
 
   //--> Filter projects -- START
-  let selectedFilters = [];
+  let selectedFilters: string[] = [];
 
   Object.keys(filters).forEach(property => {
     const isAnySelected = filters[property].some(filter => filter.selected);
@@ -67,7 +68,6 @@ const ProjectList = () => {
       selectedFilters.push(property);
     }
   });
-
   const displayedProjects = projects.filter(project => {
     return selectedFilters.every(property => {
       console.log(property);
@@ -76,7 +76,7 @@ const ProjectList = () => {
           if (property === "client") {
             return project[property].name === filter.status;
           }
-          return project[property] === filter.status;
+          return project[property as keyof IProject] === filter.status;
         }
         return false;
       });
@@ -102,10 +102,12 @@ const ProjectList = () => {
       <Fragment>
         {modalProject && (
           <>
-            <StyledModal onClick={() => setModalProject(null)}></StyledModal>
+            <StyledModal
+              onClick={() => setModalProject(undefined)}
+            ></StyledModal>
             <DeleteDialogue
               modalProject={modalProject}
-              onCloseModal={() => setModalProject(null)}
+              onCloseModal={() => setModalProject(undefined)}
             />
           </>
         )}
