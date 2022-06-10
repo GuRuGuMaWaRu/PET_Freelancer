@@ -15,12 +15,17 @@ import {
   StyledAddClientButton,
   StyledStatusMessage
 } from "../styles/form.styles";
+import type { IClient } from "../../models/IClient";
 
 const formSchema = Yup.object().shape({
   client: Yup.string().required("Required")
 });
 
-const AddClient = ({ clients }) => {
+interface IProps {
+  clients: IClient[];
+}
+
+const AddClient:React.FC<IProps> = ({ clients }) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -45,7 +50,11 @@ const AddClient = ({ clients }) => {
         } catch (err) {
           console.error(err);
           actions.setSubmitting(false);
-          actions.setStatus({ msg: err.message });
+
+          if (err instanceof Error) {
+            actions.setStatus({ msg: err.message });
+          }
+          
           setTimeout(() => actions.setStatus({ msg: "" }), 2000);
         }
       }}
@@ -61,9 +70,7 @@ const AddClient = ({ clients }) => {
               </StyledAddClientButton>
             </StyledAddClientGroup>
             <StyledErrorMessage name="client" component="div" />
-            <StyledStatusMessage status={status}>
-              {status && status.msg}
-            </StyledStatusMessage>
+            <StyledStatusMessage>{status && status.msg}</StyledStatusMessage>
           </StyledFormGroup>
         </StyledForm>
       )}

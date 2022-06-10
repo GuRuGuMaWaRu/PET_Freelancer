@@ -35,7 +35,7 @@ export const fetchClients = createAsyncThunk<
 
 export const createClient = createAsyncThunk<
   IClient, // Return type
-  IClient, // Arguments
+  string, // Arguments
   { rejectValue: string } // Extra arguments
 >(
   "clients/createOne",
