@@ -19,7 +19,7 @@ const initialState = clientsAdapter.getInitialState();
 
 export const fetchClients = createAsyncThunk<
   IClient[], // Return type
-  null, // Arguments
+  undefined, // Arguments
   { rejectValue: string } // Extra arguments
 >(
   "clients/fetchAll",

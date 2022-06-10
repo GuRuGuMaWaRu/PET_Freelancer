@@ -37,7 +37,11 @@ const initialState = projectsAdapter.getInitialState<IState>({
   status: 'idle',
 });
 
-export const fetchProjects = createAsyncThunk(
+export const fetchProjects = createAsyncThunk<
+  IProject[], // Return type
+  undefined, // Arguments
+  { rejectValue: string } // Extra arguments
+>(
   "projects/fetchAll",
   async (_, { rejectWithValue }) => {
     try {

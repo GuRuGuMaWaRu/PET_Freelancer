@@ -18,7 +18,7 @@ const initialState: IState = {
 
 export const getUser = createAsyncThunk<
   IUser, // Return type
-  null, // Arguments
+  undefined, // Arguments
   { rejectValue: string } // Extra arguments
 >(
   "auth/getUser",
