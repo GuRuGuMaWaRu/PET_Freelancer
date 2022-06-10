@@ -10,7 +10,12 @@ import {
   StyledYesButton
 } from "../styles/deleteDialogue.styles";
 
-const DeleteDialogue = ({ modalProject, onCloseModal }) => {
+interface IProps {
+  modalProject: string;
+  onCloseModal: () => void;
+}
+
+const DeleteDialogue: React.FC<IProps> = ({ modalProject, onCloseModal }) => {
   const dispatch = useAppDispatch();
 
   const onDeleteProject = () => {
