@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchClients, createClient } from "./clientsSlice";
 import { logoutUser } from "./authSlice";
 
-interface INotification {
+interface IFilter {
   propName: string;
   filterName: string;
   status: string | boolean;
@@ -12,9 +12,9 @@ interface INotification {
   native?: boolean;
 }
 
-type State = Record<string, INotification[]>;
+export type FilterState = Record<string, IFilter[]>;
 
-const initialState: State = {
+const initialState: FilterState = {
   paid: [
     {
       propName: "paid",
@@ -54,7 +54,7 @@ export const slice = createSlice({
   name: "filters",
   initialState,
   reducers: {
-    toggleFilter(state: State, action: PayloadAction<{ filterName: string, propName: string }>) {
+    toggleFilter(state: FilterState, action: PayloadAction<{ filterName: string, propName: string }>) {
       const { filterName, propName } = action.payload;
 
       state[propName].forEach(filter => {
@@ -63,7 +63,7 @@ export const slice = createSlice({
         }
       });
     },
-    cancelAllFilters(state: State) {
+    cancelAllFilters(state: FilterState) {
       state.paid.forEach(filter => {
         filter.selected = false;
       });
