@@ -22,8 +22,13 @@ import {
   StyledCancelButton
 } from "../styles/form.styles";
 import AddClient from "./AddClient";
+import type { IProject, IFormProject } from '../../models/IProject';
 
-const getInitialValues = selectedProject => {
+type TFormValues = Omit<IProject, '_id' | 'paid' | 'client'> & {
+  client: string;
+}
+
+const getInitialValues = (selectedProject: IProject | undefined): IFormProject => {
   return {
     date: selectedProject
       ? new Date(selectedProject.date).toISOString().split("T")[0]
@@ -45,7 +50,15 @@ const formSchema = Yup.object().shape({
   comments: Yup.string()
 });
 
-const ProjectForm = ({ match }) => {
+interface IProps {
+  match: {
+    params: {
+      projectId: string;
+    };
+  };
+}
+
+const ProjectForm: React.FC<IProps> = ({ match }) => {
   const history = useHistory();
   const { projectId } = match.params;
 
@@ -69,7 +82,7 @@ const ProjectForm = ({ match }) => {
 
   return (
     <Fragment>
-      <StyledTitle>{projectId ? "Edit Project" : "New Project"}</StyledTitle>
+      <StyledTitle>{selectedProject ? "Edit Project" : "New Project"}</StyledTitle>
       <AddClient clients={clients} />
       {clients && (
         <Formik
@@ -84,13 +97,13 @@ const ProjectForm = ({ match }) => {
               comments: values.comments.trim()
             };
 
-            if (projectId) {
-              const editedFields = {};
+            if (selectedProject) {
+              const editedFields: Record<string, string | number> = {};
 
               // Filter out only edited fields
               for (let field in values) {
-                if (values[field] !== initialValues[field]) {
-                  editedFields[field] = values[field];
+                if (values[field as keyof IFormProject] !== initialValues[field as keyof IFormProject]) {
+                  editedFields[field as keyof IFormProject] = values[field as keyof IFormProject];
                 }
               }
 
@@ -100,8 +113,11 @@ const ProjectForm = ({ match }) => {
             } else {
               const clientName = clients.find(
                 client => client._id === values.client
-              ).name;
-              dispatch(createProject({ newProject, clientName }));
+              )?.name;
+
+              if (clientName) {
+                dispatch(createProject({ newProject, clientName }));
+              }
             }
             actions.setSubmitting(false);
             history.push("/");
@@ -150,13 +166,13 @@ const ProjectForm = ({ match }) => {
                 <div>{props.status.msg}</div>
               )}
               <StyledActionButtons>
-                {projectId && (
+                {selectedProject && (
                   <StyledCancelButton type="button" onClick={handleCancel}>
                     Cancel
                   </StyledCancelButton>
                 )}
                 <StyledSubmitButton type="submit" disabled={props.isSubmitting}>
-                  {projectId ? "Update Project" : "Add Project"}
+                  {selectedProject ? "Update Project" : "Add Project"}
                 </StyledSubmitButton>
               </StyledActionButtons>
             </StyledForm>

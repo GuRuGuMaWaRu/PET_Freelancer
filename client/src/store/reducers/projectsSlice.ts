@@ -5,7 +5,7 @@ import {
   createAsyncThunk
 } from "@reduxjs/toolkit";
 
-import type { IProject, IReturnProject } from "../../models/IProject";
+import type { IProject, IReturnProject, IFormProject } from "../../models/IProject";
 import { getErrorMessage } from '../../utils/getErrorMessage';
 import { logoutUser } from "./authSlice";
 import { RootState } from '../store';
@@ -75,7 +75,7 @@ export const updateProject = createAsyncThunk<
 
 export const createProject = createAsyncThunk<
   IProject, 
-  { newProject: IProject, clientName: string },
+  { newProject: IFormProject, clientName: string },
   { rejectValue: string }
   >("projects/createOne",
   async (data, { rejectWithValue }) => {

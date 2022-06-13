@@ -19,3 +19,12 @@ export interface IReturnProject {
   projectNr: string;
   comments: string;
 }
+
+export interface IFormProject {
+  payment: number;
+  currency: string;
+  date: string;
+  client: string;
+  projectNr: string;
+  comments: string;
+}
