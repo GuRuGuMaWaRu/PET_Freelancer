@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchClients, createClient } from "./clientsSlice";
 import { logoutUser } from "./authSlice";
 
-interface IFilter {
+export interface IFilter {
   propName: string;
   filterName: string;
   status: string | boolean;
@@ -81,7 +81,8 @@ export const slice = createSlice({
         propName: "client",
         filterName: client.name,
         status: client.name,
-        selected: false
+        selected: false,
+        native: false
       }));
     });
     builder.addCase(createClient.fulfilled, (state, action) => {
@@ -89,7 +90,8 @@ export const slice = createSlice({
         propName: "client",
         filterName: action.payload.name,
         status: action.payload.name,
-        selected: false
+        selected: false,
+        native: false
       });
       state.client = state.client.sort((a, b) =>
         a.filterName.localeCompare(b.filterName)

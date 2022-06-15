@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+interface IStyledFilterItemProps {
+  native?: boolean;
+  selected: boolean;
+}
+
 export const StyledCancelAllBtn = styled.div`
   padding: 0.2rem 0.6rem;
   border: ${props => `1px solid ${props.theme.text}`};
@@ -26,7 +31,7 @@ export const StyledFilterList = styled.div`
   padding: 1rem 2rem 1rem;
 `;
 
-export const StyledFilterItem = styled.div`
+export const StyledFilterItem = styled.div<IStyledFilterItemProps>`
   padding: 0.2rem 0.6rem;
   border: ${props =>
     `1px solid ${

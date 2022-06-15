@@ -1,9 +1,14 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import { StyledFilterItem, StyledMarkIcon } from "../styles/filter.styles";
+import type { IFilter } from "../../store/reducers/filtersSlice";
 
-const Filter = ({ filter, onToggleFilter }) => {
+interface IProps {
+  filter: IFilter;
+  onToggleFilter: () => void;
+}
+
+const Filter: React.FC<IProps> = ({ filter, onToggleFilter }) => {
   return (
     <StyledFilterItem
       onClick={onToggleFilter}
@@ -14,14 +19,6 @@ const Filter = ({ filter, onToggleFilter }) => {
       {filter.filterName}
     </StyledFilterItem>
   );
-};
-
-Filter.propTypes = {
-  filter: PropTypes.shape({
-    filterName: PropTypes.string.isRequired,
-    selected: PropTypes.bool.isRequired
-  }),
-  onToggleFilter: PropTypes.func.isRequired
 };
 
 export default Filter;

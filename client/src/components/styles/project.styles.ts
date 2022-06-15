@@ -2,6 +2,10 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+interface IStyledProjectProps {
+  paid: boolean;
+}
+
 export const StyledTotalText = styled.div`
   display: flex;
   justify-content: space-between;
@@ -12,7 +16,7 @@ export const StyledTotalText = styled.div`
   }
 `;
 
-export const StyledProject = styled.div`
+export const StyledProject = styled.div<IStyledProjectProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;

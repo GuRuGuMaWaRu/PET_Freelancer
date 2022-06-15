@@ -1,6 +1,7 @@
 import React from "react";
 import truncate from "lodash.truncate";
 
+import type {IProject} from '../../models/IProject';
 import {
   StyledProject,
   StyledProjectDetails,
@@ -11,7 +12,13 @@ import {
   StyledPaymentControl
 } from "../styles/project.styles";
 
-const Project = ({ project, handleDelete, handlePayment }) => {
+interface IProps {
+  project: IProject;
+  handleDelete: (id: string) => void;
+  handlePayment: ({ id, paidStatus }: {id: string, paidStatus: boolean }) => void;
+}
+
+const Project: React.FC<IProps> = ({ project, handleDelete, handlePayment }) => {
   return (
     <StyledProject paid={project.paid}>
       <StyledProjectDetails>

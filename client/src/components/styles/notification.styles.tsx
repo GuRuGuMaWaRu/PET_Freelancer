@@ -16,13 +16,13 @@ const setNotificationColor = ({ msgtype, theme }: { msgtype: string, theme: Them
   }
 };
 
-interface StyledAlertProps {
+interface IStyledAlertProps {
   state: string;
   msgtype: string;
   duration: number;
 }
 
-export const StyledAlert = styled.div<StyledAlertProps>`
+export const StyledAlert = styled.div<IStyledAlertProps>`
   position: fixed;
   bottom: 0;
   left: 50%;
