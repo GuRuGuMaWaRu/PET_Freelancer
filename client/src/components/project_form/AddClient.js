@@ -23,10 +23,11 @@ const formSchema = Yup.object().shape({
 
 const AddClient = ({ clients }) => {
   const dispatch = useDispatch();
-  const [clientName, setClientName] = useLocalStorageWithState(
-    "clientName",
-    ""
-  );
+  const [
+    clientName,
+    setClientName,
+    clearStoredValue
+  ] = useLocalStorageWithState("clientName", "");
 
   return (
     <Formik
@@ -46,6 +47,7 @@ const AddClient = ({ clients }) => {
           }
 
           dispatch(createClient(newClient));
+          clearStoredValue();
           values.client = "";
           actions.setSubmitting(false);
         } catch (err) {
@@ -65,7 +67,6 @@ const AddClient = ({ clients }) => {
                   type="text"
                   name="client"
                   onChange={e => {
-                    console.log(e.target.value);
                     setFieldValue("client", e.target.value);
                     setClientName(e.target.value);
                   }}

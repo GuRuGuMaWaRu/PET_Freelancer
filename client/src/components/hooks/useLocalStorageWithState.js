@@ -10,5 +10,10 @@ export const useLocalStorageWithState = (key, defaultValue) => {
     localStorage.setItem(key, JSON.stringify(storedValue));
   }, [storedValue]);
 
-  return [storedValue, setStoredValue];
+  const clearStoredValue = () => {
+    localStorage.removeItem(key);
+    setStoredValue(defaultValue);
+  };
+
+  return [storedValue, setStoredValue, clearStoredValue];
 };
