@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 
 import { createClient } from "../../reducers/clientsSlice";
+import { useLocalStorageWithState } from "../hooks/useLocalStorageWithState";
 import {
   StyledForm,
   StyledFormGroup,
@@ -22,10 +23,15 @@ const formSchema = Yup.object().shape({
 
 const AddClient = ({ clients }) => {
   const dispatch = useDispatch();
+  const [clientName, setClientName] = useLocalStorageWithState(
+    "clientName",
+    ""
+  );
 
   return (
     <Formik
-      initialValues={{ client: "" }}
+      enableReinitialize
+      initialValues={{ client: clientName }}
       validationSchema={formSchema}
       onSubmit={async (values, actions) => {
         try {
@@ -49,23 +55,33 @@ const AddClient = ({ clients }) => {
         }
       }}
     >
-      {({ status, isSubmitting }) => (
-        <StyledForm>
-          <StyledFormGroup>
-            <StyledLabel htmlFor="client">New Client:</StyledLabel>
-            <StyledAddClientGroup>
-              <StyledField type="text" name="client" />
-              <StyledAddClientButton type="submit" disabled={isSubmitting}>
-                Add Client
-              </StyledAddClientButton>
-            </StyledAddClientGroup>
-            <StyledErrorMessage name="client" component="div" />
-            <StyledStatusMessage status={status}>
-              {status && status.msg}
-            </StyledStatusMessage>
-          </StyledFormGroup>
-        </StyledForm>
-      )}
+      {({ status, isSubmitting, setFieldValue }) => {
+        return (
+          <StyledForm>
+            <StyledFormGroup>
+              <StyledLabel htmlFor="client">New Client:</StyledLabel>
+              <StyledAddClientGroup>
+                <StyledField
+                  type="text"
+                  name="client"
+                  onChange={e => {
+                    console.log(e.target.value);
+                    setFieldValue("client", e.target.value);
+                    setClientName(e.target.value);
+                  }}
+                />
+                <StyledAddClientButton type="submit" disabled={isSubmitting}>
+                  Add Client
+                </StyledAddClientButton>
+              </StyledAddClientGroup>
+              <StyledErrorMessage name="client" component="div" />
+              <StyledStatusMessage status={status}>
+                {status && status.msg}
+              </StyledStatusMessage>
+            </StyledFormGroup>
+          </StyledForm>
+        );
+      }}
     </Formik>
   );
 };
