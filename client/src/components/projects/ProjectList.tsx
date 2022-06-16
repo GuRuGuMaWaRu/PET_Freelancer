@@ -1,14 +1,13 @@
 import React, { Fragment, useState, useEffect, useCallback } from "react";
 
-import type { IProject } from '../../models/IProject';
+import type { IProject } from '../../types';
 import { useAppSelector, useAppDispatch } from "../../hooks/redux";
 import {
   fetchProjects,
   togglePaid,
   selectAllProjects
 } from "../../store/reducers/projectsSlice";
-import setAuthToken from "../../utils/setAuthToken";
-import calculateTotals from "../../utils/calculateTotals";
+import { setAuthToken, calculateTotals } from "../../utils";
 import Spinner from "../layout/Spinner";
 import ProjectMemo from "./Project";
 import FilterListMemo from "./FilterList";

@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-import type { IUser } from "../../models/IUser";
-import { getErrorMessage } from '../../utils/getErrorMessage';
+import type { IUser } from "../../types";
+import { getErrorMessage } from '../../utils';
 
 interface IState {
   isAuthenticated: boolean;

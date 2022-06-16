@@ -1,4 +1,4 @@
-import { IProject } from "../models/IProject";
+import { IProject } from "../types";
 
 interface IPaymentByDate {
   [year: string]: {

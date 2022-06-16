@@ -15,7 +15,7 @@ import {
   StyledAddClientButton,
   StyledStatusMessage
 } from "../styles/form.styles";
-import type { IClient } from "../../models/IClient";
+import type { IClient } from "../../types";
 
 const formSchema = Yup.object().shape({
   client: Yup.string().required("Required")

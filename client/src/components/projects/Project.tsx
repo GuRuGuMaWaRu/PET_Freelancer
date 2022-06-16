@@ -1,7 +1,7 @@
 import React from "react";
 import truncate from "lodash.truncate";
 
-import type {IProject} from '../../models/IProject';
+import type { IProject } from '../../types';
 import {
   StyledProject,
   StyledProjectDetails,

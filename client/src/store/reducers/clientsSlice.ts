@@ -5,8 +5,8 @@ import {
   createEntityAdapter
 } from "@reduxjs/toolkit";
 
-import type { IClient } from "../../models/IClient";
-import {getErrorMessage} from '../../utils/getErrorMessage';
+import type { IClient } from "../../types";
+import { getErrorMessage } from '../../utils';
 import { logoutUser } from "./authSlice";
 import { RootState } from '../store'
 

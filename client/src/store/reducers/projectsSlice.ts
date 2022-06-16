@@ -5,8 +5,8 @@ import {
   createAsyncThunk
 } from "@reduxjs/toolkit";
 
-import type { IProject, IReturnProject, IFormProject } from "../../models/IProject";
-import { getErrorMessage } from '../../utils/getErrorMessage';
+import type { IProject, IReturnProject, IFormProject } from "../../types";
+import { getErrorMessage } from '../../utils';
 import { logoutUser } from "./authSlice";
 import { RootState } from '../store';
 

@@ -22,7 +22,7 @@ import NotFound from "./components/pages/NotFound";
 import Notification from "./components/layout/Notification";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import AuthRoute from "./components/routing/AuthRoute";
-import setAuthToken from "./utils/setAuthToken";
+import { setAuthToken } from "./utils";
 
 import { getUser } from "./store/reducers/authSlice";
 import { fetchClients } from "./store/reducers/clientsSlice";

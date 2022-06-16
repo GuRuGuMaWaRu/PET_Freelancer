@@ -22,7 +22,7 @@ import {
   StyledCancelButton
 } from "../styles/form.styles";
 import AddClient from "./AddClient";
-import type { IProject, IFormProject } from '../../models/IProject';
+import type { IProject, IFormProject } from '../../types';
 
 type TFormValues = Omit<IProject, '_id' | 'paid' | 'client'> & {
   client: string;
