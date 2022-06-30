@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== "test") {
     // eslint-disable-next-line
     .then(() => console.log("Connection to database is established"))
     // eslint-disable-next-line
-    .catch(err => console.log(`Connection error: ${err.reason}`));
+    .catch(err => console.log(`Connection error: ${err}`));
 
   // eslint-disable-next-line
   mongoose.connection.on("error", err => console.log(err));
