@@ -1,11 +1,13 @@
-const jwt = require("jsonwebtoken");
+import type { Request, Response } from "express";
+import jwt from "jsonwebtoken";
 
-const User = require("./user.model");
-const { catchAsync, AppError } = require("../../utils");
+import type { IPayload, IRequestWithUserId } from '../../types';
+import User from "./user.model";
+import { catchAsync, AppError } from "../../utils";
 
 // Helper functions
-const newToken = payload => {
-  jwt.sign(payload, process.env.JWT_SECRET, {
+const newToken = (payload: IPayload) => {
+  jwt.sign(payload, process.env.JWT_SECRET ?? '', {
     expiresIn: process.env.JWT_EXPIRES_IN
   });
 };
@@ -13,7 +15,7 @@ const newToken = payload => {
 // @route     POST api/users/login
 // @desc      Log in user
 // @access    Public
-const login = catchAsync(async (req, res, next) => {
+const login = catchAsync(async (req: Request, res: Response, next: Function) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -33,7 +35,7 @@ const login = catchAsync(async (req, res, next) => {
 
   jwt.sign(
     payload,
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET ?? '',
     { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
@@ -45,19 +47,19 @@ const login = catchAsync(async (req, res, next) => {
 // @route     GET api/users/getUser
 // @desc      Get logged in user
 // @access    Private
-const getUser = catchAsync(async (req, res, next) => {
+const getUser = catchAsync(async (req: IRequestWithUserId, res: Response, next: Function) => {
   const user = await User.findById(req.userId)
     .select("-password")
     .lean()
     .exec();
   // Get new token
   const payload = {
-    id: user._id
+    id: user?._id
   };
 
   jwt.sign(
     payload,
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET ?? '',
     { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
@@ -69,7 +71,7 @@ const getUser = catchAsync(async (req, res, next) => {
 // @route     POST api/users/signup
 // @desc      Register a new user
 // @access    Public
-const signup = catchAsync(async (req, res, next) => {
+const signup = catchAsync(async (req: Request, res: Response, next: Function) => {
   // Handle errors on Registration form
   const { name, email, password1 } = req.body;
 
@@ -98,8 +100,4 @@ const signup = catchAsync(async (req, res, next) => {
   }
 });
 
-module.exports = {
-  login,
-  getUser,
-  signup
-};
+export { login, getUser, signup };

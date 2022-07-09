@@ -1,9 +1,9 @@
-const express = require("express");
-const { check } = require("express-validator");
+import express from "express";
+import { check } from "express-validator";
 
-const { protect, validateForm } = require("../../utils");
-const authControllers = require("./auth.controllers");
-const userControllers = require("./user.controllers");
+import { protect, validateForm } from "../../utils";
+import * as authControllers from "./auth.controllers";
+import userControllers from "./user.controllers";
 
 const router = express.Router();
 
@@ -55,4 +55,4 @@ router
   // @access    Private
   .delete(userControllers.deleteOne);
 
-module.exports = router;
+export default router;

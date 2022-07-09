@@ -1,13 +1,14 @@
-const mongoose = require("mongoose");
+import { model, Schema } from "mongoose";
+import type { IProject } from "../../types";
 
-const projectSchema = new mongoose.Schema({
+const projectSchema: Schema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
     required: [true, "A project must have a user"]
   },
   client: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Client",
     required: [true, "A project must have a client"]
   },
@@ -73,6 +74,6 @@ projectSchema.pre("findOneAndUpdate", function(next) {
   next();
 });
 
-const Project = mongoose.model("Project", projectSchema);
+const Project = model<IProject>("Project", projectSchema);
 
-module.exports = Project;
+export default Project;

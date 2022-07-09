@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
+import { model, Schema } from "mongoose";
+import type { IClient } from '../../types';
 
-const clientSchema = new mongoose.Schema({
+const clientSchema: Schema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "User",
     required: [true, "A client must have a user"]
   },
@@ -38,6 +39,5 @@ clientSchema.pre("findOne", function(next) {
   next();
 });
 
-const Client = mongoose.model("Client", clientSchema);
-
-module.exports = Client;
+const Client = model<IClient>("Client", clientSchema);
+export default Client;

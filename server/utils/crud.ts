@@ -1,4 +1,4 @@
-const { catchAsync, AppError, APIFeatures } = require(".");
+import { catchAsync, AppError, APIFeatures } from ".";
 
 const getAll = Model =>
   catchAsync(async (req, res, next) => {
@@ -114,7 +114,7 @@ const createOne = Model =>
     });
   });
 
-module.exports = Model => ({
+export const crudControllers = Model => ({
   getAll: getAll(Model),
   getOne: getOne(Model),
   updateOne: updateOne(Model),

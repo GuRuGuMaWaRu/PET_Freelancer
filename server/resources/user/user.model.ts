@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const bcrypt = require("bcryptjs");
+import { model, Schema } from "mongoose";
+import validator from "validator";
+import bcrypt from "bcryptjs";
+import { IUser } from "../../types";
 
-const userSchema = new mongoose.Schema({
+const userSchema: Schema = new Schema({
   name: {
     type: String,
     trim: true,
@@ -40,7 +41,7 @@ userSchema.index(
   { unique: true }
 );
 
-userSchema.pre("save", async function(next) {
+userSchema.pre<IUser>("save", async function(next) {
   if (!this.isModified("password")) {
     next();
   }
@@ -51,7 +52,12 @@ userSchema.pre("save", async function(next) {
 
     next();
   } catch (err) {
-    next(err);
+    if (err instanceof Error) {
+      return next(err);
+    }
+    next(
+      new Error("There was an error inside a userSchema pre-save middleware")
+    );
   }
 });
 
@@ -59,6 +65,6 @@ userSchema.methods.comparePasswords = async (password1, password2) => {
   return await bcrypt.compare(password1, password2);
 };
 
-const User = mongoose.model("User", userSchema);
+const User = model<IUser>("User", userSchema);
 
-module.exports = User;
+export default User;

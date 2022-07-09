@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 
-const { protect } = require("../../utils");
-const clientControllers = require("./client.controllers");
+import { protect } from "../../utils";
+import clientControllers from "./client.controllers";
 
 const router = express.Router();
 
@@ -33,4 +33,4 @@ router
   // @access    Private
   .delete(clientControllers.deleteOne);
 
-module.exports = router;
+export default router;

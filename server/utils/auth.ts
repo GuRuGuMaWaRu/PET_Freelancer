@@ -1,7 +1,7 @@
-const jwt = require("jsonwebtoken");
-const { AppError } = require(".");
+import jwt from "jsonwebtoken";
+import { AppError } from ".";
 
-const protect = (req, res, next) => {
+export const protect = (req, res, next) => {
   const bearer = req.headers.authorization;
 
   if (!bearer || !bearer.startsWith("Bearer ")) {
@@ -17,8 +17,4 @@ const protect = (req, res, next) => {
   } catch (err) {
     next(new AppError(401, "Token is not valid"));
   }
-};
-
-module.exports = {
-  protect
 };

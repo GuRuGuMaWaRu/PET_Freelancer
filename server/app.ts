@@ -1,13 +1,13 @@
-const dotenv = require("dotenv");
-const express = require("express");
-const morgan = require("morgan");
-const path = require("path");
-const cors = require("cors");
-const helmet = require("helmet");
-const compression = require("compression");
+import dotenv from "dotenv";
+import express from "express";
+import morgan from "morgan";
+import path from "path";
+import cors from "cors";
+import helmet from "helmet";
+import compression from "compression";
 
-const { AppError, globalErrorHandler } = require("./utils");
-const { clientRouter, projectRouter, userRouter } = require("./resources");
+import { AppError, globalErrorHandler } from "./utils";
+import { clientRouter, projectRouter, userRouter } from "./resources";
 
 // Set environment variables
 if (process.env.NODE_ENV !== "production") {
