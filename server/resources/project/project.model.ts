@@ -1,5 +1,4 @@
-import { model, Schema } from "mongoose";
-import type { IProject } from "../../types";
+import { model, Schema, InferSchemaType } from "mongoose";
 
 const projectSchema: Schema = new Schema({
   user: {
@@ -74,6 +73,7 @@ projectSchema.pre("findOneAndUpdate", function(next) {
   next();
 });
 
-const Project = model<IProject>("Project", projectSchema);
+type IProject = InferSchemaType<typeof projectSchema>;
 
+const Project = model<IProject>("Project", projectSchema);
 export default Project;

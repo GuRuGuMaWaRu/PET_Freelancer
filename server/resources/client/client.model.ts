@@ -1,5 +1,4 @@
-import { model, Schema } from "mongoose";
-import type { IClient } from '../../types';
+import { model, Schema, InferSchemaType } from "mongoose";
 
 const clientSchema: Schema = new Schema({
   user: {
@@ -38,6 +37,8 @@ clientSchema.pre("findOne", function(next) {
 
   next();
 });
+
+type IClient = InferSchemaType<typeof clientSchema>;
 
 const Client = model<IClient>("Client", clientSchema);
 export default Client;

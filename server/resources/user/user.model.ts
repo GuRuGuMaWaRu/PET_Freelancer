@@ -1,7 +1,6 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, InferSchemaType } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
-import { IUser } from "../../types";
 
 const userSchema: Schema = new Schema({
   name: {
@@ -61,10 +60,14 @@ userSchema.pre<IUser>("save", async function(next) {
   }
 });
 
-userSchema.methods.comparePasswords = async (password1, password2) => {
+userSchema.methods.comparePasswords = async (
+  password1: string,
+  password2: string
+) => {
   return await bcrypt.compare(password1, password2);
 };
 
-const User = model<IUser>("User", userSchema);
+type IUser = InferSchemaType<typeof userSchema>;
 
+const User = model<IUser>("User", userSchema);
 export default User;
