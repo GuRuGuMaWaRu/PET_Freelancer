@@ -1,7 +1,8 @@
+import { Types } from "mongoose";
 import { Request } from "express";
 
 export interface IPayload {
-  id: string;
+  id: Types.ObjectId;
 }
 
 export interface IRequestWithUserId extends Request {
