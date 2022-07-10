@@ -69,7 +69,6 @@ const ProjectList: React.FC = () => {
   });
   const displayedProjects = projects.filter(project => {
     return selectedFilters.every(property => {
-      console.log(property);
       return filters[property].some(filter => {
         if (filter.selected) {
           if (property === "client") {
