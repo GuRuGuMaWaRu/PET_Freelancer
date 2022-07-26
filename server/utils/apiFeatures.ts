@@ -1,11 +1,11 @@
-export class APIFeatures {
-  constructor(query, queryString) {
-    this.query = query;
-    this.queryString = queryString;
-  }
+import type { Query, HydratedDocument } from 'mongoose';
+import type { IQueryString } from '../types'
+
+export class APIFeatures<T> {
+  constructor(public query: Query<HydratedDocument<T, {}, {}>[], HydratedDocument<T, {}, {}>, {}, T>, private queryString: IQueryString) {}
 
   filter() {
-    const queryObj = { ...this.queryString };
+    const queryObj: Record<string, string | number> = { ...this.queryString };
     const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach(el => delete queryObj[el]);
 
@@ -38,8 +38,8 @@ export class APIFeatures {
   }
 
   paginate() {
-    const page = this.queryString.page * 1 || 1;
-    const limit = this.queryString.limit * 1 || 30;
+    const page = this.queryString.page ? this.queryString.page * 1 : 1;
+    const limit = this.queryString.limit ? this.queryString.limit * 1 : 30;
     const skip = (page - 1) * limit;
 
     if (this.queryString.page || this.queryString.limit) {

@@ -1,5 +1,14 @@
 export class AppError extends Error {
-  constructor(statusCode, message, isOperational = true, stack = "") {
+  statusCode: number;
+  isOperational: boolean;
+  status: string;
+
+  constructor(
+    statusCode: number,
+    message: string,
+    isOperational = true,
+    stack = ""
+  ) {
     super(message);
     this.statusCode = statusCode;
     // errors we can predict (user not providing required fields)

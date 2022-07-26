@@ -1,7 +1,8 @@
+import type { Request, Response, NextFunction } from 'express';
 import { validationResult } from "express-validator";
 import { AppError } from ".";
 
-export const validateForm = (req, res, next) => {
+export const validateForm = (req: Request, res: Response, next: NextFunction) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {

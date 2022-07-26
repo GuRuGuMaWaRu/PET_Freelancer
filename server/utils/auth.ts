@@ -1,7 +1,9 @@
+import type { Response, NextFunction } from "express";
+import type { IRequestWithUserId, TokenInterface } from "../types";
 import jwt from "jsonwebtoken";
 import { AppError } from ".";
 
-export const protect = (req, res, next) => {
+export const protect = (req: IRequestWithUserId, res: Response, next: NextFunction) => {
   const bearer = req.headers.authorization;
 
   if (!bearer || !bearer.startsWith("Bearer ")) {
@@ -11,8 +13,8 @@ export const protect = (req, res, next) => {
   const token = bearer.split(" ")[1].trim();
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.id;
+    const decoded  = jwt.verify(token, process.env.JWT_SECRET ?? 'secret');
+    req.userId = (decoded as TokenInterface).id;
     next();
   } catch (err) {
     next(new AppError(401, "Token is not valid"));
