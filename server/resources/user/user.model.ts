@@ -1,8 +1,21 @@
-import { model, Schema, InferSchemaType } from "mongoose";
+import { Model, Schema, model, InferSchemaType } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 
-const userSchema: Schema = new Schema({
+export interface IUser {
+  name: string;
+  email: string;
+  role: "user" | "admin";
+  password: string;
+  deleted: boolean;
+}
+interface IUserMethods {
+  comparePasswords: (password1: string, password2: string) => Promise<boolean>;
+}
+
+type UserModel = Model<IUser, {}, IUserMethods>;
+
+const userSchema = new Schema<IUser, UserModel, IUserMethods>({
   name: {
     type: String,
     trim: true,
@@ -40,7 +53,7 @@ userSchema.index(
   { unique: true }
 );
 
-userSchema.pre<IUser>("save", async function(next) {
+userSchema.pre("save", async function(next) {
   if (!this.isModified("password")) {
     next();
   }
@@ -67,7 +80,5 @@ userSchema.methods.comparePasswords = async (
   return await bcrypt.compare(password1, password2);
 };
 
-type IUser = InferSchemaType<typeof userSchema>;
-
-const User = model<IUser>("User", userSchema);
+const User = model<IUser, UserModel>("User", userSchema);
 export default User;

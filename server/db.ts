@@ -1,18 +1,13 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 if (process.env.NODE_ENV !== "test") {
   const address =
     process.env.NODE_ENV === "development"
-      ? process.env.DB_DEVELOPMENT
-      : process.env.DB_MAIN;
+      ? process.env.DB_DEVELOPMENT ?? "mongodb://localhost:27017/"
+      : process.env.DB_MAIN ?? "mongodb://localhost:27017/";
 
   mongoose
-    .connect(address, {
-      useUnifiedTopology: true,
-      useNewUrlParser: true,
-      useFindAndModify: false,
-      useCreateIndex: true
-    })
+    .connect(address)
     // eslint-disable-next-line
     .then(() => console.log("Connection to database is established"))
     // eslint-disable-next-line

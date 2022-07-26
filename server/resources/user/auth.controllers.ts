@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 import type { IPayload, IRequestWithUserId } from '../../types';
@@ -15,7 +15,7 @@ const newToken = (payload: IPayload) => {
 // @route     POST api/users/login
 // @desc      Log in user
 // @access    Public
-const login = catchAsync(async (req: Request, res: Response, next: Function) => {
+const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
 
@@ -47,7 +47,7 @@ const login = catchAsync(async (req: Request, res: Response, next: Function) => 
 // @route     GET api/users/getUser
 // @desc      Get logged in user
 // @access    Private
-const getUser = catchAsync(async (req: IRequestWithUserId, res: Response, next: Function) => {
+const getUser = catchAsync(async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
   const user = await User.findById(req.userId)
     .select("-password")
     .lean()
@@ -71,7 +71,7 @@ const getUser = catchAsync(async (req: IRequestWithUserId, res: Response, next: 
 // @route     POST api/users/signup
 // @desc      Register a new user
 // @access    Public
-const signup = catchAsync(async (req: Request, res: Response, next: Function) => {
+const signup = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
   // Handle errors on Registration form
   const { name, email, password1 } = req.body;
 

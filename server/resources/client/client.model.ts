@@ -1,6 +1,6 @@
 import { model, Schema, InferSchemaType } from "mongoose";
 
-const clientSchema: Schema = new Schema({
+const clientSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -38,7 +38,7 @@ clientSchema.pre("findOne", function(next) {
   next();
 });
 
-type IClient = InferSchemaType<typeof clientSchema>;
+export type IClient = InferSchemaType<typeof clientSchema>;
 
 const Client = model<IClient>("Client", clientSchema);
 export default Client;

@@ -1,6 +1,6 @@
 import { model, Schema, InferSchemaType } from "mongoose";
 
-const projectSchema: Schema = new Schema({
+const projectSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -73,7 +73,7 @@ projectSchema.pre("findOneAndUpdate", function(next) {
   next();
 });
 
-type IProject = InferSchemaType<typeof projectSchema>;
+export type IProject = InferSchemaType<typeof projectSchema>;
 
 const Project = model<IProject>("Project", projectSchema);
 export default Project;
