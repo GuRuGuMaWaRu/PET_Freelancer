@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledModal = styled.div`
+const StyledModal = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@ export const StyledModal = styled.div`
   transition: all 0.5s;
 `;
 
-export const StyledTitleBar = styled.div`
+const StyledTitleBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,12 +24,12 @@ export const StyledTitleBar = styled.div`
   top: 0;
 `;
 
-export const StyledH1 = styled.h1`
+const StyledH1 = styled.h1`
   padding: 0.8rem 0;
   margin: 0;
 `;
 
-export const StyledContainer = styled.div`
+const StyledContainer = styled.div`
   min-height: calc(
     100vh - 80px
   ); /* set 100% height considering header 80px height */
@@ -37,3 +37,5 @@ export const StyledContainer = styled.div`
   color: ${props => props.theme.primaryText};
   background-color: ${props => props.theme.container};
 `;
+
+export { StyledModal, StyledTitleBar, StyledH1, StyledContainer };
