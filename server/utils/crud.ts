@@ -1,14 +1,23 @@
+import { Model, HydratedDocument } from "mongoose";
+import type { Response, NextFunction } from "express";
+import type { IRequestWithUserId } from "../types/index";
+
 import { catchAsync, AppError, APIFeatures } from ".";
 
-const getAll = Model =>
-  catchAsync(async (req, res, next) => {
-    const filter = {};
+interface IFilter {
+  user?: string;
+  _id: string;
+}
+
+const getAll = <T>(Model: Model<T>) =>
+  catchAsync(async (req: IRequestWithUserId, res: Response) => {
+    const filter: Omit<IFilter, '_id'> = {};
 
     if (req.userId && Model.collection.collectionName !== "users") {
       filter.user = req.userId;
     }
 
-    const { query } = new APIFeatures(Model.find(filter), req.query)
+    const { query } = new APIFeatures<T>(Model.find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
@@ -23,9 +32,9 @@ const getAll = Model =>
     });
   });
 
-const getOne = Model =>
-  catchAsync(async (req, res, next) => {
-    const filter = { _id: req.params.id };
+const getOne = <T>(Model: Model<T>) =>
+  catchAsync(async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
+    const filter:  IFilter = { _id: req.params.id };
 
     if (req.userId && Model.collection.collectionName !== "users") {
       filter.user = req.userId;
@@ -45,9 +54,9 @@ const getOne = Model =>
     });
   });
 
-const updateOne = Model =>
-  catchAsync(async (req, res, next) => {
-    const filter = { _id: req.params.id };
+const updateOne = <T>(Model: Model<T>) =>
+  catchAsync(async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
+    const filter: IFilter = { _id: req.params.id };
 
     if (req.userId && Model.collection.collectionName !== "users") {
       filter.user = req.userId;
@@ -72,9 +81,10 @@ const updateOne = Model =>
     });
   });
 
-const deleteOne = Model =>
-  catchAsync(async (req, res, next) => {
-    const filter = { _id: req.params.id };
+// TODO: do I need both updatedOne and deleteOne if they are basically the same?
+const deleteOne = <T>(Model: Model<T>) =>
+  catchAsync(async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
+    const filter: IFilter = { _id: req.params.id };
 
     if (req.userId && Model.collection.collectionName !== "users") {
       filter.user = req.userId;
@@ -98,23 +108,23 @@ const deleteOne = Model =>
     });
   });
 
-const createOne = Model =>
-  catchAsync(async (req, res, next) => {
+const createOne = <T>(Model: Model<T>) =>
+  catchAsync(async (req: IRequestWithUserId, res: Response) => {
     const body = { ...req.body };
 
     if (req.userId && Model.collection.collectionName !== "users") {
       body.user = req.userId;
     }
 
-    const doc = await Model.create(body);
+    const doc = await Model.create(body) as HydratedDocument<T, {}, {}>;
 
     res.status(201).json({
       status: "success",
-      data: doc.toJSON()
+      data: doc
     });
   });
 
-export const crudControllers = Model => ({
+export const crudControllers = <T>(Model: Model<T>) => ({
   getAll: getAll(Model),
   getOne: getOne(Model),
   updateOne: updateOne(Model),

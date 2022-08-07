@@ -1,4 +1,4 @@
-import { Types, Model } from "mongoose";
+import { Types } from "mongoose";
 import { Request } from "express";
 
 import type { IUser } from '../resources/user/user.model';
@@ -20,7 +20,7 @@ export interface IQueryString {
   fields?: string;
 }
 
-export type GenericModel = Model<IUser | IProject | IClient>
+export type AnyModel = IUser | IProject | IClient
 
 export interface TokenInterface {
   id: string;
