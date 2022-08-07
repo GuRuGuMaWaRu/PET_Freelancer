@@ -75,29 +75,25 @@ const signup = catchAsync(async (req: Request, res: Response, next: NextFunction
   // Handle errors on Registration form
   const { name, email, password1 } = req.body;
 
-  try {
-    let user = await User.findOne({ email });
+  let user = await User.findOne({ email });
 
-    if (user) {
-      return next(new AppError(400, "User already exists"));
-    }
-
-    user = await User.create({
-      name,
-      email,
-      password: password1
-    });
-
-    const payload = {
-      id: user._id
-    };
-
-    const token = newToken(payload);
-
-    res.status(201).json({ status: "success", token });
-  } catch (err) {
-    next(err);
+  if (user) {
+    return next(new AppError(400, "User already exists"));
   }
+
+  user = await User.create({
+    name,
+    email,
+    password: password1
+  });
+
+  const payload = {
+    id: user._id
+  };
+
+  const token = newToken(payload);
+
+  res.status(201).json({ status: "success", token });
 });
 
 export { login, getUser, signup };
