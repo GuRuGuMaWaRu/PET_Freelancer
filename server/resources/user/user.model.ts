@@ -1,4 +1,4 @@
-import { Model, Schema, model, InferSchemaType } from "mongoose";
+import { Model, Schema, model } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 
