@@ -9,10 +9,10 @@
   "scripts": {
     "start": "node app.js",
     "server": "concurrently \"tsc -w\" \"nodemon ./dist/app.js\"",
-    "client": "npm start --prefix client",
-    "client:install": "npm install --prefix client",
+    "client": "npm start --prefix client_ts_redux",
+    "client:install": "npm install --prefix client_ts_redux",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client_ts_redux && npm run build --prefix client_ts_redux"
   },
   "repository": {
     "type": "git",

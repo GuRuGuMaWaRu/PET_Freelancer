@@ -39,7 +39,7 @@ const login = catchAsync(async (req: Request, res: Response, next: NextFunction)
     { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
-      res.status(200).json({ status: "success", token });
+      res.status(200).json({ status: "success", token, data: user });
     }
   );
 });
@@ -48,6 +48,7 @@ const login = catchAsync(async (req: Request, res: Response, next: NextFunction)
 // @desc      Get logged in user
 // @access    Private
 const getUser = catchAsync(async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
+  console.log('getUser, req.userId:', req?.userId);
   const user = await User.findById(req.userId)
     .select("-password")
     .lean()
@@ -93,7 +94,7 @@ const signup = catchAsync(async (req: Request, res: Response, next: NextFunction
 
   const token = newToken(payload);
 
-  res.status(201).json({ status: "success", token });
+  res.status(201).json({ status: "success", token, data: user });
 });
 
 export { login, getUser, signup };

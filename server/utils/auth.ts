@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { AppError } from ".";
 
 export const protect = (req: Request, res: Response, next: NextFunction) => {
+  console.log('protect, req.headers.authorization:', req.headers.authorization);
   const bearer = req.headers.authorization;
 
   if (!bearer || !bearer.startsWith("Bearer ")) {
