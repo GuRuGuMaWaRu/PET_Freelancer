@@ -6,7 +6,6 @@ import Spinner from "../layout/Spinner";
 const PrivateRoutes = () => {
   const user = useAppSelector(state => state.auth.user);
   const location = useLocation();
-  console.log("PrivateRoutes user", user);
 
   return user ? (
     <Outlet />

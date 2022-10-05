@@ -48,7 +48,6 @@ const login = catchAsync(async (req: Request, res: Response, next: NextFunction)
 // @desc      Get logged in user
 // @access    Private
 const getUser = catchAsync(async (req: IRequestWithUserId, res: Response, next: NextFunction) => {
-  console.log('getUser, req.userId:', req?.userId);
   const user = await User.findById(req.userId)
     .select("-password")
     .lean()
