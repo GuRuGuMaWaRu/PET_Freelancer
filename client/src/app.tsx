@@ -1,21 +1,30 @@
+/** @jsxImportSource @emotion/react */
+import { jsx } from "@emotion/react";
+
 import React from "react";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      css={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      <h1
+        css={{
+          fontFamily: "Silkscreen, cursive"
+        }}
+      >
+        Freelancer
+      </h1>
+      <div>
+        <button>Login</button>
+        <button>Register</button>
+      </div>
     </div>
   );
 }
