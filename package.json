@@ -1,6 +1,17 @@
 {
   "name": "pet-freelancer",
   "version": "0.2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuRuGuMaWaRu/PET_Freelancer.git"
+  },
+  "keywords": [],
+  "author": "Peter Krevenets (https://www.linkedin.com/in/peter-krevenets-35b50b33/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuRuGuMaWaRu/PET_Freelancer/issues"
+  },
+  "homepage": "https://github.com/GuRuGuMaWaRu/PET_Freelancer#readme",
   "engines": {
     "node": "16.x"
   },
@@ -11,20 +22,14 @@
     "server": "nodemon app.js",
     "client": "npm start --prefix client",
     "client:install": "npm install --prefix client",
+    "lint": "eslint --ignore-path .gitignore .",
+    "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json)\"",
+    "format": "npm run prettier -- --write",
+    "check-format": "npm run prettier -- --list-different",
+    "validate": "npm run check-format && npm run lint",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/GuRuGuMaWaRu/PET_Freelancer.git"
-  },
-  "keywords": [],
-  "author": "Peter Krevenets",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/GuRuGuMaWaRu/PET_Freelancer/issues"
-  },
-  "homepage": "https://github.com/GuRuGuMaWaRu/PET_Freelancer#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
@@ -46,6 +51,7 @@
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jest": "^27.1.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-prettier": "^3.1.2",
