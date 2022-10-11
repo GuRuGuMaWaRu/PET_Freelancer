@@ -1,16 +1,72 @@
 /** @jsxImportSource @emotion/react */
 // import { jsx } from "@emotion/react";
 import React from "react";
-import { Dialog } from "@reach/dialog";
+import { Dialog as ReachDialog } from "@reach/dialog";
 import { useForm, SubmitHandler } from "react-hook-form";
+import styled from "@emotion/styled";
 
 import * as colors from "./styles/colors";
+import * as mq from "./styles/media-queries";
 import { ErrorMessage } from "./components/lib";
 
 interface Inputs {
   email: string;
   password: string;
 }
+
+const Dialog = styled(ReachDialog)({
+  maxWidth: "450px",
+  borderRadius: "3px",
+  margin: "20vh auto",
+  boxShadow: "0 10px 30px -5px rgba(0, 0, 0, 0.2)",
+  backgroundColor: colors.modalBg,
+  color: colors.text,
+  [mq.small]: {
+    width: "100%",
+    margin: "10vh auto",
+  },
+});
+
+const FormGroup = styled.div({
+  display: "flex",
+  flexDirection: "column",
+});
+
+const inputStyles = {
+  padding: "6px 10px",
+  border: "1px solid #f1f1f4",
+};
+
+const Input = styled.input({ borderRadius: "3px" }, inputStyles);
+
+const Label = styled.label({ margin: "10px 0" });
+
+const buttonVariants = {
+  primary: {
+    backgroundColor: colors.primary,
+    color: colors.secondary,
+  },
+  secondary: {
+    backgroundColor: colors.secondary,
+    color: colors.primary,
+  },
+};
+
+interface ButtonProps {
+  variant?: string;
+}
+
+const Button = styled.button<ButtonProps>(
+  {
+    padding: "10px 15px",
+    border: 0,
+    borderRadius: "5px",
+    lineHeight: 1,
+    fontWeight: "bold",
+  },
+  ({ variant = "primary" }) =>
+    buttonVariants[variant as keyof typeof buttonVariants],
+);
 
 const LoginForm = ({
   onSubmit,
@@ -31,13 +87,13 @@ const LoginForm = ({
 
   return (
     <form onSubmit={handleSubmit(submit)}>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
+      <FormGroup>
+        <Label htmlFor="email">Email:</Label>
+        <Input
           type="email"
           id="email"
           {...(register("email"), { required: true })}
-        ></input>
+        ></Input>
         <div>
           {errors.email ? (
             <ErrorMessage
@@ -46,14 +102,14 @@ const LoginForm = ({
             />
           ) : null}
         </div>
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
+      </FormGroup>
+      <FormGroup>
+        <Label htmlFor="password">Password:</Label>
+        <Input
           type="password"
           id="password"
           {...register("password", { required: true })}
-        ></input>
+        ></Input>
         <div>
           {errors.password ? (
             <ErrorMessage
@@ -62,14 +118,16 @@ const LoginForm = ({
             />
           ) : null}
         </div>
+      </FormGroup>
+      <div css={{ marginTop: "30px" }}>
+        {React.cloneElement(
+          submitButton,
+          { type: "submit" },
+          ...(Array.isArray(submitButton.props.children)
+            ? submitButton.props.children
+            : [submitButton.props.children]),
+        )}
       </div>
-      {React.cloneElement(
-        submitButton,
-        { type: "submit" },
-        ...(Array.isArray(submitButton.props.children)
-          ? submitButton.props.children
-          : [submitButton.props.children]),
-      )}
     </form>
   );
 };
@@ -102,42 +160,19 @@ function App() {
           columnGap: "20px",
         }}
       >
-        <button
-          css={{
-            color: colors.secondary,
-            backgroundColor: colors.primary,
-            border: 0,
-            lineHeight: 1,
-            fontSize: "1.1em",
-            padding: "10px 15px",
-          }}
-          onClick={showLoginDialog}
-        >
-          Login
-        </button>
-        <button
-          css={{
-            color: colors.primary,
-            backgroundColor: colors.secondary,
-            border: 0,
-            lineHeight: 1,
-            fontSize: "1.1em",
-            padding: "10px 15px",
-          }}
-        >
-          Register
-        </button>
+        <Button onClick={showLoginDialog}>Login</Button>
+        <Button variant="secondary">Register</Button>
       </div>
       <Dialog
         isOpen={loginDialog}
         onDismiss={hideLoginDialog}
         aria-label="Login Form"
       >
+        <h2 css={{ margin: 0, textAlign: "center", fontSize: "2em" }}>Login</h2>
         <LoginForm
           onSubmit={handleLogin}
-          submitButton={<button>Login</button>}
+          submitButton={<Button>Login</Button>}
         />
-        <button>Close</button>
       </Dialog>
     </div>
   );

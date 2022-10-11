@@ -23,7 +23,10 @@ function ErrorMessage({
   return (
     <div
       role="alert"
-      css={[{ color: colors.danger }, errorMessageVariants[variant]]}
+      css={[
+        { color: colors.danger, backgroundColor: colors.primary },
+        errorMessageVariants[variant],
+      ]}
       {...props}
     >
       <span>There was an error: </span>
