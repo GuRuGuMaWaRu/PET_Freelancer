@@ -4,26 +4,26 @@ const clientSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: [true, "A client must have a user"]
+    required: [true, "A client must have a user"],
   },
   name: {
     type: String,
     trim: true,
-    required: [true, "A client must have a name"]
+    required: [true, "A client must have a name"],
   },
   deleted: {
     type: Boolean,
     default: false,
-    select: false
-  }
+    select: false,
+  },
 });
 
 clientSchema.index(
   {
     user: 1,
-    name: 1
+    name: 1,
   },
-  { unique: true }
+  { unique: true },
 );
 
 clientSchema.pre("find", function(next) {

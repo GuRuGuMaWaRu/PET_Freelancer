@@ -1,6 +1,6 @@
 const { catchAsync, AppError, APIFeatures } = require(".");
 
-const getAll = Model =>
+const getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     const filter = {};
 
@@ -19,11 +19,11 @@ const getAll = Model =>
     res.status(200).json({
       status: "success",
       results: docs.length,
-      data: docs
+      data: docs,
     });
   });
 
-const getOne = Model =>
+const getOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const filter = { _id: req.params.id };
 
@@ -41,11 +41,11 @@ const getOne = Model =>
 
     res.status(200).json({
       status: "success",
-      data: doc
+      data: doc,
     });
   });
 
-const updateOne = Model =>
+const updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const filter = { _id: req.params.id };
 
@@ -57,7 +57,7 @@ const updateOne = Model =>
       new: true,
       runValidators: true,
       upsert: true,
-      setDefaultsOnInsert: true
+      setDefaultsOnInsert: true,
     })
       .lean()
       .exec();
@@ -68,11 +68,11 @@ const updateOne = Model =>
 
     res.status(200).json({
       status: "success",
-      data: doc
+      data: doc,
     });
   });
 
-const deleteOne = Model =>
+const deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const filter = { _id: req.params.id };
 
@@ -83,7 +83,7 @@ const deleteOne = Model =>
     const doc = await Model.findOneAndUpdate(
       filter,
       { deleted: true },
-      { new: true }
+      { new: true },
     )
       .lean()
       .exec();
@@ -94,11 +94,11 @@ const deleteOne = Model =>
 
     res.status(204).json({
       status: "success",
-      data: null
+      data: null,
     });
   });
 
-const createOne = Model =>
+const createOne = (Model) =>
   catchAsync(async (req, res, next) => {
     const body = { ...req.body };
 
@@ -110,14 +110,14 @@ const createOne = Model =>
 
     res.status(201).json({
       status: "success",
-      data: doc.toJSON()
+      data: doc.toJSON(),
     });
   });
 
-module.exports = Model => ({
+module.exports = (Model) => ({
   getAll: getAll(Model),
   getOne: getOne(Model),
   updateOne: updateOne(Model),
   deleteOne: deleteOne(Model),
-  createOne: createOne(Model)
+  createOne: createOne(Model),
 });

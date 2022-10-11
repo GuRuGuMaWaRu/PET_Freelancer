@@ -11,13 +11,13 @@ if (process.env.NODE_ENV !== "test") {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useFindAndModify: false,
-      useCreateIndex: true
+      useCreateIndex: true,
     })
     // eslint-disable-next-line
     .then(() => console.log("Connection to database is established"))
     // eslint-disable-next-line
-    .catch(err => console.log(`Connection error: ${err.reason}`));
+    .catch((err) => console.log(`Connection error: ${err.reason}`));
 
   // eslint-disable-next-line
-  mongoose.connection.on("error", err => console.log(err));
+  mongoose.connection.on("error", (err) => console.log(err));
 }

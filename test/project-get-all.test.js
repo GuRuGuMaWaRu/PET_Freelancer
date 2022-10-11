@@ -5,9 +5,9 @@ const Project = require("../models/projectModel");
 const Client = require("../models/clientModel");
 
 describe("Project controller", () => {
-  it("should return all existing projects on GET request to /projects", done => {
+  it("should return all existing projects on GET request to /projects", (done) => {
     const client = new Client({
-      name: "Dobobo"
+      name: "Dobobo",
     });
 
     client.save().then(() => {
@@ -15,19 +15,19 @@ describe("Project controller", () => {
         client: client._id,
         projectNr: "ABC123",
         payment: 100,
-        date: "2019-10-07T09:34:00.309Z"
+        date: "2019-10-07T09:34:00.309Z",
       });
       const project2 = new Project({
         client: client._id,
         projectNr: "ABC124",
         payment: 1000,
-        date: "2019-10-08T09:34:00.309Z"
+        date: "2019-10-08T09:34:00.309Z",
       });
       const project3 = new Project({
         client: client._id,
         projectNr: "ABC125",
         payment: 10000,
-        date: "2019-10-09T09:34:00.309Z"
+        date: "2019-10-09T09:34:00.309Z",
       });
 
       Promise.all([project1.save(), project2.save(), project3.save()]).then(
@@ -39,7 +39,7 @@ describe("Project controller", () => {
               assert(res.body.length === 3);
               done();
             });
-        }
+        },
       );
     });
   });

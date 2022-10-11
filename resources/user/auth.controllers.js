@@ -4,9 +4,9 @@ const User = require("./user.model");
 const { catchAsync, AppError } = require("../../utils");
 
 // Helper functions
-const newToken = payload => {
+const newToken = (payload) => {
   jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN
+    expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
 
@@ -28,7 +28,7 @@ const login = catchAsync(async (req, res, next) => {
   }
 
   const payload = {
-    id: user._id
+    id: user._id,
   };
 
   jwt.sign(
@@ -38,7 +38,7 @@ const login = catchAsync(async (req, res, next) => {
     (err, token) => {
       if (err) throw err;
       res.status(200).json({ status: "success", token });
-    }
+    },
   );
 });
 
@@ -52,7 +52,7 @@ const getUser = catchAsync(async (req, res, next) => {
     .exec();
   // Get new token
   const payload = {
-    id: user._id
+    id: user._id,
   };
 
   jwt.sign(
@@ -62,7 +62,7 @@ const getUser = catchAsync(async (req, res, next) => {
     (err, token) => {
       if (err) throw err;
       res.status(200).json({ status: "success", token, data: { user } });
-    }
+    },
   );
 });
 
@@ -83,11 +83,11 @@ const signup = catchAsync(async (req, res, next) => {
     user = await User.create({
       name,
       email,
-      password: password1
+      password: password1,
     });
 
     const payload = {
-      id: user._id
+      id: user._id,
     };
 
     const token = newToken(payload);
@@ -101,5 +101,5 @@ const signup = catchAsync(async (req, res, next) => {
 module.exports = {
   login,
   getUser,
-  signup
+  signup,
 };

@@ -13,10 +13,10 @@ router.post(
   "/login",
   [
     check("email", "Please provide valid email").isEmail(),
-    check("password", "Please provide password").exists()
+    check("password", "Please provide password").exists(),
   ],
   validateForm,
-  authControllers.login
+  authControllers.login,
 );
 router.post(
   "/signup",
@@ -27,11 +27,11 @@ router.post(
     check("email", "Please add email").isEmail(),
     check(
       "password1",
-      "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 })
+      "Please enter a password with 6 or more characters",
+    ).isLength({ min: 6 }),
   ],
   validateForm,
-  authControllers.signup
+  authControllers.signup,
 );
 
 //--> Admin routes

@@ -4,15 +4,15 @@ const app = require("../app");
 const Client = require("../models/clientModel");
 
 describe("Client controller", () => {
-  it("should return all clients on GET request to /clients", done => {
+  it("should return all clients on GET request to /clients", (done) => {
     const client1 = new Client({
-      name: "Anderson"
+      name: "Anderson",
     });
     const client2 = new Client({
-      name: "Bronson"
+      name: "Bronson",
     });
     const client3 = new Client({
-      name: "Craigson"
+      name: "Craigson",
     });
 
     Promise.all([client1.save(), client2.save(), client3.save()]).then(() => {
