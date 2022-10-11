@@ -153,10 +153,16 @@ const LoginForm = ({
 
 function App() {
   const [loginDialog, setLoginDialog] = React.useState(false);
+  const [registerDialog, setRegisterDialog] = React.useState(false);
 
   const showLoginDialog = () => setLoginDialog(true);
   const hideLoginDialog = () => setLoginDialog(false);
   const handleLogin = (data: Inputs) => {
+    console.log(data);
+  };
+  const showRegisterDialog = () => setRegisterDialog(true);
+  const hideRegisterDialog = () => setRegisterDialog(false);
+  const handleRegister = (data: Inputs) => {
     console.log(data);
   };
 
@@ -180,7 +186,9 @@ function App() {
         }}
       >
         <Button onClick={showLoginDialog}>Login</Button>
-        <Button variant="secondary">Register</Button>
+        <Button onClick={showRegisterDialog} variant="secondary">
+          Register
+        </Button>
       </div>
       <Dialog
         isOpen={loginDialog}
@@ -204,6 +212,32 @@ function App() {
         <LoginForm
           onSubmit={handleLogin}
           submitButton={<Button>Login</Button>}
+        />
+      </Dialog>
+      <Dialog
+        isOpen={registerDialog}
+        onDismiss={hideRegisterDialog}
+        aria-label="Register Form"
+      >
+        <div
+          css={{
+            position: "relative",
+            display: "flex",
+            justifyContent: "end",
+            top: "-10px",
+          }}
+        >
+          <CircularButton onClick={hideRegisterDialog}>
+            <VisuallyHidden>Close</VisuallyHidden>
+            <span aria-hidden="true">×</span>
+          </CircularButton>
+        </div>
+        <h2 css={{ margin: 0, textAlign: "center", fontSize: "2em" }}>
+          Register
+        </h2>
+        <LoginForm
+          onSubmit={handleRegister}
+          submitButton={<Button>Register</Button>}
         />
       </Dialog>
     </div>
