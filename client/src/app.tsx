@@ -39,7 +39,7 @@ const inputStyles = {
 
 const Input = styled.input({ borderRadius: "3px" }, inputStyles);
 
-const Label = styled.label({ margin: "10px 0" });
+const Label = styled.label({ margin: "10px 0 5px" });
 
 const buttonVariants = {
   primary: {

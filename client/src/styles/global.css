@@ -6,7 +6,9 @@
 }
 body {
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  /* font-family: "Open Sans", sans-serif; */
+  font-family: "Exo 2", sans-serif;
+  /* font-family: "Nunito", sans-serif; */
   min-height: 100vh;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
