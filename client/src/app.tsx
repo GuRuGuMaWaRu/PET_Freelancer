@@ -2,6 +2,7 @@
 // import { jsx } from "@emotion/react";
 import React from "react";
 import { Dialog as ReachDialog } from "@reach/dialog";
+import VisuallyHidden from "@reach/visually-hidden";
 import { useForm, SubmitHandler } from "react-hook-form";
 import styled from "@emotion/styled";
 
@@ -68,6 +69,22 @@ const Button = styled.button<ButtonProps>(
     buttonVariants[variant as keyof typeof buttonVariants],
 );
 
+const CircularButton = styled.button({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "40px",
+  height: "40px",
+  padding: 0,
+  border: 0,
+  borderRadius: "30px",
+  fontSize: "2em",
+  lineHeight: 1,
+  color: colors.primary,
+  backgroundColor: "transparent",
+  cursor: "pointer",
+});
+
 const LoginForm = ({
   onSubmit,
   submitButton,
@@ -92,6 +109,7 @@ const LoginForm = ({
         <Input
           type="email"
           id="email"
+          autoComplete="username"
           {...(register("email"), { required: true })}
         ></Input>
         <div>
@@ -108,6 +126,7 @@ const LoginForm = ({
         <Input
           type="password"
           id="password"
+          autoComplete="current-password"
           {...register("password", { required: true })}
         ></Input>
         <div>
@@ -168,6 +187,19 @@ function App() {
         onDismiss={hideLoginDialog}
         aria-label="Login Form"
       >
+        <div
+          css={{
+            position: "relative",
+            display: "flex",
+            justifyContent: "end",
+            top: "-10px",
+          }}
+        >
+          <CircularButton onClick={hideLoginDialog}>
+            <VisuallyHidden>Close</VisuallyHidden>
+            <span aria-hidden="true">×</span>
+          </CircularButton>
+        </div>
         <h2 css={{ margin: 0, textAlign: "center", fontSize: "2em" }}>Login</h2>
         <LoginForm
           onSubmit={handleLogin}
