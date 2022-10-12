@@ -1,5 +1,22 @@
 /** @jsxImportSource @emotion/react */
+import { Dialog as ReachDialog } from "@reach/dialog";
+import styled from "@emotion/styled";
+
 import * as colors from "../styles/colors";
+import * as mq from "../styles/media-queries";
+
+const Dialog = styled(ReachDialog)({
+  maxWidth: "450px",
+  borderRadius: "3px",
+  margin: "20vh auto",
+  boxShadow: "0 10px 30px -5px rgba(0, 0, 0, 0.2)",
+  backgroundColor: colors.modalBg,
+  color: colors.text,
+  [mq.small]: {
+    width: "100%",
+    margin: "10vh auto",
+  },
+});
 
 const errorMessageVariants = {
   stacked: { display: "block" },
@@ -42,4 +59,4 @@ function ErrorMessage({
   );
 }
 
-export { ErrorMessage };
+export { Dialog, ErrorMessage };
