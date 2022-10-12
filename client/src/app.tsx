@@ -44,7 +44,7 @@ const LoginForm = ({
           id="email"
           autoComplete="username"
           autoFocus
-          {...(register("email"), { required: true })}
+          {...register("email", { required: true })}
         ></Input>
         <div>
           {errors.email ? (
