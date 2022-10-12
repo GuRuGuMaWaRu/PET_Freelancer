@@ -5,6 +5,47 @@ import styled from "@emotion/styled";
 import * as colors from "../styles/colors";
 import * as mq from "../styles/media-queries";
 
+const FormGroup = styled.div({
+  display: "flex",
+  flexDirection: "column",
+});
+
+const inputStyles = {
+  padding: "6px 10px",
+  border: "1px solid #f1f1f4",
+};
+
+const Input = styled.input({ borderRadius: "3px" }, inputStyles);
+
+const Label = styled.label({ margin: "10px 0 5px" });
+
+const buttonVariants = {
+  primary: {
+    backgroundColor: colors.primary,
+    color: colors.secondary,
+  },
+  secondary: {
+    backgroundColor: colors.secondary,
+    color: colors.primary,
+  },
+};
+
+interface ButtonProps {
+  variant?: string;
+}
+
+const Button = styled.button<ButtonProps>(
+  {
+    padding: "10px 15px",
+    border: 0,
+    borderRadius: "5px",
+    lineHeight: 1,
+    fontWeight: "bold",
+  },
+  ({ variant = "primary" }) =>
+    buttonVariants[variant as keyof typeof buttonVariants],
+);
+
 const Dialog = styled(ReachDialog)({
   maxWidth: "450px",
   borderRadius: "3px",
@@ -59,4 +100,4 @@ function ErrorMessage({
   );
 }
 
-export { Dialog, ErrorMessage };
+export { FormGroup, Input, Label, Button, Dialog, ErrorMessage };

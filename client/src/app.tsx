@@ -1,89 +1,22 @@
 /** @jsxImportSource @emotion/react */
 // import { jsx } from "@emotion/react";
 import React from "react";
-import { Dialog as ReachDialog } from "@reach/dialog";
-import VisuallyHidden from "@reach/visually-hidden";
 import { useForm, SubmitHandler } from "react-hook-form";
-import styled from "@emotion/styled";
 
 import * as colors from "./styles/colors";
-import * as mq from "./styles/media-queries";
-import { ErrorMessage } from "./components/lib";
+import {
+  Label,
+  Input,
+  Button,
+  FormGroup,
+  ErrorMessage,
+} from "./components/lib";
+import { Modal, ModalOpenButton, ModalContents } from "./components/modal";
 
-interface Inputs {
+interface ILoginFormInputs {
   email: string;
   password: string;
 }
-
-const Dialog = styled(ReachDialog)({
-  maxWidth: "450px",
-  borderRadius: "3px",
-  margin: "20vh auto",
-  boxShadow: "0 10px 30px -5px rgba(0, 0, 0, 0.2)",
-  backgroundColor: colors.modalBg,
-  color: colors.text,
-  [mq.small]: {
-    width: "100%",
-    margin: "10vh auto",
-  },
-});
-
-const FormGroup = styled.div({
-  display: "flex",
-  flexDirection: "column",
-});
-
-const inputStyles = {
-  padding: "6px 10px",
-  border: "1px solid #f1f1f4",
-};
-
-const Input = styled.input({ borderRadius: "3px" }, inputStyles);
-
-const Label = styled.label({ margin: "10px 0 5px" });
-
-const buttonVariants = {
-  primary: {
-    backgroundColor: colors.primary,
-    color: colors.secondary,
-  },
-  secondary: {
-    backgroundColor: colors.secondary,
-    color: colors.primary,
-  },
-};
-
-interface ButtonProps {
-  variant?: string;
-}
-
-const Button = styled.button<ButtonProps>(
-  {
-    padding: "10px 15px",
-    border: 0,
-    borderRadius: "5px",
-    lineHeight: 1,
-    fontWeight: "bold",
-  },
-  ({ variant = "primary" }) =>
-    buttonVariants[variant as keyof typeof buttonVariants],
-);
-
-const CircularButton = styled.button({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "40px",
-  height: "40px",
-  padding: 0,
-  border: 0,
-  borderRadius: "30px",
-  fontSize: "2em",
-  lineHeight: 1,
-  color: colors.primary,
-  backgroundColor: "transparent",
-  cursor: "pointer",
-});
 
 const LoginForm = ({
   onSubmit,
@@ -96,9 +29,9 @@ const LoginForm = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<ILoginFormInputs>();
 
-  const submit: SubmitHandler<Inputs> = (data) => {
+  const submit: SubmitHandler<ILoginFormInputs> = (data) => {
     onSubmit(data);
   };
 
@@ -110,6 +43,7 @@ const LoginForm = ({
           type="email"
           id="email"
           autoComplete="username"
+          autoFocus
           {...(register("email"), { required: true })}
         ></Input>
         <div>
@@ -152,17 +86,10 @@ const LoginForm = ({
 };
 
 function App() {
-  const [loginDialog, setLoginDialog] = React.useState(false);
-  const [registerDialog, setRegisterDialog] = React.useState(false);
-
-  const showLoginDialog = () => setLoginDialog(true);
-  const hideLoginDialog = () => setLoginDialog(false);
-  const handleLogin = (data: Inputs) => {
+  const handleLogin = (data: ILoginFormInputs) => {
     console.log(data);
   };
-  const showRegisterDialog = () => setRegisterDialog(true);
-  const hideRegisterDialog = () => setRegisterDialog(false);
-  const handleRegister = (data: Inputs) => {
+  const handleRegister = (data: ILoginFormInputs) => {
     console.log(data);
   };
 
@@ -185,61 +112,29 @@ function App() {
           columnGap: "20px",
         }}
       >
-        <Button onClick={showLoginDialog}>Login</Button>
-        <Button onClick={showRegisterDialog} variant="secondary">
-          Register
-        </Button>
+        <Modal>
+          <ModalOpenButton>
+            <Button>Login</Button>
+          </ModalOpenButton>
+          <ModalContents aria-label="Login Form" title="Login">
+            <LoginForm
+              onSubmit={handleLogin}
+              submitButton={<Button>Login</Button>}
+            />
+          </ModalContents>
+        </Modal>
+        <Modal>
+          <ModalOpenButton>
+            <Button variant="secondary">Register</Button>
+          </ModalOpenButton>
+          <ModalContents aria-label="Register Form" title="Register">
+            <LoginForm
+              onSubmit={handleRegister}
+              submitButton={<Button>Register</Button>}
+            />
+          </ModalContents>
+        </Modal>
       </div>
-      <Dialog
-        isOpen={loginDialog}
-        onDismiss={hideLoginDialog}
-        aria-label="Login Form"
-      >
-        <div
-          css={{
-            position: "relative",
-            display: "flex",
-            justifyContent: "end",
-            top: "-10px",
-          }}
-        >
-          <CircularButton onClick={hideLoginDialog}>
-            <VisuallyHidden>Close</VisuallyHidden>
-            <span aria-hidden="true">×</span>
-          </CircularButton>
-        </div>
-        <h2 css={{ margin: 0, textAlign: "center", fontSize: "2em" }}>Login</h2>
-        <LoginForm
-          onSubmit={handleLogin}
-          submitButton={<Button>Login</Button>}
-        />
-      </Dialog>
-      <Dialog
-        isOpen={registerDialog}
-        onDismiss={hideRegisterDialog}
-        aria-label="Register Form"
-      >
-        <div
-          css={{
-            position: "relative",
-            display: "flex",
-            justifyContent: "end",
-            top: "-10px",
-          }}
-        >
-          <CircularButton onClick={hideRegisterDialog}>
-            <VisuallyHidden>Close</VisuallyHidden>
-            <span aria-hidden="true">×</span>
-          </CircularButton>
-        </div>
-        <h2 css={{ margin: 0, textAlign: "center", fontSize: "2em" }}>
-          Register
-        </h2>
-        <LoginForm
-          onSubmit={handleRegister}
-          submitButton={<Button>Register</Button>}
-        />
-      </Dialog>
     </div>
   );
 }
