@@ -11,7 +11,7 @@ const callAll = (...fns: Array<(...args: unknown[]) => void>) => (
   ...args: unknown[]
 ): void => fns.forEach((fn) => fn && fn(...args));
 
-const CloseButton = styled.button({
+const ModalCloseButton = styled.button({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -65,10 +65,10 @@ function ModalContents({
           top: "-10px",
         }}
       >
-        <CloseButton onClick={() => setIsOpen(false)}>
+        <ModalCloseButton onClick={() => setIsOpen(false)}>
           <VisuallyHidden>Close</VisuallyHidden>
           <span aria-hidden="true">×</span>
-        </CloseButton>
+        </ModalCloseButton>
       </div>
       <h2 css={{ margin: 0, textAlign: "center", fontSize: "2em" }}>{title}</h2>
       {children}
