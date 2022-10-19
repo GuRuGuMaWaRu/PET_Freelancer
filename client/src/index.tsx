@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 
 import "./bootstrap";
 import reportWebVitals from "./reportWebVitals";
+import { AppProviders } from "./context";
 import { App } from "./app";
 
 const root = ReactDOM.createRoot(
@@ -10,7 +11,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <AppProviders>
+      <App />
+    </AppProviders>
   </React.StrictMode>,
 );
 
