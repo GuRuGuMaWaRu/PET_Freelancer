@@ -16,7 +16,7 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginFormInputs>();
-  const { login, status } = useAuth();
+  const { login } = useAuth();
   const submit: SubmitHandler<ILoginFormInputs> = (data) => {
     login(data);
   };

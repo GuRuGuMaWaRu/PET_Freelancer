@@ -22,7 +22,7 @@ const RegisterForm = ({
     handleSubmit,
     formState: { errors },
   } = useForm<IRegisterFormInputs>();
-  const { signup, status } = useAuth();
+  const { signup } = useAuth();
   const submit: SubmitHandler<IRegisterFormInputs> = (data) => {
     signup(data);
   };

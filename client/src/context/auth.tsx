@@ -1,5 +1,8 @@
 import * as React from "react";
 
+import { useAsync } from "../utils/useAsync";
+import { FullPageErrorFallback } from "../components/lib";
+
 interface IUser {
   name: string;
   email: string;
@@ -24,17 +27,9 @@ interface IResponse {
 }
 
 interface IState {
-  user: IUser | null;
-  status: AsyncStatus;
-  login: (data: ILoginFormInputs) => Promise<void | IUser>;
-  signup: (data: IRegisterFormInputs) => Promise<void | IUser>;
-}
-
-enum AsyncStatus {
-  idle = "idle",
-  loading = "loading",
-  error = "error",
-  success = "success",
+  user: IUser | null | undefined;
+  login: (data: ILoginFormInputs) => void;
+  signup: (data: IRegisterFormInputs) => void;
 }
 
 const localStorageKey = "__FreelancerApp_token__";
@@ -66,111 +61,64 @@ async function client<T>(endpoint: string, { data, token }: IConfig<T> = {}) {
 }
 
 const handleUserResponse = (res: IResponse) => {
+  console.log("handleUserResponse");
   window.localStorage.setItem(localStorageKey, res.data.token);
   return res.data;
 };
 
-// const initialState = {
-//   status: 'idle',
-//   data: null,
-// }
+const bootstrapUser = async () => {
+  let user = null;
 
-// const useAsync = (userState = initialState) => {
-//   const [data, setData] = React.useState(null)
-//   const [state, dispatch] = React.useReducer(
-//     (state, action) => ({ state, ...action }),
-//     userState,
-//   );
+  const token = window.localStorage.getItem(localStorageKey);
+  if (token) {
+    const res = await client("users/getUser", { token });
+    user = res.data;
+  }
 
-//   const run = (promise) => {
-//     console.log(promise);
-//     dispatch({status: 'loading'});
-//   }
-
-//   export {
-//     status: state.status,
-//     isIdle: state.status === 'idle',
-//     isLoading: state.status === 'loading',
-//     isError: state.status === 'error',
-//     isSuccess: state.status === 'success',
-//     data,
-//     setData,
-//     run
-//   }
-// }
+  return user;
+};
 
 const AuthContext = React.createContext<IState>({} as IState);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [status, setStatus] = React.useState<AsyncStatus>(AsyncStatus.idle);
-  const [error, setError] = React.useState<string | null>(null);
-  const [user, setUser] = React.useState<IUser | null>(null);
+  const { run, data, error, isIdle, isLoading, isError } = useAsync<IUser>();
 
   React.useEffect(() => {
-    setStatus(AsyncStatus.loading);
+    run(bootstrapUser());
+  }, [run]);
 
-    const bootstrap = async () => {
-      const token = window.localStorage.getItem(localStorageKey);
-      if (token) {
-        await client("users/getUser", { token }).then(
-          (data) => {
-            console.log("bootstrap data:", data);
-            setStatus(AsyncStatus.success);
-            setUser(data);
-          },
-          (err) => {
-            console.error(err);
-          },
-        );
-      }
-    };
+  const login = React.useCallback(
+    (data: ILoginFormInputs) => {
+      run(client("users/login", { data }).then(handleUserResponse));
+    },
+    [run],
+  );
 
-    bootstrap();
-  }, []);
+  const signup = React.useCallback(
+    (data: IRegisterFormInputs) => {
+      run(client("users/signup", { data }).then(handleUserResponse));
+    },
+    [run],
+  );
 
-  const login = async (data: ILoginFormInputs) => {
-    setStatus(AsyncStatus.loading);
-    return client("users/login", { data })
-      .then(handleUserResponse)
-      .then((user) => {
-        setStatus(AsyncStatus.success);
-        console.log(user);
-        return user;
-      })
-      .catch((error) => {
-        setStatus(AsyncStatus.error);
-        setError(error);
-      });
-  };
+  const value = React.useMemo(
+    () => ({
+      user: data,
+      login,
+      signup,
+    }),
+    [data, login, signup],
+  );
 
-  const signup = async (data: IRegisterFormInputs) => {
-    setStatus(AsyncStatus.loading);
-    return client("users/signup", { data })
-      .then(handleUserResponse)
-      .then((user) => {
-        setStatus(AsyncStatus.success);
-        console.log(user);
-        return user;
-      })
-      .catch((error) => {
-        setStatus(AsyncStatus.error);
-        setError(error);
-      });
-  };
-
-  if (status === AsyncStatus.loading || status === AsyncStatus.idle) {
+  if (isLoading || isIdle) {
     return <div>loading...</div>;
   }
 
-  if (status === AsyncStatus.error) {
-    return <div>{error}</div>;
+  if (isError && error) {
+    return <FullPageErrorFallback error={error} />;
   }
 
-  return (
-    <AuthContext.Provider value={{ user, status, login, signup }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 const useAuth = () => {
