@@ -41,8 +41,7 @@ const login = catchAsync(async (req, res, next) => {
       if (err) throw err;
       res.status(200).json({
         status: "success",
-        token,
-        data: { name, email },
+        data: { name, email, token },
       });
     },
   );
@@ -67,7 +66,7 @@ const getUser = catchAsync(async (req, res, next) => {
     { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
-      res.status(200).json({ status: "success", token, data: user });
+      res.status(200).json({ status: "success", data: { ...user, token } });
     },
   );
 });
@@ -97,7 +96,7 @@ const signup = catchAsync(async (req, res, next) => {
 
   const token = newToken(payload);
 
-  res.status(201).json({ status: "success", token, data: { name, email } });
+  res.status(201).json({ status: "success", data: { name, email, token } });
 });
 
 module.exports = {
