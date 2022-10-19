@@ -1,19 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ErrorBoundary } from "react-error-boundary";
 
 import "./bootstrap";
 import reportWebVitals from "./reportWebVitals";
 import { AppProviders } from "./context";
 import { App } from "./app";
+import { FullPageErrorFallback } from "./components/lib";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
 root.render(
   <React.StrictMode>
-    <AppProviders>
-      <App />
-    </AppProviders>
+    <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
+      <AppProviders>
+        <App />
+      </AppProviders>
+    </ErrorBoundary>
   </React.StrictMode>,
 );
 

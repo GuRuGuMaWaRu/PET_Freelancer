@@ -100,4 +100,31 @@ function ErrorMessage({
   );
 }
 
-export { FormGroup, Input, Label, Button, Dialog, ErrorMessage };
+function FullPageErrorFallback({ error }: { error: Error }) {
+  return (
+    <div
+      role="alert"
+      css={{
+        color: colors.danger,
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <p>Uh oh... There's a problem. Try refreshing the app.</p>
+      <pre>{error.message}</pre>
+    </div>
+  );
+}
+
+export {
+  FormGroup,
+  Input,
+  Label,
+  Button,
+  Dialog,
+  ErrorMessage,
+  FullPageErrorFallback,
+};

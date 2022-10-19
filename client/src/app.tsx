@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-
 import * as colors from "./styles/colors";
 import { Button } from "./components/lib";
 import { Modal, ModalOpenButton, ModalContents } from "./components/modal";
