@@ -103,7 +103,7 @@ const RegisterForm = ({
       <div css={{ marginTop: "30px" }}>
         {React.cloneElement(
           submitButton,
-          { type: "submit" },
+          { type: "submit", disabled: isLoading ? true : false },
           ...(Array.isArray(submitButton.props.children)
             ? submitButton.props.children
             : [submitButton.props.children]),

@@ -63,7 +63,7 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
       <div css={{ marginTop: "30px" }}>
         {React.cloneElement(
           submitButton,
-          { type: "submit" },
+          { type: "submit", disabled: isLoading ? true : false },
           ...(Array.isArray(submitButton.props.children)
             ? submitButton.props.children
             : [submitButton.props.children]),

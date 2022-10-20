@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import * as colors from "../styles/colors";
 import * as mq from "../styles/media-queries";
 
+/* Form components */
 const FormGroup = styled.div({
   display: "flex",
   flexDirection: "column",
@@ -41,6 +42,10 @@ const Button = styled.button<ButtonProps>(
     borderRadius: "5px",
     lineHeight: 1,
     fontWeight: "bold",
+    "&:disabled": {
+      filter: "brightness(0.80)",
+      cursor: "not-allowed",
+    },
   },
   ({ variant = "primary" }) =>
     buttonVariants[variant as keyof typeof buttonVariants],
@@ -59,6 +64,7 @@ const Dialog = styled(ReachDialog)({
   },
 });
 
+/* Error components */
 const errorMessageVariants = {
   stacked: { display: "block" },
   inline: { display: "inline-block" },
