@@ -28,8 +28,8 @@ interface IResponse {
 
 interface IState {
   user: IUser | null | undefined;
-  login: (data: ILoginFormInputs) => void;
-  signup: (data: IRegisterFormInputs) => void;
+  login: (data: ILoginFormInputs) => Promise<void>;
+  signup: (data: IRegisterFormInputs) => Promise<void>;
 }
 
 const localStorageKey = "__FreelancerApp_token__";
@@ -50,7 +50,7 @@ async function client<T>(endpoint: string, { data, token }: IConfig<T> = {}) {
   };
 
   return window.fetch(`/api/v1/${endpoint}`, config).then(async (response) => {
-    const data = await response.json();
+    const data: IResponse = await response.json();
 
     if (response.ok) {
       return data;
@@ -61,7 +61,6 @@ async function client<T>(endpoint: string, { data, token }: IConfig<T> = {}) {
 }
 
 const handleUserResponse = (res: IResponse) => {
-  console.log("handleUserResponse");
   window.localStorage.setItem(localStorageKey, res.data.token);
   return res.data;
 };
@@ -81,7 +80,9 @@ const bootstrapUser = async () => {
 const AuthContext = React.createContext<IState>({} as IState);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { run, data, error, isIdle, isLoading, isError } = useAsync<IUser>();
+  const { run, data, error, isIdle, isLoading, isError, setData } = useAsync<
+    IUser
+  >();
 
   React.useEffect(() => {
     run(bootstrapUser());
@@ -89,16 +90,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = React.useCallback(
     (data: ILoginFormInputs) => {
-      run(client("users/login", { data }).then(handleUserResponse));
+      return client("users/login", { data })
+        .then(handleUserResponse)
+        .then((user) => setData(user));
     },
-    [run],
+    [setData],
   );
 
   const signup = React.useCallback(
     (data: IRegisterFormInputs) => {
-      run(client("users/signup", { data }).then(handleUserResponse));
+      return client("users/signup", { data })
+        .then(handleUserResponse)
+        .then((user) => setData(user));
     },
-    [run],
+    [setData],
   );
 
   const value = React.useMemo(

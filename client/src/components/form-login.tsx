@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Label, Input, FormGroup, ErrorMessage } from "./lib";
 import { useAuth } from "../context/auth";
+import { useAsync } from "../utils/useAsync";
 
 interface ILoginFormInputs {
   email: string;
@@ -16,9 +17,10 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginFormInputs>();
+  const { run, isLoading, isError, error } = useAsync();
   const { login } = useAuth();
   const submit: SubmitHandler<ILoginFormInputs> = (data) => {
-    login(data);
+    run(login(data));
   };
 
   return (
