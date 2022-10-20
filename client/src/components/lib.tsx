@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { Dialog as ReachDialog } from "@reach/dialog";
 import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
+import { FaSpinner } from "react-icons/fa";
 
 import * as colors from "../styles/colors";
 import * as mq from "../styles/media-queries";
@@ -125,6 +127,16 @@ function FullPageErrorFallback({ error }: { error: Error }) {
   );
 }
 
+/* Spinner components */
+const spin = keyframes({
+  "0%": { transform: "rotate(0deg)" },
+  "100%": { transform: "rotate(360deg)" },
+});
+
+const Spinner = styled(FaSpinner)({
+  animation: `${spin} 1s linear infinite`,
+});
+
 export {
   FormGroup,
   Input,
@@ -133,4 +145,5 @@ export {
   Dialog,
   ErrorMessage,
   FullPageErrorFallback,
+  Spinner,
 };

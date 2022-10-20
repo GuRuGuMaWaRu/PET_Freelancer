@@ -2,7 +2,7 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { Label, Input, FormGroup, ErrorMessage } from "./lib";
+import { Label, Input, FormGroup, ErrorMessage, Spinner } from "./lib";
 import { useAuth } from "../context/auth";
 import { useAsync } from "../utils/useAsync";
 
@@ -67,6 +67,7 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
           ...(Array.isArray(submitButton.props.children)
             ? submitButton.props.children
             : [submitButton.props.children]),
+          true ? <Spinner css={{ marginLeft: 7 }} /> : null,
         )}
       </div>
     </form>
