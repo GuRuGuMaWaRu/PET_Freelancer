@@ -3,8 +3,8 @@ import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Label, Input, FormGroup, ErrorMessage, Spinner } from "./lib";
-import { useAuth } from "../context/auth";
-import { useAsync } from "../utils/useAsync";
+import { useAuth, useNotification } from "../context";
+import { useAsync, NotificationType } from "../utils";
 
 interface IRegisterFormInputs {
   name: string;
@@ -24,10 +24,20 @@ const RegisterForm = ({
     formState: { errors },
   } = useForm<IRegisterFormInputs>();
   const { run, isLoading, isError, error } = useAsync();
+  const { setNotification } = useNotification();
   const { signup } = useAuth();
   const submit: SubmitHandler<IRegisterFormInputs> = (data) => {
-    run(signup(data));
+    run(signup(data)).catch((error) => console.error(error));
   };
+
+  React.useEffect(() => {
+    if (isError) {
+      setNotification({
+        type: NotificationType.error,
+        message: error?.message ?? "There was an error",
+      });
+    }
+  }, [error, isError, setNotification]);
 
   return (
     <form onSubmit={handleSubmit(submit)}>
@@ -107,7 +117,7 @@ const RegisterForm = ({
           ...(Array.isArray(submitButton.props.children)
             ? submitButton.props.children
             : [submitButton.props.children]),
-          true ? <Spinner css={{ marginLeft: 7 }} /> : null,
+          isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null,
         )}
       </div>
     </form>

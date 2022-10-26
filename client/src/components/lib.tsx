@@ -2,10 +2,16 @@
 import { Dialog as ReachDialog } from "@reach/dialog";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
-import { FaSpinner } from "react-icons/fa";
+import {
+  FaSpinner,
+  FaTimes,
+  FaExclamationCircle,
+  FaCheck,
+} from "react-icons/fa";
 
 import * as colors from "../styles/colors";
 import * as mq from "../styles/media-queries";
+import { NotificationType } from "../utils";
 
 /* Form components */
 const FormGroup = styled.div({
@@ -137,6 +143,82 @@ const Spinner = styled(FaSpinner)({
   animation: `${spin} 1s linear infinite`,
 });
 
+/* Notifications */
+const setNotificationColor = (type: NotificationType) => {
+  switch (type) {
+    case NotificationType.create:
+    case NotificationType.delete:
+      return colors.notificationDone;
+    case NotificationType.error:
+    case NotificationType.fail:
+      return colors.notificationError;
+    default:
+      return colors.text;
+  }
+};
+
+interface INotificationProps {
+  state: string;
+  type: NotificationType;
+  duration: number;
+}
+
+const NotificationMessage = styled.div<INotificationProps>(
+  {
+    position: "fixed",
+    bottom: 0,
+    left: "50%",
+    transform: "translateX(-50%)",
+    display: "flex",
+    alignItems: "center",
+    borderRadius: "8px 8px 0 0",
+    color: colors.text,
+    fontSize: "1rem",
+    zIndex: 20,
+  },
+  ({ state }) => ({
+    opacity: state === "entered" || state === "exiting" ? 1 : 0,
+    transform:
+      state === "entered" || state === "exiting"
+        ? "translateY(0) translateX(-50%)"
+        : "translateY(20px) translateX(-50%)",
+  }),
+  ({ duration }) => ({
+    transition: `opacity ${duration}ms, transform ${duration}ms`,
+  }),
+  ({ type }) => ({
+    backgroundColor: colors.notificationBg,
+    "& p": {
+      margin: "0.5rem",
+      span: {
+        color: setNotificationColor(type),
+      },
+    },
+  }),
+);
+
+const notificationIconStyles = {
+  fontSize: "3.2rem",
+  margin: "0.8rem 1.2rem 0.8rem 1.2rem",
+};
+const WarningIcon = styled(FaExclamationCircle)(notificationIconStyles, {
+  color: colors.notificationError,
+});
+
+const AccomplishedIcon = styled(FaCheck)(notificationIconStyles, {
+  color: colors.notificationDone,
+});
+
+const CloseIcon = styled(FaTimes)({
+  fontSize: "1.6rem",
+  cursor: "pointer",
+  margin: "0 1.5rem 0 2.7rem",
+  transition: "opacity 0.2s",
+  "&:hover": {
+    opacity: 0.6,
+  },
+});
+
 export {
   FormGroup,
   Input,
@@ -146,4 +228,9 @@ export {
   ErrorMessage,
   FullPageErrorFallback,
   Spinner,
+  NotificationType,
+  NotificationMessage,
+  WarningIcon,
+  AccomplishedIcon,
+  CloseIcon,
 };

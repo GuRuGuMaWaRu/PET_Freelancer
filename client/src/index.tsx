@@ -6,7 +6,7 @@ import "./bootstrap";
 import reportWebVitals from "./reportWebVitals";
 import { AppProviders } from "./context";
 import { App } from "./app";
-import { FullPageErrorFallback } from "./components/lib";
+import { FullPageErrorFallback } from "./components";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,

@@ -70,7 +70,6 @@ function useAsync<T>(initialState: IState<T> = {}) {
           return data;
         },
         (error: Error) => {
-          console.log(error);
           setError(error);
           return Promise.reject(error);
         },

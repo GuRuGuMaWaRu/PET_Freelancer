@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { useAsync } from "../utils/useAsync";
+import { useAsync } from "../utils";
 import { FullPageErrorFallback } from "../components/lib";
 
 interface IUser {
