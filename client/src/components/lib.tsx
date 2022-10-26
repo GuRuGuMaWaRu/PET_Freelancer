@@ -125,6 +125,7 @@ function FullPageErrorFallback({ error }: { error: Error }) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: colors.base2,
       }}
     >
       <p>Uh oh... There's a problem. Try refreshing the app.</p>

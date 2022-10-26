@@ -1,4 +1,5 @@
 export const base = "#764cff";
+export const base2 = "#0e0430";
 export const text = "#fff";
 export const primary = "#ffef44";
 export const secondary = "#8a2be2";
