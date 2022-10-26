@@ -3,13 +3,18 @@
 import * as React from "react";
 import VisuallyHidden from "@reach/visually-hidden";
 import styled from "@emotion/styled";
+import { DialogOverlay } from "@reach/dialog";
+import { useTransition, animated } from "react-spring";
 
 import * as colors from "../styles/colors";
-import { Dialog } from "../components/lib";
+import { DialogContent } from "../components/lib";
 
 const callAll = (...fns: Array<(...args: unknown[]) => void>) => (
   ...args: unknown[]
 ): void => fns.forEach((fn) => fn && fn(...args));
+
+const AnimatedDialogOverlay = animated(DialogOverlay);
+const AnimatedDialogContent = animated(DialogContent);
 
 const ModalCloseButton = styled.button({
   display: "flex",
@@ -54,25 +59,49 @@ function ModalContents({
   title: string;
 }) {
   const { isOpen, setIsOpen } = React.useContext(ModalContext);
+  const transitions = useTransition(isOpen, {
+    from: { opacity: 0, y: -10 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 10 },
+    reverse: isOpen,
+    delay: 200,
+  });
 
-  return (
-    <Dialog isOpen={isOpen} onDismiss={() => setIsOpen(false)} {...props}>
-      <div
-        css={{
-          position: "relative",
-          display: "flex",
-          justifyContent: "end",
-          top: "-10px",
-        }}
-      >
-        <ModalCloseButton onClick={() => setIsOpen(false)}>
-          <VisuallyHidden>Close</VisuallyHidden>
-          <span aria-hidden="true">×</span>
-        </ModalCloseButton>
-      </div>
-      <h2 css={{ margin: 0, textAlign: "center", fontSize: "2em" }}>{title}</h2>
-      {children}
-    </Dialog>
+  return transitions(
+    (styles, item) =>
+      item && (
+        <AnimatedDialogOverlay
+          onDismiss={() => setIsOpen(false)}
+          style={styles}
+        >
+          <AnimatedDialogContent
+            style={{
+              transform: styles.y.to(
+                (value) => `translate3d(0px, ${value}px, 0px)`,
+              ),
+            }}
+            {...props}
+          >
+            <div
+              css={{
+                position: "relative",
+                display: "flex",
+                justifyContent: "end",
+                top: "-10px",
+              }}
+            >
+              <ModalCloseButton onClick={() => setIsOpen(false)}>
+                <VisuallyHidden>Close</VisuallyHidden>
+                <span aria-hidden="true">×</span>
+              </ModalCloseButton>
+            </div>
+            <h2 css={{ margin: 0, textAlign: "center", fontSize: "2em" }}>
+              {title}
+            </h2>
+            {children}
+          </AnimatedDialogContent>
+        </AnimatedDialogOverlay>
+      ),
   );
 }
 

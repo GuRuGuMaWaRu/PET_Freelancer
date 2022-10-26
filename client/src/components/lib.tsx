@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Dialog as ReachDialog } from "@reach/dialog";
+import { DialogContent as ReachDialogContent } from "@reach/dialog";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import {
@@ -59,7 +59,7 @@ const Button = styled.button<ButtonProps>(
     buttonVariants[variant as keyof typeof buttonVariants],
 );
 
-const Dialog = styled(ReachDialog)({
+const DialogContent = styled(ReachDialogContent)({
   maxWidth: "450px",
   borderRadius: "3px",
   margin: "20vh auto",
@@ -225,7 +225,7 @@ export {
   Input,
   Label,
   Button,
-  Dialog,
+  DialogContent,
   ErrorMessage,
   FullPageErrorFallback,
   Spinner,
