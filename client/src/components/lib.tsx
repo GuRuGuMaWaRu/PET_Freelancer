@@ -159,9 +159,7 @@ const setNotificationColor = (type: NotificationType) => {
 };
 
 interface INotificationProps {
-  state: string;
   type: NotificationType;
-  duration: number;
 }
 
 const NotificationMessage = styled.div<INotificationProps>(
@@ -177,16 +175,6 @@ const NotificationMessage = styled.div<INotificationProps>(
     fontSize: "1rem",
     zIndex: 20,
   },
-  ({ state }) => ({
-    opacity: state === "entered" || state === "exiting" ? 1 : 0,
-    transform:
-      state === "entered" || state === "exiting"
-        ? "translateY(0) translateX(-50%)"
-        : "translateY(20px) translateX(-50%)",
-  }),
-  ({ duration }) => ({
-    transition: `opacity ${duration}ms, transform ${duration}ms`,
-  }),
   ({ type }) => ({
     backgroundColor: colors.notificationBg,
     "& p": {

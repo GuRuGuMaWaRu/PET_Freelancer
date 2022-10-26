@@ -1,10 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import { CSSTransition } from "react-transition-group";
+import { useTransition, animated } from "react-spring";
 
-import {
-  NOTIFICATION_DURATION,
-  NOTIFICATION_ANIMATION_DURATION,
-} from "../config";
+import { NOTIFICATION_DURATION } from "../config";
 import { useNotification } from "../context";
 import {
   NotificationMessage,
@@ -14,14 +11,21 @@ import {
 } from "./lib";
 import { NotificationType } from "../utils";
 
+const AnimatedNotificationMessage = animated(NotificationMessage);
+
 const Notification: React.FC = () => {
   const {
     notification,
     showNotification,
     setShowNotification,
   } = useNotification();
-  const nodeRef = React.useRef(null);
-
+  const transitions = useTransition(showNotification, {
+    from: { opacity: 0, y: 20 },
+    enter: { opacity: 1, y: 0 },
+    leave: { opacity: 0, y: 20 },
+    reverse: showNotification,
+    delay: 200,
+  });
   const timeoutId = useRef<number>();
 
   useEffect(() => {
@@ -47,30 +51,26 @@ const Notification: React.FC = () => {
       <WarningIcon />
     );
 
-  return (
-    <CSSTransition
-      nodeRef={nodeRef}
-      in={showNotification}
-      timeout={NOTIFICATION_ANIMATION_DURATION}
-      appear
-      mountOnEnter
-    >
-      {(state) => (
-        <NotificationMessage
-          ref={nodeRef}
+  return transitions(
+    (styles, item) =>
+      item && (
+        <AnimatedNotificationMessage
           role="alert"
-          state={state}
-          duration={NOTIFICATION_ANIMATION_DURATION}
           type={notification?.type || NotificationType.error}
+          style={{
+            transform: styles.y.to(
+              (value) => `translateY(${value}px) translateX(-50%)`,
+            ),
+            opacity: styles.opacity,
+          }}
         >
           <>
             {notificationIcon}
             {notification?.message || "Oops! Something unexpected happened!"}
             <CloseIcon onClick={handleCloseNotification}></CloseIcon>
           </>
-        </NotificationMessage>
-      )}
-    </CSSTransition>
+        </AnimatedNotificationMessage>
+      ),
   );
 };
 
