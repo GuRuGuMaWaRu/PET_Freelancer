@@ -42,15 +42,16 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
           id="email"
           autoComplete="username"
           autoFocus
-          {...register("email", { required: true })}
+          aria-invalid={errors.email ? "true" : "false"}
+          {...register("email", { required: "Email is required" })}
         ></Input>
         <div>
-          {errors.email ? (
+          {errors.email && (
             <ErrorMessage
-              error={{ message: "This field is required" }}
+              error={{ message: errors?.email.message }}
               variant="inline"
             />
-          ) : null}
+          )}
         </div>
       </FormGroup>
       <FormGroup>
@@ -59,15 +60,16 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
           type="password"
           id="password"
           autoComplete="current-password"
-          {...register("password", { required: true })}
+          aria-invalid={errors.password ? "true" : "false"}
+          {...register("password", { required: "Please provide a password" })}
         ></Input>
         <div>
-          {errors.password ? (
+          {errors.password && (
             <ErrorMessage
-              error={{ message: "This field is required" }}
+              error={{ message: errors?.password.message }}
               variant="inline"
             />
-          ) : null}
+          )}
         </div>
       </FormGroup>
       <div css={{ marginTop: "30px" }}>

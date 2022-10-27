@@ -79,7 +79,7 @@ const errorMessageVariants = {
 };
 
 interface Error {
-  message: string;
+  message: string | undefined;
 }
 
 type ErrorVariant = "stacked" | "inline";
@@ -101,14 +101,14 @@ function ErrorMessage({
       ]}
       {...props}
     >
-      <span>There was an error: </span>
+      {variant === "stacked" && <span>There was an error: </span>}
       <pre
         css={[
           { whiteSpace: "break-spaces", margin: "0", marginBottom: -5 },
           errorMessageVariants[variant],
         ]}
       >
-        {error.message}
+        {error.message ?? "Something bad happened!"}
       </pre>
     </div>
   );

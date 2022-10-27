@@ -48,15 +48,16 @@ const RegisterForm = ({
           id="name"
           autoComplete="name"
           autoFocus
-          {...register("name", { required: true })}
+          aria-invalid={errors.name ? "true" : "false"}
+          {...register("name", { required: "Name is required" })}
         ></Input>
         <div>
-          {errors.name ? (
+          {errors.name && (
             <ErrorMessage
-              error={{ message: "This field is required" }}
+              error={{ message: errors?.name.message }}
               variant="inline"
             />
-          ) : null}
+          )}
         </div>
       </FormGroup>
       <FormGroup>
@@ -65,15 +66,16 @@ const RegisterForm = ({
           type="email"
           id="email"
           autoComplete="username"
-          {...register("email", { required: true })}
+          aria-invalid={errors.email ? "true" : "false"}
+          {...register("email", { required: "Email is required" })}
         ></Input>
         <div>
-          {errors.email ? (
+          {errors.email && (
             <ErrorMessage
-              error={{ message: "This field is required" }}
+              error={{ message: errors?.email.message }}
               variant="inline"
             />
-          ) : null}
+          )}
         </div>
       </FormGroup>
       <FormGroup>
@@ -82,15 +84,16 @@ const RegisterForm = ({
           type="password"
           id="password1"
           autoComplete="current-password"
-          {...register("password1", { required: true })}
+          aria-invalid={errors.password1 ? "true" : "false"}
+          {...register("password1", { required: "Please provide a password" })}
         ></Input>
         <div>
-          {errors.password1 ? (
+          {errors.password1 && (
             <ErrorMessage
-              error={{ message: "This field is required" }}
+              error={{ message: errors?.password1.message }}
               variant="inline"
             />
-          ) : null}
+          )}
         </div>
       </FormGroup>
       <FormGroup>
@@ -99,15 +102,18 @@ const RegisterForm = ({
           type="password"
           id="password2"
           autoComplete="current-password"
-          {...register("password2", { required: true })}
+          aria-invalid={errors.password2 ? "true" : "false"}
+          {...register("password2", {
+            required: "Please repeat the password above",
+          })}
         ></Input>
         <div>
-          {errors.password2 ? (
+          {errors.password2 && (
             <ErrorMessage
-              error={{ message: "This field is required" }}
+              error={{ message: errors?.password2.message }}
               variant="inline"
             />
-          ) : null}
+          )}
         </div>
       </FormGroup>
       <div css={{ marginTop: "30px" }}>
