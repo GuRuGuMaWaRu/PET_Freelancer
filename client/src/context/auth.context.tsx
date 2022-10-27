@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { useAsync } from "../utils";
-import { FullPageErrorFallback } from "../components/lib";
+import { FullPageErrorFallback, FullPageSpinner } from "../components/lib";
 
 interface IUser {
   name: string;
@@ -116,7 +116,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   if (isLoading || isIdle) {
-    return <div>loading...</div>;
+    return <FullPageSpinner />;
   }
 
   if (isError && error) {

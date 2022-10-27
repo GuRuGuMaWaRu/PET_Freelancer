@@ -144,6 +144,23 @@ const Spinner = styled(FaSpinner)({
   animation: `${spin} 1s linear infinite`,
 });
 
+function FullPageSpinner() {
+  return (
+    <div
+      css={{
+        fontSize: "4em",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: colors.base,
+      }}
+    >
+      <Spinner style={{ color: colors.spinnerContrasting }} />
+    </div>
+  );
+}
 /* Notifications */
 const setNotificationColor = (type: NotificationType) => {
   switch (type) {
@@ -217,6 +234,7 @@ export {
   ErrorMessage,
   FullPageErrorFallback,
   Spinner,
+  FullPageSpinner,
   NotificationType,
   NotificationMessage,
   WarningIcon,
