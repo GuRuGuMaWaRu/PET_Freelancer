@@ -22,7 +22,9 @@ const RegisterForm = ({
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<IRegisterFormInputs>();
+  const watchPassword = watch("password1");
   const { run, isLoading, isError, error } = useAsync();
   const { setNotification } = useNotification();
   const { signup } = useAuth();
@@ -49,16 +51,16 @@ const RegisterForm = ({
           autoComplete="name"
           autoFocus
           aria-invalid={errors.name ? "true" : "false"}
-          {...register("name", { required: "Name is required" })}
+          {...register("name", {
+            required: "You must specify a name",
+          })}
         ></Input>
-        <div>
-          {errors.name && (
-            <ErrorMessage
-              error={{ message: errors?.name.message }}
-              variant="inline"
-            />
-          )}
-        </div>
+        {errors.name && (
+          <ErrorMessage
+            error={{ message: errors?.name.message }}
+            variant="inline"
+          />
+        )}
       </FormGroup>
       <FormGroup>
         <Label htmlFor="email">Email:</Label>
@@ -67,16 +69,16 @@ const RegisterForm = ({
           id="email"
           autoComplete="username"
           aria-invalid={errors.email ? "true" : "false"}
-          {...register("email", { required: "Email is required" })}
+          {...register("email", {
+            required: "You must specify an email address",
+          })}
         ></Input>
-        <div>
-          {errors.email && (
-            <ErrorMessage
-              error={{ message: errors?.email.message }}
-              variant="inline"
-            />
-          )}
-        </div>
+        {errors.email && (
+          <ErrorMessage
+            error={{ message: errors?.email.message }}
+            variant="inline"
+          />
+        )}
       </FormGroup>
       <FormGroup>
         <Label htmlFor="password1">Password:</Label>
@@ -85,16 +87,20 @@ const RegisterForm = ({
           id="password1"
           autoComplete="current-password"
           aria-invalid={errors.password1 ? "true" : "false"}
-          {...register("password1", { required: "Please provide a password" })}
+          {...register("password1", {
+            required: "You must specify a password",
+            minLength: {
+              value: 6,
+              message: "Password must have at least 6 characters",
+            },
+          })}
         ></Input>
-        <div>
-          {errors.password1 && (
-            <ErrorMessage
-              error={{ message: errors?.password1.message }}
-              variant="inline"
-            />
-          )}
-        </div>
+        {errors.password1 && (
+          <ErrorMessage
+            error={{ message: errors?.password1.message }}
+            variant="inline"
+          />
+        )}
       </FormGroup>
       <FormGroup>
         <Label htmlFor="password1">Repeat password:</Label>
@@ -104,17 +110,16 @@ const RegisterForm = ({
           autoComplete="current-password"
           aria-invalid={errors.password2 ? "true" : "false"}
           {...register("password2", {
-            required: "Please repeat the password above",
+            validate: (value) =>
+              value === watchPassword || "The passwords do not match",
           })}
         ></Input>
-        <div>
-          {errors.password2 && (
-            <ErrorMessage
-              error={{ message: errors?.password2.message }}
-              variant="inline"
-            />
-          )}
-        </div>
+        {errors.password2 && (
+          <ErrorMessage
+            error={{ message: errors?.password2.message }}
+            variant="inline"
+          />
+        )}
       </FormGroup>
       <div css={{ marginTop: "30px" }}>
         {React.cloneElement(

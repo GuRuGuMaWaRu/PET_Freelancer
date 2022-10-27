@@ -43,16 +43,16 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
           autoComplete="username"
           autoFocus
           aria-invalid={errors.email ? "true" : "false"}
-          {...register("email", { required: "Email is required" })}
+          {...register("email", {
+            required: "You must specify an email address",
+          })}
         ></Input>
-        <div>
-          {errors.email && (
-            <ErrorMessage
-              error={{ message: errors?.email.message }}
-              variant="inline"
-            />
-          )}
-        </div>
+        {errors.email && (
+          <ErrorMessage
+            error={{ message: errors?.email.message }}
+            variant="inline"
+          />
+        )}
       </FormGroup>
       <FormGroup>
         <Label htmlFor="password">Password:</Label>
@@ -61,16 +61,14 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
           id="password"
           autoComplete="current-password"
           aria-invalid={errors.password ? "true" : "false"}
-          {...register("password", { required: "Please provide a password" })}
+          {...register("password", { required: "You must specify a password" })}
         ></Input>
-        <div>
-          {errors.password && (
-            <ErrorMessage
-              error={{ message: errors?.password.message }}
-              variant="inline"
-            />
-          )}
-        </div>
+        {errors.password && (
+          <ErrorMessage
+            error={{ message: errors?.password.message }}
+            variant="inline"
+          />
+        )}
       </FormGroup>
       <div css={{ marginTop: "30px" }}>
         {React.cloneElement(
