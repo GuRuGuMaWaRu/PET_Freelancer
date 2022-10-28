@@ -63,8 +63,8 @@ const rejectedState = {
 test("calling run with a promise which resolves", async () => {
   const resolvedValue = Symbol("resolved value");
 
-  const { promise, resolve } = deferred<typeof resolvedValue, unknown>();
-  const { result } = renderHook(() => useAsync<typeof resolvedValue>());
+  const { promise, resolve } = deferred<symbol, unknown>();
+  const { result } = renderHook(() => useAsync<symbol>());
 
   expect(result.current).toEqual(defaultState);
 
@@ -90,7 +90,7 @@ test("calling run with a promise which resolves", async () => {
 test("calling run with a promise which rejects", async () => {
   const rejectedValue = Symbol("rejected value");
 
-  const { promise, reject } = deferred<unknown, typeof rejectedValue>();
+  const { promise, reject } = deferred<unknown, symbol>();
   const { result } = renderHook(() => useAsync());
 
   expect(result.current).toEqual(defaultState);
