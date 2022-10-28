@@ -10,7 +10,7 @@ import {
   Notification,
 } from "./components";
 
-function AppUnauthorized() {
+function AppUnauthenticated() {
   return (
     <>
       <Notification />
@@ -54,4 +54,4 @@ function AppUnauthorized() {
   );
 }
 
-export { AppUnauthorized };
+export default AppUnauthenticated;
