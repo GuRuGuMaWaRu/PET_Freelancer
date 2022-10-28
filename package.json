@@ -20,8 +20,11 @@
   "scripts": {
     "start": "node app.js",
     "server": "nodemon app.js",
+    "server:test": "mocha",
     "client": "npm start --prefix client",
     "client:install": "npm install --prefix client",
+    "client:test": "npm test --prefix client -- --coverage",
+    "test": "npm run client:test",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "check-types": "tsc",
     "prettier": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|ts|tsx)\"",
