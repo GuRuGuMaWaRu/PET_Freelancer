@@ -7,13 +7,15 @@ enum Status {
   pending = "pending",
 }
 
-interface IState<T> {
+interface IState<T, U> {
   status?: Status;
   data?: T | null;
-  error?: Error | null;
+  error?: U | null;
 }
 
-function useSafeDispatch<T>(dispatch: React.Dispatch<Partial<IState<T>>>) {
+function useSafeDispatch<T, U>(
+  dispatch: React.Dispatch<Partial<IState<T, U>>>,
+) {
   const mounted = React.useRef(false);
 
   React.useLayoutEffect(() => {
@@ -24,7 +26,8 @@ function useSafeDispatch<T>(dispatch: React.Dispatch<Partial<IState<T>>>) {
   }, []);
 
   return React.useCallback(
-    (args: Partial<IState<T>>) => (mounted.current ? dispatch(args) : void 0),
+    (args: Partial<IState<T, U>>) =>
+      mounted.current ? dispatch(args) : void 0,
     [dispatch],
   );
 }
@@ -35,13 +38,13 @@ const defaultInitialState = {
   error: null,
 };
 
-function useAsync<T>(initialState: IState<T> = {}) {
+function useAsync<T, U>(initialState: IState<T, U> = {}) {
   const initialStateRef = React.useRef({
     ...defaultInitialState,
     ...initialState,
   });
   const [{ status, data, error }, setState] = React.useReducer(
-    (s: IState<T>, a: Partial<IState<T>>) => ({ ...s, ...a }),
+    (s: IState<T, U>, a: Partial<IState<T, U>>) => ({ ...s, ...a }),
     initialStateRef.current,
   );
 
@@ -52,7 +55,7 @@ function useAsync<T>(initialState: IState<T> = {}) {
     [safeSetState],
   );
   const setError = React.useCallback(
-    (error: Error) => safeSetState({ error, status: Status.rejected }),
+    (error: U) => safeSetState({ error, status: Status.rejected }),
     [safeSetState],
   );
   const reset = React.useCallback(() => safeSetState(initialStateRef.current), [
@@ -73,7 +76,7 @@ function useAsync<T>(initialState: IState<T> = {}) {
           setData(data);
           return data;
         },
-        (error: Error) => {
+        (error: U) => {
           setError(error);
           return Promise.reject(error);
         },

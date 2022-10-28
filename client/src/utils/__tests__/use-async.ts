@@ -64,7 +64,7 @@ test("calling run with a promise which resolves", async () => {
   const resolvedValue = Symbol("resolved value");
 
   const { promise, resolve } = deferred<symbol, unknown>();
-  const { result } = renderHook(() => useAsync<symbol>());
+  const { result } = renderHook(() => useAsync<symbol, unknown>());
 
   expect(result.current).toEqual(defaultState);
 
@@ -91,7 +91,7 @@ test("calling run with a promise which rejects", async () => {
   const rejectedValue = Symbol("rejected value");
 
   const { promise, reject } = deferred<unknown, symbol>();
-  const { result } = renderHook(() => useAsync());
+  const { result } = renderHook(() => useAsync<unknown, symbol>());
 
   expect(result.current).toEqual(defaultState);
 
@@ -112,11 +112,33 @@ test("calling run with a promise which rejects", async () => {
 
 test("can specify an initial state", () => {
   const mockData = Symbol("resolved value");
-
   const customInitialState = { status: Status.resolved, data: mockData };
-  const { result } = renderHook(() => useAsync<symbol>(customInitialState));
+  const { result } = renderHook(() =>
+    useAsync<symbol, unknown>(customInitialState),
+  );
+
   expect(result.current).toEqual({
     ...resolvedState,
     ...customInitialState,
   });
+});
+
+test("can set data", () => {
+  const mockData = Symbol("resolved value");
+  const { result } = renderHook(() => useAsync<symbol, unknown>());
+
+  act(() => {
+    result.current.setData(mockData);
+  });
+  expect(result.current).toEqual({ ...resolvedState, data: mockData });
+});
+
+test("can set error", () => {
+  const mockError = Symbol("rejected value");
+  const { result } = renderHook(() => useAsync<unknown, symbol>());
+
+  act(() => {
+    result.current.setError(mockError);
+  });
+  expect(result.current).toEqual({ ...rejectedState, error: mockError });
 });
