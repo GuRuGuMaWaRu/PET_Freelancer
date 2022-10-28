@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Label, Input, FormGroup, ErrorMessage, Spinner } from "./lib";
 import { useAuth, useNotification } from "../context";
 import { useAsync, NotificationType } from "../utils";
+import type { IResponseUser } from '../utils'
 
 interface ILoginFormInputs {
   email: string;
@@ -17,7 +18,7 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginFormInputs>();
-  const { run, isLoading, isError, error } = useAsync();
+  const { run, isLoading, isError, error } = useAsync<IResponseUser, Error>();
   const { setNotification } = useNotification();
   const { login } = useAuth();
   const submit: SubmitHandler<ILoginFormInputs> = (data) => {

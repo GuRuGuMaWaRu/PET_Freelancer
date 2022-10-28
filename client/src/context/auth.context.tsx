@@ -1,13 +1,8 @@
 import * as React from "react";
 
 import { useAsync } from "../utils";
+import type { IResponseUser } from '../utils'
 import { FullPageErrorFallback, FullPageSpinner } from "../components/lib";
-
-interface IUser {
-  name: string;
-  email: string;
-  token: string;
-}
 
 interface ILoginFormInputs {
   email: string;
@@ -23,13 +18,13 @@ interface IRegisterFormInputs {
 
 interface IResponse {
   status: string;
-  data: IUser;
+  data: IResponseUser;
 }
 
 interface IState {
-  user: IUser | null | undefined;
-  login: (data: ILoginFormInputs) => Promise<void>;
-  signup: (data: IRegisterFormInputs) => Promise<void>;
+  user: IResponseUser | null | undefined;
+  login: (data: ILoginFormInputs) => Promise<IResponseUser>;
+  signup: (data: IRegisterFormInputs) => Promise<IResponseUser>;
 }
 
 const localStorageKey = "__FreelancerApp_token__";
@@ -81,7 +76,8 @@ const AuthContext = React.createContext<IState>({} as IState);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { run, data, error, isIdle, isLoading, isError, setData } = useAsync<
-    IUser
+    IResponseUser,
+    Error
   >();
 
   React.useEffect(() => {
@@ -92,7 +88,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     (data: ILoginFormInputs) => {
       return client("users/login", { data })
         .then(handleUserResponse)
-        .then((user) => setData(user));
+        .then((user) => {
+          setData(user);
+          return user;
+        });
     },
     [setData],
   );
@@ -101,7 +100,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     (data: IRegisterFormInputs) => {
       return client("users/signup", { data })
         .then(handleUserResponse)
-        .then((user) => setData(user));
+        .then((user) => {
+          setData(user)
+          return user;
+        });
     },
     [setData],
   );
