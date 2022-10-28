@@ -1,16 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { useAsync, Status } from "../hooks";
 
-let spy: jest.SpyInstance;
-
-beforeEach(() => {
-  spy = jest.spyOn(console, "error");
-});
-
-afterEach(() => {
-  spy.mockRestore();
-});
-
 function deferred<T, U>() {
   let resolve!: (value: T) => void;
   let reject!: (value: U) => void;
@@ -141,4 +131,33 @@ test("can set error", () => {
     result.current.setError(mockError);
   });
   expect(result.current).toEqual({ ...rejectedState, error: mockError });
+});
+
+test("can reset data", () => {
+  const mockData = Symbol("resolved value");
+  const { result } = renderHook(() => useAsync<symbol, unknown>());
+
+  act(() => result.current.setData(mockData));
+  expect(result.current).toEqual({ ...resolvedState, data: mockData });
+
+  act(() => result.current.reset());
+  expect(result.current).toEqual(defaultState);
+});
+
+test("no state updates happen if the component is unmounted while pending", async () => {
+  const resolvedValue = Symbol("resolved value");
+  const { promise, resolve } = deferred<symbol, unknown>();
+  const { result, unmount } = renderHook(() => useAsync<symbol, unknown>());
+
+  act(() => {
+    result.current.run(promise);
+  });
+  unmount();
+  expect(result.current).toEqual(pendingState);
+
+  await act(async () => {
+    resolve(resolvedValue);
+  });
+
+  expect(result.current).not.toEqual({ ...resolvedState, data: resolvedValue });
 });
