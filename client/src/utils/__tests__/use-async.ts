@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { useAsync } from "../hooks";
+import { useAsync, Status } from "../hooks";
 
 let spy: jest.SpyInstance;
 
@@ -108,4 +108,15 @@ test("calling run with a promise which rejects", async () => {
     });
   });
   expect(result.current).toEqual({ ...rejectedState, error: rejectedValue });
+});
+
+test("can specify an initial state", () => {
+  const mockData = Symbol("resolved value");
+
+  const customInitialState = { status: Status.resolved, data: mockData };
+  const { result } = renderHook(() => useAsync<symbol>(customInitialState));
+  expect(result.current).toEqual({
+    ...resolvedState,
+    ...customInitialState,
+  });
 });

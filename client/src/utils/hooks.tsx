@@ -29,7 +29,11 @@ function useSafeDispatch<T>(dispatch: React.Dispatch<Partial<IState<T>>>) {
   );
 }
 
-const defaultInitialState = { status: Status.idle, data: null, error: null };
+const defaultInitialState = {
+  status: Status.idle,
+  data: null,
+  error: null,
+};
 
 function useAsync<T>(initialState: IState<T> = {}) {
   const initialStateRef = React.useRef({
@@ -93,4 +97,4 @@ function useAsync<T>(initialState: IState<T> = {}) {
   };
 }
 
-export { useAsync };
+export { useAsync, Status };
