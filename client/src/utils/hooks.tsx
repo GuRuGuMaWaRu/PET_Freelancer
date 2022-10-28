@@ -63,12 +63,6 @@ function useAsync<T, U>(initialState: IState<T, U> = {}) {
   ]);
   const run = React.useCallback(
     (promise: Promise<T | null>) => {
-      if (!promise || !promise.then) {
-        throw new Error(
-          "The argument passed to useAsync().run must be a promise. Maybe a function that's passed isn't returning anything?",
-        );
-      }
-
       safeSetState({ status: Status.pending });
 
       return promise.then(
