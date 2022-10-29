@@ -53,8 +53,8 @@ const rejectedState = {
 test("calling run with a promise which resolves", async () => {
   const resolvedValue = Symbol("resolved value");
 
-  const { promise, resolve } = deferred<symbol, unknown>();
-  const { result } = renderHook(() => useAsync<symbol, unknown>());
+  const { promise, resolve } = deferred<symbol, Error>();
+  const { result } = renderHook(() => useAsync<symbol, Error>());
 
   expect(result.current).toEqual(defaultState);
 
@@ -115,7 +115,7 @@ test("can specify an initial state", () => {
 
 test("can set data", () => {
   const mockData = Symbol("resolved value");
-  const { result } = renderHook(() => useAsync<symbol, unknown>());
+  const { result } = renderHook(() => useAsync<symbol, Error>());
 
   act(() => {
     result.current.setData(mockData);
@@ -135,7 +135,7 @@ test("can set error", () => {
 
 test("can reset data", () => {
   const mockData = Symbol("resolved value");
-  const { result } = renderHook(() => useAsync<symbol, unknown>());
+  const { result } = renderHook(() => useAsync<symbol, Error>());
 
   act(() => result.current.setData(mockData));
   expect(result.current).toEqual({ ...resolvedState, data: mockData });
@@ -146,8 +146,8 @@ test("can reset data", () => {
 
 test("no state updates happen if the component is unmounted while pending", async () => {
   const resolvedValue = Symbol("resolved value");
-  const { promise, resolve } = deferred<symbol, unknown>();
-  const { result, unmount } = renderHook(() => useAsync<symbol, unknown>());
+  const { promise, resolve } = deferred<symbol, Error>();
+  const { result, unmount } = renderHook(() => useAsync<symbol, Error>());
 
   act(() => {
     result.current.run(promise);
