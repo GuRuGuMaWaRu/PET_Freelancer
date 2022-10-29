@@ -51,7 +51,7 @@ function useAsync<T, U>(initialState: IState<T, U> = {}) {
   const safeSetState = useSafeDispatch(setState);
 
   const setData = React.useCallback(
-    (data: T) => safeSetState({ data, status: Status.resolved }),
+    (data: T | null) => safeSetState({ data, status: Status.resolved }),
     [safeSetState],
   );
   const setError = React.useCallback(
@@ -67,9 +67,7 @@ function useAsync<T, U>(initialState: IState<T, U> = {}) {
 
       return promise.then(
         (data: T | null) => {
-          if (data) {
-            setData(data);
-          }
+          setData(data);
           return data;
         },
         (error: U) => {
