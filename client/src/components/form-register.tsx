@@ -5,14 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Label, Input, FormGroup, ErrorMessage, Spinner } from "./lib";
 import { useAuth, useNotification } from "../context";
 import { useAsync, NotificationType } from "../utils";
-import type {IResponseUser} from "../utils"
-
-interface IRegisterFormInputs {
-  name: string;
-  email: string;
-  password1: string;
-  password2: string;
-}
+import type { IResponseUserData, IRegisterFormInputs } from "../utils"
 
 const RegisterForm = ({
   submitButton,
@@ -26,7 +19,7 @@ const RegisterForm = ({
     watch,
   } = useForm<IRegisterFormInputs>();
   const watchPassword = watch("password1");
-  const { run, isLoading, isError, error } = useAsync<IResponseUser, Error>();
+  const { run, isLoading, isError, error } = useAsync<IResponseUserData, Error>();
   const { setNotification } = useNotification();
   const { signup } = useAuth();
   const submit: SubmitHandler<IRegisterFormInputs> = (data) => {

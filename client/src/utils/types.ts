@@ -5,11 +5,24 @@ enum NotificationType {
   fail = "fail",
 }
 
-interface IResponseUser {
+interface IResponseUserData {
   name: string;
   email: string;
   token: string;
 }
 
+interface ILoginFormInputs {
+  email: string;
+  password: string;
+}
+
+interface IRegisterFormInputs {
+  name: string;
+  email: string;
+  password1: string;
+  password2: string;
+}
+
+
 export { NotificationType };
-export type {IResponseUser};
+export type { IResponseUserData, ILoginFormInputs, IRegisterFormInputs };
