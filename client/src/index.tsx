@@ -8,6 +8,11 @@ import { AppProviders } from "./context";
 import { App } from "./app";
 import { FullPageErrorFallback } from "./components";
 
+if (process.env.NODE_ENV === "test") {
+  const { worker } = require("./test-server");
+  worker.start();
+}
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,
 );
