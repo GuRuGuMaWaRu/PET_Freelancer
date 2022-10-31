@@ -62,3 +62,20 @@ test("allows for config overrides", async () => {
   expect(request?.mode).toBe(customConfig.mode);
   expect(request?.headers.get("Boom")).toBe(customConfig.headers.Boom);
 });
+
+test("when data is provided, it is stringified and a POST request is made", async () => {
+  const endpoint = "test-endpoint";
+
+  server.use(
+    rest.post(`${TEST_API_URL}/${endpoint}`, async (req, res, ctx) => {
+      const data = await req.json();
+      return res(ctx.json(data));
+    }),
+  );
+
+  const customData = { a: "foo" };
+
+  const result = await client(endpoint, { data: customData });
+
+  expect(result).toEqual(customData);
+});
