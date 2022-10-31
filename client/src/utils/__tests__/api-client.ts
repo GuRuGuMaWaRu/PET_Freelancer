@@ -79,3 +79,18 @@ test("when data is provided, it is stringified and a POST request is made", asyn
 
   expect(result).toEqual(customData);
 });
+
+test("correctly rejects the promise if there is an error", async () => {
+  const endpoint = "test-endpoint";
+  const testError = { message: "There's a test error" };
+
+  server.use(
+    rest.get(`${TEST_API_URL}/${endpoint}`, async (req, res, ctx) => {
+      return res(ctx.json(testError));
+    }),
+  );
+
+  const error = await client(endpoint).catch((e) => e);
+
+  expect(error.message).toEqual(testError.message);
+});
