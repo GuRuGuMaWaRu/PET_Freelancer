@@ -1,16 +1,23 @@
-import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { createUser } from "../test/generate";
+import { render, screen, within } from "../test/test-helpers";
 import AppUnauthenticated from "../app-unauthenticated";
 
-test("opens a Register menu", async () => {
+async function renderAuthModal(modal = "login") {
   const user = userEvent.setup();
-  render(<AppUnauthenticated />);
 
-  await user.click(screen.getByRole("button", { name: /register/i }));
-
+  const modalName = new RegExp(modal, "i");
+  await render(<AppUnauthenticated />);
+  await user.click(screen.getByRole("button", { name: modalName }));
   const inModal = within(screen.getByRole("dialog"));
+
+  return { user, inModal };
+}
+
+test("opens a Register menu", async () => {
+  const { inModal } = await renderAuthModal("register");
+
   expect(
     inModal.getByRole("heading", { name: /register/i }),
   ).toBeInTheDocument();
@@ -24,12 +31,8 @@ test("opens a Register menu", async () => {
 });
 
 test("opens a Login menu", async () => {
-  const user = userEvent.setup();
-  render(<AppUnauthenticated />);
+  const { inModal } = await renderAuthModal("login");
 
-  await user.click(screen.getByRole("button", { name: /login/i }));
-
-  const inModal = within(screen.getByRole("dialog"));
   expect(inModal.getByRole("heading", { name: /login/i })).toBeInTheDocument();
   expect(inModal.getByRole("textbox", { name: /email/i })).toBeInTheDocument();
   expect(inModal.getByLabelText(/password/i)).toBeInTheDocument();
@@ -37,12 +40,7 @@ test("opens a Login menu", async () => {
 });
 
 test("shows error messages for empty fields in Register menu", async () => {
-  const user = userEvent.setup();
-  render(<AppUnauthenticated />);
-
-  await user.click(screen.getByRole("button", { name: /register/i }));
-
-  const inModal = within(screen.getByRole("dialog"));
+  const { user, inModal } = await renderAuthModal("register");
 
   expect(inModal.queryAllByRole("alert")).toHaveLength(0);
   await user.click(inModal.getByRole("button", { name: /register/i }));
@@ -50,12 +48,7 @@ test("shows error messages for empty fields in Register menu", async () => {
 });
 
 test("shows error messages for empty fields in Login menu", async () => {
-  const user = userEvent.setup();
-  render(<AppUnauthenticated />);
-
-  await user.click(screen.getByRole("button", { name: /login/i }));
-
-  const inModal = within(screen.getByRole("dialog"));
+  const { user, inModal } = await renderAuthModal("login");
 
   expect(inModal.queryAllByRole("alert")).toHaveLength(0);
   await user.click(inModal.getByRole("button", { name: /login/i }));
@@ -63,14 +56,8 @@ test("shows error messages for empty fields in Login menu", async () => {
 });
 
 test("shows an error message when passwords are not identical in Register menu", async () => {
-  const user = userEvent.setup();
+  const { user, inModal } = await renderAuthModal("register");
   const fakeUser = createUser();
-
-  render(<AppUnauthenticated />);
-
-  await user.click(screen.getByRole("button", { name: /register/i }));
-
-  const inModal = within(screen.getByRole("dialog"));
 
   await user.type(
     inModal.getByRole("textbox", { name: /name:/i }),
