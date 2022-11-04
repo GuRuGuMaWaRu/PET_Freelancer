@@ -38,7 +38,7 @@ const RegisterForm = ({
   return (
     <form onSubmit={handleSubmit(submit)}>
       <FormGroup>
-        <Label htmlFor="email">Name:</Label>
+        <Label htmlFor="name">Name:</Label>
         <Input
           type="text"
           id="name"
@@ -97,7 +97,7 @@ const RegisterForm = ({
         )}
       </FormGroup>
       <FormGroup>
-        <Label htmlFor="password1">Repeat password:</Label>
+        <Label htmlFor="password2">Repeat password:</Label>
         <Input
           type="password"
           id="password2"
