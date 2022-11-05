@@ -1,12 +1,24 @@
-// src/mocks/handlers.js
 import { rest } from "msw";
+
 import { TEST_API_URL } from "../../config";
+import { users } from "./users";
 
 export const handlers = [
-  rest.post("/login", (req, res, ctx) => {
+  rest.post(`${TEST_API_URL}/users/login`, async (req, res, ctx) => {
+    const { email, password } = await req.json();
+    const user = users.find(
+      (u) => u.email === email && u.password === password,
+    );
+
+    if (!user) {
+      return res(
+        ctx.status(400),
+        ctx.json({ status: "fail", message: "Invalid credentials" }),
+      );
+    }
     console.log("and we are in!");
     // Persist user's authentication in the session
-    sessionStorage.setItem("is-authenticated", "true");
+    // sessionStorage.setItem("is-authenticated", "true");
 
     return res(
       // Respond with a 200 status code
