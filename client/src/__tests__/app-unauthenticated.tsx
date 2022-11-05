@@ -116,5 +116,9 @@ test("runs a console.error when there is an error during login", async () => {
   await waitForLoadingToFinish();
 
   expect(console.error).toHaveBeenCalled();
+  expect(console.error).toHaveBeenCalledWith({
+    status: "fail",
+    message: "Invalid credentials",
+  });
   expect(console.error).toHaveBeenCalledTimes(1);
 });
