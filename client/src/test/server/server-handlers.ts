@@ -1,14 +1,12 @@
 import { rest } from "msw";
 
 import { TEST_API_URL } from "../../config";
-import { users } from "./users";
+import { getUser } from "./users";
 
 export const handlers = [
   rest.post(`${TEST_API_URL}/users/login`, async (req, res, ctx) => {
     const { email, password } = await req.json();
-    const user = users.find(
-      (u) => u.email === email && u.password === password,
-    );
+    const user = getUser(email, password);
 
     if (!user) {
       return res(
@@ -16,13 +14,28 @@ export const handlers = [
         ctx.json({ status: "fail", message: "Invalid credentials" }),
       );
     }
-    console.log("and we are in!");
-    // Persist user's authentication in the session
-    // sessionStorage.setItem("is-authenticated", "true");
 
     return res(
       // Respond with a 200 status code
       ctx.status(200),
+      ctx.json({ status: "success", data: user }),
+    );
+  }),
+  rest.post(`${TEST_API_URL}/users/signup`, async (req, res, ctx) => {
+    const newUser = await req.json();
+    const user = getUser(newUser.email, newUser.password1);
+
+    if (user) {
+      return res(
+        ctx.status(400),
+        ctx.json({ status: "fail", message: "User already exists" }),
+      );
+    }
+
+    return res(
+      // Respond with a 200 status code
+      ctx.status(200),
+      ctx.json({ status: "success", data: user }),
     );
   }),
 

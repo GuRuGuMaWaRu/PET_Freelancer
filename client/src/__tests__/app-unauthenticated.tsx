@@ -1,6 +1,7 @@
 import userEvent from "@testing-library/user-event";
 
 import { createUser } from "../test/generate";
+import { addUser } from "../test/server/users";
 import {
   render,
   screen,
@@ -95,7 +96,7 @@ test("shows an error message when passwords are not identical in Register menu",
   );
 });
 
-test("runs a console.error when there is an error during login", async () => {
+test("runs a console.error when logging in as a nonexistent user", async () => {
   const { user, inModal } = await renderAuthModal("login");
   const fakeUser = createUser();
 
@@ -119,6 +120,39 @@ test("runs a console.error when there is an error during login", async () => {
   expect(console.error).toHaveBeenCalledWith({
     status: "fail",
     message: "Invalid credentials",
+  });
+  expect(console.error).toHaveBeenCalledTimes(1);
+});
+
+test("runs a console.error when registering an already registered user", async () => {
+  const { user, inModal } = await renderAuthModal("register");
+  const fakeUser = createUser();
+  addUser(fakeUser);
+
+  await user.type(
+    inModal.getByRole("textbox", { name: /name:/i }),
+    fakeUser.name,
+  );
+  await user.type(
+    inModal.getByRole("textbox", { name: /email:/i }),
+    fakeUser.email,
+  );
+  await user.type(inModal.getByLabelText(/^password:$/i), fakeUser.password);
+  await user.type(
+    inModal.getByLabelText(/^repeat password:$/i),
+    fakeUser.password,
+  );
+
+  await user.click(inModal.getByRole("button", { name: /register/i }));
+
+  await screen.findByLabelText(/loading/i);
+
+  await waitForLoadingToFinish();
+
+  expect(console.error).toHaveBeenCalled();
+  expect(console.error).toHaveBeenCalledWith({
+    status: "fail",
+    message: "User already exists",
   });
   expect(console.error).toHaveBeenCalledTimes(1);
 });

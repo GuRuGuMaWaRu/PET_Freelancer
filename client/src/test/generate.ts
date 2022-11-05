@@ -1,16 +1,9 @@
 import { faker } from "@faker-js/faker";
-
-interface IUser {
-  id: string;
-  email: string;
-  name: string;
-  password: string;
-}
+import type { IUser } from './server/users'
 
 const createUser = (overrides: Partial<IUser> = {}): IUser => ({
-  id: faker.datatype.uuid(),
-  email: faker.internet.email(),
   name: faker.internet.userName(),
+  email: faker.internet.email(),
   password: faker.internet.password(),
   ...overrides,
 });
