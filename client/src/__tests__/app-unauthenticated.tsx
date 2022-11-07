@@ -96,7 +96,7 @@ test("shows an error message when passwords are not identical in Register menu",
   );
 });
 
-test("runs a console.error when logging in as a nonexistent user", async () => {
+test("shows error notification when logging in as a nonexistent user", async () => {
   const { user, inModal } = await renderAuthModal("login");
   const fakeUser = createUser();
 
@@ -106,14 +106,8 @@ test("runs a console.error when logging in as a nonexistent user", async () => {
   );
   await user.type(inModal.getByLabelText(/password:/i), fakeUser.password);
 
-  expect(inModal.getByRole("textbox", { name: /email:/i })).toHaveValue(
-    fakeUser.email,
-  );
-  expect(inModal.getByLabelText(/password:/i)).toHaveValue(fakeUser.password);
   await user.click(inModal.getByRole("button", { name: /login/i }));
-
   await screen.findByLabelText(/loading/i);
-
   await waitForLoadingToFinish();
 
   expect(console.error).toHaveBeenCalled();
@@ -122,9 +116,14 @@ test("runs a console.error when logging in as a nonexistent user", async () => {
     message: "Invalid credentials",
   });
   expect(console.error).toHaveBeenCalledTimes(1);
+
+  expect(await screen.findByLabelText(/notification/i)).toBeInTheDocument();
+  expect(
+    (await screen.findByLabelText(/notification/i)).textContent,
+  ).toMatchInlineSnapshot(`"Invalid credentials"`);
 });
 
-test("runs a console.error when registering an already registered user", async () => {
+test("shows error notification when registering an already registered user", async () => {
   const { user, inModal } = await renderAuthModal("register");
   const fakeUser = createUser();
   addUser(fakeUser);
@@ -144,9 +143,7 @@ test("runs a console.error when registering an already registered user", async (
   );
 
   await user.click(inModal.getByRole("button", { name: /register/i }));
-
   await screen.findByLabelText(/loading/i);
-
   await waitForLoadingToFinish();
 
   expect(console.error).toHaveBeenCalled();
@@ -155,4 +152,9 @@ test("runs a console.error when registering an already registered user", async (
     message: "User already exists",
   });
   expect(console.error).toHaveBeenCalledTimes(1);
+
+  expect(await screen.findByLabelText(/notification/i)).toBeInTheDocument();
+  expect(
+    (await screen.findByLabelText(/notification/i)).textContent,
+  ).toMatchInlineSnapshot(`"User already exists"`);
 });
