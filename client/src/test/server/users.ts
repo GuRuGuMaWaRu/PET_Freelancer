@@ -2,6 +2,7 @@ interface IUser {
   name: string;
   email: string;
   password: string;
+  token?: string;
 }
 
 const users: IUser[] = [];
@@ -13,7 +14,7 @@ function addUser(newUser: IUser): void {
     return;
   }
 
-  users.push(newUser);
+  users.push({ ...newUser, token: newUser.password });
 }
 
 function getUser(email: string, password: string): IUser | undefined{
@@ -22,5 +23,11 @@ function getUser(email: string, password: string): IUser | undefined{
     );
 }
 
+function getUserByToken(token: string): IUser | undefined{
+  return users.find(
+      (u) => u.token === token,
+    );
+}
+
 export type { IUser }
-export { users, addUser, getUser };
+export { users, addUser, getUser, getUserByToken };

@@ -1,11 +1,15 @@
 import { rest } from "msw";
 
-import { TEST_API_URL } from "../../config";
-import { getUser } from "./users";
+import { API_URL } from "../../config";
+import { getUser, addUser, getUserByToken } from "./users";
+import { localStorageKey } from "../../config";
 
 export const handlers = [
-  rest.post(`${TEST_API_URL}/users/login`, async (req, res, ctx) => {
-    const { email, password } = await req.json();
+  rest.post(`${API_URL}/users/login`, async (req, res, ctx) => {
+    const {
+      email,
+      password,
+    }: { email: string; password: string } = await req.json();
     const user = getUser(email, password);
 
     if (!user) {
@@ -21,9 +25,18 @@ export const handlers = [
       ctx.json({ status: "success", data: user }),
     );
   }),
-  rest.post(`${TEST_API_URL}/users/signup`, async (req, res, ctx) => {
-    const newUser = await req.json();
-    const user = getUser(newUser.email, newUser.password1);
+  rest.post(`${API_URL}/users/signup`, async (req, res, ctx) => {
+    const {
+      name,
+      email,
+      password1,
+    }: {
+      name: string;
+      email: string;
+      password1: string;
+      password2: string;
+    } = await req.json();
+    const user = getUser(email, password1);
 
     if (user) {
       return res(
@@ -32,18 +45,21 @@ export const handlers = [
       );
     }
 
+    addUser({ name, email, password: password1 });
+    const newUser = getUser(email, password1);
+
     return res(
       // Respond with a 200 status code
       ctx.status(200),
-      ctx.json({ status: "success", data: user }),
+      ctx.json({ status: "success", data: newUser }),
     );
   }),
 
-  rest.get("/user", (req, res, ctx) => {
+  rest.get(`${API_URL}/users/getUser`, (req, res, ctx) => {
     // Check if the user is authenticated in this session
-    const isAuthenticated = sessionStorage.getItem("is-authenticated");
+    const token = localStorage.getItem(localStorageKey);
 
-    if (!isAuthenticated) {
+    if (!token) {
       // If not authenticated, respond with a 403 error
       return res(
         ctx.status(403),
@@ -53,11 +69,12 @@ export const handlers = [
       );
     }
 
+    const user = getUserByToken(token);
     // If authenticated, return a mocked user details
     return res(
       ctx.status(200),
       ctx.json({
-        username: "admin",
+        data: user,
       }),
     );
   }),

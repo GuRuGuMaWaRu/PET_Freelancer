@@ -8,25 +8,14 @@ import {
   IRegisterFormInputs,
 } from "../utils";
 import { FullPageErrorFallback, FullPageSpinner } from "../components/lib";
+import { useNotification } from "./";
+import { localStorageKey } from "../config";
 
 interface IState {
   user: IResponseUserData | null | undefined;
   login: (data: ILoginFormInputs) => Promise<IResponseUserData>;
   signup: (data: IRegisterFormInputs) => Promise<IResponseUserData>;
-}
-
-const localStorageKey = "__FreelancerApp_token__";
-
-async function bootstrapUser() {
-  let user: IResponseUserData | null = null;
-
-  const token = window.localStorage.getItem(localStorageKey);
-  if (token) {
-    const res = await client<IResponseUserData>("users/getUser", { token });
-    user = res.data;
-  }
-
-  return user;
+  logout: () => void;
 }
 
 const AuthContext = React.createContext<IState>({} as IState);
@@ -36,10 +25,29 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     IResponseUserData,
     Error
   >();
+  const { setNotification } = useNotification();
 
   React.useEffect(() => {
     run(bootstrapUser());
   }, [run]);
+
+  async function bootstrapUser() {
+    let user: IResponseUserData | null = null;
+
+    const token = window.localStorage.getItem(localStorageKey);
+    if (token) {
+      const res = await client<IResponseUserData>("users/getUser", {
+        token,
+      }).catch((e) => {
+        console.log(e);
+        setNotification({ type: "error", message: e.message });
+        return { data: null };
+      });
+      user = res.data;
+    }
+
+    return user;
+  }
 
   const login = React.useCallback(
     async (data: ILoginFormInputs) => {
@@ -63,13 +71,19 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     [setData],
   );
 
+  const logout = React.useCallback(() => {
+    window.localStorage.removeItem(localStorageKey);
+    setData(null);
+  }, [setData]);
+
   const value = React.useMemo(
     () => ({
       user: data,
       login,
       signup,
+      logout,
     }),
-    [data, login, signup],
+    [data, login, signup, logout],
   );
 
   if (isLoading || isIdle) {

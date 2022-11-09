@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Notification } from "../components";
 import { NotificationType } from "../utils";
 
 interface INotification {
@@ -27,15 +28,16 @@ const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [notification]);
 
+  const value = {
+    notification,
+    setNotification,
+    showNotification,
+    setShowNotification,
+  };
+
   return (
-    <NotificationContext.Provider
-      value={{
-        notification,
-        setNotification,
-        showNotification,
-        setShowNotification,
-      }}
-    >
+    <NotificationContext.Provider value={value}>
+      <Notification />
       {children}
     </NotificationContext.Provider>
   );

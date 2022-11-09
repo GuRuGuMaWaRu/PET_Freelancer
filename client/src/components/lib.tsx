@@ -167,11 +167,11 @@ function FullPageSpinner() {
 /* Notifications */
 const setNotificationColor = (type: NotificationType) => {
   switch (type) {
-    case NotificationType.create:
-    case NotificationType.delete:
+    case "create":
+    case "delete":
       return colors.notificationDone;
-    case NotificationType.error:
-    case NotificationType.fail:
+    case "error":
+    case "fail":
       return colors.notificationError;
     default:
       return colors.text;
@@ -238,7 +238,6 @@ export {
   FullPageErrorFallback,
   Spinner,
   FullPageSpinner,
-  NotificationType,
   NotificationMessage,
   WarningIcon,
   AccomplishedIcon,

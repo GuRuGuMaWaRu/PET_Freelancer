@@ -6,11 +6,12 @@ import "./bootstrap";
 import reportWebVitals from "./reportWebVitals";
 import { AppProviders } from "./context";
 import { App } from "./app";
-import { FullPageErrorFallback, Notification } from "./components";
+import { FullPageErrorFallback } from "./components";
 
-if (process.env.NODE_ENV === "test") {
-  const { worker } = require("./test-server");
-  worker.start();
+if (process.env.NODE_ENV === "development") {
+  const { server } = require("./test/server/dev-server");
+  console.log("development");
+  server.start();
 }
 
 const root = ReactDOM.createRoot(
@@ -20,10 +21,7 @@ root.render(
   <React.StrictMode>
     <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
       <AppProviders>
-        <>
-          <Notification />
-          <App />
-        </>
+        <App />
       </AppProviders>
     </ErrorBoundary>
   </React.StrictMode>,

@@ -5,9 +5,9 @@ import { NotificationProvider } from "./notification.context";
 function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <ReactQueryProvider>
-      <AuthProvider>
-        <NotificationProvider>{children}</NotificationProvider>
-      </AuthProvider>
+      <NotificationProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </NotificationProvider>
     </ReactQueryProvider>
   );
 }

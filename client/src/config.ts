@@ -1,2 +1,6 @@
 export const NOTIFICATION_DURATION = 4000;
-export const TEST_API_URL = "http://localhost/api/v1";
+export const API_URL =
+  process.env.NODE_ENV === "test"
+    ? "http://localhost/api/v1"
+    : "http://localhost:3000/api/v1";
+export const localStorageKey = "__FreelancerApp_token__";

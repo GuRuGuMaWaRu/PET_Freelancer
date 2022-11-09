@@ -5,14 +5,14 @@ import {
   PathParams,
 } from "../../test/server/test-server";
 import { client } from "../../utils";
-import { TEST_API_URL } from "../../config";
+import { API_URL } from "../../config";
 
 test("calls fetch at the endpoint with the arguments for GET requests", async () => {
   const endpoint = "test-endpoint";
   const mockResult = { mockValue: "VALUE" };
 
   server.use(
-    rest.get(`${TEST_API_URL}/${endpoint}`, async (req, res, ctx) => {
+    rest.get(`${API_URL}/${endpoint}`, async (req, res, ctx) => {
       return res(ctx.json(mockResult));
     }),
   );
@@ -29,7 +29,7 @@ test("adds auth token when a token is provided", async () => {
   const mockResult = { mockValue: "VALUE" };
 
   server.use(
-    rest.get(`${TEST_API_URL}/${endpoint}`, async (req, res, ctx) => {
+    rest.get(`${API_URL}/${endpoint}`, async (req, res, ctx) => {
       request = req;
       return res(ctx.json(mockResult));
     }),
@@ -46,7 +46,7 @@ test("allows for config overrides", async () => {
   const mockResult = { mockValue: "VALUE" };
 
   server.use(
-    rest.get(`${TEST_API_URL}/${endpoint}`, async (req, res, ctx) => {
+    rest.get(`${API_URL}/${endpoint}`, async (req, res, ctx) => {
       request = req;
       return res(ctx.json(mockResult));
     }),
@@ -67,7 +67,7 @@ test("when data is provided, it is stringified and a POST request is made", asyn
   const endpoint = "test-endpoint";
 
   server.use(
-    rest.post(`${TEST_API_URL}/${endpoint}`, async (req, res, ctx) => {
+    rest.post(`${API_URL}/${endpoint}`, async (req, res, ctx) => {
       const data = await req.json();
       return res(ctx.json(data));
     }),
@@ -85,7 +85,7 @@ test("correctly rejects the promise if there is an error", async () => {
   const testError = { message: "There's a test error" };
 
   server.use(
-    rest.get(`${TEST_API_URL}/${endpoint}`, async (req, res, ctx) => {
+    rest.get(`${API_URL}/${endpoint}`, async (req, res, ctx) => {
       return res(ctx.json(testError));
     }),
   );

@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Label, Input, FormGroup, ErrorMessage, Spinner } from "./lib";
 import { useAuth, useNotification } from "../context";
-import { useAsync, NotificationType } from "../utils";
+import { useAsync } from "../utils";
 import type { IResponseUserData, ILoginFormInputs } from '../utils'
 
 const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
@@ -23,7 +23,7 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
   React.useEffect(() => {
     if (isError) {
       setNotification({
-        type: NotificationType.error,
+        type: "error",
         message: error?.message ?? "There was an error",
       });
     }

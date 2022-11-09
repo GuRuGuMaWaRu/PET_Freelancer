@@ -9,7 +9,6 @@ import {
   AccomplishedIcon,
   CloseIcon,
 } from "./lib";
-import { NotificationType } from "../utils";
 
 const AnimatedNotificationMessage = animated(NotificationMessage);
 
@@ -44,8 +43,7 @@ const Notification: React.FC = () => {
   };
 
   const notificationIcon =
-    notification?.type === NotificationType.create ||
-    notification?.type === NotificationType.delete ? (
+    notification?.type === "create" || notification?.type === "delete" ? (
       <AccomplishedIcon />
     ) : (
       <WarningIcon />
@@ -56,7 +54,8 @@ const Notification: React.FC = () => {
       item && (
         <AnimatedNotificationMessage
           role="alert"
-          type={notification?.type || NotificationType.error}
+          aria-label="notification"
+          type={notification?.type || "error"}
           style={{
             transform: styles.y.to(
               (value) => `translateY(${value}px) translateX(-50%)`,
