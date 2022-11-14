@@ -28,26 +28,26 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { setNotification } = useNotification();
 
   React.useEffect(() => {
-    run(bootstrapUser());
-  }, [run]);
+    async function bootstrapUser() {
+      let user: IResponseUserData | null = null;
 
-  async function bootstrapUser() {
-    let user: IResponseUserData | null = null;
+      const token = window.localStorage.getItem(localStorageKey);
+      if (token) {
+        const res = await client<IResponseUserData>("users/getUser", {
+          token,
+        }).catch((e) => {
+          console.log(e);
+          setNotification({ type: "error", message: e.message });
+          return { data: null };
+        });
+        user = res.data;
+      }
 
-    const token = window.localStorage.getItem(localStorageKey);
-    if (token) {
-      const res = await client<IResponseUserData>("users/getUser", {
-        token,
-      }).catch((e) => {
-        console.log(e);
-        setNotification({ type: "error", message: e.message });
-        return { data: null };
-      });
-      user = res.data;
+      return user;
     }
 
-    return user;
-  }
+    run(bootstrapUser());
+  }, [run, setNotification]);
 
   const login = React.useCallback(
     async (data: ILoginFormInputs) => {
