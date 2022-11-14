@@ -1,3 +1,5 @@
+import {usersKey} from '../../config'
+
 interface IUser {
   name: string;
   email: string;
@@ -5,26 +7,38 @@ interface IUser {
   token?: string;
 }
 
-const users: IUser[] = [];
+
+const users: Record<string, IUser> = {};
+
+// initialize
+load()
+
+function persist() {
+  window.localStorage.setItem(usersKey, JSON.stringify(users));
+}
+function load() {
+  Object.assign(users, JSON.parse(window.localStorage.getItem(usersKey) || '{}'));
+}
 
 function addUser(newUser: IUser): void {
-  const userExists = users.some((user) => user.email === newUser.email);
-
-  if (userExists) {
+  if (users[newUser.email]) {
     return;
   }
 
-  users.push({ ...newUser, token: newUser.password });
+  users[newUser.email] = { ...newUser, token: newUser.password };
+  persist()
 }
 
 function getUser(email: string, password: string): IUser | undefined{
-  return users.find(
-      (u) => u.email === email && u.password === password,
-    );
+  const user = users[email];
+
+  if (user && user.password === password) {
+    return user
+  }
 }
 
 function getUserByToken(token: string): IUser | undefined{
-  return users.find(
+  return Object.values(users).find(
       (u) => u.token === token,
     );
 }

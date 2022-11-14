@@ -4,3 +4,4 @@ export const API_URL =
     ? "http://localhost/api/v1"
     : "http://localhost:3000/api/v1";
 export const localStorageKey = "__FreelancerApp_token__";
+export const usersKey = "__FreelancerApp_dev_users__";
