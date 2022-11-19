@@ -11,25 +11,29 @@ function TopBar() {
   return (
     <div
       css={{
-        position: "absolute",
         display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gridGap: "10px",
+        gridTemplateColumns: "1fr auto",
+        gridGap: "20px",
         alignItems: "center",
-        top: "10px",
-        right: "10px",
+        paddingTop: "20px",
       }}
     >
-      <div>Hi, {user?.name}</div>
+      <div style={{ textAlign: "right" }}>Hi, {user?.name}</div>
       <Button onClick={logout}>Logout</Button>
     </div>
   );
 }
 
+const navLinks = [
+  { to: "/", name: "Main" },
+  { to: "projects", name: "Projects" },
+  { to: "clients", name: "Clients" },
+];
+
 function Nav() {
   return (
-    <div css={{ position: "relative" }}>
-      <nav css={{ position: "sticky" }}>
+    <div>
+      <nav css={{ position: "fixed" }}>
         <ul
           css={{
             listStyle: "none",
@@ -37,15 +41,27 @@ function Nav() {
             marginTop: 0,
           }}
         >
-          <li>
-            <NavLink to="/">Main</NavLink>
-          </li>
-          <li>
-            <NavLink to="projects">Projects</NavLink>
-          </li>
-          <li>
-            <NavLink to="clients">Clients</NavLink>
-          </li>
+          {navLinks.map(({ to, name }) => (
+            <li key={name}>
+              <NavLink
+                to={to}
+                style={({ isActive, isPending }) => ({
+                  color: colors.text,
+                  display: "block",
+                  padding: "8px 15px 8px 10px",
+                  margin: "15px 0",
+                  borderLeft: `5px solid ${
+                    isActive ? colors.text : "transparent"
+                  }`,
+                  textDecoration: "none",
+                  // opacity: isActive ? 1 : 0.5,
+                })}
+                end={to === "/" ? true : false}
+              >
+                <h3>{name}</h3>
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
     </div>
@@ -56,15 +72,24 @@ function Root() {
   return (
     <div
       css={{
-        height: "100vh",
-        backgroundColor: colors.base,
         color: colors.text,
+        maxWidth: "1200px",
+        width: "100%",
+        margin: "0 auto",
       }}
     >
       <TopBar />
-      <div css={{ paddingTop: "50px" }}>
+      <div
+        css={{
+          display: "grid",
+          gridTemplateColumns: "1fr 4fr",
+          gridGap: "10px",
+        }}
+      >
         <Nav />
-        <Outlet />
+        <main>
+          <Outlet />
+        </main>
       </div>
     </div>
   );
