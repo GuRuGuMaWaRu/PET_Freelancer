@@ -1,3 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Alata&family=Exo+2:wght@400;600;700;800;900&family=IBM+Plex+Sans+Devanagari:wght@400;500;600;700&family=Lexend+Deca:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Reem+Kufi:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&display=swap");
+
+/* constants */
+:root {
+  --main-bg-color: #764cff;
+  --main-bg-color-2: #b8351e;
+}
+
 /* some global reset */
 *,
 *::before,
@@ -6,13 +14,20 @@
 }
 body {
   margin: 0;
-  /* font-family: "Open Sans", sans-serif; */
+  font-family: "Open Sans", sans-serif;
+  font-family: "Alata", sans-serif;
   font-family: "Exo 2", sans-serif;
-  /* font-family: "Nunito", sans-serif; */
+  font-family: "IBM Plex Sans Devanagari", sans-serif;
+  font-family: "Lexend Deca", sans-serif;
+  font-family: "Outfit", sans-serif;
+  /* font-family: "Reem Kufi", sans-serif; */
+  /* font-family: "Rubik", sans-serif; */
+
   min-height: 100vh;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  background-color: var(--main-bg-color);
 }
 input,
 button,
@@ -55,8 +70,13 @@ h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+.important-text {
   font-family: Silkscreen, "cursive";
+}
+
+h3 {
+  margin: 0;
 }
 
 button {
