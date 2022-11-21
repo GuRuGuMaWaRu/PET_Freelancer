@@ -84,6 +84,7 @@ function Root() {
           display: "grid",
           gridTemplateColumns: "1fr 4fr",
           gridGap: "10px",
+          marginTop: "4rem",
         }}
       >
         <Nav />
