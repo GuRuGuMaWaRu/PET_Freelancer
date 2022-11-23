@@ -1,7 +1,9 @@
 const express = require("express");
+const mongoose = require("mongoose");
 
-const { protect } = require("../../utils");
+const { protect, catchAsync, AppError, APIFeatures } = require("../../utils");
 const projectControllers = require("./project.controllers");
+const Project = require("./project.model");
 
 const router = express.Router();
 
@@ -17,6 +19,36 @@ router
   // @desc      Create project
   // @access    Private
   .post(projectControllers.createOne);
+
+router
+  .route("/lastYear")
+  // @route     GET projects/lastYear
+  // @desc      Get projects from year ago and up till now
+  // @access    Private
+  .get(
+    catchAsync(async (req, res) => {
+      const currentDate = new Date();
+      currentDate.setFullYear(currentDate.getFullYear() - 1);
+
+      const projects = await Project.aggregate([
+        {
+          $match: {
+            user: mongoose.Types.ObjectId(req.userId),
+            deleted: false,
+            date: {
+              $gte: currentDate,
+            },
+          },
+        },
+      ]);
+
+      res.status(200).json({
+        status: "success",
+        results: projects.length,
+        data: projects,
+      });
+    }),
+  );
 
 router
   .route("/:id")
