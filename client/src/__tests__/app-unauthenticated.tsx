@@ -1,6 +1,6 @@
 import userEvent from "@testing-library/user-event";
 
-import { createUser } from "../test/generate";
+import { buildUser } from "../test/generate";
 import { addUser } from "../test/server/users";
 import {
   render,
@@ -73,7 +73,7 @@ test("shows error messages for empty fields in Login menu", async () => {
 
 test("shows an error message when passwords are not identical in Register menu", async () => {
   const { user, inModal } = await renderAuthModal("register");
-  const fakeUser = createUser();
+  const fakeUser = buildUser();
 
   await user.type(
     inModal.getByRole("textbox", { name: /name:/i }),
@@ -98,7 +98,7 @@ test("shows an error message when passwords are not identical in Register menu",
 
 test("shows error notification when logging in as a nonexistent user", async () => {
   const { user, inModal } = await renderAuthModal("login");
-  const fakeUser = createUser();
+  const fakeUser = buildUser();
 
   await user.type(
     inModal.getByRole("textbox", { name: /email:/i }),
@@ -125,7 +125,7 @@ test("shows error notification when logging in as a nonexistent user", async () 
 
 test("shows error notification when registering an already registered user", async () => {
   const { user, inModal } = await renderAuthModal("register");
-  const fakeUser = createUser();
+  const fakeUser = buildUser();
   addUser(fakeUser);
 
   await user.type(
