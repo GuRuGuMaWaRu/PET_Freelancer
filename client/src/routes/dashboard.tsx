@@ -17,6 +17,8 @@ interface IEarnings {
   projects: number;
 }
 
+const formatterUSD = new Intl.NumberFormat("en-US");
+
 const getEarningsByMonths = (projects: IProject[]): IEarnings[] => {
   const earnings: Record<string, IEarnings> = {};
 
@@ -28,11 +30,11 @@ const getEarningsByMonths = (projects: IProject[]): IEarnings[] => {
       earnings[`${year}-${month}`] = {
         id: `${year}-${month}`,
         date: new Date(`${year}-${month}`),
-        payment: project.payment,
+        payment: project.payment * 1000,
         projects: 1,
       };
     } else {
-      earnings[`${year}-${month}`].payment += project.payment;
+      earnings[`${year}-${month}`].payment += project.payment * 1000;
       earnings[`${year}-${month}`].projects += 1;
     }
   }
@@ -46,8 +48,7 @@ function Dashboard() {
   const earningsByMonth = React.useMemo(() => getEarningsByMonths(projects), [
     projects,
   ]);
-  console.log(earningsByMonth);
-  const earningsForThisMonth = React.useMemo((): number => {
+  const earningsForThisMonth = React.useMemo((): string => {
     const year = new Date().getFullYear();
     const month = new Date().getMonth() + 1;
 
@@ -55,17 +56,19 @@ function Dashboard() {
       (item) => item.id === `${year}-${month}`,
     );
 
-    return earnings?.payment ?? 0;
+    return formatterUSD.format(earnings?.payment ? earnings.payment / 1000 : 0);
   }, [earningsByMonth]);
-  const earningsForThisYear = React.useMemo((): number => {
+  const earningsForThisYear = React.useMemo((): string => {
     const year = new Date().getFullYear();
 
-    return earningsByMonth.reduce((acc, item) => {
+    const total = earningsByMonth.reduce((acc, item) => {
       if (item.date.getFullYear() === year) {
         return acc + item.payment;
       }
       return acc;
     }, 0);
+
+    return formatterUSD.format(total !== 0 ? total / 1000 : 0);
   }, [earningsByMonth]);
 
   const currentMonth = new Date().toLocaleDateString("default", {
