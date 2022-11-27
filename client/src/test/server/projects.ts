@@ -27,8 +27,18 @@ function getProjects(): IProject[] {
   return projects;
 }
 
+function getProjectsForYear(): IProject[] {
+  const startDate = new Date();
+  startDate.setFullYear(startDate.getFullYear() - 1);
+
+  return projects.filter(project => {
+    return project.date >= startDate;
+  });
+}
+
+
 // bootstrap
 bootstrapFakeProjects();
 
 export type { IProject };
-export { getProjects };
+export { getProjects, getProjectsForYear };

@@ -2,7 +2,7 @@ import { rest } from "msw";
 
 import { API_URL } from "../../config";
 import { getUser, addUser, getUserByToken } from "./users";
-import { getProjects } from "./projects";
+import { getProjects, getProjectsForYear } from "./projects";
 import { localStorageKey } from "../../config";
 
 export const handlers = [
@@ -83,6 +83,18 @@ export const handlers = [
 
   rest.get(`${API_URL}/projects`, (req, res, ctx) => {
     const projects = getProjects();
+    return res(
+      ctx.status(200),
+      ctx.json({
+        status: "success",
+        results: projects.length,
+        data: projects,
+      }),
+    );
+  }),
+
+  rest.get(`${API_URL}/projects/lastYear`, (req, res, ctx) => {
+    const projects = getProjectsForYear();
     return res(
       ctx.status(200),
       ctx.json({

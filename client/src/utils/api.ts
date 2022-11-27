@@ -5,4 +5,8 @@ const getAllProjects = async () => {
   return await client<IProject[]>("projects");
 };
 
-export { getAllProjects };
+const getProjectsForYear = async () => {
+  return await client<IProject[]>("projects/lastYear");
+};
+
+export { getAllProjects, getProjectsForYear };

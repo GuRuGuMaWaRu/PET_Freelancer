@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { FullPageSpinner } from "./components";
 import { Root, Dashboard, Projects, Clients } from "./routes";
-import { getAllProjects } from "./utils";
+import { getProjectsForYear } from "./utils";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
             index: true,
             element: <Dashboard />,
             loader: async () => {
-              const res = await getAllProjects();
+              const res = await getProjectsForYear();
               return res.data;
             },
           },
