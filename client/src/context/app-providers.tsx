@@ -1,15 +1,24 @@
-import { ReactQueryProvider } from "./query-client.context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import { AuthProvider } from "./auth.context";
 import { NotificationProvider } from "./notification.context";
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    },
+  },
+});
+
 function AppProviders({ children }: { children: React.ReactNode }) {
   return (
-    <ReactQueryProvider>
+    <QueryClientProvider client={queryClient}>
       <NotificationProvider>
         <AuthProvider>{children}</AuthProvider>
       </NotificationProvider>
-    </ReactQueryProvider>
+    </QueryClientProvider>
   );
 }
 
-export { AppProviders };
+export { AppProviders, queryClient };

@@ -1,8 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { FullPageSpinner } from "./components";
-import { Root, Dashboard, Projects, Clients } from "./routes";
-import { getProjectsForYear } from "./utils";
+import { Root, Dashboard, Projects, Clients, dashboardLoader } from "./routes";
+import { queryClient } from "./context";
 
 const router = createBrowserRouter([
   {
@@ -16,10 +16,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Dashboard />,
-            loader: async () => {
-              const res = await getProjectsForYear();
-              return res.data;
-            },
+            loader: dashboardLoader(queryClient),
           },
           {
             path: "projects",

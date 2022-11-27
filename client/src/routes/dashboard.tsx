@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { useLoaderData } from "react-router-dom";
+import { useQuery, QueryClient } from "@tanstack/react-query";
 
 import * as colors from "../styles/colors";
-import { IProject } from "../utils";
+import { IProject, getProjectsForYear } from "../utils";
 
 interface ISeries {
   label: string;
@@ -16,6 +17,23 @@ interface IEarnings {
   payment: number;
   projects: number;
 }
+
+const projectOneYearQuery = () => ({
+  queryKey: ["projects", "oneyear"],
+  queryFn: async () => {
+    const res = await getProjectsForYear();
+
+    return res.data;
+  },
+});
+
+const loader = (queryClient: QueryClient) => async (): Promise<IProject[]> => {
+  const query = projectOneYearQuery();
+  return (
+    queryClient.getQueryData(query.queryKey) ??
+    (await queryClient.fetchQuery(query))
+  );
+};
 
 const formatterUSD = new Intl.NumberFormat("en-US");
 
@@ -43,7 +61,13 @@ const getEarningsByMonths = (projects: IProject[]): IEarnings[] => {
 };
 
 function Dashboard() {
-  const projects = useLoaderData() as IProject[];
+  const initialData = useLoaderData() as Awaited<
+    ReturnType<ReturnType<typeof loader>>
+  >;
+  const { data: projects } = useQuery({
+    ...projectOneYearQuery(),
+    initialData,
+  });
 
   const earningsByMonth = React.useMemo(() => getEarningsByMonths(projects), [
     projects,
@@ -143,4 +167,4 @@ function Dashboard() {
   );
 }
 
-export { Dashboard };
+export { Dashboard, loader as dashboardLoader };
