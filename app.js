@@ -46,6 +46,8 @@ app.use(express.json({ limit: "10kb" }));
 app.use(cors());
 
 // Set up routes
+app.use("/", express.static(path.join(__dirname, "public")));
+app.use("/", require("./resources/root"));
 app.use("/api/v1/projects", projectRouter);
 app.use("/api/v1/clients", clientRouter);
 app.use("/api/v1/users", userRouter);
