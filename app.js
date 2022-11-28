@@ -7,6 +7,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 
 const { AppError, globalErrorHandler } = require("./utils");
+const { logger } = require("./middleware/logger");
 const { clientRouter, projectRouter, userRouter } = require("./resources");
 
 // Set environment variables
@@ -18,6 +19,9 @@ if (process.env.NODE_ENV !== "production") {
 require("./db");
 
 const app = express();
+
+// Logger
+app.use(logger);
 
 // Secure HTTP headers
 app.use(

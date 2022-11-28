@@ -1,4 +1,6 @@
 node_modules
+logs
 client/node_modules
 process.env
 bash.exe.stackdump
+coverage

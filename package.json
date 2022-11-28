@@ -15,11 +15,11 @@
   "engines": {
     "node": "16.x"
   },
-  "description": "log freelance jobs",
-  "main": "index.js",
+  "description": "Manage your freelance jobs",
+  "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "server": "nodemon app.js",
+    "start": "node app",
+    "server": "nodemon app",
     "server:test": "mocha",
     "client": "npm start --prefix client",
     "client:install": "npm install --prefix client",
@@ -39,6 +39,7 @@
     "compression": "^1.7.4",
     "concurrently": "^5.0.2",
     "cors": "^2.8.5",
+    "date-fns": "^2.29.3",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
@@ -47,6 +48,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.12",
     "morgan": "~1.9.1",
+    "uuid": "^9.0.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {
