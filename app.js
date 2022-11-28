@@ -6,8 +6,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
 
-const { AppError, globalErrorHandler } = require("./utils");
+const { AppError } = require("./utils");
 const { logger } = require("./middleware/logger");
+const errorHandler = require("./middleware/errorHandler");
 const { clientRouter, projectRouter, userRouter } = require("./resources");
 
 // Set environment variables
@@ -76,7 +77,7 @@ app.all("*", (req, res, next) => {
 });
 
 // Handle all errors
-app.use(globalErrorHandler);
+app.use(errorHandler);
 
 // Connect to server
 const PORT = process.env.PORT || 6000;
