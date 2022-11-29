@@ -96,6 +96,7 @@ function Dashboard() {
       .map((item) => ({
         date: item.date.getTime(),
         payment: item.payment / 1000,
+        projects: item.projects,
       }))
       .sort((a, b) => a.date - b.date);
   }, [earningsByMonth]);

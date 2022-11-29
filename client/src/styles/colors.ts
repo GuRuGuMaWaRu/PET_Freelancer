@@ -1,7 +1,9 @@
 export const base = "#764cff";
 export const base2 = "#0e0430";
+export const base3 = "#283b8b";
 export const text = "#fff";
 export const text2 = "#ff6347";
+export const textDark = "#333";
 export const primary = "#ffef44";
 export const secondary = "#8a2be2";
 export const danger = "#f0301b";

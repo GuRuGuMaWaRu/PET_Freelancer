@@ -12,24 +12,34 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import dayjs from "dayjs";
+import * as colors from "../styles/colors";
 
 interface IProps {
   data: {
     date: number;
     payment: number;
+    projects: number;
   }[];
 }
 
-function CustomTooltip({ active, payload }: any) {
+function CustomTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload: any;
+}) {
   if (active && payload && payload.length) {
     return (
       <div
         css={{
           background: "white",
-          color: "#333",
+          opacity: 0.6,
+          color: colors.textDark,
           boxShadow: "0 3px 14px rgb(0 0 0 / 40%)",
           padding: "1px",
           textAlign: "left",
+          border: 0,
           borderRadius: "12px",
         }}
       >
@@ -41,6 +51,10 @@ function CustomTooltip({ active, payload }: any) {
           <p>
             <span css={{ fontWeight: 600 }}>Earnings:</span> $
             {payload[0].payload.payment}
+          </p>
+          <p>
+            <span css={{ fontWeight: 600 }}># of projects:</span>
+            {payload[0].payload.projects}
           </p>
         </div>
       </div>
@@ -67,15 +81,15 @@ function EarningsChart({ data }: IProps) {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis
             dataKey="date"
-            stroke="tomato"
+            stroke={colors.text2}
             tickFormatter={(unixTime) => dayjs(unixTime).format("MM/YYYY")}
           >
-            <Label value="Date" stroke="tomato" position="bottom" />
+            <Label value="Date" position="bottom" stroke={colors.text2} />
           </XAxis>
-          <YAxis dataKey="payment" stroke="tomato">
+          <YAxis dataKey="payment" stroke={colors.text2}>
             <Label
               value="Earnings"
-              stroke="tomato"
+              stroke={colors.text2}
               angle={-90}
               position="left"
               dy="-10"
