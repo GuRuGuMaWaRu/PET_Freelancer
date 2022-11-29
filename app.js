@@ -9,6 +9,7 @@ const compression = require("compression");
 const { AppError } = require("./utils");
 const { logger } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
+const corsOptions = require("./config/corsOptions");
 const { clientRouter, projectRouter, userRouter } = require("./resources");
 
 // Set environment variables
@@ -48,7 +49,7 @@ app.use(compression());
 app.use(express.json({ limit: "10kb" }));
 
 // Set CORS headers so that React SPA is able to communicate with this server
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Set up routes
 app.use("/", express.static(path.join(__dirname, "public")));
