@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { AuthProvider } from "./auth.context";
 import { NotificationProvider } from "./notification.context";
@@ -17,6 +18,7 @@ function AppProviders({ children }: { children: React.ReactNode }) {
       <NotificationProvider>
         <AuthProvider>{children}</AuthProvider>
       </NotificationProvider>
+      <ReactQueryDevtools position="bottom-right" />
     </QueryClientProvider>
   );
 }
