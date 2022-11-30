@@ -6,7 +6,6 @@ import {
   Area,
   XAxis,
   YAxis,
-  Label,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
@@ -21,6 +20,8 @@ interface IProps {
     projects: number;
   }[];
 }
+
+const formatterUSD = new Intl.NumberFormat("en-US");
 
 function CustomTooltip({
   active,
@@ -68,13 +69,13 @@ function EarningsChart({ data }: IProps) {
   return (
     <>
       <h2>Earnings by Month</h2>
-      <ResponsiveContainer width={"100%"} height={300} min-width={300}>
+      <ResponsiveContainer width={"100%"} height={500} min-width={300}>
         <AreaChart
           data={data}
           margin={{
             top: 10,
             right: 30,
-            left: 20,
+            left: 0,
             bottom: 30,
           }}
         >
@@ -83,18 +84,19 @@ function EarningsChart({ data }: IProps) {
             dataKey="date"
             stroke={colors.text2}
             tickFormatter={(unixTime) => dayjs(unixTime).format("MM/YYYY")}
-          >
-            <Label value="Date" position="bottom" stroke={colors.text2} />
-          </XAxis>
-          <YAxis dataKey="payment" stroke={colors.text2}>
-            <Label
-              value="Earnings"
-              stroke={colors.text2}
-              angle={-90}
-              position="left"
-              dy="-10"
-            />
-          </YAxis>
+            tickMargin={10}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis
+            dataKey="payment"
+            stroke={colors.text2}
+            tickMargin={10}
+            width={80}
+            tickLine={false}
+            axisLine={false}
+            tickFormatter={(value) => formatterUSD.format(value)}
+          />
           <Tooltip content={<CustomTooltip payload={data} />} />
           <Area
             type="monotone"
