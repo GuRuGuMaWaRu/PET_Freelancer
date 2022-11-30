@@ -4,13 +4,28 @@ import { useLoaderData } from "react-router-dom";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 
 import { IProject, getProjectsForYear } from "../utils";
-import { MemoDashboardTotals, MemoEarningsChart } from "../components";
+import {
+  MemoDashboardTotals,
+  MemoEarningsChart,
+  MemoClientsChart,
+} from "../components";
 
 interface IEarnings {
   id: string;
   date: Date;
   payment: number;
   projects: number;
+}
+
+interface IEarningsByClient {
+  client: string;
+  payment: number;
+  projects: number;
+}
+
+enum ChartType {
+  earnings = "earnings",
+  clients = "clients",
 }
 
 const projectOneYearQuery = () => ({
@@ -54,7 +69,33 @@ const getEarningsByMonths = (projects: IProject[]): IEarnings[] => {
   return Object.values(earnings);
 };
 
+const getEarningsByClients = (projects: IProject[]): IEarningsByClient[] => {
+  const earnings: Record<string, IEarningsByClient> = {};
+  for (const project of projects) {
+    if (!earnings[project.client]) {
+      earnings[project.client] = {
+        client: project.client,
+        payment: project.payment * 1000,
+        projects: 1,
+      };
+    } else {
+      earnings[project.client].payment += project.payment * 1000;
+      earnings[project.client].projects += 1;
+    }
+  }
+
+  return Object.values(earnings)
+    .map((item) => ({
+      ...item,
+      payment: item.payment / 1000,
+    }))
+    .sort((a, b) => a.payment - b.payment);
+};
+
 function Dashboard() {
+  const [chartType, setChartType] = React.useState<ChartType>(
+    ChartType.earnings,
+  );
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
@@ -101,6 +142,10 @@ function Dashboard() {
       .sort((a, b) => a.date - b.date);
   }, [earningsByMonth]);
 
+  const data2 = React.useMemo(() => {
+    return getEarningsByClients(projects);
+  }, [projects]);
+
   return (
     <>
       <MemoDashboardTotals
@@ -111,11 +156,19 @@ function Dashboard() {
         css={{
           position: "relative",
           marginTop: "5rem",
-          width: "1000px",
+          maxWidth: "1000px",
           height: "400px",
         }}
       >
-        <MemoEarningsChart data={data} />
+        <div css={{ textAlign: "right", cursor: "pointer" }}>
+          <span onClick={() => setChartType(ChartType.earnings)}>Earnings</span>{" "}
+          / <span onClick={() => setChartType(ChartType.clients)}>Clients</span>
+        </div>
+        {chartType === ChartType.earnings ? (
+          <MemoEarningsChart data={data} />
+        ) : (
+          <MemoClientsChart data={data2} />
+        )}
       </div>
     </>
   );
