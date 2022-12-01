@@ -67,6 +67,7 @@ interface ChartSelectionButtonProps {
 const ChartSelectionButton = styled.button<ChartSelectionButtonProps>(
   ({ variant, chartType }) => ({
     border: 0,
+    padding: "5px 10px",
     color: colors.text,
     backgroundColor:
       variant === "earnings" && chartType === ChartType.earnings
@@ -74,6 +75,7 @@ const ChartSelectionButton = styled.button<ChartSelectionButtonProps>(
         : variant === "clients" && chartType === ChartType.clients
         ? colors.text2
         : "transparent",
+    clipPath: "polygon(10% 0, 100% 0%, 90% 100%, 0% 100%)",
   }),
 );
 

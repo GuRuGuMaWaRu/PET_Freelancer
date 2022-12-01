@@ -30,6 +30,11 @@ interface IProject {
   comments?: string;
 }
 
+export enum ChartType {
+  earnings = "earnings",
+  clients = "clients",
+}
+
 export type { 
   NotificationType,
   IResponseUserData,

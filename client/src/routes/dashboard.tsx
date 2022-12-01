@@ -4,11 +4,11 @@ import { useLoaderData } from "react-router-dom";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 
 import { IProject, ChartType, getProjectsForYear } from "../utils";
-import * as colors from "../styles/colors";
 import {
   MemoDashboardTotals,
   MemoEarningsChart,
   MemoClientsChart,
+  Button,
   ChartSelectionButton,
 } from "../components";
 
@@ -158,27 +158,36 @@ function Dashboard() {
       <div
         css={{
           position: "relative",
-          marginTop: "5rem",
+          marginTop: "4rem",
           maxWidth: "1000px",
           height: "400px",
         }}
       >
-        <div css={{ textAlign: "right", cursor: "pointer" }}>
-          <ChartSelectionButton
-            variant="earnings"
-            chartType={chartType}
-            onClick={() => setChartType(ChartType.earnings)}
-          >
-            Earnings
-          </ChartSelectionButton>{" "}
-          /{" "}
-          <ChartSelectionButton
-            variant="clients"
-            chartType={chartType}
-            onClick={() => setChartType(ChartType.clients)}
-          >
-            Clients
-          </ChartSelectionButton>
+        <div
+          css={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            margin: "1rem 0",
+          }}
+        >
+          <Button>Add Project</Button>
+          <div>
+            <ChartSelectionButton
+              variant="earnings"
+              chartType={chartType}
+              onClick={() => setChartType(ChartType.earnings)}
+            >
+              Earnings
+            </ChartSelectionButton>{" "}
+            <ChartSelectionButton
+              variant="clients"
+              chartType={chartType}
+              onClick={() => setChartType(ChartType.clients)}
+            >
+              Clients
+            </ChartSelectionButton>
+          </div>
         </div>
         {chartType === ChartType.earnings ? (
           <MemoEarningsChart data={dataByMonth} />
