@@ -4,6 +4,7 @@ import { useLoaderData } from "react-router-dom";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 
 import { IProject, getProjectsForYear } from "../utils";
+import * as colors from "../styles/colors";
 import {
   MemoDashboardTotals,
   MemoEarningsChart,
@@ -161,8 +162,25 @@ function Dashboard() {
         }}
       >
         <div css={{ textAlign: "right", cursor: "pointer" }}>
-          <span onClick={() => setChartType(ChartType.earnings)}>Earnings</span>{" "}
-          / <span onClick={() => setChartType(ChartType.clients)}>Clients</span>
+          <span
+            onClick={() => setChartType(ChartType.earnings)}
+            css={{
+              backgroundColor:
+                chartType === ChartType.earnings ? colors.text2 : "",
+            }}
+          >
+            Earnings
+          </span>{" "}
+          /{" "}
+          <span
+            onClick={() => setChartType(ChartType.clients)}
+            css={{
+              backgroundColor:
+                chartType === ChartType.clients ? colors.text2 : "",
+            }}
+          >
+            Clients
+          </span>
         </div>
         {chartType === ChartType.earnings ? (
           <MemoEarningsChart data={data} />
