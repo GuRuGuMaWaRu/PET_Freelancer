@@ -3,12 +3,13 @@ import React from "react";
 import { useLoaderData } from "react-router-dom";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 
-import { IProject, getProjectsForYear } from "../utils";
+import { IProject, ChartType, getProjectsForYear } from "../utils";
 import * as colors from "../styles/colors";
 import {
   MemoDashboardTotals,
   MemoEarningsChart,
   MemoClientsChart,
+  ChartSelectionButton,
 } from "../components";
 
 interface IEarnings {
@@ -28,11 +29,6 @@ interface IEarningsByClient {
   client: string;
   payment: number;
   projects: number;
-}
-
-enum ChartType {
-  earnings = "earnings",
-  clients = "clients",
 }
 
 const projectOneYearQuery = () => ({
@@ -168,25 +164,21 @@ function Dashboard() {
         }}
       >
         <div css={{ textAlign: "right", cursor: "pointer" }}>
-          <span
+          <ChartSelectionButton
+            variant="earnings"
+            chartType={chartType}
             onClick={() => setChartType(ChartType.earnings)}
-            css={{
-              backgroundColor:
-                chartType === ChartType.earnings ? colors.text2 : "",
-            }}
           >
             Earnings
-          </span>{" "}
+          </ChartSelectionButton>{" "}
           /{" "}
-          <span
+          <ChartSelectionButton
+            variant="clients"
+            chartType={chartType}
             onClick={() => setChartType(ChartType.clients)}
-            css={{
-              backgroundColor:
-                chartType === ChartType.clients ? colors.text2 : "",
-            }}
           >
             Clients
-          </span>
+          </ChartSelectionButton>
         </div>
         {chartType === ChartType.earnings ? (
           <MemoEarningsChart data={dataByMonth} />

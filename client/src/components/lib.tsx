@@ -11,7 +11,7 @@ import {
 
 import * as colors from "../styles/colors";
 import * as mq from "../styles/media-queries";
-import { NotificationType } from "../utils";
+import { NotificationType, ChartType } from "../utils";
 
 /* Form components */
 const FormGroup = styled.div({
@@ -57,6 +57,24 @@ const Button = styled.button<ButtonProps>(
   },
   ({ variant = "primary" }) =>
     buttonVariants[variant as keyof typeof buttonVariants],
+);
+
+interface ChartSelectionButtonProps {
+  variant: "earnings" | "clients";
+  chartType: ChartType;
+}
+
+const ChartSelectionButton = styled.button<ChartSelectionButtonProps>(
+  ({ variant, chartType }) => ({
+    border: 0,
+    color: colors.text,
+    backgroundColor:
+      variant === "earnings" && chartType === ChartType.earnings
+        ? colors.text2
+        : variant === "clients" && chartType === ChartType.clients
+        ? colors.text2
+        : "transparent",
+  }),
 );
 
 const DialogContent = styled(ReachDialogContent)({
@@ -233,6 +251,7 @@ export {
   Input,
   Label,
   Button,
+  ChartSelectionButton,
   DialogContent,
   ErrorMessage,
   FullPageErrorFallback,
