@@ -9,6 +9,7 @@ import {
   IEarningsByClient,
   ChartType,
   getProjectsForYear,
+  formatUSD,
 } from "../utils";
 import {
   MemoDashboardTotals,
@@ -41,8 +42,6 @@ const loader = (queryClient: QueryClient) => async (): Promise<IProject[]> => {
     (await queryClient.fetchQuery(query))
   );
 };
-
-const formatterUSD = new Intl.NumberFormat("en-US");
 
 const getEarningsByMonths = (projects: IProject[]): IEarnings[] => {
   const earnings: Record<string, IEarnings> = {};
@@ -113,7 +112,7 @@ function Dashboard() {
       (item) => item.id === `${year}-${month}`,
     );
 
-    return formatterUSD.format(earnings?.payment ? earnings.payment / 1000 : 0);
+    return formatUSD(earnings?.payment ? earnings.payment / 1000 : 0);
   }, [earningsByMonth]);
 
   const earningsForThisYear = React.useMemo((): string => {
@@ -126,7 +125,7 @@ function Dashboard() {
       return acc;
     }, 0);
 
-    return formatterUSD.format(total !== 0 ? total / 1000 : 0);
+    return formatUSD(total !== 0 ? total / 1000 : 0);
   }, [earningsByMonth]);
 
   const dataByMonth = React.useMemo((): IEarningsByMonth[] => {

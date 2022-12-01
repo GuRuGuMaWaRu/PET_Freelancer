@@ -11,14 +11,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { IEarningsByClient } from "../utils";
+import { IEarningsByClient, formatUSD } from "../utils";
 import * as colors from "../styles/colors";
 
 interface IProps {
   data: IEarningsByClient[];
 }
-
-const formatterUSD = new Intl.NumberFormat("en-US");
 
 function CustomTooltip({
   active,
@@ -81,7 +79,7 @@ function ClientsChart({ data }: IProps) {
             dataKey="payment"
             stroke={colors.text2}
             type="number"
-            tickFormatter={(value) => formatterUSD.format(value)}
+            tickFormatter={(value) => formatUSD(value)}
           />
           <YAxis
             dataKey="client"
@@ -103,7 +101,7 @@ function ClientsChart({ data }: IProps) {
               dataKey="payment"
               position="inside"
               fill={colors.text}
-              formatter={(value: number) => formatterUSD.format(value)}
+              formatter={(value: number) => formatUSD(value)}
             />
           </Bar>
         </BarChart>

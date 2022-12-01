@@ -12,14 +12,12 @@ import {
 } from "recharts";
 import dayjs from "dayjs";
 
-import { IEarningsByMonth } from "../utils";
+import { IEarningsByMonth, formatUSD } from "../utils";
 import * as colors from "../styles/colors";
 
 interface IProps {
   data: IEarningsByMonth[];
 }
-
-const formatterUSD = new Intl.NumberFormat("en-US");
 
 function CustomTooltip({
   active,
@@ -29,6 +27,7 @@ function CustomTooltip({
   payload: any;
 }) {
   if (active && payload && payload.length) {
+    console.log(payload);
     return (
       <div
         css={{
@@ -93,7 +92,7 @@ function EarningsChart({ data }: IProps) {
             width={80}
             tickLine={false}
             axisLine={false}
-            tickFormatter={(value) => formatterUSD.format(value)}
+            tickFormatter={(value) => formatUSD(value)}
           />
           <Tooltip content={<CustomTooltip payload={data} />} />
           <Area
