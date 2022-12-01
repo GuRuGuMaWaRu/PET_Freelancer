@@ -18,6 +18,12 @@ interface IEarnings {
   projects: number;
 }
 
+interface IEarningsByMonth {
+  date: number;
+  payment: number;
+  projects: number;
+}
+
 interface IEarningsByClient {
   client: string;
   payment: number;
@@ -133,7 +139,7 @@ function Dashboard() {
     return formatterUSD.format(total !== 0 ? total / 1000 : 0);
   }, [earningsByMonth]);
 
-  const data = React.useMemo(() => {
+  const dataByMonth = React.useMemo((): IEarningsByMonth[] => {
     return earningsByMonth
       .map((item) => ({
         date: item.date.getTime(),
@@ -143,7 +149,7 @@ function Dashboard() {
       .sort((a, b) => a.date - b.date);
   }, [earningsByMonth]);
 
-  const data2 = React.useMemo(() => {
+  const dataByClient = React.useMemo(() => {
     return getEarningsByClients(projects);
   }, [projects]);
 
@@ -183,9 +189,9 @@ function Dashboard() {
           </span>
         </div>
         {chartType === ChartType.earnings ? (
-          <MemoEarningsChart data={data} />
+          <MemoEarningsChart data={dataByMonth} />
         ) : (
-          <MemoClientsChart data={data2} />
+          <MemoClientsChart data={dataByClient} />
         )}
       </div>
     </>
