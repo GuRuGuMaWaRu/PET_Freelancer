@@ -10,14 +10,12 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+
+import { IEarningsByClient } from "../utils";
 import * as colors from "../styles/colors";
 
 interface IProps {
-  data: {
-    client: string;
-    payment: number;
-    projects: number;
-  }[];
+  data: IEarningsByClient[];
 }
 
 const formatterUSD = new Intl.NumberFormat("en-US");

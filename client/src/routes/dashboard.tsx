@@ -3,7 +3,13 @@ import React from "react";
 import { useLoaderData } from "react-router-dom";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 
-import { IProject, ChartType, getProjectsForYear } from "../utils";
+import {
+  IProject,
+  IEarningsByMonth,
+  IEarningsByClient,
+  ChartType,
+  getProjectsForYear,
+} from "../utils";
 import {
   MemoDashboardTotals,
   MemoEarningsChart,
@@ -15,18 +21,6 @@ import {
 interface IEarnings {
   id: string;
   date: Date;
-  payment: number;
-  projects: number;
-}
-
-interface IEarningsByMonth {
-  date: number;
-  payment: number;
-  projects: number;
-}
-
-interface IEarningsByClient {
-  client: string;
   payment: number;
   projects: number;
 }

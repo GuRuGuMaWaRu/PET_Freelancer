@@ -11,14 +11,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import dayjs from "dayjs";
+
+import { IEarningsByMonth } from "../utils";
 import * as colors from "../styles/colors";
 
 interface IProps {
-  data: {
-    date: number;
-    payment: number;
-    projects: number;
-  }[];
+  data: IEarningsByMonth[];
 }
 
 const formatterUSD = new Intl.NumberFormat("en-US");
