@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const { protect, catchAsync, AppError, APIFeatures } = require("../../utils");
+const { protect, catchAsync } = require("../../utils");
 const projectControllers = require("./project.controllers");
 const Project = require("./project.model");
 
@@ -40,6 +40,17 @@ router
             },
           },
         },
+        {
+          $lookup: {
+            from: "clients",
+            localField: "client",
+            foreignField: "_id",
+            as: "fromClients",
+          },
+        },
+        { $addFields: { clientObj: { $arrayElemAt: ["$fromClients", 0] } } },
+        { $addFields: { client: "$clientObj.name" } },
+        { $project: { fromClients: 0, clientObj: 0 } },
       ]);
 
       res.status(200).json({
