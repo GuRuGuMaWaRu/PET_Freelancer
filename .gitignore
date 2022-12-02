@@ -4,3 +4,4 @@ client/node_modules
 process.env
 bash.exe.stackdump
 coverage
+.env

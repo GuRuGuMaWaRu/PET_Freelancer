@@ -5,6 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const helmet = require("helmet");
 const compression = require("compression");
+const mongoose = require("mongoose");
 
 const { AppError } = require("./utils");
 const { logger } = require("./middleware/logger");
@@ -14,7 +15,7 @@ const { clientRouter, projectRouter, userRouter } = require("./resources");
 
 // Set environment variables
 if (process.env.NODE_ENV !== "production") {
-  dotenv.config({ path: "process.env" });
+  dotenv.config();
 }
 
 // Connect to mongo DB
@@ -83,5 +84,7 @@ app.use(errorHandler);
 // Connect to server
 const PORT = process.env.PORT || 6000;
 
+mongoose.connection.once("open", () => {
+  app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
+});
 // eslint-disable-next-line
-app.listen(PORT, () => console.log(`Server is listening on port ${PORT}...`));
