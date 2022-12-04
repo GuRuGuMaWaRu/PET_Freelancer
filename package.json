@@ -35,7 +35,7 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
-    "bcryptjs": "^2.4.3",
+    "bcrypt": "^5.1.0",
     "compression": "^1.7.4",
     "concurrently": "^5.0.2",
     "cors": "^2.8.5",
