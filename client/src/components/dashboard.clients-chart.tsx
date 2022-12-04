@@ -18,6 +18,18 @@ interface IProps {
   data: IEarningsByClient[];
 }
 
+const getMaxLabelLength = (data: IEarningsByClient[]): number => {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d") as CanvasRenderingContext2D;
+  context.font = "16px outfit";
+
+  const clientNamesWidth = data.map((item) =>
+    Math.ceil(context.measureText(item.client).width),
+  );
+
+  return Math.max(...clientNamesWidth);
+};
+
 function CustomTooltip({
   active,
   payload,
@@ -61,6 +73,10 @@ function CustomTooltip({
 }
 
 function ClientsChart({ data }: IProps) {
+  const longestClientName = React.useMemo(() => getMaxLabelLength(data), [
+    data,
+  ]);
+
   return (
     <>
       <h2>Earnings by Clients</h2>
@@ -85,8 +101,7 @@ function ClientsChart({ data }: IProps) {
             dataKey="client"
             type="category"
             stroke={colors.text2}
-            width={200}
-            tickFormatter={(value) => value.toLocaleString()}
+            width={longestClientName}
             tickLine={false}
             axisLine={false}
           />
