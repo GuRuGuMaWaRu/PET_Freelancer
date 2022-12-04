@@ -94,6 +94,7 @@ function ClientsChart({ data }: IProps) {
           <Bar
             type="monotone"
             dataKey="payment"
+            minPointSize={30}
             stroke="#8884d8"
             fill="#8884d8"
           >
