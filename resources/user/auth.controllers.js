@@ -76,27 +76,29 @@ const getUser = catchAsync(async (req, res, next) => {
 // @access    Public
 const signup = catchAsync(async (req, res, next) => {
   // Handle errors on Registration form
-  const { name, email, password1 } = req.body;
+  const { name, email, password1: password } = req.body;
 
-  let user = await User.findOne({ email });
+  const duplicate = await User.findOne({ email });
 
-  if (user) {
-    return next(new AppError(400, "User already exists"));
+  if (duplicate) {
+    return next(new AppError(409, "User already exists"));
   }
 
-  user = await User.create({
+  const user = await User.create({
     name,
     email,
-    password: password1,
+    password,
   });
 
-  const payload = {
-    id: user._id,
-  };
+  if (user) {
+    const token = newToken({ id: user._id });
 
-  const token = newToken(payload);
-
-  res.status(201).json({ status: "success", data: { name, email, token } });
+    return res
+      .status(201)
+      .json({ status: "success", data: { name, email, token } });
+  } else {
+    return next(new AppError(400, "Invalid user data received"));
+  }
 });
 
 module.exports = {
