@@ -11,11 +11,11 @@ function TopBar() {
   return (
     <div
       css={{
+        gridColumn: "1 / span 5",
         display: "grid",
         gridTemplateColumns: "1fr auto",
         gridGap: "20px",
         alignItems: "center",
-        paddingTop: "20px",
       }}
     >
       <div style={{ textAlign: "right" }}>Hi, {user?.name}</div>
@@ -32,7 +32,7 @@ const navLinks = [
 
 function Nav() {
   return (
-    <div>
+    <div css={{ gridColumn: "1 / 1", gridRow: "2 / 2" }}>
       <nav css={{ position: "fixed" }}>
         <ul
           css={{
@@ -72,26 +72,22 @@ function Root() {
   return (
     <div
       css={{
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+        gridTemplateRows: "100px 90%",
+        gridGap: "10px",
         color: colors.text,
         maxWidth: "1200px",
         width: "100%",
+        height: "100vh",
         margin: "0 auto",
       }}
     >
       <TopBar />
-      <div
-        css={{
-          display: "grid",
-          gridTemplateColumns: "1fr 4fr",
-          gridGap: "10px",
-          marginTop: "4rem",
-        }}
-      >
-        <Nav />
-        <main>
-          <Outlet />
-        </main>
-      </div>
+      <Nav />
+      <main css={{ gridColumn: "2 / span 4" }}>
+        <Outlet />
+      </main>
     </div>
   );
 }
