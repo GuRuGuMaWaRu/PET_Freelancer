@@ -4,9 +4,11 @@ App for tracking money made per month, per year and per client
 
 NEW TODOs
 
-- animate BG change on route change
-  - every route/page has its BG color (main, tomato, brown, green, etc)
-- offline Google fonts
+- [-] animate BG change on route change. Every route/page has its BG color (main, tomato, brown, green, etc)
+- [-] offline Google fonts
+- [+/-] show proper errors
+- [-] make the whole root layout work with grids and media queries
+- [-] add a working Add Project functionality to the Dashboard page
 
 TODOs
 
