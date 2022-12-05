@@ -9,6 +9,8 @@ NEW TODOs
 - [+/-] show proper errors
 - [-] make the whole root layout work with grids and media queries
 - [-] add a working Add Project functionality to the Dashboard page
+- [-] add messages to payloads that are sent from the backend on all successful operations with Users, Projects, and Clients.
+  - [-] show these messages as notifications on the frontend
 
 TODOs
 
