@@ -6,8 +6,7 @@ function NotFoundScreen() {
       css={{
         display: "grid",
         height: "100%",
-        alignItems: "center",
-        justifyContent: "center",
+        placeItems: "center",
       }}
     >
       <h1>Sorry... nothing here.</h1>
