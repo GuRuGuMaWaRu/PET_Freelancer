@@ -1,7 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 
 import * as colors from "../styles/colors";
+import * as mq from "../styles/media-queries";
 import { useAuth } from "../context";
 import { Button } from "../components";
 
@@ -11,14 +12,20 @@ function TopBar() {
   return (
     <div
       css={{
-        gridColumn: "1 / span 5",
+        gridColumn: "5 / 5",
         display: "grid",
-        gridTemplateColumns: "1fr auto",
+        gridTemplateColumns: "repeat(2, 1fr)",
         gridGap: "20px",
         alignItems: "center",
+        marginRight: "10px",
+        [mq.medium]: {
+          gridColumn: "5",
+        },
       }}
     >
-      <div style={{ textAlign: "right" }}>Hi, {user?.name}</div>
+      <div style={{ textAlign: "right", whiteSpace: "nowrap" }}>
+        Hi, {user?.name}
+      </div>
       <Button onClick={logout}>Logout</Button>
     </div>
   );
@@ -26,45 +33,72 @@ function TopBar() {
 
 const navLinks = [
   { to: "/", name: "Main" },
-  { to: "projects", name: "Projects" },
-  { to: "clients", name: "Clients" },
+  { to: "/projects", name: "Projects" },
+  { to: "/clients", name: "Clients" },
 ];
 
 function Nav() {
+  const { pathname } = useLocation();
+
   return (
-    <div css={{ gridColumn: "1 / 1", gridRow: "2 / 2" }}>
-      <nav css={{ position: "fixed" }}>
-        <ul
-          css={{
-            listStyle: "none",
-            padding: 0,
-            marginTop: 0,
-          }}
-        >
-          {navLinks.map(({ to, name }) => (
-            <li key={name}>
-              <NavLink
-                to={to}
-                style={({ isActive, isPending }) => ({
-                  color: colors.text,
-                  display: "block",
-                  padding: "8px 15px 8px 10px",
-                  margin: "15px 0",
-                  borderLeft: `5px solid ${
-                    isActive ? colors.text : "transparent"
-                  }`,
-                  textDecoration: "none",
-                  // opacity: isActive ? 1 : 0.5,
-                })}
-                end={to === "/" ? true : false}
-              >
-                <h3>{name}</h3>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
+    <nav
+      css={{
+        gridColumn: "1 / 1",
+        gridRow: "2 / 2",
+        [mq.medium]: {
+          gridColumn: "1 / span 4",
+          gridRow: "1",
+          marginLeft: "10px",
+          alignSelf: "center",
+        },
+      }}
+    >
+      <ul
+        css={{
+          position: "fixed",
+          display: "flex",
+          flexDirection: "column",
+          listStyle: "none",
+          padding: 0,
+          margin: 0,
+          [mq.medium]: {
+            position: "relative",
+            alignItems: "center",
+            flexDirection: "row",
+          },
+        }}
+      >
+        {navLinks.map(({ to, name }) => (
+          <li key={name}>
+            <NavLink
+              to={to}
+              css={{
+                opacity: pathname === to ? 1 : 0.5,
+                lineHeight: 0,
+                color: colors.text,
+                fontSize: "1.4rem",
+                fontFamily: "Silkscreen, cursive",
+                display: "block",
+                padding: "20px 15px",
+                borderLeft: `5px solid ${
+                  pathname === to ? colors.text : "transparent"
+                }`,
+                margin: "10px 0",
+                [mq.medium]: {
+                  display: "inline",
+                  padding: "10px 15px",
+                  fontSize: "1.2rem",
+                  borderLeft: 0,
+                },
+              }}
+              end={to === "/" ? true : false}
+            >
+              {name}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }
 
@@ -74,7 +108,7 @@ function Root() {
       css={{
         display: "grid",
         gridTemplateColumns: "repeat(5, 1fr)",
-        gridTemplateRows: "100px 90%",
+        gridTemplateRows: "80px 90%",
         gridGap: "10px",
         color: colors.text,
         maxWidth: "1200px",
@@ -85,7 +119,15 @@ function Root() {
     >
       <TopBar />
       <Nav />
-      <main css={{ gridColumn: "2 / span 4" }}>
+      <main
+        css={{
+          gridColumn: "2 / span 4",
+          [mq.medium]: {
+            gridColumn: "1 / span 5",
+            justifySelf: "center",
+          },
+        }}
+      >
         <Outlet />
       </main>
     </div>
