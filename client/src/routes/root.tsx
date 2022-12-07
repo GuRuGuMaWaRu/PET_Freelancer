@@ -26,7 +26,9 @@ function TopBar() {
       <div style={{ textAlign: "right", whiteSpace: "nowrap" }}>
         Hi, {user?.name}
       </div>
-      <Button onClick={logout}>Logout</Button>
+      <Button variant="secondary" onClick={logout}>
+        Logout
+      </Button>
     </div>
   );
 }
