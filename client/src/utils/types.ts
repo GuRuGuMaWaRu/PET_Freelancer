@@ -35,6 +35,13 @@ export enum ChartType {
   clients = "clients",
 }
 
+interface IEarnings {
+  id: string;
+  date: Date;
+  payment: number;
+  projects: number;
+}
+
 interface IEarningsByMonth {
   date: number;
   payment: number;
@@ -53,6 +60,7 @@ export type {
   ILoginFormInputs,
   IRegisterFormInputs,
   IProject,
+  IEarnings,
   IEarningsByMonth,
   IEarningsByClient
 };

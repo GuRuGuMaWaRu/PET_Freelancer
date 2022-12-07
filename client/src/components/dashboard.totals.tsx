@@ -1,17 +1,39 @@
 /** @jsxImportSource @emotion/react */
-
 import React from "react";
+
 import * as colors from "../styles/colors";
+import { IEarnings, formatUSD } from "../utils";
 
 interface IProps {
-  earningsForThisMonth: string;
-  earningsForThisYear: string;
+  data: IEarnings[];
 }
 
-function DashboardTotals({
-  earningsForThisMonth,
-  earningsForThisYear,
-}: IProps) {
+const getEarningsForThisMonth = (data: IEarnings[]): string => {
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth() + 1;
+
+  const earnings = data.find((item) => item.id === `${year}-${month}`);
+
+  return formatUSD(earnings?.payment ? earnings.payment / 1000 : 0);
+};
+
+const getEarningsForThisYear = (data: IEarnings[]): string => {
+  const year = new Date().getFullYear();
+
+  const total = data.reduce((acc, item) => {
+    if (item.date.getFullYear() === year) {
+      return acc + item.payment;
+    }
+    return acc;
+  }, 0);
+
+  return formatUSD(total !== 0 ? total / 1000 : 0);
+};
+
+function DashboardTotals({ data }: IProps) {
+  const earningsForThisMonth = getEarningsForThisMonth(data);
+  const earningsForThisYear = getEarningsForThisYear(data);
+
   return (
     <div
       css={{

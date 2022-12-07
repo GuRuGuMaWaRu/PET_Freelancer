@@ -5,11 +5,11 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 
 import {
   IProject,
+  IEarnings,
   IEarningsByMonth,
   IEarningsByClient,
   ChartType,
   getProjectsForYear,
-  formatUSD,
 } from "../utils";
 import {
   MemoDashboardTotals,
@@ -17,14 +17,10 @@ import {
   MemoClientsChart,
   Button,
   ChartSelectionButton,
+  Modal,
+  ModalOpenButton,
+  ModalContents,
 } from "../components";
-
-interface IEarnings {
-  id: string;
-  date: Date;
-  payment: number;
-  projects: number;
-}
 
 const projectOneYearQuery = () => ({
   queryKey: ["projects", "oneyear"],
@@ -82,6 +78,7 @@ const getEarningsByMonths = (projects: IProject[]): IEarnings[] => {
 
 const getEarningsByClients = (projects: IProject[]): IEarningsByClient[] => {
   const earnings: Record<string, IEarningsByClient> = {};
+
   for (const project of projects) {
     if (!earnings[project.client]) {
       earnings[project.client] = {
@@ -114,34 +111,9 @@ function Dashboard() {
     ...projectOneYearQuery(),
     initialData,
   });
-
   const earningsByMonth = React.useMemo(() => {
     return getEarningsByMonths(projects);
   }, [projects]);
-
-  const earningsForThisMonth = React.useMemo((): string => {
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth() + 1;
-
-    const earnings = earningsByMonth.find(
-      (item) => item.id === `${year}-${month}`,
-    );
-
-    return formatUSD(earnings?.payment ? earnings.payment / 1000 : 0);
-  }, [earningsByMonth]);
-
-  const earningsForThisYear = React.useMemo((): string => {
-    const year = new Date().getFullYear();
-
-    const total = earningsByMonth.reduce((acc, item) => {
-      if (item.date.getFullYear() === year) {
-        return acc + item.payment;
-      }
-      return acc;
-    }, 0);
-
-    return formatUSD(total !== 0 ? total / 1000 : 0);
-  }, [earningsByMonth]);
 
   const dataByMonth = React.useMemo((): IEarningsByMonth[] => {
     return earningsByMonth
@@ -159,10 +131,7 @@ function Dashboard() {
 
   return (
     <>
-      <MemoDashboardTotals
-        earningsForThisMonth={earningsForThisMonth}
-        earningsForThisYear={earningsForThisYear}
-      />
+      <MemoDashboardTotals data={earningsByMonth} />
       <div
         css={{
           position: "relative",
@@ -179,7 +148,14 @@ function Dashboard() {
             margin: "1rem 0",
           }}
         >
-          <Button>Add Project</Button>
+          <Modal>
+            <ModalOpenButton>
+              <Button>Add Project</Button>
+            </ModalOpenButton>
+            <ModalContents aria-label="Add Project Form" title="Add Project">
+              <div>Add Project</div>
+            </ModalContents>
+          </Modal>
           <div>
             <ChartSelectionButton
               variant="earnings"
