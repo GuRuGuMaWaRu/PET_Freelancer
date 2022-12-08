@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import {
   useAsync,
@@ -21,6 +22,7 @@ interface IState {
 const AuthContext = React.createContext<IState>({} as IState);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const queryClient = useQueryClient();
   const { run, data, error, isIdle, isLoading, isError, setData } = useAsync<
     IResponseUserData,
     Error
@@ -73,8 +75,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = React.useCallback(() => {
     window.localStorage.removeItem(localStorageKey);
+    queryClient.clear();
     setData(null);
-  }, [setData]);
+  }, [queryClient, setData]);
 
   const value = React.useMemo(
     () => ({
