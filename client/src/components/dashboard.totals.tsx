@@ -39,6 +39,7 @@ function DashboardTotals({ data }: IProps) {
       css={{
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
+        gridGap: "1rem",
         marginTop: "1rem",
       }}
     >
