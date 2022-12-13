@@ -38,9 +38,9 @@ function DashboardTotals({ data }: IProps) {
     <div
       css={{
         display: "grid",
-        gridTemplateColumns: "1fr 1fr",
+        gridTemplateColumns: "minmax(100px, 500px) minmax(100px, 500px)",
         gridGap: "1rem",
-        marginTop: "1rem",
+        margin: "1rem 20px",
       }}
     >
       <div>

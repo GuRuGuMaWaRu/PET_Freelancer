@@ -27,7 +27,6 @@ function CustomTooltip({
   payload: any;
 }) {
   if (active && payload && payload.length) {
-    console.log(payload);
     return (
       <div
         css={{

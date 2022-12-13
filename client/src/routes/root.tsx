@@ -126,7 +126,6 @@ function Root() {
           gridColumn: "2 / span 4",
           [mq.medium]: {
             gridColumn: "1 / span 5",
-            justifySelf: "center",
           },
         }}
       >
