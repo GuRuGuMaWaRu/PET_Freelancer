@@ -4,9 +4,10 @@ import { FullPageSpinner } from "./components";
 import {
   Root,
   Dashboard,
+  dashboardLoader,
+  dashboardAction,
   Projects,
   Clients,
-  dashboardLoader,
   NotFoundScreen,
 } from "./routes";
 import { queryClient } from "./context";
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
           {
             path: "projects",
             element: <Projects />,
+          },
+          {
+            path: "projects/add",
+            action: dashboardAction,
           },
           {
             path: "clients",

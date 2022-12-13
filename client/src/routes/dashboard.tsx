@@ -1,15 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { useLoaderData } from "react-router-dom";
-import { useQuery, QueryClient } from "@tanstack/react-query";
+import { useQueries, QueryClient } from "@tanstack/react-query";
 
 import {
   IProject,
+  IClient,
   IEarnings,
   IEarningsByMonth,
   IEarningsByClient,
   ChartType,
   getProjectsForYear,
+  getAllClients,
 } from "../utils";
 import {
   MemoDashboardTotals,
@@ -31,12 +33,32 @@ const projectOneYearQuery = () => ({
   },
 });
 
-const loader = (queryClient: QueryClient) => async (): Promise<IProject[]> => {
-  const query = projectOneYearQuery();
-  return (
-    queryClient.getQueryData(query.queryKey) ??
-    (await queryClient.fetchQuery(query))
-  );
+const getAllClientsQuery = () => ({
+  queryKey: ["clients"],
+  queryFn: async () => {
+    const res = await getAllClients();
+
+    return res.data;
+  },
+});
+
+const loader = (queryClient: QueryClient) => async (): Promise<{
+  projectsQuery: IProject[];
+  clientsQuery: IClient[];
+}> => {
+  const projectsQuery = projectOneYearQuery();
+  const clientsQuery = getAllClientsQuery();
+
+  return {
+    projectsQuery:
+      queryClient.getQueryData(projectsQuery.queryKey) ??
+      (await queryClient.fetchQuery(projectsQuery)),
+    clientsQuery:
+      queryClient.getQueryData(clientsQuery.queryKey) ??
+      (await queryClient.fetchQuery(clientsQuery)),
+  };
+};
+
 };
 
 const setFullYearOfDates = (): Record<string, IEarnings> => {
@@ -107,10 +129,10 @@ function Dashboard() {
   const initialData = useLoaderData() as Awaited<
     ReturnType<ReturnType<typeof loader>>
   >;
-  const { data: projects = [] } = useQuery({
-    ...projectOneYearQuery(),
-    initialData,
+  const [{ data: projects = [] }, { data: clients = [] }] = useQueries({
+    queries: [{ ...projectOneYearQuery() }, { ...getAllClientsQuery() }],
   });
+
   const earningsByMonth = React.useMemo(() => {
     return getEarningsByMonths(projects);
   }, [projects]);
