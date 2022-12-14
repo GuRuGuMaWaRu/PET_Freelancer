@@ -40,7 +40,6 @@ function DashboardTotals({ data }: IProps) {
         display: "grid",
         gridTemplateColumns: "minmax(100px, 500px) minmax(100px, 500px)",
         gridGap: "1rem",
-        margin: "1rem 20px",
       }}
     >
       <div>

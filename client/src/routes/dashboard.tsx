@@ -157,7 +157,7 @@ function Dashboard() {
       <div
         css={{
           position: "relative",
-          margin: "4rem 20px",
+          marginTop: "4rem",
           maxWidth: "1000px",
           height: "400px",
         }}

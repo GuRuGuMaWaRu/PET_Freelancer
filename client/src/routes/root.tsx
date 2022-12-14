@@ -124,6 +124,7 @@ function Root() {
       <main
         css={{
           gridColumn: "2 / span 4",
+          margin: "1rem 20px",
           [mq.medium]: {
             gridColumn: "1 / span 5",
           },
