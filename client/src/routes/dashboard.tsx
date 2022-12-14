@@ -22,6 +22,7 @@ import {
   Modal,
   ModalOpenButton,
   ModalContents,
+  AddProjectForm,
 } from "../components";
 
 const projectOneYearQuery = () => ({
@@ -57,8 +58,6 @@ const loader = (queryClient: QueryClient) => async (): Promise<{
       queryClient.getQueryData(clientsQuery.queryKey) ??
       (await queryClient.fetchQuery(clientsQuery)),
   };
-};
-
 };
 
 const setFullYearOfDates = (): Record<string, IEarnings> => {
@@ -175,7 +174,7 @@ function Dashboard() {
               <Button>Add Project</Button>
             </ModalOpenButton>
             <ModalContents aria-label="Add Project Form" title="Add Project">
-              <div>Add Project</div>
+              <AddProjectForm clients={clients} />
             </ModalContents>
           </Modal>
           <div>

@@ -5,7 +5,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Label, Input, FormGroup, ErrorMessage, Spinner } from "./lib";
 import { useAuth, useNotification } from "../context";
 import { useAsync } from "../utils";
-import type { IResponseUserData, IRegisterFormInputs } from "../utils"
+import {
+  IResponseUserData,
+  IRegisterFormInputs,
+  NotificationType,
+} from "../utils";
 
 const RegisterForm = ({
   submitButton,
@@ -19,7 +23,10 @@ const RegisterForm = ({
     watch,
   } = useForm<IRegisterFormInputs>();
   const watchPassword = watch("password1");
-  const { run, isLoading, isError, error } = useAsync<IResponseUserData, Error>();
+  const { run, isLoading, isError, error } = useAsync<
+    IResponseUserData,
+    Error
+  >();
   const { setNotification } = useNotification();
   const { signup } = useAuth();
   const submit: SubmitHandler<IRegisterFormInputs> = (data) => {
@@ -29,7 +36,7 @@ const RegisterForm = ({
   React.useEffect(() => {
     if (isError) {
       setNotification({
-        type: "error",
+        type: NotificationType.error,
         message: error?.message ?? "There was an error",
       });
     }

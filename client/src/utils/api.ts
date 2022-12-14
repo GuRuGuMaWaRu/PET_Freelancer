@@ -18,4 +18,8 @@ const getAllClients = async () => {
   return await client<IClient[]>("clients", { token: token ?? '' });
 };
 
-export { getAllProjects, getProjectsForYear, getAllClients };
+const addProject = async (project: Partial<IProject>) => {
+  console.log(project)
+}
+
+export { getAllProjects, getProjectsForYear, getAllClients, addProject };

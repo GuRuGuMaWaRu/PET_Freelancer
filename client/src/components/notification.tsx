@@ -9,6 +9,7 @@ import {
   AccomplishedIcon,
   CloseIcon,
 } from "./lib";
+import { NotificationType } from "../utils";
 
 const AnimatedNotificationMessage = animated(NotificationMessage);
 
@@ -55,7 +56,7 @@ const Notification: React.FC = () => {
         <AnimatedNotificationMessage
           role="alert"
           aria-label="notification"
-          type={notification?.type || "error"}
+          type={notification?.type || NotificationType.error}
           style={{
             transform: styles.y.to(
               (value) => `translateY(${value}px) translateX(-50%)`,

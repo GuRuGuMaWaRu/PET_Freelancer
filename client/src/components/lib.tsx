@@ -1,5 +1,13 @@
 /** @jsxImportSource @emotion/react */
+import React from "react";
 import { DialogContent as ReachDialogContent } from "@reach/dialog";
+import {
+  Combobox as ReachCombobox,
+  ComboboxInput as ReachComboboxInput,
+  ComboboxPopover as ReachComboboxPopover,
+  ComboboxList as ReachComboboxList,
+  ComboboxOption as ReachComboboxOption,
+} from "@reach/combobox";
 import styled from "@emotion/styled";
 import { keyframes } from "@emotion/react";
 import {
@@ -8,10 +16,11 @@ import {
   FaExclamationCircle,
   FaCheck,
 } from "react-icons/fa";
+import { matchSorter } from "match-sorter";
 
 import * as colors from "../styles/colors";
 import * as mq from "../styles/media-queries";
-import { NotificationType, ChartType } from "../utils";
+import { NotificationType, ChartType, useThrottle } from "../utils";
 
 /* Form components */
 const FormGroup = styled.div({
@@ -22,9 +31,16 @@ const FormGroup = styled.div({
 const inputStyles = {
   padding: "6px 10px",
   border: "1px solid #f1f1f4",
+  borderRadius: "3px",
 };
 
-const Input = styled.input({ borderRadius: "3px" }, inputStyles);
+const Input = styled.input(inputStyles);
+const Select = styled.select(inputStyles);
+const Textarea = styled.textarea(inputStyles);
+const StyledReachComboboxInput = styled(ReachComboboxInput)(
+  { width: "100%" },
+  inputStyles,
+);
 
 const Label = styled.label({ margin: "10px 0 5px" });
 
@@ -80,7 +96,7 @@ const ChartSelectionButton = styled.button<ChartSelectionButtonProps>(
 );
 
 const DialogContent = styled(ReachDialogContent)({
-  maxWidth: "450px",
+  width: "450px",
   borderRadius: "3px",
   margin: "20vh auto",
   boxShadow: "0 10px 30px -5px rgba(0, 0, 0, 0.2)",
@@ -91,6 +107,60 @@ const DialogContent = styled(ReachDialogContent)({
     margin: "10vh auto",
   },
 });
+
+function useItemMatch<T>(items: T[], term: string) {
+  const throttledTerm = useThrottle(term, 100);
+  return React.useMemo(
+    () =>
+      throttledTerm.trim() === ""
+        ? null
+        : matchSorter(items, throttledTerm, {
+            keys: ["name"],
+          }),
+    [items, throttledTerm],
+  );
+}
+
+interface IComboboxItem {
+  _id: string;
+  name: string;
+}
+interface IComboboxProps {
+  label: string;
+  items: IComboboxItem[];
+  name: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+}
+
+const Combobox = React.forwardRef<HTMLInputElement, IComboboxProps>(
+  ({ label = "choose an item", items, name, onChange, onBlur }, ref) => {
+    const [term, setTerm] = React.useState<string>("");
+    const results = useItemMatch(items, term);
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+      setTerm(event.target.value);
+      onChange(event);
+    };
+
+    return (
+      <ReachCombobox aria-label={label}>
+        <StyledReachComboboxInput
+          onChange={handleChange}
+          name={name}
+          onBlur={onBlur}
+          ref={ref}
+        />
+        <ReachComboboxPopover>
+          <ReachComboboxList>
+            {results?.map((item) => (
+              <ReachComboboxOption key={item._id} value={item.name} />
+            ))}
+          </ReachComboboxList>
+        </ReachComboboxPopover>
+      </ReachCombobox>
+    );
+  },
+);
 
 /* Error components */
 const errorMessageVariants = {
@@ -187,11 +257,11 @@ function FullPageSpinner() {
 /* Notifications */
 const setNotificationColor = (type: NotificationType) => {
   switch (type) {
-    case "create":
-    case "delete":
+    case NotificationType.create:
+    case NotificationType.delete:
       return colors.notificationDone;
-    case "error":
-    case "fail":
+    case NotificationType.error:
+    case NotificationType.fail:
       return colors.notificationError;
     default:
       return colors.text;
@@ -251,10 +321,13 @@ const CloseIcon = styled(FaTimes)({
 export {
   FormGroup,
   Input,
+  Select,
+  Textarea,
   Label,
   Button,
   ChartSelectionButton,
   DialogContent,
+  Combobox,
   ErrorMessage,
   FullPageErrorFallback,
   Spinner,

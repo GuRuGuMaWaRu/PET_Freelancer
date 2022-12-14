@@ -5,7 +5,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Label, Input, FormGroup, ErrorMessage, Spinner } from "./lib";
 import { useAuth, useNotification } from "../context";
 import { useAsync } from "../utils";
-import type { IResponseUserData, ILoginFormInputs } from '../utils'
+import {
+  IResponseUserData,
+  ILoginFormInputs,
+  NotificationType,
+} from "../utils";
 
 const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
   const {
@@ -13,7 +17,10 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<ILoginFormInputs>();
-  const { run, isLoading, isError, error } = useAsync<IResponseUserData, Error>();
+  const { run, isLoading, isError, error } = useAsync<
+    IResponseUserData,
+    Error
+  >();
   const { setNotification } = useNotification();
   const { login } = useAuth();
   const submit: SubmitHandler<ILoginFormInputs> = (data) => {
@@ -23,7 +30,7 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
   React.useEffect(() => {
     if (isError) {
       setNotification({
-        type: "error",
+        type: NotificationType.error,
         message: error?.message ?? "There was an error",
       });
     }

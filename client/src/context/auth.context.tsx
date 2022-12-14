@@ -7,6 +7,7 @@ import {
   IResponseUserData,
   ILoginFormInputs,
   IRegisterFormInputs,
+  NotificationType,
 } from "../utils";
 import { FullPageErrorFallback, FullPageSpinner } from "../components/lib";
 import { useNotification } from "./";
@@ -39,7 +40,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           token,
         }).catch((e) => {
           console.log(e);
-          setNotification({ type: "error", message: e.message });
+          setNotification({ type: NotificationType.error, message: e.message });
           return { data: null };
         });
         user = res.data;

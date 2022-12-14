@@ -1,4 +1,9 @@
-type NotificationType = "create" | "delete" | "error" | "fail";
+export enum NotificationType {
+  create= "create",
+  delete= "delete",
+  error= "error",
+  fail= "fail",
+}
 
 interface IResponseUserData {
   name: string;
@@ -60,7 +65,6 @@ interface IEarningsByClient {
 }
 
 export type { 
-  NotificationType,
   IResponseUserData,
   ILoginFormInputs,
   IRegisterFormInputs,

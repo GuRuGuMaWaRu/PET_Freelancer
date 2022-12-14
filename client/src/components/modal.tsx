@@ -36,6 +36,16 @@ interface IModalContext {
 
 const ModalContext = React.createContext({} as IModalContext);
 
+const useModal = () => {
+  const context = React.useContext(ModalContext);
+
+  if (!context) {
+    throw new Error("useModal must be used inside ModalProvider");
+  }
+
+  return context;
+};
+
 function Modal(props: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -43,7 +53,7 @@ function Modal(props: { children: React.ReactNode }) {
 }
 
 function ModalOpenButton({ children }: { children: React.ReactElement }) {
-  const { setIsOpen } = React.useContext(ModalContext);
+  const { setIsOpen } = useModal();
 
   return React.cloneElement(children, {
     onClick: callAll(() => setIsOpen(true), children.props.onClick),
@@ -58,7 +68,7 @@ function ModalContents({
   children: React.ReactElement;
   title: string;
 }) {
-  const { isOpen, setIsOpen } = React.useContext(ModalContext);
+  const { isOpen, setIsOpen } = useModal();
   const transitions = useTransition(isOpen, {
     from: { opacity: 0, y: -10 },
     enter: { opacity: 1, y: 0 },
@@ -105,4 +115,4 @@ function ModalContents({
   );
 }
 
-export { Modal, ModalOpenButton, ModalContents };
+export { Modal, ModalOpenButton, ModalContents, useModal };

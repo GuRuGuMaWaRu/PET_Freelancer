@@ -5,8 +5,8 @@ import {
   Root,
   Dashboard,
   dashboardLoader,
-  dashboardAction,
   Projects,
+  projectsAddAction,
   Clients,
   NotFoundScreen,
 } from "./routes";
@@ -48,7 +48,7 @@ const router = createBrowserRouter([
           },
           {
             path: "projects/add",
-            action: dashboardAction,
+            action: projectsAddAction,
           },
           {
             path: "clients",
