@@ -1,22 +1,25 @@
 const mongoose = require("mongoose");
 
-const clientSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "A client must have a user"],
+const clientSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "A client must have a user"],
+    },
+    name: {
+      type: String,
+      trim: true,
+      required: [true, "A client must have a name"],
+    },
+    deleted: {
+      type: Boolean,
+      default: false,
+      select: false,
+    },
   },
-  name: {
-    type: String,
-    trim: true,
-    required: [true, "A client must have a name"],
-  },
-  deleted: {
-    type: Boolean,
-    default: false,
-    select: false,
-  },
-});
+  { timestamps: true },
+);
 
 clientSchema.index(
   {
