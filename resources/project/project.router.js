@@ -12,10 +12,17 @@ router.use(protect);
 
 router
   .route("/")
-  // @route     GET projects/
-  // @desc      Get all projects
-  // @access    Private
+  /**
+   * @route     GET projects/
+   * @desc      Get all projects
+   * @access    Private
+   */
   .get(projectControllers.getAll)
+  /**
+   * @route     POST projects/
+   * @desc      Create a project
+   * @access    Private
+   */
   .post(
     catchAsync(async (req, res, next) => {
       const body = { ...req.body };
@@ -58,9 +65,11 @@ router
 
 router
   .route("/lastYear")
-  // @route     GET projects/lastYear
-  // @desc      Get projects from year ago and up till now
-  // @access    Private
+  /**
+   * @route     GET projects/lastYear
+   * @desc      Get projects from year ago and up till now
+   * @access    Private
+   */
   .get(
     catchAsync(async (req, res) => {
       const currentDate = new Date();
@@ -87,7 +96,7 @@ router
         { $addFields: { clientObj: { $arrayElemAt: ["$fromClients", 0] } } },
         { $addFields: { client: "$clientObj.name" } },
         { $project: { fromClients: 0, clientObj: 0 } },
-      ]);
+      ]).exec();
 
       res.status(200).json({
         status: "success",
@@ -99,17 +108,23 @@ router
 
 router
   .route("/:id")
-  // @route     GET projects/:id
-  // @desc      Get project
-  // @access    Private
+  /**
+   * @route     GET projects/:id
+   * @desc      Get a project
+   * @access    Private
+   */
   .get(projectControllers.getOne)
-  // @route     PATCH projects/:id
-  // @desc      Update project
-  // @access    Private
+  /**
+   * @route     PATCH projects/:id
+   * @desc      Update a project
+   * @access    Private
+   */
   .patch(projectControllers.updateOne)
-  // @route     DELETE projects/:id
-  // @desc      Delete project
-  // @access    Private
+  /**
+   * @route     DELETE projects/:id
+   * @desc      Delete a project
+   * @access    Private
+   */
   .delete(projectControllers.deleteOne);
 
 module.exports = router;
