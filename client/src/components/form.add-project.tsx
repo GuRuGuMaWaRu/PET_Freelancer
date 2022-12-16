@@ -28,7 +28,7 @@ interface IAddProjectForm {
   date: string;
   client: string;
   projectNr: string;
-  currency: "usd" | "eur";
+  currency: "USD" | "EUR";
   payment: number;
   comments: string;
 }
@@ -56,7 +56,7 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
       date: new Date().toISOString().split("T")[0],
       client: "",
       projectNr: "",
-      currency: "usd",
+      currency: "USD",
       payment: 0,
       comments: "",
     },
@@ -68,6 +68,15 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
   const formSubmit: SubmitHandler<IAddProjectForm> = (data) => {
     let formData = new FormData();
 
+    // Check if there is a new client
+    const existingClient = clients.some(
+      (client) => client.name === data.client,
+    );
+    if (!existingClient) {
+      formData.append("newClient", `${data.client}`);
+    }
+
+    // Append all the fields
     for (const [key, value] of Object.entries(data)) {
       formData.append(key, value);
     }
@@ -128,9 +137,9 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
       </FormGroup>
       <FormGroup>
         <Label htmlFor="currency">Currency:</Label>
-        <Select id="currency" defaultValue={"usd"} {...register("currency")}>
-          <option value="usd">USD</option>
-          <option value="eur">EUR</option>
+        <Select id="currency" defaultValue={"USD"} {...register("currency")}>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
         </Select>
       </FormGroup>
       <FormGroup>

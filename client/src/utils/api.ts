@@ -19,7 +19,9 @@ const getAllClients = async () => {
 };
 
 const addProject = async (project: Partial<IProject>) => {
-  console.log(project)
+  const token = window.localStorage.getItem(localStorageKey);
+
+  return await client<IProject>("projects", { token: token ?? '', data: project });
 }
 
 export { getAllProjects, getProjectsForYear, getAllClients, addProject };

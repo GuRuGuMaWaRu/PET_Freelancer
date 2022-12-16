@@ -48,7 +48,7 @@ const router = createBrowserRouter([
           },
           {
             path: "projects/add",
-            action: projectsAddAction,
+            action: projectsAddAction(queryClient),
           },
           {
             path: "clients",

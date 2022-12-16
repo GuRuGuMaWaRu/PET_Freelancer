@@ -1,9 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const { protect, catchAsync } = require("../../utils");
+const { protect, catchAsync, AppError } = require("../../utils");
 const projectControllers = require("./project.controllers");
 const Project = require("./project.model");
+const Client = require("../client/client.model");
 
 const router = express.Router();
 
@@ -15,10 +16,45 @@ router
   // @desc      Get all projects
   // @access    Private
   .get(projectControllers.getAll)
-  // @route     POST projects/
-  // @desc      Create project
-  // @access    Private
-  .post(projectControllers.createOne);
+  .post(
+    catchAsync(async (req, res, next) => {
+      const body = { ...req.body };
+
+      // Confirm data
+      if (
+        !body.payment ||
+        !body.currency ||
+        !body.projectNr ||
+        !body.client ||
+        !body.date
+      ) {
+        return next(new AppError(400, "All fields are required"));
+      }
+
+      // Add userId to the data
+      if (req.userId && Project.collection.collectionName !== "users") {
+        body.user = req.userId;
+      }
+
+      // Get a client Id or create a new client if necessary
+      let client = await Client.findOne({ name: body.client })
+        .lean()
+        .exec();
+
+      if (!client) {
+        client = await Client.create({ name: body.client, user: body.user });
+      }
+
+      body.client = client._id;
+
+      const doc = await Project.create(body);
+
+      res.status(201).json({
+        status: "success",
+        data: doc.toJSON(),
+      });
+    }),
+  );
 
 router
   .route("/lastYear")
