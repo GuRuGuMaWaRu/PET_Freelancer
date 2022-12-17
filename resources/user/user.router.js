@@ -1,6 +1,7 @@
 const express = require("express");
 const { check } = require("express-validator");
 
+const loginLimiter = require("../../middleware/loginLimiter");
 const { protect, validateForm } = require("../../utils");
 const authControllers = require("./auth.controllers");
 const userControllers = require("./user.controllers");
@@ -11,6 +12,7 @@ const router = express.Router();
 router.get("/getUser", protect, authControllers.getUser);
 router.post(
   "/login",
+  loginLimiter,
   [
     check("email", "Please provide valid email").isEmail(),
     check("password", "Please provide password").exists(),
