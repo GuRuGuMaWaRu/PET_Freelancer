@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { Form, useSubmit } from "react-router-dom";
+import { Form, useFetcher } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -61,14 +61,33 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
       comments: "",
     },
   });
-  const submit = useSubmit();
+  const fetcher = useFetcher();
   const { setIsOpen } = useModal();
   const { setNotification } = useNotification();
+
+  const isLoading = fetcher.state !== "idle";
+
+  //** Show ERROR or SUCCESS message */
+  React.useEffect(() => {
+    if (fetcher.data && !isLoading) {
+      setNotification({
+        type:
+          fetcher.data.status === "success"
+            ? NotificationType.create
+            : NotificationType.error,
+        message: fetcher.data.message,
+      });
+    }
+
+    if (fetcher?.data?.status === "success") {
+      setIsOpen(false);
+    }
+  }, [fetcher.data, isLoading, setIsOpen, setNotification]);
 
   const formSubmit: SubmitHandler<IAddProjectForm> = (data) => {
     let formData = new FormData();
 
-    // Check if there is a new client
+    //** Check if there is a new client */
     const existingClient = clients.some(
       (client) => client.name === data.client,
     );
@@ -76,17 +95,12 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
       formData.append("newClient", `${data.client}`);
     }
 
-    // Append all the fields
+    //** Append all fields */
     for (const [key, value] of Object.entries(data)) {
       formData.append(key, value);
     }
 
-    submit(formData, { action: "projects/add", method: "post" });
-    setNotification({
-      type: NotificationType.create,
-      message: "Project added successfully",
-    });
-    setIsOpen(false);
+    fetcher.submit(formData, { action: "projects/add", method: "post" });
   };
 
   return (
@@ -173,7 +187,9 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
         )}
       </FormGroup>
       <div css={{ marginTop: "30px" }}>
-        <Button type="submit">Add</Button>
+        <Button type="submit" disabled={isLoading}>
+          Add {isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null}
+        </Button>
       </div>
     </Form>
   );

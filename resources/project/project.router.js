@@ -27,7 +27,7 @@ router
     catchAsync(async (req, res, next) => {
       const body = { ...req.body };
 
-      // Confirm data
+      //** Confirm data  */
       if (
         !body.payment ||
         !body.currency ||
@@ -38,18 +38,23 @@ router
         return next(new AppError(400, "All fields are required"));
       }
 
-      // Add userId to the data
+      //** Add userId to the data */
       if (req.userId && Project.collection.collectionName !== "users") {
         body.user = req.userId;
       }
 
-      // Get a client Id or create a new client if necessary
-      let client = await Client.findOne({ name: body.client })
+      //** Get a client Id or create a new client if necessary */
+      let client = await Client.findOne({
+        name: body.client,
+      })
         .lean()
         .exec();
 
       if (!client) {
-        client = await Client.create({ name: body.client, user: body.user });
+        client = await Client.create({
+          name: body.client,
+          user: body.user,
+        });
       }
 
       body.client = client._id;

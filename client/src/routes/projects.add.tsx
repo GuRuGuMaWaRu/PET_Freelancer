@@ -1,6 +1,4 @@
-import { redirect } from "react-router-dom";
-import type { QueryClient } from "@tanstack/react-query";
-
+import { QueryClient } from "@tanstack/react-query";
 import { addProject } from "../utils";
 
 const action = (queryClient: QueryClient) => async ({
@@ -11,14 +9,26 @@ const action = (queryClient: QueryClient) => async ({
   const formData = await request.formData();
   const newProject = Object.fromEntries(formData);
 
-  await addProject(newProject);
-  queryClient.invalidateQueries({ queryKey: ["projects"]})
+  try {
+    await addProject(newProject);
+    queryClient.invalidateQueries({ queryKey: ["projects"] });
 
-  if (newProject.newClient) {
-    queryClient.invalidateQueries({ queryKey: ["clients"]})
+    //**  refetch clients if a new client was created
+    if (newProject.newClient) {
+      queryClient.invalidateQueries({ queryKey: ["clients"] });
+    }
+
+    return { status: "success", message: "Project added successfully" };
+  } catch (error) {
+    console.log(error);
+    return {
+      status: "error",
+      message:
+        error instanceof Error
+          ? error.message
+          : "There was an error creating a project",
+    };
   }
-  
-  return redirect("/");
 };
 
 export { action as projectsAddAction };
