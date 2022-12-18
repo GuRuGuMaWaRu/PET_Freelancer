@@ -4,10 +4,6 @@ import React from "react";
 import * as colors from "../styles/colors";
 import { IEarnings, formatUSD } from "../utils";
 
-interface IProps {
-  data: IEarnings[];
-}
-
 const getEarningsForThisMonth = (data: IEarnings[]): string => {
   const year = new Date().getFullYear();
   const month = new Date().getMonth() + 1;
@@ -30,9 +26,51 @@ const getEarningsForThisYear = (data: IEarnings[]): string => {
   return formatUSD(total !== 0 ? total / 1000 : 0);
 };
 
-function DashboardTotals({ data }: IProps) {
+interface ITotalsProps {
+  date: string;
+  amount: string;
+}
+
+function Totals({ date, amount }: ITotalsProps) {
+  return (
+    <div>
+      <div
+        css={{
+          fontSize: "clamp(1.5rem, 2.5vw, 2.8rem)",
+          fontWeight: "bold",
+          opacity: 0.7,
+        }}
+      >
+        {date}
+      </div>
+      <div css={{ display: "grid", gridTemplateColumns: "auto 1fr" }}>
+        <span css={{ marginTop: ".9rem", marginRight: ".3rem" }}>$</span>{" "}
+        <span
+          css={{
+            color: colors.primary,
+            fontSize: "clamp(2rem, 5vw, 4.5rem)",
+            fontWeight: "bold",
+          }}
+        >
+          {amount}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+interface IDashboardTotalsProps {
+  data: IEarnings[];
+}
+
+function DashboardTotals({ data }: IDashboardTotalsProps) {
   const earningsForThisMonth = getEarningsForThisMonth(data);
   const earningsForThisYear = getEarningsForThisYear(data);
+
+  const month = new Date()
+    .toLocaleDateString("default", { month: "long" })
+    .toUpperCase();
+  const year = new Date().getFullYear().toString();
 
   return (
     <div
@@ -42,44 +80,8 @@ function DashboardTotals({ data }: IProps) {
         gridGap: "1rem",
       }}
     >
-      <div>
-        <div css={{ fontSize: "2rem", fontWeight: "bold", opacity: 0.7 }}>
-          {new Date()
-            .toLocaleDateString("default", {
-              month: "long",
-            })
-            .toUpperCase()}
-        </div>
-        <div css={{ display: "grid", gridTemplateColumns: "auto 1fr" }}>
-          <span css={{ marginTop: ".9rem", marginRight: ".3rem" }}>$</span>{" "}
-          <span
-            css={{
-              color: colors.primary,
-              fontSize: "4rem",
-              fontWeight: "bold",
-            }}
-          >
-            {earningsForThisMonth}
-          </span>
-        </div>
-      </div>
-      <div>
-        <div css={{ fontSize: "2rem", fontWeight: "bold", opacity: 0.7 }}>
-          {new Date().getFullYear()}
-        </div>
-        <div css={{ display: "flex" }}>
-          <span css={{ marginTop: ".9rem", marginRight: ".3rem" }}>$</span>{" "}
-          <span
-            css={{
-              color: colors.primary,
-              fontSize: "4rem",
-              fontWeight: "bold",
-            }}
-          >
-            {earningsForThisYear}
-          </span>
-        </div>
-      </div>
+      <Totals date={month} amount={earningsForThisMonth} />
+      <Totals date={year} amount={earningsForThisYear} />
     </div>
   );
 }
