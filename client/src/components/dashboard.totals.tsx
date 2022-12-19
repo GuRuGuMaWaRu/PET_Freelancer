@@ -36,7 +36,7 @@ function Totals({ date, amount }: ITotalsProps) {
     <div>
       <div
         css={{
-          fontSize: "clamp(1.5rem, 2.5vw, 2.8rem)",
+          fontSize: "clamp(1.5rem, 3.5vw, 2.8rem)",
           fontWeight: "bold",
           opacity: 0.7,
         }}
@@ -76,7 +76,7 @@ function DashboardTotals({ data }: IDashboardTotalsProps) {
     <div
       css={{
         display: "grid",
-        gridTemplateColumns: "minmax(100px, 500px) minmax(100px, 500px)",
+        gridTemplateColumns: "minmax(100px, 1fr) minmax(100px, 1fr)",
         gridGap: "1rem",
       }}
     >

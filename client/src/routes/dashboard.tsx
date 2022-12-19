@@ -13,6 +13,7 @@ import {
   getProjectsForYear,
   getAllClients,
 } from "../utils";
+import * as mq from "../styles/media-queries";
 import {
   MemoDashboardTotals,
   MemoEarningsChart,
@@ -156,9 +157,12 @@ function Dashboard() {
       <div
         css={{
           position: "relative",
-          marginTop: "4rem",
+          margin: "4rem 10px",
           maxWidth: "1000px",
           height: "400px",
+          [mq.medium]: {
+            maxWidth: "100%",
+          },
         }}
       >
         <div
