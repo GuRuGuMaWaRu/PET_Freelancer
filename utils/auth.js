@@ -11,7 +11,7 @@ const protect = (req, res, next) => {
   const token = bearer.split(" ")[1].trim();
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     req.userId = decoded.id;
     next();
   } catch (err) {
