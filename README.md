@@ -22,3 +22,4 @@ NEW TODOs
 15. [ ] BACK: move some functionality from Utils into Middleware folder
 16. [ ] FRONT: try font-clamping - especially need this for Dashboard page
 17. [ ] FRONT: start working on Projects page - a sortable and searchable table of all projects
+18. [ ] BACK: when getting projects for the last year I think I can use the generics getAll from CRUD, the only thing I need is to add filtering by date. How do I do that?
