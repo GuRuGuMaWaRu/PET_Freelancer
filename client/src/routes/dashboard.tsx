@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { useLoaderData } from "react-router-dom";
 import { useQueries, QueryClient } from "@tanstack/react-query";
 
 import {
@@ -102,15 +101,17 @@ const getEarningsByClients = (projects: IProject[]): IEarningsByClient[] => {
   const earnings: Record<string, IEarningsByClient> = {};
 
   for (const project of projects) {
-    if (!earnings[project.client]) {
-      earnings[project.client] = {
-        client: project.client,
+    const clientName = project.client.name;
+
+    if (!earnings[clientName]) {
+      earnings[clientName] = {
+        client: clientName,
         payment: project.payment * 1000,
         projects: 1,
       };
     } else {
-      earnings[project.client].payment += project.payment * 1000;
-      earnings[project.client].projects += 1;
+      earnings[clientName].payment += project.payment * 1000;
+      earnings[clientName].projects += 1;
     }
   }
 
@@ -126,13 +127,9 @@ function Dashboard() {
   const [chartType, setChartType] = React.useState<ChartType>(
     ChartType.earnings,
   );
-  const initialData = useLoaderData() as Awaited<
-    ReturnType<ReturnType<typeof loader>>
-  >;
   const [{ data: projects = [] }, { data: clients = [] }] = useQueries({
     queries: [{ ...projectOneYearQuery() }, { ...getAllClientsQuery() }],
   });
-
   const earningsByMonth = React.useMemo(() => {
     return getEarningsByMonths(projects);
   }, [projects]);

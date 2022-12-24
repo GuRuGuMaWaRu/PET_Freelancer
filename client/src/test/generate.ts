@@ -16,8 +16,9 @@ const buildUser = (overrides: Partial<IUser> = {}): IUser => ({
 });
 
 const buildProject = (overrides: Partial<IProject> = {}): IProject => ({
+  _id: faker.datatype.uuid(),
   user: faker.datatype.uuid(),
-  client: clients[Math.floor((Math.random() * RANDOM_CLIENTS))],
+  client: { name: clients[Math.floor((Math.random() * RANDOM_CLIENTS))], _id: faker.datatype.uuid() },
   projectNr: faker.datatype.uuid(),
   payment: +faker.finance.amount(1, 200),
   currency: 'USD',

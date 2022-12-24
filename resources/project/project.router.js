@@ -80,28 +80,15 @@ router
       const currentDate = new Date();
       currentDate.setFullYear(currentDate.getFullYear() - 1);
 
-      const projects = await Project.aggregate([
-        {
-          $match: {
-            user: mongoose.Types.ObjectId(req.userId),
-            deleted: false,
-            date: {
-              $gte: currentDate,
-            },
-          },
+      const projects = await Project.find({
+        user: mongoose.Types.ObjectId(req.userId),
+        deleted: false,
+        date: {
+          $gte: currentDate,
         },
-        {
-          $lookup: {
-            from: "clients",
-            localField: "client",
-            foreignField: "_id",
-            as: "fromClients",
-          },
-        },
-        { $addFields: { clientObj: { $arrayElemAt: ["$fromClients", 0] } } },
-        { $addFields: { client: "$clientObj.name" } },
-        { $project: { fromClients: 0, clientObj: 0 } },
-      ]).exec();
+      })
+        .lean()
+        .exec();
 
       res.status(200).json({
         status: "success",

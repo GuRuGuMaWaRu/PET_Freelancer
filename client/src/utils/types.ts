@@ -24,8 +24,9 @@ interface IRegisterFormInputs {
 }
 
 interface IProject {
+  _id: string;
   user: string;
-  client: string;
+  client: IClient;
   projectNr: string;
   payment: number;
   currency: 'USD' | 'EUR' | 'GBP';
