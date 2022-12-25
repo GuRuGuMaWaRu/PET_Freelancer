@@ -96,7 +96,7 @@ function Projects() {
         }}
       >
         <thead>
-          <tr>
+          <tr css={{ "& th": { paddingTop: "14px", paddingBottom: "14px" } }}>
             <th>Client</th>
             <th>Date</th>
             <th>Project Nr</th>
