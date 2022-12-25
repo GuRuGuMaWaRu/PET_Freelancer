@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { useLoaderData } from "react-router-dom";
-import { useQuery, QueryClient } from "@tanstack/react-query";
+import { useQueries, QueryClient } from "@tanstack/react-query";
 
 import {
   IProject,
@@ -11,6 +10,7 @@ import {
   IEarningsByClient,
   ChartType,
   getAllProjects,
+  getAllClients,
 } from "../utils";
 import * as mq from "../styles/media-queries";
 import {
@@ -21,7 +21,7 @@ import {
   AddProjectForm,
 } from "../components";
 
-const projectsQuery = () => ({
+const getAllProjectsQuery = () => ({
   queryKey: ["projects"],
   queryFn: async () => {
     const res = await getAllProjects();
@@ -29,28 +29,63 @@ const projectsQuery = () => ({
     return res.data;
   },
 });
+const getAllClientsQuery = () => ({
+  queryKey: ["clients"],
+  queryFn: async () => {
+    const res = await getAllClients();
+
+    return res.data;
+  },
+});
 
 const loader = (queryClient: QueryClient) => async (): Promise<{
   projectsQuery: IProject[];
+  clientsQuery: IClient[];
 }> => {
-  const query = projectsQuery();
+  const projectsQuery = getAllProjectsQuery();
+  const clientsQuery = getAllClientsQuery();
 
-  return (
-    queryClient.getQueryData(query.queryKey) ??
-    (await queryClient.fetchQuery(query))
-  );
+  return {
+    projectsQuery:
+      queryClient.getQueryData(projectsQuery.queryKey) ??
+      (await queryClient.fetchQuery(projectsQuery)),
+    clientsQuery:
+      queryClient.getQueryData(clientsQuery.queryKey) ??
+      (await queryClient.fetchQuery(clientsQuery)),
+  };
 };
 
 function Projects() {
-  const { data: projects } = useQuery(projectsQuery());
+  const [{ data: projects = [] }, { data: clients = [] }] = useQueries({
+    queries: [{ ...getAllProjectsQuery() }, { ...getAllClientsQuery() }],
+  });
+
   console.log(projects);
+
   return (
     <>
-      <label htmlFor="search">
-        Search: <input id="search" type="text" />
-      </label>
+      <div
+        css={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <label htmlFor="search">
+          Search: <input id="search" type="text" />
+        </label>
+        <Modal>
+          <ModalOpenButton>
+            <Button>Add Project</Button>
+          </ModalOpenButton>
+          <ModalContents aria-label="Add Project Form" title="Add Project">
+            <AddProjectForm clients={clients} />
+          </ModalContents>
+        </Modal>
+      </div>
       <table
         css={{
+          marginTop: "1rem",
           borderCollapse: "collapse",
           width: "100%",
           "& th": {
