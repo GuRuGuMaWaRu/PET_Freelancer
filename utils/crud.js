@@ -74,7 +74,16 @@ const updateOne = (Model) =>
 
 const deleteOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    const filter = { _id: req.params.id };
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        status: "error",
+        message: "ID is required",
+      });
+    }
+
+    const filter = { _id: id };
 
     if (req.userId && Model.collection.collectionName !== "users") {
       filter.user = req.userId;
@@ -89,7 +98,7 @@ const deleteOne = (Model) =>
       .exec();
 
     if (!doc) {
-      return next(new AppError(404, "No doc found with this ID"));
+      return next(new AppError(404, "Nothing is found with the provided ID"));
     }
 
     res.status(204).json({
