@@ -5,7 +5,7 @@ const { catchAsync, AppError } = require("../../utils");
 
 // Helper functions
 const newToken = (payload) => {
-  return jwt.sign(payload, process.env.JWT_SECRET, {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
@@ -35,7 +35,7 @@ const login = catchAsync(async (req, res, next) => {
 
   jwt.sign(
     payload,
-    process.env.JWT_SECRET,
+    process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
@@ -62,7 +62,7 @@ const getUser = catchAsync(async (req, res, next) => {
 
   jwt.sign(
     payload,
-    process.env.JWT_SECRET,
+    process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
