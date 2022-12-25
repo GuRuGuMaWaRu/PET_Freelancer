@@ -15,23 +15,28 @@ const newToken = (payload) => {
 // @access    Public
 const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
 
-  if (!user) {
+  if (!email || !password) {
+    return next(new AppError(400, "All fields are required"));
+  }
+
+  const foundUser = await User.findOne({ email });
+
+  if (!foundUser) {
     return next(new AppError(400, "Invalid credentials"));
   }
 
-  const isMatch = await user.comparePasswords(password, user.password);
+  const match = await foundUser.comparePasswords(password, foundUser.password);
 
-  if (!isMatch) {
+  if (!match) {
     return next(new AppError(400, "Invalid credentials"));
   }
 
   const payload = {
-    id: user._id,
+    id: foundUser._id,
   };
 
-  const { name } = user;
+  const { name } = foundUser;
 
   jwt.sign(
     payload,
@@ -41,6 +46,7 @@ const login = catchAsync(async (req, res, next) => {
       if (err) throw err;
       res.status(200).json({
         status: "success",
+        message: `${foundUser.name} logged in successfully`,
         data: { name, email, token },
       });
     },
@@ -66,7 +72,11 @@ const getUser = catchAsync(async (req, res, next) => {
     { expiresIn: process.env.JWT_EXPIRES_IN },
     (err, token) => {
       if (err) throw err;
-      res.status(200).json({ status: "success", data: { ...user, token } });
+      res.status(200).json({
+        status: "success",
+        message: `${user.name} logged in successfully`,
+        data: { ...user, token },
+      });
     },
   );
 });
@@ -93,9 +103,11 @@ const signup = catchAsync(async (req, res, next) => {
   if (user) {
     const token = newToken({ id: user._id });
 
-    return res
-      .status(201)
-      .json({ status: "success", data: { name, email, token } });
+    return res.status(201).json({
+      status: "success",
+      message: `${user.name} registered successfully`,
+      data: { name, email, token },
+    });
   } else {
     return next(new AppError(400, "Invalid user data received"));
   }
