@@ -3,7 +3,9 @@ import type { IProject, IClient } from './'
 import { localStorageKey } from "../config";
 
 const getAllProjects = async () => {
-  return await client<IProject[]>("projects");
+  const token = window.localStorage.getItem(localStorageKey);
+
+  return await client<IProject[]>("projects", { token: token ?? '' });
 };
 
 const getProjectsForYear = async () => {

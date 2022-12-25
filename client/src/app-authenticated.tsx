@@ -6,6 +6,7 @@ import {
   Dashboard,
   dashboardLoader,
   Projects,
+  projectsLoader,
   projectsAddAction,
   Clients,
   NotFoundScreen,
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
           {
             path: "projects",
             element: <Projects />,
+            loader: projectsLoader(queryClient),
           },
           {
             path: "projects/add",
