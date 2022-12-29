@@ -65,6 +65,7 @@ const setFullYearOfDates = (): Record<string, IEarnings> => {
 
   const date = new Date();
   date.setFullYear(date.getFullYear() - 1);
+  date.setDate(1); //** without it was getting an error on February 28th */
 
   for (let i = 0; i <= 12; i++) {
     const year = date.getFullYear();
