@@ -79,6 +79,7 @@ router
     catchAsync(async (req, res) => {
       const currentDate = new Date();
       currentDate.setFullYear(currentDate.getFullYear() - 1);
+      currentDate.setDate(1);
 
       const projects = await Project.find({
         user: mongoose.Types.ObjectId(req.userId),
