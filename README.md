@@ -8,6 +8,7 @@ NEW TODOs
 2. [x] FRONT: change Logout button to be less prominent
 3. [x] FRONT: show proper errors
 4. [ ] FRONT: animate BG change on route change. Every route/page has its BG color (main, tomato, brown, green, etc)
+       4.1 [ ] green for PROJECTS page and light-red for CLIENTS page?
 5. [ ] FRONT: offline Google fonts
 6. [x] FRONT: add a working Add Project functionality to the Dashboard page
 7. [ ] BACK: add messages to payloads that are sent from the backend on all successful operations with Users, Projects, and Clients.
@@ -23,3 +24,4 @@ NEW TODOs
 16. [ ] FRONT: try font-clamping - especially need this for Dashboard page
 17. [ ] FRONT: start working on Projects page - a sortable and searchable table of all projects
 18. [ ] BACK: when getting projects for the last year I think I can use the generics getAll from CRUD, the only thing I need is to add filtering by date. How do I do that?
+19. [ ] FRONT: on PROJECTS page show truncated notes text and display full text on hover in a tooltip (https://sebhastian.com/html-hover-text/)
