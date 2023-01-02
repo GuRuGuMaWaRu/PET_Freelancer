@@ -25,3 +25,9 @@ NEW TODOs
 17. [ ] FRONT: start working on Projects page - a sortable and searchable table of all projects
 18. [ ] BACK: when getting projects for the last year I think I can use the generics getAll from CRUD, the only thing I need is to add filtering by date. How do I do that?
 19. [ ] FRONT: on PROJECTS page show truncated notes text and display full text on hover in a tooltip (https://sebhastian.com/html-hover-text/)
+20. [ ] BACK: do I sanitize user-sent data before saving it to DB?
+21. ?[ ] FRONT: add a "Keep me logged in" checkbox - if checked, save token to localStorage
+22. ?[ ] FRONT: how do I get a token from state and use it inside loaders??? Right now I'm getting token from localStorage, but that is not the way
+23. [ ] BACK: check if I use "lean" where it can be used
+24. [ ] BACK: add granular Mongo-related error messages (as per Jonas's course)
+25. [ ] FRONT: rewrite react-router logic and use a previous version (the current one has too little resources and is very cumbersome for me)
