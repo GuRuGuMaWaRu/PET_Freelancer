@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { useQueries, QueryClient } from "@tanstack/react-query";
+import { useFetcher } from "react-router-dom";
 
 import {
   IProject,
@@ -21,13 +22,14 @@ import {
   AddProjectForm,
 } from "../components";
 
-const getAllProjectsQuery = () => ({
-  queryKey: ["projects"],
+const getAllProjectsQuery = (limit: string) => ({
+  queryKey: ["projects", { limit }],
   queryFn: async () => {
-    const res = await getAllProjects();
+    const res = await getAllProjects(limit);
 
     return res.data;
   },
+  keepPreviousData: true,
 });
 const getAllClientsQuery = () => ({
   queryKey: ["clients"],
@@ -38,11 +40,18 @@ const getAllClientsQuery = () => ({
   },
 });
 
-const loader = (queryClient: QueryClient) => async (): Promise<{
+const loader = (queryClient: QueryClient) => async ({
+  request,
+}: {
+  request: Request;
+}): Promise<{
   projectsQuery: IProject[];
   clientsQuery: IClient[];
 }> => {
-  const projectsQuery = getAllProjectsQuery();
+  const url = new URL(request.url);
+  let limit = url.searchParams.get("limit") ?? "20";
+
+  const projectsQuery = getAllProjectsQuery(limit);
   const clientsQuery = getAllClientsQuery();
 
   return {
@@ -56,11 +65,18 @@ const loader = (queryClient: QueryClient) => async (): Promise<{
 };
 
 function Projects() {
+  const [limit, setLimit] = React.useState(20);
+  const fetcher = useFetcher();
   const [{ data: projects = [] }, { data: clients = [] }] = useQueries({
-    queries: [{ ...getAllProjectsQuery() }, { ...getAllClientsQuery() }],
+    queries: [
+      { ...getAllProjectsQuery(`${limit}`) },
+      { ...getAllClientsQuery() },
+    ],
   });
 
-  console.log(projects);
+  const onLoadMore = () => {
+    setLimit(limit + 20);
+  };
 
   return (
     <>
@@ -123,6 +139,10 @@ function Projects() {
           ))}
         </tbody>
       </table>
+      <fetcher.Form onSubmit={onLoadMore}>
+        <input type="text" name="limit" defaultValue={limit} hidden />
+        <button>Load more</button>
+      </fetcher.Form>
     </>
   );
 }
