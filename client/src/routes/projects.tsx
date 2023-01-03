@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { useQueries, QueryClient } from "@tanstack/react-query";
-import { useFetcher } from "react-router-dom";
+import {
+  useQuery,
+  useInfiniteQuery,
+  QueryClient,
+  InfiniteData,
+} from "@tanstack/react-query";
 
 import {
-  IProject,
+  IProjectInfiniteData,
   IClient,
-  IEarnings,
-  IEarningsByMonth,
-  IEarningsByClient,
-  ChartType,
   getAllProjects,
   getAllClients,
 } from "../utils";
@@ -22,15 +22,18 @@ import {
   AddProjectForm,
 } from "../components";
 
-const getAllProjectsQuery = (limit: string) => ({
-  queryKey: ["projects", { limit }],
-  queryFn: async () => {
-    const res = await getAllProjects(limit);
+const getAllProjectsQuery = () => ({
+  queryKey: ["projects"],
+  queryFn: async ({ pageParam = 1 }) => {
+    const res = await getAllProjects(pageParam);
 
     return res.data;
   },
-  keepPreviousData: true,
+  getNextPageParam: (lastPage: any, pages: any) => {
+    return lastPage.page;
+  },
 });
+
 const getAllClientsQuery = () => ({
   queryKey: ["clients"],
   queryFn: async () => {
@@ -40,24 +43,17 @@ const getAllClientsQuery = () => ({
   },
 });
 
-const loader = (queryClient: QueryClient) => async ({
-  request,
-}: {
-  request: Request;
-}): Promise<{
-  projectsQuery: IProject[];
+const loader = (queryClient: QueryClient) => async (): Promise<{
+  projectsQuery: InfiniteData<IProjectInfiniteData>;
   clientsQuery: IClient[];
 }> => {
-  const url = new URL(request.url);
-  let limit = url.searchParams.get("limit") ?? "20";
-
-  const projectsQuery = getAllProjectsQuery(limit);
+  const projectsQuery = getAllProjectsQuery();
   const clientsQuery = getAllClientsQuery();
 
   return {
     projectsQuery:
       queryClient.getQueryData(projectsQuery.queryKey) ??
-      (await queryClient.fetchQuery(projectsQuery)),
+      (await queryClient.fetchInfiniteQuery(projectsQuery)),
     clientsQuery:
       queryClient.getQueryData(clientsQuery.queryKey) ??
       (await queryClient.fetchQuery(clientsQuery)),
@@ -65,18 +61,14 @@ const loader = (queryClient: QueryClient) => async ({
 };
 
 function Projects() {
-  const [limit, setLimit] = React.useState(20);
-  const fetcher = useFetcher();
-  const [{ data: projects = [] }, { data: clients = [] }] = useQueries({
-    queries: [
-      { ...getAllProjectsQuery(`${limit}`) },
-      { ...getAllClientsQuery() },
-    ],
-  });
-
-  const onLoadMore = () => {
-    setLimit(limit + 20);
-  };
+  const { data: clients = [] } = useQuery(getAllClientsQuery());
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery(getAllProjectsQuery());
 
   return (
     <>
@@ -121,28 +113,43 @@ function Projects() {
           </tr>
         </thead>
         <tbody>
-          {projects?.map((project) => (
-            <tr
-              key={project._id}
-              css={{
-                "&:nth-of-type(even)": {
-                  backgroundColor: "#0000002e",
-                },
-              }}
-            >
-              <th>{project.client.name}</th>
-              <th>{new Date(project.date).toLocaleDateString("default")}</th>
-              <th>{project.projectNr}</th>
-              <th>{project.payment}</th>
-              <th>{project.comments}</th>
-            </tr>
+          {data?.pages.map((page, i) => (
+            <React.Fragment key={i}>
+              {page?.docs.map((project) => (
+                <tr
+                  key={project._id}
+                  css={{
+                    "&:nth-of-type(even)": {
+                      backgroundColor: "#0000002e",
+                    },
+                  }}
+                >
+                  <th>{project.client.name}</th>
+                  <th>
+                    {new Date(project.date).toLocaleDateString("default")}
+                  </th>
+                  <th>{project.projectNr}</th>
+                  <th>{project.payment}</th>
+                  <th>{project.comments}</th>
+                </tr>
+              ))}
+            </React.Fragment>
           ))}
         </tbody>
       </table>
-      <fetcher.Form onSubmit={onLoadMore}>
-        <input type="text" name="limit" defaultValue={limit} hidden />
-        <button>Load more</button>
-      </fetcher.Form>
+      <div>
+        <button
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage || isFetchingNextPage}
+        >
+          {isFetchingNextPage
+            ? "Loading more..."
+            : hasNextPage
+            ? "Load More"
+            : "Nothing more to load"}
+        </button>
+      </div>
+      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
     </>
   );
 }

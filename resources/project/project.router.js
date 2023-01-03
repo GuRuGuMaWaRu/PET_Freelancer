@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const { protect, catchAsync, AppError } = require("../../utils");
+const { protect, catchAsync, AppError, APIFeatures } = require("../../utils");
 const projectControllers = require("./project.controllers");
 const Project = require("./project.model");
 const Client = require("../client/client.model");
@@ -17,7 +17,33 @@ router
    * @desc      Get all projects
    * @access    Private
    */
-  .get(projectControllers.getAll)
+  .get(
+    catchAsync(async (req, res, next) => {
+      const { page, limit } = req.query;
+      const filter = {};
+
+      if (req.userId) {
+        filter.user = req.userId;
+      }
+
+      const { query } = new APIFeatures(Project.find(filter), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+
+      const docs = await query.lean().exec();
+      const count = await Project.count();
+      const nextPage =
+        Number(page) * Number(limit) < count ? Number(page) + 1 : undefined;
+
+      res.status(200).json({
+        status: "success",
+        results: docs.length,
+        data: { docs, page: nextPage },
+      });
+    }),
+  )
   /**
    * @route     POST projects/
    * @desc      Create a project
