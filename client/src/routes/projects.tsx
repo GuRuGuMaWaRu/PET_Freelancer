@@ -22,10 +22,10 @@ import {
   AddProjectForm,
 } from "../components";
 
-const getAllProjectsQuery = () => ({
-  queryKey: ["projects"],
+const getAllProjectsQuery = (sort: string | null) => ({
+  queryKey: ["projects", { sort }],
   queryFn: async ({ pageParam = 1 }) => {
-    const res = await getAllProjects(pageParam);
+    const res = await getAllProjects(pageParam, sort);
 
     return res.data;
   },
@@ -47,7 +47,7 @@ const loader = (queryClient: QueryClient) => async (): Promise<{
   projectsQuery: InfiniteData<IProjectInfiniteData>;
   clientsQuery: IClient[];
 }> => {
-  const projectsQuery = getAllProjectsQuery();
+  const projectsQuery = getAllProjectsQuery(null);
   const clientsQuery = getAllClientsQuery();
 
   return {
@@ -61,6 +61,7 @@ const loader = (queryClient: QueryClient) => async (): Promise<{
 };
 
 function Projects() {
+  const [sort, setSort] = React.useState<string | null>(null);
   const { data: clients = [] } = useQuery(getAllClientsQuery());
   const {
     data,
@@ -68,7 +69,7 @@ function Projects() {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-  } = useInfiniteQuery(getAllProjectsQuery());
+  } = useInfiniteQuery(getAllProjectsQuery(sort));
 
   return (
     <>
@@ -105,11 +106,19 @@ function Projects() {
       >
         <thead>
           <tr css={{ "& th": { paddingTop: "14px", paddingBottom: "14px" } }}>
-            <th>Client</th>
-            <th>Date</th>
+            <th onClick={() => setSort("client")} css={{ cursor: "pointer" }}>
+              Client
+            </th>
+            <th onClick={() => setSort("date")} css={{ cursor: "pointer" }}>
+              Date
+            </th>
             <th>Project Nr</th>
-            <th>Payment</th>
-            <th>Notes</th>
+            <th onClick={() => setSort("payment")} css={{ cursor: "pointer" }}>
+              Payment
+            </th>
+            <th onClick={() => setSort("payment")} css={{ cursor: "comments" }}>
+              Notes
+            </th>
           </tr>
         </thead>
         <tbody>

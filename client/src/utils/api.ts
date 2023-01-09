@@ -2,10 +2,12 @@ import { client } from "./";
 import type { IProjectInfiniteData, IProject, IClient } from './'
 import { localStorageKey } from "../config";
 
-const getAllProjects = async (pageParam: number) => {
+const getAllProjects = async (pageParam: number, sortParam: string | null) => {
   const token = window.localStorage.getItem(localStorageKey);
+  const sort = sortParam ? `&sort=${sortParam}` : '';
+  const page = pageParam ? `page=${pageParam}&limit=20` : ''
 
-  return await client<IProjectInfiniteData>(`projects/?page=${pageParam}&limit=20`, { token: token ?? '' });
+  return await client<IProjectInfiniteData>(`projects/?${page}${sort}`, { token: token ?? '' });
 };
 
 const getProjectsForYear = async () => {
