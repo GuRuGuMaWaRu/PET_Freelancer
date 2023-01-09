@@ -6,6 +6,7 @@ import {
   QueryClient,
   InfiniteData,
 } from "@tanstack/react-query";
+import { FaSortUp, FaSortDown } from "react-icons/fa";
 
 import {
   IProjectInfiniteData,
@@ -60,8 +61,24 @@ const loader = (queryClient: QueryClient) => async (): Promise<{
   };
 };
 
+const columns = [
+  { name: "client", sortable: true },
+  { name: "date", sortable: true },
+  { name: "project nr", sortable: false },
+  { name: "payment", sortable: true },
+  { name: "comments", sortable: true },
+];
+
+const capitalizeItem = (item: string): string =>
+  item
+    .split(" ")
+    .map((item) => item.slice(0, 1).toUpperCase() + item.slice(1))
+    .join(" ");
+
 function Projects() {
-  const [sort, setSort] = React.useState<string | null>(null);
+  const [sortColumn, setSortColumn] = React.useState<string | null>(null);
+  const [sortDir, setSortDir] = React.useState<string>("asc");
+
   const { data: clients = [] } = useQuery(getAllClientsQuery());
   const {
     data,
@@ -69,7 +86,7 @@ function Projects() {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-  } = useInfiniteQuery(getAllProjectsQuery(sort));
+  } = useInfiniteQuery(getAllProjectsQuery(sortColumn));
 
   return (
     <>
@@ -106,19 +123,20 @@ function Projects() {
       >
         <thead>
           <tr css={{ "& th": { paddingTop: "14px", paddingBottom: "14px" } }}>
-            <th onClick={() => setSort("client")} css={{ cursor: "pointer" }}>
-              Client
-            </th>
-            <th onClick={() => setSort("date")} css={{ cursor: "pointer" }}>
-              Date
-            </th>
-            <th>Project Nr</th>
-            <th onClick={() => setSort("payment")} css={{ cursor: "pointer" }}>
-              Payment
-            </th>
-            <th onClick={() => setSort("payment")} css={{ cursor: "comments" }}>
-              Notes
-            </th>
+            {columns.map((column) => (
+              <th
+                key={column.name}
+                css={{ cursor: column.sortable ? "pointer" : "auto" }}
+              >
+                {capitalizeItem(column.name)}
+                {!column.sortable ? null : column.name === sortColumn &&
+                  sortDir === "asc" ? (
+                  <FaSortUp />
+                ) : (
+                  <FaSortDown />
+                )}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
