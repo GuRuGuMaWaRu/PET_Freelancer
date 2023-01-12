@@ -31,3 +31,5 @@ NEW TODOs
 23. [ ] BACK: check if I use "lean" where it can be used
 24. [ ] BACK: add granular Mongo-related error messages (as per Jonas's course)
 25. [ ] FRONT: rewrite react-router logic and use a previous version (the current one has too little resources and is very cumbersome for me)
+26. [ ] FRONT: Storybook - should I try it? Just for kicks?
+27. [ ] FRONT: projects - current and finished; start and deadline date; payment settled or not
