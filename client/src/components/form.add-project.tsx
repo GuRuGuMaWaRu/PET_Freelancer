@@ -159,7 +159,9 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
       <FormGroup>
         <Label htmlFor="payment">Payment:</Label>
         <Input
-          type="number"
+          type="text"
+          inputMode="numeric"
+          pattern="([0-9]*).([0-9]*)"
           step=".01"
           id="payment"
           aria-invalid={errors.projectNr ? "true" : "false"}
