@@ -61,7 +61,15 @@ const getUser = catchAsync(async (req, res, next) => {
     .select("-password -_id -__v")
     .lean()
     .exec();
-  // Get new token
+
+  //** Return early if no user found for the given userId */
+  if (!user) {
+    return res
+      .status(406)
+      .json({ stats: "error", message: "Current token/user-ID is invalid" });
+  }
+
+  //** Get new token */
   const payload = {
     id: user._id,
   };
