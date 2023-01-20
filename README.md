@@ -33,3 +33,4 @@ NEW TODOs
 25. [ ] FRONT: rewrite react-router logic and use a previous version (the current one has too little resources and is very cumbersome for me)
 26. [ ] FRONT: Storybook - should I try it? Just for kicks?
 27. [ ] FRONT: projects - current and finished; start and deadline date; payment settled or not
+28. [ ] FRONT: projects - may need a Spinner, right now there is a pause while the projects load
