@@ -23,7 +23,7 @@ import {
   AddProjectForm,
 } from "../components";
 
-const getAllProjectsQuery = (sort: string | null) => ({
+const getAllProjectsQuery = (sort?: string) => ({
   queryKey: ["projects", { sort }],
   queryFn: async ({ pageParam = 1 }) => {
     const res = await getAllProjects(pageParam, sort);
@@ -48,7 +48,7 @@ const loader = (queryClient: QueryClient) => async (): Promise<{
   projectsQuery: InfiniteData<IProjectInfiniteData>;
   clientsQuery: IClient[];
 }> => {
-  const projectsQuery = getAllProjectsQuery(null);
+  const projectsQuery = getAllProjectsQuery();
   const clientsQuery = getAllClientsQuery();
 
   return {
@@ -76,8 +76,9 @@ const capitalizeItem = (item: string): string =>
     .join(" ");
 
 function Projects() {
-  const [sortColumn, setSortColumn] = React.useState<string | null>(null);
-  const [sortDir, setSortDir] = React.useState<string>("asc");
+  const [sortColumn, setSortColumn] = React.useState<string | undefined>(
+    undefined,
+  );
 
   const { data: clients = [] } = useQuery(getAllClientsQuery());
   const {
