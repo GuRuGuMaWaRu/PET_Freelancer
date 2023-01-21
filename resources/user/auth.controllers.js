@@ -64,9 +64,9 @@ const getUser = catchAsync(async (req, res, next) => {
 
   //** Return early if no user found for the given userId */
   if (!user) {
-    return res
-      .status(406)
-      .json({ stats: "error", message: "Current token/user-ID is invalid" });
+    return next(
+      new AppError(406, "Token is invalid, there is no corresponding user"),
+    );
   }
 
   //** Get new token */

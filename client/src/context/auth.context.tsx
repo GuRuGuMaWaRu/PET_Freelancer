@@ -40,7 +40,14 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           token,
         }).catch((e) => {
           console.log(e);
-          setNotification({ type: NotificationType.error, message: e.message });
+
+          if (e.code !== 406) {
+            setNotification({
+              type: NotificationType.error,
+              message: e.message,
+            });
+          }
+
           return { data: null };
         });
         user = res.data;
