@@ -34,3 +34,5 @@ NEW TODOs
 26. [ ] FRONT: Storybook - should I try it? Just for kicks?
 27. [ ] FRONT: projects - current and finished; start and deadline date; payment settled or not
 28. [ ] FRONT: projects - may need a Spinner, right now there is a pause while the projects load
+29. [ ] FRONT: API - really look into creating an API layer, so that in my components or hooks I can reference API calls like `api.createProject(...)`. Then my `api` module will use a 'client' module (fetch or something) to make the call?
+30. [ ] FRONT: error handling as per (https://www.builder.io/blog/safe-data-fetching?ck_subscriber_id=478685813)
