@@ -51,16 +51,16 @@ projectSchema.index({
   client: 1,
 });
 
-projectSchema.pre("find", function(next) {
-  this.find({ deleted: { $ne: true } })
-    .populate({
-      path: "client",
-      select: "-_id -user -__v",
-    })
-    .sort("-date");
+// projectSchema.pre("find", function(next) {
+//   this.find({ deleted: { $ne: true } })
+//     .populate({
+//       path: "client",
+//       select: "-_id -user -__v",
+//     })
+//     .sort("-date");
 
-  next();
-});
+//   next();
+// });
 
 projectSchema.pre("findOne", function(next) {
   this.select("-user -__v");

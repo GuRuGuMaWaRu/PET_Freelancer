@@ -25,7 +25,7 @@ import {
 
 const getAllProjectsQuery = (sort?: string) => ({
   queryKey: ["projects", { sort }],
-  queryFn: async ({ pageParam = 1 }) => {
+  queryFn: async ({ pageParam = 0 }) => {
     const res = await getAllProjects(pageParam, sort);
 
     return res.data;
@@ -62,11 +62,11 @@ const loader = (queryClient: QueryClient) => async (): Promise<{
 };
 
 const columns = [
-  { name: "client", sortable: true },
-  { name: "date", sortable: true },
-  { name: "project nr", sortable: false },
-  { name: "payment", sortable: true },
-  { name: "comments", sortable: true },
+  { name: "client", sortName: "client.name" },
+  { name: "date", sortName: "date" },
+  { name: "project nr" },
+  { name: "payment", sortName: "payment" },
+  { name: "comments", sortName: "comments" },
 ];
 
 const capitalizeItem = (item: string): string =>
@@ -79,6 +79,7 @@ function Projects() {
   const [sortColumn, setSortColumn] = React.useState<string | undefined>(
     undefined,
   );
+  const [sortDir, setSortDir] = React.useState<string>("");
 
   const { data: clients = [] } = useQuery(getAllClientsQuery());
   const {
@@ -88,6 +89,11 @@ function Projects() {
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery(getAllProjectsQuery(sortColumn));
+
+  const handleSort = (columnName: string) => {
+    setSortColumn(`${sortDir}${columnName}`);
+    setSortDir((prevDir) => (prevDir === "" ? "-" : ""));
+  };
 
   return (
     <>
@@ -127,11 +133,16 @@ function Projects() {
             {columns.map((column) => (
               <th
                 key={column.name}
-                css={{ cursor: column.sortable ? "pointer" : "auto" }}
+                css={{ cursor: column.sortName ? "pointer" : "auto" }}
+                onClick={
+                  column.sortName
+                    ? () => handleSort(column?.sortName)
+                    : undefined
+                }
               >
                 {capitalizeItem(column.name)}
-                {!column.sortable ? null : column.name === sortColumn &&
-                  sortDir === "asc" ? (
+                {!column.sortName ? null : column.name === sortColumn &&
+                  sortDir === "" ? (
                   <FaSortUp />
                 ) : (
                   <FaSortDown />

@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 
-const { protect, catchAsync, AppError, APIFeatures } = require("../../utils");
+const { protect, catchAsync, AppError } = require("../../utils");
 const projectControllers = require("./project.controllers");
 const Project = require("./project.model");
 const Client = require("../client/client.model");
@@ -20,19 +20,68 @@ router
   .get(
     catchAsync(async (req, res, next) => {
       const { page, limit } = req.query;
-      const filter = {};
 
-      if (req.userId) {
-        filter.user = req.userId;
+      //** Return early if no user ID is provided  */
+      if (!req.userId) {
+        return next(new AppError(400, "User ID is required"));
       }
 
-      const { query } = new APIFeatures(Project.find(filter), req.query)
-        .filter()
-        .sort()
-        .limitFields()
-        .paginate();
+      //** Construct DB query based on request params */
+      const aggregationPipeline = [
+        {
+          $match: {
+            user: mongoose.Types.ObjectId(req.userId),
+            deleted: { $ne: true },
+          },
+        },
+        {
+          $lookup: {
+            from: "clients",
+            localField: "client",
+            foreignField: "_id",
+            as: "client",
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            projectNr: 1,
+            payment: 1,
+            currency: 1,
+            date: 1,
+            paid: 1,
+            comments: 1,
+            client: { $first: "$client" },
+          },
+        },
+      ];
 
-      const docs = await query.lean().exec();
+      //** Sorting stage */
+      if (Object.hasOwn(req.query, "sort")) {
+        console.log(req.query.sort);
+        const sortDir = req.query.sort.startsWith("-") ? -1 : 1;
+        const sortItem = req.query.sort.replace("-", "");
+
+        aggregationPipeline.push({
+          $sort: { [sortItem]: sortDir, _id: 1 },
+        });
+      }
+
+      //** Pagination stage */
+      if (
+        Object.hasOwn(req.query, "limit") &&
+        Object.hasOwn(req.query, "page")
+      ) {
+        aggregationPipeline.push(
+          {
+            $skip: Number(req.query.page) * Number(req.query.limit),
+          },
+          { $limit: Number(req.query.limit) },
+        );
+      }
+
+      const docs = await Project.aggregate(aggregationPipeline);
+
       const count = await Project.count();
       const nextPage =
         Number(page) * Number(limit) < count ? Number(page) + 1 : undefined;
