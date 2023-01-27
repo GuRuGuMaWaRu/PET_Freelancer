@@ -1,17 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import {
-  useQuery,
-  useInfiniteQuery,
-  QueryClient,
-  InfiniteData,
-} from "@tanstack/react-query";
+import { useQuery, QueryClient } from "@tanstack/react-query";
 import { FaSortUp, FaSortDown } from "react-icons/fa";
 
 import {
-  IProjectInfiniteData,
+  IProjectPaginatedData,
   IClient,
-  getAllProjects,
+  getPageOfProjects,
   getAllClients,
 } from "../utils";
 import * as mq from "../styles/media-queries";
@@ -23,16 +18,14 @@ import {
   AddProjectForm,
 } from "../components";
 
-const getAllProjectsQuery = (sort?: string) => ({
-  queryKey: ["projects", { sort }],
-  queryFn: async ({ pageParam = 0 }) => {
-    const res = await getAllProjects(pageParam, sort);
+const getPageOfProjectsQuery = (page: number, sortColumn?: string) => ({
+  queryKey: ["projects", { page, sortColumn }],
+  queryFn: async () => {
+    const res = await getPageOfProjects(page, sortColumn);
 
     return res.data;
   },
-  getNextPageParam: (lastPage: any, pages: any) => {
-    return lastPage.page;
-  },
+  keepPreviousData: true,
 });
 
 const getAllClientsQuery = () => ({
@@ -45,16 +38,16 @@ const getAllClientsQuery = () => ({
 });
 
 const loader = (queryClient: QueryClient) => async (): Promise<{
-  projectsQuery: InfiniteData<IProjectInfiniteData>;
+  projectsQuery: IProjectPaginatedData;
   clientsQuery: IClient[];
 }> => {
-  const projectsQuery = getAllProjectsQuery();
+  const projectsQuery = getPageOfProjectsQuery(1);
   const clientsQuery = getAllClientsQuery();
 
   return {
     projectsQuery:
       queryClient.getQueryData(projectsQuery.queryKey) ??
-      (await queryClient.fetchInfiniteQuery(projectsQuery)),
+      (await queryClient.fetchQuery(projectsQuery)),
     clientsQuery:
       queryClient.getQueryData(clientsQuery.queryKey) ??
       (await queryClient.fetchQuery(clientsQuery)),
@@ -76,6 +69,7 @@ const capitalizeItem = (item: string): string =>
     .join(" ");
 
 function Projects() {
+  const [page, setPage] = React.useState<number>(1);
   const [sortColumn, setSortColumn] = React.useState<string | undefined>(
     undefined,
   );
@@ -83,12 +77,15 @@ function Projects() {
 
   const { data: clients = [] } = useQuery(getAllClientsQuery());
   const {
+    isLoading,
+    isError,
+    error,
     data,
-    fetchNextPage,
-    hasNextPage,
     isFetching,
-    isFetchingNextPage,
-  } = useInfiniteQuery(getAllProjectsQuery(sortColumn));
+    isPreviousData,
+  } = useQuery(getPageOfProjectsQuery(page, sortColumn));
+
+  console.log(data);
 
   const handleSort = (columnName: string) => {
     setSortColumn(`${sortDir}${columnName}`);
@@ -152,43 +149,25 @@ function Projects() {
           </tr>
         </thead>
         <tbody>
-          {data?.pages.map((page, i) => (
-            <React.Fragment key={i}>
-              {page?.docs.map((project) => (
-                <tr
-                  key={project._id}
-                  css={{
-                    "&:nth-of-type(even)": {
-                      backgroundColor: "#0000002e",
-                    },
-                  }}
-                >
-                  <th>{project.client.name}</th>
-                  <th>
-                    {new Date(project.date).toLocaleDateString("default")}
-                  </th>
-                  <th>{project.projectNr}</th>
-                  <th>{project.payment}</th>
-                  <th>{project.comments}</th>
-                </tr>
-              ))}
-            </React.Fragment>
+          {data?.docs?.map((project) => (
+            <tr
+              key={project._id}
+              css={{
+                "&:nth-of-type(even)": {
+                  backgroundColor: "#0000002e",
+                },
+              }}
+            >
+              <th>{project.client.name}</th>
+              <th>{new Date(project.date).toLocaleDateString("default")}</th>
+              <th>{project.projectNr}</th>
+              <th>{project.payment}</th>
+              <th>{project.comments}</th>
+            </tr>
           ))}
         </tbody>
       </table>
-      <div>
-        <button
-          onClick={() => fetchNextPage()}
-          disabled={!hasNextPage || isFetchingNextPage}
-        >
-          {isFetchingNextPage
-            ? "Loading more..."
-            : hasNextPage
-            ? "Load More"
-            : "Nothing more to load"}
-        </button>
-      </div>
-      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+      <div>{isFetching ? "Fetching..." : null}</div>
     </>
   );
 }

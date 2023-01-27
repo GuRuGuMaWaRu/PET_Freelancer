@@ -1,13 +1,13 @@
 import { client } from "./";
-import type { IProjectInfiniteData, IProject, IClient } from './'
+import type { IProjectPaginatedData, IProject, IClient } from './'
 import { localStorageKey } from "../config";
 
-const getAllProjects = async (pageParam: number, sortParam?: string) => {
+const getPageOfProjects = async (pageParam: number, sortParam?: string) => {
   const token = window.localStorage.getItem(localStorageKey);
   const sort = sortParam ? `&sort=${sortParam}` : '';
-  const page = `page=${pageParam}&limit=20`;
+  const page = `page=${pageParam}&limit=14`;
 
-  return await client<IProjectInfiniteData>(`projects/?${page}${sort}`, { token: token ?? '' });
+  return await client<IProjectPaginatedData>(`projects/?${page}${sort}`, { token: token ?? '' });
 };
 
 const getProjectsForYear = async () => {
@@ -28,4 +28,4 @@ const addProject = async (project: Partial<IProject>) => {
   return await client<IProject>("projects", { token: token ?? '', data: project });
 }
 
-export { getAllProjects, getProjectsForYear, getAllClients, addProject };
+export { getPageOfProjects, getProjectsForYear, getAllClients, addProject };

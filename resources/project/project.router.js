@@ -58,12 +58,15 @@ router
 
       //** Sorting stage */
       if (Object.hasOwn(req.query, "sort")) {
-        console.log(req.query.sort);
         const sortDir = req.query.sort.startsWith("-") ? -1 : 1;
         const sortItem = req.query.sort.replace("-", "");
 
         aggregationPipeline.push({
-          $sort: { [sortItem]: sortDir, _id: 1 },
+          $sort: { [sortItem]: sortDir, date: -1 },
+        });
+      } else {
+        aggregationPipeline.push({
+          $sort: { date: -1, _id: 1 },
         });
       }
 
@@ -74,7 +77,7 @@ router
       ) {
         aggregationPipeline.push(
           {
-            $skip: Number(req.query.page) * Number(req.query.limit),
+            $skip: (Number(req.query.page) - 1) * Number(req.query.limit),
           },
           { $limit: Number(req.query.limit) },
         );
@@ -82,14 +85,15 @@ router
 
       const docs = await Project.aggregate(aggregationPipeline);
 
-      const count = await Project.count();
-      const nextPage =
-        Number(page) * Number(limit) < count ? Number(page) + 1 : undefined;
+      const count = await Project.countDocuments({
+        user: req.userId,
+        deleted: { $ne: true },
+      });
 
       res.status(200).json({
         status: "success",
         results: docs.length,
-        data: { docs, page: nextPage },
+        data: { docs, allDocs: count },
       });
     }),
   )

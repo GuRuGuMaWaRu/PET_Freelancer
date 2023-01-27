@@ -23,9 +23,9 @@ interface IRegisterFormInputs {
   password2: string;
 }
 
-interface IProjectInfiniteData {
+interface IProjectPaginatedData {
   docs: IProject[];
-  page: number;
+  allDocs: number;
 }
 
 interface IProject {
@@ -74,7 +74,7 @@ export type {
   IResponseUserData,
   ILoginFormInputs,
   IRegisterFormInputs,
-  IProjectInfiniteData,
+  IProjectPaginatedData,
   IProject,
   IClient,
   IEarnings,
