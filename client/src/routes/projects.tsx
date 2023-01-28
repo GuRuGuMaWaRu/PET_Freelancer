@@ -17,6 +17,7 @@ import {
   ModalContents,
   AddProjectForm,
 } from "../components";
+import { PAGE_LIMIT } from "../config";
 
 const getPageOfProjectsQuery = (page: number, sortColumn?: string) => ({
   queryKey: ["projects", { page, sortColumn }],
@@ -91,6 +92,17 @@ function Projects() {
     setSortColumn(`${sortDir}${columnName}`);
     setSortDir((prevDir) => (prevDir === "" ? "-" : ""));
   };
+
+  //** Calculate total number of pages */
+  const pagesTotal = Math.ceil((data?.allDocs ?? 0) / PAGE_LIMIT);
+
+  const paginationButtons = Array(pagesTotal)
+    .fill(1)
+    .map((_, index) => (
+      <button key={index} onClick={() => setPage(index + 1)}>
+        {index + 1}
+      </button>
+    ));
 
   return (
     <>
@@ -167,7 +179,7 @@ function Projects() {
           ))}
         </tbody>
       </table>
-      <div>{isFetching ? "Fetching..." : null}</div>
+      <div>{paginationButtons}</div>
     </>
   );
 }
