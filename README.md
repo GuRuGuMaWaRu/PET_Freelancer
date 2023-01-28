@@ -33,6 +33,7 @@ NEW TODOs
 25. [ ] FRONT: rewrite react-router logic and use a previous version (the current one has too little resources and is very cumbersome for me)
 26. [ ] FRONT: Storybook - should I try it? Just for kicks?
 27. [ ] FRONT: projects - current and finished; start and deadline date; payment settled or not
-28. [ ] FRONT: projects - may need a Spinner, right now there is a pause while the projects load
+28. [ ] FRONT: projects - may need a Spinner, right now there is a pause while the projects are loading
 29. [ ] FRONT: API - really look into creating an API layer, so that in my components or hooks I can reference API calls like `api.createProject(...)`. Then my `api` module will use a 'client' module (fetch or something) to make the call?
 30. [ ] FRONT: error handling as per (https://www.builder.io/blog/safe-data-fetching?ck_subscriber_id=478685813)
+31. [ ] FRONT: change all PX sizes to REMs, and set the root font-size to 62.5%, so that the user can zoom in and our, and we can work with 10px root font-size
