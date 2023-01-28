@@ -1,11 +1,11 @@
 import { client } from "./";
 import type { IProjectPaginatedData, IProject, IClient } from './'
-import { localStorageKey } from "../config";
+import { localStorageKey, PAGE_LIMIT } from "../config";
 
 const getPageOfProjects = async (pageParam: number, sortParam?: string) => {
   const token = window.localStorage.getItem(localStorageKey);
   const sort = sortParam ? `&sort=${sortParam}` : '';
-  const page = `page=${pageParam}&limit=14`;
+  const page = `page=${pageParam}&limit=${PAGE_LIMIT}`;
 
   return await client<IProjectPaginatedData>(`projects/?${page}${sort}`, { token: token ?? '' });
 };
