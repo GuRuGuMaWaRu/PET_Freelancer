@@ -16,6 +16,7 @@ import {
   ModalOpenButton,
   ModalContents,
   AddProjectForm,
+  Pagination,
 } from "../components";
 import { PAGE_LIMIT } from "../config";
 
@@ -96,14 +97,6 @@ function Projects() {
   //** Calculate total number of pages */
   const pagesTotal = Math.ceil((data?.allDocs ?? 0) / PAGE_LIMIT);
 
-  const paginationButtons = Array(pagesTotal)
-    .fill(1)
-    .map((_, index) => (
-      <button key={index} onClick={() => setPage(index + 1)}>
-        {index + 1}
-      </button>
-    ));
-
   return (
     <>
       <div
@@ -179,7 +172,11 @@ function Projects() {
           ))}
         </tbody>
       </table>
-      <div>{paginationButtons}</div>
+      <Pagination
+        currentPage={page}
+        numberOfPages={pagesTotal}
+        paginationCallback={setPage}
+      />
     </>
   );
 }
