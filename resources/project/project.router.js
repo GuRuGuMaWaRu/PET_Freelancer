@@ -61,9 +61,15 @@ router
         const sortDir = req.query.sort.startsWith("-") ? -1 : 1;
         const sortItem = req.query.sort.replace("-", "");
 
-        aggregationPipeline.push({
-          $sort: { [sortItem]: sortDir, date: -1 },
-        });
+        if (!req.query.sort.includes("date")) {
+          aggregationPipeline.push({
+            $sort: { [sortItem]: sortDir, date: -1 },
+          });
+        } else {
+          aggregationPipeline.push({
+            $sort: { [sortItem]: sortDir, _id: 1 },
+          });
+        }
       } else {
         aggregationPipeline.push({
           $sort: { date: -1, _id: 1 },
