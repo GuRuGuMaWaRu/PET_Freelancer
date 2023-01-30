@@ -10,14 +10,16 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import dayjs from "dayjs";
 
 import { IEarningsByMonth, formatUSD } from "../utils";
 import * as colors from "../styles/colors";
 
-interface IProps {
-  data: IEarningsByMonth[];
-}
+const formatDate = (
+  date: number,
+  options: Intl.DateTimeFormatOptions,
+): string => {
+  return new Intl.DateTimeFormat("en-US", options).format(date);
+};
 
 function CustomTooltip({
   active,
@@ -43,7 +45,10 @@ function CustomTooltip({
         <div css={{ margin: "13px 19px" }}>
           <p>
             <span css={{ fontWeight: 600 }}>Date:</span>{" "}
-            {dayjs(payload[0].payload.date).format("MMMM, YYYY")}
+            {formatDate(payload[0].payload.date, {
+              month: "long",
+              year: "numeric",
+            })}
           </p>
           <p>
             <span css={{ fontWeight: 600 }}>Earnings:</span> $
@@ -59,6 +64,10 @@ function CustomTooltip({
   }
 
   return null;
+}
+
+interface IProps {
+  data: IEarningsByMonth[];
 }
 
 function EarningsChart({ data }: IProps) {
@@ -79,7 +88,12 @@ function EarningsChart({ data }: IProps) {
           <XAxis
             dataKey="date"
             stroke={colors.text2}
-            tickFormatter={(unixTime) => dayjs(unixTime).format("MM/YYYY")}
+            tickFormatter={(date) =>
+              formatDate(date, {
+                year: "numeric",
+                month: "numeric",
+              })
+            }
             tickMargin={10}
             tickLine={false}
             axisLine={false}
