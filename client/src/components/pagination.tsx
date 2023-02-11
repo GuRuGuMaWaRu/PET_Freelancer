@@ -18,40 +18,34 @@ const SPaginationContainer = styled.div({
   marginTop: "1rem",
 });
 
-const Pagination: React.FC<IProps> = ({
-  currentPage,
-  numberOfPages,
-  paginationCallback,
-}) => {
-  console.log("currentPage:", currentPage);
-  console.log("numberOfPages:", numberOfPages);
-
-  let pages: { page: number; next_previous?: boolean }[] = [];
-
-  if (numberOfPages <= 9) {
-    pages = Array(numberOfPages)
+const getPages = (
+  currentPage: number,
+  pages: number,
+): { page: number; next_previous?: boolean }[] => {
+  if (pages <= 9) {
+    return Array(pages)
       .fill(1)
       .map((_, index) => ({ page: index + 1 }));
   } else {
     if (currentPage <= 5) {
-      pages = [
+      return [
         ...Array(7)
           .fill(1)
           .map((_, index) => ({ page: index + 1 })),
         { page: 8, next_previous: true },
-        { page: numberOfPages },
+        { page: pages },
       ];
-    } else if (currentPage >= numberOfPages - 4) {
-      pages = [
+    } else if (currentPage >= pages - 4) {
+      return [
         { page: 1 },
         { page: 2, next_previous: true },
         ...Array(7)
           .fill(1)
-          .map((_, index) => ({ page: numberOfPages - index }))
+          .map((_, index) => ({ page: pages - index }))
           .reverse(),
       ];
     } else {
-      pages = [
+      return [
         { page: 1 },
         { page: currentPage - 3, next_previous: true },
         { page: currentPage - 2 },
@@ -60,10 +54,21 @@ const Pagination: React.FC<IProps> = ({
         { page: currentPage + 1 },
         { page: currentPage + 2 },
         { page: currentPage + 3, next_previous: true },
-        { page: numberOfPages },
+        { page: pages },
       ];
     }
   }
+};
+
+const Pagination: React.FC<IProps> = ({
+  currentPage,
+  numberOfPages,
+  paginationCallback,
+}) => {
+  console.log("currentPage:", currentPage);
+  console.log("numberOfPages:", numberOfPages);
+
+  let pages = getPages(currentPage, numberOfPages);
 
   return (
     <SPaginationContainer>
@@ -75,7 +80,7 @@ const Pagination: React.FC<IProps> = ({
         <MdOutlineArrowBackIos />
       </button>
       <div>
-        {pages.map((item, index) => (
+        {pages.map((item) => (
           <button
             key={item.page}
             css={{
