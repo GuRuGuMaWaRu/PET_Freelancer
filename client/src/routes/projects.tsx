@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { useQuery, QueryClient } from "@tanstack/react-query";
+import styled from "@emotion/styled";
 import { FaSortUp, FaSortDown } from "react-icons/fa";
 
 import {
@@ -64,6 +65,33 @@ const columns = [
   { name: "comments", sortName: "comments" },
 ];
 
+const SContainer = styled.div({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+});
+
+const STable = styled.table({
+  marginTop: "1rem",
+  borderCollapse: "collapse",
+  width: "100%",
+  "& th": {
+    border: "1px solid #dddddd",
+    textAlign: "left",
+    padding: "8px",
+  },
+});
+
+const STableHeader = styled.th<{ sortName?: string }>(({ sortName }) => ({
+  cursor: sortName ? "pointer" : "auto",
+}));
+
+const SDataRow = styled.tr({
+  "&:nth-of-type(even)": {
+    backgroundColor: "#0000002e",
+  },
+});
+
 const capitalizeItem = (item: string): string =>
   item
     .split(" ")
@@ -99,13 +127,7 @@ function Projects() {
 
   return (
     <>
-      <div
-        css={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <SContainer>
         <label htmlFor="search">
           Search: <input id="search" type="text" />
         </label>
@@ -117,25 +139,14 @@ function Projects() {
             <AddProjectForm clients={clients} />
           </ModalContents>
         </Modal>
-      </div>
-      <table
-        css={{
-          marginTop: "1rem",
-          borderCollapse: "collapse",
-          width: "100%",
-          "& th": {
-            border: "1px solid #dddddd",
-            textAlign: "left",
-            padding: "8px",
-          },
-        }}
-      >
+      </SContainer>
+      <STable>
         <thead>
-          <tr css={{ "& th": { paddingTop: "14px", paddingBottom: "14px" } }}>
+          <tr>
             {columns.map((column) => (
-              <th
+              <STableHeader
                 key={column.name}
-                css={{ cursor: column.sortName ? "pointer" : "auto" }}
+                sortName={column.sortName}
                 onClick={
                   column.sortName
                     ? () => handleSort(column?.sortName)
@@ -149,29 +160,22 @@ function Projects() {
                 ) : (
                   <FaSortDown />
                 )}
-              </th>
+              </STableHeader>
             ))}
           </tr>
         </thead>
         <tbody>
           {data?.docs?.map((project) => (
-            <tr
-              key={project._id}
-              css={{
-                "&:nth-of-type(even)": {
-                  backgroundColor: "#0000002e",
-                },
-              }}
-            >
+            <SDataRow key={project._id}>
               <th>{project.client.name}</th>
               <th>{new Date(project.date).toLocaleDateString("default")}</th>
               <th>{project.projectNr}</th>
               <th>{project.payment}</th>
               <th>{project.comments}</th>
-            </tr>
+            </SDataRow>
           ))}
         </tbody>
-      </table>
+      </STable>
       <Pagination
         currentPage={page}
         numberOfPages={pagesTotal}
