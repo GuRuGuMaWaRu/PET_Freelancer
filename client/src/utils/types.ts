@@ -2,6 +2,7 @@ export enum NotificationType {
   create= "create",
   delete= "delete",
   error= "error",
+  warning= "warning",
   fail= "fail",
 }
 

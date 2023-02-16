@@ -2,15 +2,16 @@
 import React from "react";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import styled from "@emotion/styled";
-import { FaSortUp, FaSortDown } from "react-icons/fa";
+import { FaSortUp, FaSortDown, FaSearch, FaTimes } from "react-icons/fa";
+import Tooltip from "@reach/tooltip";
 
 import {
   IProjectPaginatedData,
   IClient,
+  NotificationType,
   getPageOfProjects,
   getAllClients,
 } from "../utils";
-import * as mq from "../styles/media-queries";
 import {
   Button,
   Modal,
@@ -20,11 +21,16 @@ import {
   Pagination,
 } from "../components";
 import { PAGE_LIMIT } from "../config";
+import { useNotification } from "../context";
 
-const getPageOfProjectsQuery = (page: number, sortColumn?: string) => ({
-  queryKey: ["projects", { page, sortColumn }],
+const getProjectsPageQuery = (
+  page: number,
+  sortColumn?: string,
+  searchQuery?: string,
+) => ({
+  queryKey: ["projects", { page, sortColumn, searchQuery }],
   queryFn: async () => {
-    const res = await getPageOfProjects(page, sortColumn);
+    const res = await getPageOfProjects(page, sortColumn, searchQuery);
 
     return res.data;
   },
@@ -44,7 +50,7 @@ const loader = (queryClient: QueryClient) => async (): Promise<{
   projectsQuery: IProjectPaginatedData;
   clientsQuery: IClient[];
 }> => {
-  const projectsQuery = getPageOfProjectsQuery(1);
+  const projectsQuery = getProjectsPageQuery(1);
   const clientsQuery = getAllClientsQuery();
 
   return {
@@ -103,37 +109,66 @@ const capitalizeItem = (item: string): string =>
 
 function Projects() {
   const [page, setPage] = React.useState<number>(1);
-  const [sortColumn, setSortColumn] = React.useState<string | undefined>(
-    undefined,
-  );
+  const [sortColumn, setSortColumn] = React.useState<string>("-date");
   const [sortDir, setSortDir] = React.useState<string>("");
+  const [searchQuery, setSearchQuery] = React.useState<string>("");
 
   const { data: clients = [] } = useQuery(getAllClientsQuery());
-  const {
-    isLoading,
-    isError,
-    error,
-    data,
-    isFetching,
-    isPreviousData,
-  } = useQuery(getPageOfProjectsQuery(page, sortColumn));
+  const { data: projects } = useQuery(
+    getProjectsPageQuery(page, sortColumn, searchQuery),
+  );
 
-  console.log(data);
+  const { setNotification } = useNotification();
 
   const handleSort = (columnName: string) => {
     setSortColumn(`${sortDir}${columnName}`); //** TODO: don't really like how it is done with two states (sortColumn and sortDir) */
     setSortDir((prevDir) => (prevDir === "" ? "-" : ""));
   };
 
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const target = event.target as HTMLFormElement;
+    const q = target.search.value;
+
+    if (q.length >= 3 || q.length === 0) {
+      setSearchQuery(q);
+    } else {
+      setNotification({
+        type: NotificationType.warning,
+        message: "Enter at least 3 characters",
+      });
+    }
+  };
+
   //** Calculate total number of pages */
-  const pagesTotal = Math.ceil((data?.allDocs ?? 0) / PAGE_LIMIT);
+  const pagesTotal = Math.ceil((projects?.allDocs ?? 0) / PAGE_LIMIT);
 
   return (
     <>
       <SContainer>
-        <label htmlFor="search">
-          Search: <input id="search" type="text" />
-        </label>
+        <form
+          css={{ display: "flex", alignItems: "center" }}
+          onSubmit={(e) => handleSearch(e)}
+        >
+          <input placeholder="Search projects..." id="search" type="search" />
+          <Tooltip label="Search projects">
+            <label htmlFor="search">
+              <button
+                type="submit"
+                css={{
+                  border: "0",
+                  position: "relative",
+                  marginLeft: "-35px",
+                  background: "transparent",
+                  verticalAlign: "middle",
+                }}
+              >
+                <FaSearch aria-label="search" />
+              </button>
+            </label>
+          </Tooltip>
+        </form>
         <Modal>
           <ModalOpenButton>
             <Button>Add Project</Button>
@@ -168,7 +203,7 @@ function Projects() {
           </tr>
         </thead>
         <tbody>
-          {data?.docs?.map((project) => (
+          {projects?.docs?.map((project) => (
             <SDataRow key={project._id}>
               <th>{project.client.name}</th>
               <th>{new Date(project.date).toLocaleDateString("default")}</th>

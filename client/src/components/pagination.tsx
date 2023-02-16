@@ -86,9 +86,6 @@ const Pagination: React.FC<IProps> = ({
   numberOfPages,
   paginationCallback,
 }) => {
-  console.log("currentPage:", currentPage);
-  console.log("numberOfPages:", numberOfPages);
-
   let pages = getPages(currentPage, numberOfPages);
 
   return (

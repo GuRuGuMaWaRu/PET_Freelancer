@@ -10,6 +10,29 @@ const router = express.Router();
 
 router.use(protect);
 
+const projectsDefaultAggregationStages = [
+  {
+    $lookup: {
+      from: "clients",
+      localField: "client",
+      foreignField: "_id",
+      as: "client",
+    },
+  },
+  {
+    $project: {
+      _id: 1,
+      projectNr: 1,
+      payment: 1,
+      currency: 1,
+      date: 1,
+      paid: 1,
+      comments: 1,
+      client: { $first: "$client" },
+    },
+  },
+];
+
 router
   .route("/")
   /**
@@ -19,8 +42,6 @@ router
    */
   .get(
     catchAsync(async (req, res, next) => {
-      const { page, limit } = req.query;
-
       //** Return early if no user ID is provided  */
       if (!req.userId) {
         return next(new AppError(400, "User ID is required"));
@@ -34,27 +55,19 @@ router
             deleted: { $ne: true },
           },
         },
-        {
-          $lookup: {
-            from: "clients",
-            localField: "client",
-            foreignField: "_id",
-            as: "client",
-          },
-        },
-        {
-          $project: {
-            _id: 1,
-            projectNr: 1,
-            payment: 1,
-            currency: 1,
-            date: 1,
-            paid: 1,
-            comments: 1,
-            client: { $first: "$client" },
-          },
-        },
+        ...projectsDefaultAggregationStages,
       ];
+
+      //** Search stage */
+      const searchQuery = new RegExp(req.query.q, "i");
+
+      if (Object.hasOwn(req.query, "q")) {
+        aggregationPipeline.push({
+          $match: {
+            $or: [{ "client.name": searchQuery }, { projectNr: searchQuery }],
+          },
+        });
+      }
 
       //** Sorting stage */
       if (Object.hasOwn(req.query, "sort")) {
@@ -91,15 +104,26 @@ router
 
       const docs = await Project.aggregate(aggregationPipeline);
 
-      const count = await Project.countDocuments({
-        user: req.userId,
-        deleted: { $ne: true },
-      });
-
+      const count = await Project.aggregate([
+        {
+          $match: {
+            user: mongoose.Types.ObjectId(req.userId),
+            deleted: { $ne: true },
+          },
+        },
+        ...projectsDefaultAggregationStages,
+        {
+          $match: {
+            $or: [{ "client.name": searchQuery }, { projectNr: searchQuery }],
+          },
+        },
+        { $count: "total" },
+        // { $group: { _id: null, n: { $count: {} } } },
+      ]);
       res.status(200).json({
         status: "success",
         results: docs.length,
-        data: { docs, allDocs: count },
+        data: { docs, allDocs: docs.length ? count[0].total : 0 },
       });
     }),
   )
