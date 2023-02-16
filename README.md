@@ -2,6 +2,13 @@
 
 App for tracking money made per month, per year and per client
 
+CURRENT:
+
+- Search field on Projects page
+- If there are no projects at all, or no projects found -> display a "There are no projects to display" screen, that takes the center of the page and moves Arrow buttons down
+- Earning by Clients on Main page not working
+- Add tests
+
 NEW TODOs
 
 1. [x] FRONT: make the whole root layout work with grids and media queries
