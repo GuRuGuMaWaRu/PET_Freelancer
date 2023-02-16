@@ -57,6 +57,7 @@ const loader = (queryClient: QueryClient) => async (): Promise<{
   };
 };
 
+//** TODO: move this into a separate constants file (projects.const.tsx) when I'll have FEATURES, or maybe construct columns some other way */
 const columns = [
   { name: "client", sortName: "client.name" },
   { name: "date", sortName: "date" },
@@ -65,6 +66,7 @@ const columns = [
   { name: "comments", sortName: "comments" },
 ];
 
+//** TODO: move this into a separate styles file (projects.styles.tsx) when I'll have FEATURES */
 const SContainer = styled.div({
   display: "flex",
   justifyContent: "space-between",
@@ -92,6 +94,7 @@ const SDataRow = styled.tr({
   },
 });
 
+//** TODO: move this into a separate utilities file (projects.utils.tsx) when I'll have FEATURES */
 const capitalizeItem = (item: string): string =>
   item
     .split(" ")
@@ -118,7 +121,7 @@ function Projects() {
   console.log(data);
 
   const handleSort = (columnName: string) => {
-    setSortColumn(`${sortDir}${columnName}`);
+    setSortColumn(`${sortDir}${columnName}`); //** TODO: don't really like how it is done with two states (sortColumn and sortDir) */
     setSortDir((prevDir) => (prevDir === "" ? "-" : ""));
   };
 
