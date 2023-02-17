@@ -197,6 +197,10 @@ router
           $gte: currentDate,
         },
       })
+        .populate({
+          path: "client",
+          select: "-_id -user -__v",
+        })
         .lean()
         .exec();
 
