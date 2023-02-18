@@ -54,6 +54,7 @@ const ProjectSearchInput: React.FC<IProps> = ({ onSearch, isFetching }) => {
         <Tooltip label="Cancel search">
           <label htmlFor="cancel">
             <button
+              type="button"
               css={{
                 color: "tomato",
                 border: "0",
