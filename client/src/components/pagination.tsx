@@ -117,7 +117,7 @@ const Pagination: React.FC<IProps> = ({
       <SButton
         aria-label="Next page"
         onClick={() => paginationCallback(currentPage + 1)}
-        disabled={currentPage === numberOfPages}
+        disabled={currentPage >= numberOfPages}
       >
         <MdOutlineArrowForwardIos />
       </SButton>
