@@ -13,6 +13,7 @@ import {
   getAllClients,
 } from "../utils";
 import * as mq from "../styles/media-queries";
+import * as colors from "../styles/colors";
 import {
   MemoDashboardTotals,
   MemoEarningsChart,
@@ -65,7 +66,7 @@ const setFullYearOfDates = (): Record<string, IEarnings> => {
 
   const date = new Date();
   date.setFullYear(date.getFullYear() - 1);
-  date.setDate(1); //** without it was getting an error on February 28th */
+  date.setDate(1); //** without this line I was getting an error on February 28th */
 
   for (let i = 0; i <= 12; i++) {
     const year = date.getFullYear();
@@ -131,6 +132,7 @@ function Dashboard() {
   const [{ data: projects = [] }, { data: clients = [] }] = useQueries({
     queries: [{ ...projectOneYearQuery() }, { ...getAllClientsQuery() }],
   });
+
   const earningsByMonth = React.useMemo(() => {
     return getEarningsByMonths(projects);
   }, [projects]);
@@ -175,7 +177,11 @@ function Dashboard() {
             <ModalOpenButton>
               <Button>Add Project</Button>
             </ModalOpenButton>
-            <ModalContents aria-label="Add Project Form" title="Add Project">
+            <ModalContents
+              aria-label="Add Project Form"
+              title="Add Project"
+              bgColor={colors.dashboardModalBg}
+            >
               <AddProjectForm clients={clients} />
             </ModalContents>
           </Modal>

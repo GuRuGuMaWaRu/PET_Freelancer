@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 
 import * as colors from "../styles/colors";
@@ -104,7 +105,24 @@ function Nav() {
   );
 }
 
+const getBgColor = (pathname: string) => {
+  if (pathname.startsWith("/projects")) {
+    return colors.projectsPageBg;
+  }
+  if (pathname.startsWith("/clients")) {
+    return colors.clientsPageBg;
+  }
+
+  return colors.dashboardPageBg;
+};
+
 function Root() {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    document.body.style.backgroundColor = getBgColor(pathname);
+  }, [pathname]);
+
   return (
     <div
       css={{

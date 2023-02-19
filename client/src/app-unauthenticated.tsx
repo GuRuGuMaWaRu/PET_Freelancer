@@ -18,7 +18,7 @@ function AppUnauthenticated() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: colors.base,
+        backgroundColor: colors.dashboardPageBg,
       }}
     >
       <h1 css={{ color: "#fff", fontSize: "3em" }}>Freelancer</h1>

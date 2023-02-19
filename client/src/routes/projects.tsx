@@ -148,7 +148,11 @@ function Projects() {
           <ModalOpenButton>
             <Button>Add Project</Button>
           </ModalOpenButton>
-          <ModalContents aria-label="Add Project Form" title="Add Project">
+          <ModalContents
+            aria-label="Add Project Form"
+            title="Add Project"
+            bgColor={colors.projectsModalBg}
+          >
             <AddProjectForm clients={clients} />
           </ModalContents>
         </Modal>

@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { DialogContent as ReachDialogContent } from "@reach/dialog";
 import {
   Combobox as ReachCombobox,
   ComboboxInput as ReachComboboxInput,
@@ -19,7 +18,6 @@ import {
 import { matchSorter } from "match-sorter";
 
 import * as colors from "../styles/colors";
-import * as mq from "../styles/media-queries";
 import { NotificationType, ChartType, useThrottle } from "../utils";
 
 /* Form components */
@@ -94,19 +92,6 @@ const ChartSelectionButton = styled.button<ChartSelectionButtonProps>(
     clipPath: "polygon(10% 0, 100% 0%, 90% 100%, 0% 100%)",
   }),
 );
-
-const DialogContent = styled(ReachDialogContent)({
-  width: "450px",
-  borderRadius: "3px",
-  margin: "20vh auto",
-  boxShadow: `0 10px 30px -5px ${colors.opaqueBlack}`,
-  backgroundColor: colors.modalBg,
-  color: colors.white,
-  [mq.small]: {
-    width: "100%",
-    margin: "10vh auto",
-  },
-});
 
 function useItemMatch<T>(items: T[], term: string) {
   const throttledTerm = useThrottle(term, 100);
@@ -247,7 +232,7 @@ function FullPageSpinner() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: colors.base,
+        backgroundColor: colors.dashboardPageBg,
       }}
     >
       <Spinner style={{ color: colors.spinnerContrasting }} />
@@ -326,7 +311,6 @@ export {
   Label,
   Button,
   ChartSelectionButton,
-  DialogContent,
   Combobox,
   ErrorMessage,
   FullPageErrorFallback,

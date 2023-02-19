@@ -2,19 +2,17 @@
 
 import * as React from "react";
 import VisuallyHidden from "@reach/visually-hidden";
+import { DialogContent as ReachDialogContent } from "@reach/dialog";
 import styled from "@emotion/styled";
 import { DialogOverlay } from "@reach/dialog";
 import { useTransition, animated } from "react-spring";
 
 import * as colors from "../styles/colors";
-import { DialogContent } from "../components/lib";
+import * as mq from "../styles/media-queries";
 
 const callAll = (...fns: Array<(...args: unknown[]) => void>) => (
   ...args: unknown[]
 ): void => fns.forEach((fn) => fn && fn(...args));
-
-const AnimatedDialogOverlay = animated(DialogOverlay);
-const AnimatedDialogContent = animated(DialogContent);
 
 const SModalCloseButton = styled.button({
   display: "flex",
@@ -28,6 +26,22 @@ const SModalCloseButton = styled.button({
   backgroundColor: "transparent",
   cursor: "pointer",
 });
+
+const SDialogContent = styled(ReachDialogContent)((props) => ({
+  width: "450px",
+  borderRadius: "3px",
+  margin: "20vh auto",
+  boxShadow: `0 10px 30px -5px ${colors.opaqueBlack}`,
+  backgroundColor: colors.dashboardModalBg,
+  color: colors.white,
+  [mq.small]: {
+    width: "100%",
+    margin: "10vh auto",
+  },
+}));
+
+const AnimatedDialogOverlay = animated(DialogOverlay);
+const AnimatedDialogContent = animated(SDialogContent);
 
 interface IModalContext {
   isOpen: boolean;
@@ -63,10 +77,12 @@ function ModalOpenButton({ children }: { children: React.ReactElement }) {
 function ModalContents({
   children,
   title,
+  bgColor = colors.dashboardPageBg,
   ...props
 }: {
   children: React.ReactElement;
   title: string;
+  bgColor?: string;
 }) {
   const { isOpen, setIsOpen } = useModal();
   const transitions = useTransition(isOpen, {
@@ -89,6 +105,7 @@ function ModalContents({
               transform: styles.y.to(
                 (value) => `translate3d(0px, ${value}px, 0px)`,
               ),
+              backgroundColor: bgColor,
             }}
             {...props}
           >

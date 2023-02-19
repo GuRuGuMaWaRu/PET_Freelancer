@@ -13,7 +13,6 @@ export const primary = "#ffef44";
 export const secondary = "#8a2be2";
 export const danger = "#f0301b";
 
-export const modalBg = "#b14fff";
 export const modalBg2 = "#e25f5f";
 
 export const notificationBg = "#604e97";
@@ -24,3 +23,10 @@ export const spinnerContrasting = text2;
 
 export const opaqueBlack = "rgba(0, 0, 0, 0.2)";
 export const disabled = "#858585";
+
+export const dashboardPageBg = "rgb(106 72 220)";
+export const projectsPageBg = "#3c8b5a";
+export const clientsPageBg = "#c17750";
+
+export const projectsModalBg = "rgb(77 181 117)";
+export const dashboardModalBg = "rgb(120 92 211)";
