@@ -6,7 +6,35 @@ import Tooltip from "@reach/tooltip";
 
 import { useNotification } from "../../context";
 import { NotificationType } from "../../utils";
-import { Spinner } from "../../components";
+import { Input, Spinner } from "../../components";
+
+const SCancelButton = styled("button")({
+  color: "var(--color-warning)",
+  border: "0",
+  position: "relative",
+  marginLeft: "-30px",
+  background: "transparent",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "30px",
+  height: "30px",
+});
+
+const SSearchButton = styled("button")({
+  color: "var(--color-white)",
+  paddingLeft: "10px",
+  border: "2px solid var(--color-white)",
+  borderLeft: 0,
+  borderRadius: "5px",
+  marginLeft: "-5px",
+  background: "transparent",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "38px",
+  height: "33px",
+});
 
 interface IProps {
   onSearch: (input: string) => void;
@@ -43,7 +71,7 @@ const ProjectSearchInput: React.FC<IProps> = ({ onSearch, isFetching }) => {
       }}
       onSubmit={(e) => handleSearch(e)}
     >
-      <input
+      <Input
         placeholder="Search projects..."
         id="search"
         type="search"
@@ -53,45 +81,17 @@ const ProjectSearchInput: React.FC<IProps> = ({ onSearch, isFetching }) => {
       {searchInput.length > 0 && (
         <Tooltip label="Cancel search">
           <label htmlFor="cancel">
-            <button
-              type="button"
-              css={{
-                color: "tomato",
-                border: "0",
-                position: "relative",
-                marginLeft: "-30px",
-                background: "transparent",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "30px",
-                height: "30px",
-              }}
-              onClick={handleCancelSearch}
-            >
+            <SCancelButton type="button" onClick={handleCancelSearch}>
               <FaTimes aria-label="cancel" />
-            </button>
+            </SCancelButton>
           </label>
         </Tooltip>
       )}
       <Tooltip label="Search projects">
         <label htmlFor="search">
-          <button
-            type="submit"
-            css={{
-              // color: "#fff",
-              // border: "0",
-              position: "relative",
-              // background: "transparent",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "30px",
-              height: "30px",
-            }}
-          >
+          <SSearchButton type="submit">
             {isFetching ? <Spinner /> : <FaSearch aria-label="search" />}
-          </button>
+          </SSearchButton>
         </label>
       </Tooltip>
     </form>

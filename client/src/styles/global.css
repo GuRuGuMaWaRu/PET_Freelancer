@@ -2,8 +2,11 @@
 
 /* constants */
 :root {
-  --main-bg-color: #764cff;
-  --main-bg-color-2: #b8351e;
+  --color-main-bg: #764cff;
+  --color-main-bg-2: #b8351e;
+
+  --color-white: #fff;
+  --color-warning: tomato;
 }
 
 /* some global reset */
@@ -27,7 +30,7 @@ body {
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   /* line-height: 1.5; */
-  background-color: var(--main-bg-color);
+  background-color: var(--color-main-bg);
 }
 input,
 button,
