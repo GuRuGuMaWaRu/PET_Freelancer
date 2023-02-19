@@ -30,7 +30,7 @@ const FormGroup = styled.div({
 
 const inputStyles = {
   padding: "6px 10px",
-  border: "1px solid #f1f1f4",
+  border: `1px solid ${colors.white}`,
   borderRadius: "3px",
 };
 
@@ -56,7 +56,7 @@ const buttonVariants = {
 };
 
 interface ButtonProps {
-  variant?: string;
+  variant?: "primary" | "secondary";
 }
 
 const Button = styled.button<ButtonProps>(
@@ -84,7 +84,7 @@ const ChartSelectionButton = styled.button<ChartSelectionButtonProps>(
   ({ variant, chartType }) => ({
     border: 0,
     padding: "5px 10px",
-    color: colors.text,
+    color: colors.white,
     backgroundColor:
       variant === "earnings" && chartType === ChartType.earnings
         ? colors.text2
@@ -99,9 +99,9 @@ const DialogContent = styled(ReachDialogContent)({
   width: "450px",
   borderRadius: "3px",
   margin: "20vh auto",
-  boxShadow: "0 10px 30px -5px rgba(0, 0, 0, 0.2)",
+  boxShadow: `0 10px 30px -5px ${colors.opaqueBlack}`,
   backgroundColor: colors.modalBg,
-  color: colors.text,
+  color: colors.white,
   [mq.small]: {
     width: "100%",
     margin: "10vh auto",
@@ -264,7 +264,7 @@ const setNotificationColor = (type: NotificationType) => {
     case NotificationType.fail:
       return colors.notificationError;
     default:
-      return colors.text;
+      return colors.white;
   }
 };
 
@@ -281,7 +281,7 @@ const NotificationMessage = styled.div<INotificationProps>(
     display: "flex",
     alignItems: "center",
     borderRadius: "8px 8px 0 0",
-    color: colors.text,
+    color: colors.white,
     fontSize: "1rem",
     zIndex: 20,
   },

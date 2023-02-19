@@ -7,9 +7,10 @@ import Tooltip from "@reach/tooltip";
 import { useNotification } from "../../context";
 import { NotificationType } from "../../utils";
 import { Input, Spinner } from "../../components";
+import * as colors from "../../styles/colors";
 
 const SCancelButton = styled("button")({
-  color: "var(--color-warning)",
+  color: colors.text2,
   border: "0",
   position: "relative",
   marginLeft: "-30px",
@@ -22,9 +23,9 @@ const SCancelButton = styled("button")({
 });
 
 const SSearchButton = styled("button")({
-  color: "var(--color-white)",
+  color: colors.white,
   paddingLeft: "10px",
-  border: "2px solid var(--color-white)",
+  border: `2px solid ${colors.white}`,
   borderLeft: 0,
   borderRadius: "5px",
   marginLeft: "-5px",

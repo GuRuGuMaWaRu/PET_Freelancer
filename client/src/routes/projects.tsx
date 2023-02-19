@@ -17,10 +17,10 @@ import {
   ModalContents,
   AddProjectForm,
   Pagination,
-  Spinner,
 } from "../components";
 import { ProjectSearchInput } from "../features/projects/projects.search-input";
 import { PAGE_LIMIT } from "../config";
+import * as colors from "../styles/colors";
 
 const getProjectsPageQuery = (
   page: number,
@@ -83,7 +83,7 @@ const STable = styled.table({
   borderCollapse: "collapse",
   width: "100%",
   "& th": {
-    border: "1px solid #dddddd",
+    border: `1px solid ${colors.grey}`,
     textAlign: "left",
     padding: "8px",
   },
@@ -95,7 +95,7 @@ const STableHeader = styled.th<{ sortName?: string }>(({ sortName }) => ({
 
 const SDataRow = styled.tr({
   "&:nth-of-type(even)": {
-    backgroundColor: "#0000002e",
+    backgroundColor: colors.opaqueBlack,
   },
 });
 

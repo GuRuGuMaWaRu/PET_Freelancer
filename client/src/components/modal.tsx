@@ -16,7 +16,7 @@ const callAll = (...fns: Array<(...args: unknown[]) => void>) => (
 const AnimatedDialogOverlay = animated(DialogOverlay);
 const AnimatedDialogContent = animated(DialogContent);
 
-const ModalCloseButton = styled.button({
+const SModalCloseButton = styled.button({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -100,10 +100,10 @@ function ModalContents({
                 top: "-10px",
               }}
             >
-              <ModalCloseButton onClick={() => setIsOpen(false)}>
+              <SModalCloseButton onClick={() => setIsOpen(false)}>
                 <VisuallyHidden>Close</VisuallyHidden>
                 <span aria-hidden="true">×</span>
-              </ModalCloseButton>
+              </SModalCloseButton>
             </div>
             <h2 css={{ margin: 0, textAlign: "center", fontSize: "2em" }}>
               {title}

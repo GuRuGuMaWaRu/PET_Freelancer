@@ -5,6 +5,7 @@ import {
   MdOutlineArrowBackIos,
   MdOutlineArrowForwardIos,
 } from "react-icons/md";
+import * as colors from "../styles/colors";
 
 interface IProps {
   currentPage: number;
@@ -26,8 +27,8 @@ const SButton = styled.button<SButtonProps>(({ disabled }) => ({
   width: "3rem",
   padding: ".7rem",
   backgroundColor: "transparent",
-  border: `2px solid ${disabled ? "#858585" : "#eae2e2"}`,
-  color: "#fff",
+  border: `2px solid ${disabled ? colors.disabled : colors.white}`,
+  color: colors.white,
   transition: "all 0.2s",
   cursor: disabled ? "default" : "pointer",
 
@@ -35,7 +36,7 @@ const SButton = styled.button<SButtonProps>(({ disabled }) => ({
     transform: disabled ? "none" : "translateY(-2px)",
   },
   "& svg": {
-    fill: disabled ? "#858585" : "#eae2e2",
+    fill: disabled ? colors.disabled : colors.white,
     verticalAlign: "middle",
   },
 }));

@@ -77,13 +77,13 @@ function Nav() {
               css={{
                 opacity: pathname === to ? 1 : 0.5,
                 lineHeight: 0,
-                color: colors.text,
+                color: colors.white,
                 fontSize: "1.4rem",
                 fontFamily: "Silkscreen, cursive",
                 display: "block",
                 padding: "20px 15px",
                 borderLeft: `5px solid ${
-                  pathname === to ? colors.text : "transparent"
+                  pathname === to ? colors.white : "transparent"
                 }`,
                 margin: "10px 0",
                 [mq.medium]: {
@@ -112,7 +112,7 @@ function Root() {
         gridTemplateColumns: "repeat(5, 1fr)",
         gridTemplateRows: "80px 90%",
         gridGap: "10px",
-        color: colors.text,
+        color: colors.white,
         maxWidth: "1200px",
         width: "100%",
         height: "100vh",

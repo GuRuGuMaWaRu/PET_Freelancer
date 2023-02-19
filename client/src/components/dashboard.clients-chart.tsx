@@ -12,6 +12,7 @@ import {
 } from "recharts";
 
 import { IEarningsByClient, formatUSD } from "../utils";
+import { STooltipContainer, STooltipContents } from "./dashboard.styles";
 import * as colors from "../styles/colors";
 
 interface IProps {
@@ -39,33 +40,19 @@ function CustomTooltip({
 }) {
   if (active && payload && payload.length) {
     return (
-      <div
-        css={{
-          background: "white",
-          opacity: 0.6,
-          color: colors.textDark,
-          boxShadow: "0 3px 14px rgb(0 0 0 / 40%)",
-          padding: "1px",
-          textAlign: "left",
-          border: 0,
-          borderRadius: "12px",
-        }}
-      >
-        <div css={{ margin: "13px 19px" }}>
+      <STooltipContainer>
+        <STooltipContents>
           <p>
-            <span css={{ fontWeight: 600 }}>Client:</span>{" "}
-            {payload[0].payload.client}
+            <b>Client:</b> {payload[0].payload.client}
           </p>
           <p>
-            <span css={{ fontWeight: 600 }}>Earnings:</span> $
-            {payload[0].payload.payment}
+            <b>Earnings:</b> ${payload[0].payload.payment}
           </p>
           <p>
-            <span css={{ fontWeight: 600 }}># of projects:</span>
-            {payload[0].payload.projects}
+            <b># of projects:</b> {payload[0].payload.projects}
           </p>
-        </div>
-      </div>
+        </STooltipContents>
+      </STooltipContainer>
     );
   }
 
@@ -116,7 +103,7 @@ function ClientsChart({ data }: IProps) {
             <LabelList
               dataKey="payment"
               position="inside"
-              fill={colors.text}
+              fill={colors.white}
               formatter={(value: number) => formatUSD(value)}
             />
           </Bar>
