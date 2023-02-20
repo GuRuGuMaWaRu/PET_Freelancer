@@ -226,19 +226,19 @@ function FullPageSpinner() {
   return (
     <div
       css={{
-        fontSize: "4em",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: colors.dashboardPageBg,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        fontSize: "4rem",
+        color: colors.spinnerContrasting,
       }}
     >
-      <Spinner style={{ color: colors.spinnerContrasting }} />
+      <Spinner />
     </div>
   );
 }
+
 /* Notifications */
 const setNotificationColor = (type: NotificationType) => {
   switch (type) {

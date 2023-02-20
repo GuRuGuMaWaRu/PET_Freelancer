@@ -141,6 +141,7 @@ function Root() {
       <Nav />
       <main
         css={{
+          position: "relative",
           gridColumn: "2 / span 4",
           margin: "1rem 20px",
           [mq.medium]: {

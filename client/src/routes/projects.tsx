@@ -16,7 +16,8 @@ import {
   ModalOpenButton,
   ModalContents,
   AddProjectForm,
-  Pagination,
+  MemoPagination,
+  FullPageSpinner,
 } from "../components";
 import { ProjectSearchInput } from "../features/projects/projects.search-input";
 import { PAGE_LIMIT } from "../config";
@@ -120,10 +121,10 @@ function Projects() {
     isPreviousData: projectsIsPreviousData,
     data: projects,
   } = useQuery(getProjectsPageQuery(page, sortColumn, searchQuery));
-  console.log("projectsStatus:", projectsStatus);
-  console.log("projectsIsFetching:", projectsIsFetching);
-  console.log("projectsIsLoading:", projectsIsLoading);
-  console.log("projectsIsPreviousData:", projectsIsPreviousData);
+  // console.log("projectsStatus:", projectsStatus);
+  // console.log("projectsIsFetching:", projectsIsFetching);
+  // console.log("projectsIsLoading:", projectsIsLoading);
+  // console.log("projectsIsPreviousData:", projectsIsPreviousData);
 
   const handleSort = (columnName: string) => {
     setSortColumn(`${sortDir}${columnName}`); //** TODO: don't really like how it is done with two states (sortColumn and sortDir) */
@@ -138,7 +139,7 @@ function Projects() {
   const pagesTotal = Math.ceil((projects?.allDocs ?? 0) / PAGE_LIMIT);
 
   return (
-    <>
+    <div>
       <SContainer>
         <ProjectSearchInput
           onSearch={handleSearch}
@@ -157,48 +158,62 @@ function Projects() {
           </ModalContents>
         </Modal>
       </SContainer>
-      <STable>
-        <thead>
-          <tr>
-            {columns.map((column) => (
-              <STableHeader
-                key={column.name}
-                sortName={column.sortName}
-                onClick={
-                  column.sortName
-                    ? () => handleSort(column?.sortName)
-                    : undefined
-                }
-              >
-                {capitalizeItem(column.name)}
-                {!column.sortName ? null : column.name === sortColumn &&
-                  sortDir === "" ? (
-                  <FaSortUp />
-                ) : (
-                  <FaSortDown />
-                )}
-              </STableHeader>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {projects?.docs?.map((project) => (
-            <SDataRow key={project._id}>
-              <th>{project.client.name}</th>
-              <th>{new Date(project.date).toLocaleDateString("default")}</th>
-              <th>{project.projectNr}</th>
-              <th>{project.payment}</th>
-              <th>{project.comments}</th>
-            </SDataRow>
-          ))}
-        </tbody>
-      </STable>
-      <Pagination
-        currentPage={page}
-        numberOfPages={pagesTotal}
-        paginationCallback={setPage}
-      />
-    </>
+      {projectsIsLoading ? (
+        <FullPageSpinner />
+      ) : (
+        <>
+          <div css={{ height: "calc(100vh-20%)" }}>
+            <STable>
+              <thead>
+                <tr>
+                  {columns.map((column) => (
+                    <STableHeader
+                      key={column.name}
+                      sortName={column.sortName}
+                      onClick={
+                        column.sortName
+                          ? () => handleSort(column?.sortName)
+                          : undefined
+                      }
+                    >
+                      {capitalizeItem(column.name)}
+                      {!column.sortName ? null : column.name === sortColumn &&
+                        sortDir === "" ? (
+                        <FaSortUp />
+                      ) : (
+                        <FaSortDown />
+                      )}
+                    </STableHeader>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {projects?.docs?.map((project) => (
+                  <SDataRow key={project._id}>
+                    <th>{project.client.name}</th>
+                    <th>
+                      {new Date(project.date).toLocaleDateString("default")}
+                    </th>
+                    <th>{project.projectNr}</th>
+                    <th>{project.payment}</th>
+                    <th>
+                      {project.comments && project.comments?.length > 30
+                        ? project.comments.slice(0, 30) + "..."
+                        : project.comments}
+                    </th>
+                  </SDataRow>
+                ))}
+              </tbody>
+            </STable>
+          </div>
+          <MemoPagination
+            currentPage={page}
+            numberOfPages={pagesTotal}
+            paginationCallback={setPage}
+          />
+        </>
+      )}
+    </div>
   );
 }
 

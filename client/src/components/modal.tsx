@@ -27,7 +27,7 @@ const SModalCloseButton = styled.button({
   cursor: "pointer",
 });
 
-const SDialogContent = styled(ReachDialogContent)((props) => ({
+const SDialogContent = styled(ReachDialogContent)({
   width: "450px",
   borderRadius: "3px",
   margin: "20vh auto",
@@ -38,7 +38,7 @@ const SDialogContent = styled(ReachDialogContent)((props) => ({
     width: "100%",
     margin: "10vh auto",
   },
-}));
+});
 
 const AnimatedDialogOverlay = animated(DialogOverlay);
 const AnimatedDialogContent = animated(SDialogContent);

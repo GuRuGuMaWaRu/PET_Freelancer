@@ -87,7 +87,7 @@ const Pagination: React.FC<IProps> = ({
   numberOfPages,
   paginationCallback,
 }) => {
-  let pages = getPages(currentPage, numberOfPages);
+  const pages = getPages(currentPage, numberOfPages);
 
   return (
     <SPaginationContainer>
@@ -104,7 +104,7 @@ const Pagination: React.FC<IProps> = ({
             key={item.page}
             css={{
               backgroundColor: `${
-                currentPage === item.page ? "tomato" : "transparent"
+                currentPage === item.page ? colors.text2 : "transparent"
               }`,
             }}
             onClick={() => paginationCallback(item.page)}
@@ -126,4 +126,4 @@ const Pagination: React.FC<IProps> = ({
   );
 };
 
-export { Pagination };
+export const MemoPagination = React.memo(Pagination);
