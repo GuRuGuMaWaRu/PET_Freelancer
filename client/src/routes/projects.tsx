@@ -79,10 +79,22 @@ const SContainer = styled.div({
   alignItems: "center",
 });
 
+const STableContainer = styled.div({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  margin: "2em 0",
+  height: "900px",
+});
+
+const STablePlaceholder = styled.p({
+  fontSize: "1.3rem",
+});
+
 const STable = styled.table({
-  marginTop: "1rem",
   borderCollapse: "collapse",
   width: "100%",
+  height: "100%",
   "& th": {
     border: `1px solid ${colors.grey}`,
     textAlign: "left",
@@ -114,13 +126,9 @@ function Projects() {
   const [searchQuery, setSearchQuery] = React.useState<string>("");
 
   const { data: clients = [] } = useQuery(getAllClientsQuery());
-  const {
-    status: projectsStatus,
-    isFetching: projectsIsFetching,
-    isLoading: projectsIsLoading,
-    isPreviousData: projectsIsPreviousData,
-    data: projects,
-  } = useQuery(getProjectsPageQuery(page, sortColumn, searchQuery));
+  const { isFetching, isLoading, data: projects } = useQuery(
+    getProjectsPageQuery(page, sortColumn, searchQuery),
+  );
   // console.log("projectsStatus:", projectsStatus);
   // console.log("projectsIsFetching:", projectsIsFetching);
   // console.log("projectsIsLoading:", projectsIsLoading);
@@ -141,10 +149,7 @@ function Projects() {
   return (
     <div>
       <SContainer>
-        <ProjectSearchInput
-          onSearch={handleSearch}
-          isFetching={projectsIsFetching}
-        />
+        <ProjectSearchInput onSearch={handleSearch} isFetching={isFetching} />
         <Modal>
           <ModalOpenButton>
             <Button>Add Project</Button>
@@ -158,54 +163,61 @@ function Projects() {
           </ModalContents>
         </Modal>
       </SContainer>
-      {projectsIsLoading ? (
+      {isLoading ? (
         <FullPageSpinner />
       ) : (
         <>
-          <div css={{ height: "calc(100vh-20%)" }}>
-            <STable>
-              <thead>
-                <tr>
-                  {columns.map((column) => (
-                    <STableHeader
-                      key={column.name}
-                      sortName={column.sortName}
-                      onClick={
-                        column.sortName
-                          ? () => handleSort(column?.sortName)
-                          : undefined
-                      }
-                    >
-                      {capitalizeItem(column.name)}
-                      {!column.sortName ? null : column.name === sortColumn &&
-                        sortDir === "" ? (
-                        <FaSortUp />
-                      ) : (
-                        <FaSortDown />
-                      )}
-                    </STableHeader>
+          <STableContainer>
+            {pagesTotal < 1 ? (
+              <STablePlaceholder>
+                There are no projects available. Please add some.
+              </STablePlaceholder>
+            ) : (
+              <STable>
+                <thead>
+                  <tr>
+                    {columns.map((column) => (
+                      <STableHeader
+                        key={column.name}
+                        sortName={column.sortName}
+                        onClick={
+                          column.sortName
+                            ? () => handleSort(column?.sortName)
+                            : undefined
+                        }
+                      >
+                        {capitalizeItem(column.name)}
+                        {!column.sortName ? null : column.name === sortColumn &&
+                          sortDir === "" ? (
+                          <FaSortUp />
+                        ) : (
+                          <FaSortDown />
+                        )}
+                      </STableHeader>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {projects?.docs?.map((project) => (
+                    <SDataRow key={project._id}>
+                      <th>{project.client.name}</th>
+                      <th>
+                        {new Date(project.date).toLocaleDateString("default")}
+                      </th>
+                      <th>{project.projectNr}</th>
+                      <th>{project.payment}</th>
+                      <th>
+                        {project.comments && project.comments?.length > 30
+                          ? project.comments.slice(0, 30) + "..."
+                          : project.comments}
+                      </th>
+                    </SDataRow>
                   ))}
-                </tr>
-              </thead>
-              <tbody>
-                {projects?.docs?.map((project) => (
-                  <SDataRow key={project._id}>
-                    <th>{project.client.name}</th>
-                    <th>
-                      {new Date(project.date).toLocaleDateString("default")}
-                    </th>
-                    <th>{project.projectNr}</th>
-                    <th>{project.payment}</th>
-                    <th>
-                      {project.comments && project.comments?.length > 30
-                        ? project.comments.slice(0, 30) + "..."
-                        : project.comments}
-                    </th>
-                  </SDataRow>
-                ))}
-              </tbody>
-            </STable>
-          </div>
+                </tbody>
+              </STable>
+            )}
+          </STableContainer>
+
           <MemoPagination
             totalPages={pagesTotal}
             currentPage={page}
