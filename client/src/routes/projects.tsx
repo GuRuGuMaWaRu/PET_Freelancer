@@ -2,7 +2,7 @@
 import React from "react";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import styled from "@emotion/styled";
-import { FaSortUp, FaSortDown } from "react-icons/fa";
+import { FaSortUp, FaSortDown, FaPen, FaRegTrashAlt } from "react-icons/fa";
 
 import {
   IProjectPaginatedData,
@@ -70,6 +70,7 @@ const columns = [
   { name: "project nr" },
   { name: "payment", sortName: "payment" },
   { name: "comments", sortName: "comments" },
+  { name: "actions" },
 ];
 
 //** TODO: move this into a separate styles file (projects.styles.tsx) when I'll have FEATURES */
@@ -82,7 +83,7 @@ const SContainer = styled.div({
 const STableContainer = styled.div({
   position: "relative",
   margin: "2em 0",
-  height: "770px",
+  height: "820px",
 });
 
 const STablePlaceholder = styled.p({
@@ -99,6 +100,17 @@ const STable = styled.table({
     textAlign: "left",
     padding: "8px",
   },
+});
+
+const SActionButtonContainer = styled.th({
+  display: "flex",
+  gap: ".6rem",
+});
+
+const SActionButton = styled.button({
+  backgroundColor: "transparent",
+  color: colors.white,
+  border: 0,
 });
 
 const STableHeader = styled.th<{ sortName?: string }>(({ sortName }) => ({
@@ -128,10 +140,6 @@ function Projects() {
   const { isFetching, isLoading, data: projects } = useQuery(
     getProjectsPageQuery(page, sortColumn, searchQuery),
   );
-  // console.log("projectsStatus:", projectsStatus);
-  console.log("projectsIsFetching:", isFetching);
-  // console.log("projectsIsLoading:", projectsIsLoading);
-  // console.log("projectsIsPreviousData:", projectsIsPreviousData);
 
   const handleSort = (columnName: string) => {
     setSortColumn(`${sortDir}${columnName}`); //** TODO: don't really like how it is done with two states (sortColumn and sortDir) */
@@ -221,6 +229,18 @@ function Projects() {
                           ? project.comments.slice(0, 30) + "..."
                           : project.comments}
                       </th>
+                      <SActionButtonContainer>
+                        <label htmlFor="edit">
+                          <SActionButton type="submit">
+                            <FaPen aria-label="edit" />
+                          </SActionButton>
+                        </label>
+                        <label htmlFor="delete">
+                          <SActionButton type="submit">
+                            <FaRegTrashAlt aria-label="delete" />
+                          </SActionButton>
+                        </label>
+                      </SActionButtonContainer>
                     </SDataRow>
                   ))}
                 </tbody>
