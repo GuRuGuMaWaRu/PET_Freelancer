@@ -7,12 +7,6 @@ import {
 } from "react-icons/md";
 import * as colors from "../styles/colors";
 
-interface IProps {
-  currentPage: number;
-  numberOfPages: number;
-  paginationCallback: (page: number) => void;
-}
-
 const SPaginationContainer = styled.div({
   display: "flex",
   justifyContent: "space-between",
@@ -41,59 +35,63 @@ const SButton = styled.button<SButtonProps>(({ disabled }) => ({
   },
 }));
 
-const createEmptyArray = (numOfItems: number): number[] => {
-  return Array(numOfItems).fill(0);
-};
-
 const getPages = (
   currentPage: number,
-  pages: number,
+  totalPages: number,
 ): { page: number; next_previous?: boolean }[] => {
-  if (pages <= 9) {
-    return createEmptyArray(pages).map((_, index) => ({ page: index + 1 }));
-  } else {
-    if (currentPage <= 5) {
-      return [
-        ...createEmptyArray(7).map((_, index) => ({ page: index + 1 })),
-        { page: 8, next_previous: true },
-        { page: pages },
-      ];
-    } else if (currentPage >= pages - 4) {
-      return [
-        { page: 1 },
-        { page: 2, next_previous: true },
-        ...createEmptyArray(7)
-          .map((_, index) => ({ page: pages - index }))
-          .reverse(),
-      ];
-    } else {
-      return [
-        { page: 1 },
-        { page: currentPage - 3, next_previous: true },
-        { page: currentPage - 2 },
-        { page: currentPage - 1 },
-        { page: currentPage },
-        { page: currentPage + 1 },
-        { page: currentPage + 2 },
-        { page: currentPage + 3, next_previous: true },
-        { page: pages },
-      ];
-    }
+  if (totalPages <= 9) {
+    return Array.from({ length: totalPages }, (_, index) => ({
+      page: index + 1,
+    }));
   }
+
+  if (currentPage <= 5) {
+    return [
+      ...Array.from({ length: 7 }, (_, index) => ({ page: index + 1 })),
+      { page: 8, next_previous: true },
+      { page: totalPages },
+    ];
+  } else if (currentPage >= totalPages - 4) {
+    return [
+      { page: 1 },
+      { page: 2, next_previous: true },
+      ...Array.from({ length: 7 }, (_, index) => ({
+        page: totalPages - index,
+      })).reverse(),
+    ];
+  }
+
+  return [
+    { page: 1 },
+    { page: currentPage - 3, next_previous: true },
+    { page: currentPage - 2 },
+    { page: currentPage - 1 },
+    { page: currentPage },
+    { page: currentPage + 1 },
+    { page: currentPage + 2 },
+    { page: currentPage + 3, next_previous: true },
+    { page: totalPages },
+  ];
 };
+
+interface IProps {
+  currentPage: number;
+  totalPages: number;
+  setCurrentPage: (page: number) => void;
+}
 
 const Pagination: React.FC<IProps> = ({
   currentPage,
-  numberOfPages,
-  paginationCallback,
+  totalPages,
+  setCurrentPage,
 }) => {
-  const pages = getPages(currentPage, numberOfPages);
+  const pages = getPages(currentPage, totalPages);
 
   return (
     <SPaginationContainer>
       <SButton
         aria-label="Previous page"
-        onClick={() => paginationCallback(currentPage - 1)}
+        onClick={() => setCurrentPage(currentPage - 1)}
         disabled={currentPage === 1}
       >
         <MdOutlineArrowBackIos />
@@ -107,7 +105,7 @@ const Pagination: React.FC<IProps> = ({
                 currentPage === item.page ? colors.text2 : "transparent"
               }`,
             }}
-            onClick={() => paginationCallback(item.page)}
+            onClick={() => setCurrentPage(item.page)}
             aria-label={`{Select page ${item.page}}`}
             disabled={currentPage === item.page}
           >
@@ -117,8 +115,8 @@ const Pagination: React.FC<IProps> = ({
       </div>
       <SButton
         aria-label="Next page"
-        onClick={() => paginationCallback(currentPage + 1)}
-        disabled={currentPage >= numberOfPages}
+        onClick={() => setCurrentPage(currentPage + 1)}
+        disabled={currentPage >= totalPages}
       >
         <MdOutlineArrowForwardIos />
       </SButton>

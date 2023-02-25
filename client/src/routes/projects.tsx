@@ -207,9 +207,9 @@ function Projects() {
             </STable>
           </div>
           <MemoPagination
+            totalPages={pagesTotal}
             currentPage={page}
-            numberOfPages={pagesTotal}
-            paginationCallback={setPage}
+            setCurrentPage={setPage}
           />
         </>
       )}
