@@ -39,10 +39,9 @@ const SSearchButton = styled("button")({
 
 interface IProps {
   onSearch: (input: string) => void;
-  isFetching: boolean;
 }
 
-const ProjectSearchInput: React.FC<IProps> = ({ onSearch, isFetching }) => {
+const ProjectSearchInput: React.FC<IProps> = ({ onSearch }) => {
   const [searchInput, setSearchInput] = React.useState<string>("");
   const { setNotification } = useNotification();
 
@@ -91,7 +90,7 @@ const ProjectSearchInput: React.FC<IProps> = ({ onSearch, isFetching }) => {
       <Tooltip label="Search projects">
         <label htmlFor="search">
           <SSearchButton type="submit">
-            {isFetching ? <Spinner /> : <FaSearch aria-label="search" />}
+            <FaSearch aria-label="search" />
           </SSearchButton>
         </label>
       </Tooltip>

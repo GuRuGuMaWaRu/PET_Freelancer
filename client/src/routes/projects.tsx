@@ -80,21 +80,20 @@ const SContainer = styled.div({
 });
 
 const STableContainer = styled.div({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
+  position: "relative",
   margin: "2em 0",
-  height: "900px",
+  height: "770px",
 });
 
 const STablePlaceholder = styled.p({
+  marginTop: "14rem",
+  textAlign: "center",
   fontSize: "1.3rem",
 });
 
 const STable = styled.table({
   borderCollapse: "collapse",
   width: "100%",
-  height: "100%",
   "& th": {
     border: `1px solid ${colors.grey}`,
     textAlign: "left",
@@ -130,7 +129,7 @@ function Projects() {
     getProjectsPageQuery(page, sortColumn, searchQuery),
   );
   // console.log("projectsStatus:", projectsStatus);
-  // console.log("projectsIsFetching:", projectsIsFetching);
+  console.log("projectsIsFetching:", isFetching);
   // console.log("projectsIsLoading:", projectsIsLoading);
   // console.log("projectsIsPreviousData:", projectsIsPreviousData);
 
@@ -149,7 +148,7 @@ function Projects() {
   return (
     <div>
       <SContainer>
-        <ProjectSearchInput onSearch={handleSearch} isFetching={isFetching} />
+        <ProjectSearchInput onSearch={handleSearch} />
         <Modal>
           <ModalOpenButton>
             <Button>Add Project</Button>
@@ -168,6 +167,17 @@ function Projects() {
       ) : (
         <>
           <STableContainer>
+            {isFetching && (
+              <div
+                css={{
+                  position: "absolute",
+                  height: "100%",
+                  width: "100%",
+                  backgroundColor: colors.projectsPageBg,
+                  opacity: "0.4",
+                }}
+              ></div>
+            )}
             {pagesTotal < 1 ? (
               <STablePlaceholder>
                 There are no projects available. Please add some.
