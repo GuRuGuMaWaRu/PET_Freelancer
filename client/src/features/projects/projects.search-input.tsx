@@ -6,7 +6,7 @@ import Tooltip from "@reach/tooltip";
 
 import { useNotification } from "../../context";
 import { NotificationType } from "../../utils";
-import { Input, Spinner } from "../../components";
+import { Input } from "../../components";
 import * as colors from "../../styles/colors";
 
 const SCancelButton = styled("button")({
