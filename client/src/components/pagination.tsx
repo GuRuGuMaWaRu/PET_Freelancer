@@ -13,6 +13,11 @@ const SPaginationContainer = styled.div({
   marginTop: "1rem",
 });
 
+const SPaginationButtons = styled.div({
+  display: "flex",
+  gap: ".3rem",
+});
+
 interface SButtonProps {
   disabled: boolean;
 }
@@ -89,14 +94,16 @@ const Pagination: React.FC<IProps> = ({
 
   return (
     <SPaginationContainer>
-      <SButton
-        aria-label="Previous page"
-        onClick={() => setCurrentPage(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        <MdOutlineArrowBackIos />
-      </SButton>
-      <div css={{ display: "flex", gap: ".3rem" }}>
+      {totalPages > 0 && (
+        <SButton
+          aria-label="Previous page"
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          <MdOutlineArrowBackIos />
+        </SButton>
+      )}
+      <SPaginationButtons>
         {pages.map((item) => (
           <SButton
             key={item.page}
@@ -112,14 +119,16 @@ const Pagination: React.FC<IProps> = ({
             {item.next_previous ? "..." : item.page}
           </SButton>
         ))}
-      </div>
-      <SButton
-        aria-label="Next page"
-        onClick={() => setCurrentPage(currentPage + 1)}
-        disabled={currentPage >= totalPages}
-      >
-        <MdOutlineArrowForwardIos />
-      </SButton>
+      </SPaginationButtons>
+      {totalPages > 0 && (
+        <SButton
+          aria-label="Next page"
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage >= totalPages}
+        >
+          <MdOutlineArrowForwardIos />
+        </SButton>
+      )}
     </SPaginationContainer>
   );
 };
