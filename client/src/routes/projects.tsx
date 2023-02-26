@@ -2,7 +2,7 @@
 import React from "react";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import styled from "@emotion/styled";
-import { FaSortUp, FaSortDown, FaPen, FaRegTrashAlt } from "react-icons/fa";
+import { FaSortUp, FaSortDown } from "react-icons/fa";
 
 import {
   IProjectPaginatedData,
@@ -20,8 +20,10 @@ import {
   FullPageSpinner,
 } from "../components";
 import { ProjectSearchInput } from "../features/projects/projects.search-input";
+import { ProjectListItem } from "../features/projects/projects.list-item";
 import { PAGE_LIMIT } from "../config";
 import * as colors from "../styles/colors";
+import * as mq from "../styles/media-queries";
 
 const getProjectsPageQuery = (
   page: number,
@@ -83,7 +85,7 @@ const SContainer = styled.div({
 const STableContainer = styled.div({
   position: "relative",
   margin: "2em 0",
-  height: "820px",
+  // height: "820px",
 });
 
 const STablePlaceholder = styled.p({
@@ -92,36 +94,33 @@ const STablePlaceholder = styled.p({
   fontSize: "1.3rem",
 });
 
-const STable = styled.table({
-  borderCollapse: "collapse",
+const STable = styled.div({
   width: "100%",
-  "& th": {
-    border: `1px solid ${colors.grey}`,
+  display: "grid",
+  gap: ".4em",
+  gridTemplateColumns: "repeat(2, 2fr) 3fr 1fr 2fr 90px",
+  [mq.medium]: {
+    gridTemplateColumns: "repeat(2, 1fr) 2fr 1fr 90px",
+  },
+  [mq.small]: {
+    gridTemplateColumns: "1fr 2fr 1fr 90px",
+  },
+});
+
+const STableHeader = styled.div<{ sortName?: string; name: string }>(
+  ({ sortName, name }) => ({
+    backgroundColor: colors.greenDark1,
     textAlign: "left",
     padding: "8px",
-  },
-});
-
-const SActionButtonContainer = styled.th({
-  display: "flex",
-  gap: ".6rem",
-});
-
-const SActionButton = styled.button({
-  backgroundColor: "transparent",
-  color: colors.white,
-  border: 0,
-});
-
-const STableHeader = styled.th<{ sortName?: string }>(({ sortName }) => ({
-  cursor: sortName ? "pointer" : "auto",
-}));
-
-const SDataRow = styled.tr({
-  "&:nth-of-type(even)": {
-    backgroundColor: colors.opaqueBlack,
-  },
-});
+    cursor: sortName ? "pointer" : "auto",
+    [mq.medium]: {
+      display: name === "comments" ? "none" : "block",
+    },
+    [mq.small]: {
+      display: name === "date" || name === "comments" ? "none" : "block",
+    },
+  }),
+);
 
 //** TODO: move this into a separate utilities file (projects.utils.tsx) when I'll have FEATURES */
 const capitalizeItem = (item: string): string =>
@@ -164,7 +163,7 @@ function Projects() {
           <ModalContents
             aria-label="Add Project Form"
             title="Add Project"
-            bgColor={colors.projectsModalBg}
+            bgColor={colors.greenLight2}
           >
             <AddProjectForm clients={clients} />
           </ModalContents>
@@ -181,7 +180,7 @@ function Projects() {
                   position: "absolute",
                   height: "100%",
                   width: "100%",
-                  backgroundColor: colors.projectsPageBg,
+                  backgroundColor: colors.greenLight1,
                   opacity: "0.4",
                 }}
               ></div>
@@ -192,58 +191,33 @@ function Projects() {
               </STablePlaceholder>
             ) : (
               <STable>
-                <thead>
-                  <tr>
-                    {columns.map((column) => (
-                      <STableHeader
-                        key={column.name}
-                        sortName={column.sortName}
-                        onClick={
-                          column.sortName
-                            ? () => handleSort(column?.sortName)
-                            : undefined
-                        }
-                      >
-                        {capitalizeItem(column.name)}
-                        {!column.sortName ? null : column.name === sortColumn &&
-                          sortDir === "" ? (
-                          <FaSortUp />
-                        ) : (
-                          <FaSortDown />
-                        )}
-                      </STableHeader>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {projects?.docs?.map((project) => (
-                    <SDataRow key={project._id}>
-                      <th>{project.client.name}</th>
-                      <th>
-                        {new Date(project.date).toLocaleDateString("default")}
-                      </th>
-                      <th>{project.projectNr}</th>
-                      <th>{project.payment}</th>
-                      <th>
-                        {project.comments && project.comments?.length > 30
-                          ? project.comments.slice(0, 30) + "..."
-                          : project.comments}
-                      </th>
-                      <SActionButtonContainer>
-                        <label htmlFor="edit">
-                          <SActionButton type="submit">
-                            <FaPen aria-label="edit" />
-                          </SActionButton>
-                        </label>
-                        <label htmlFor="delete">
-                          <SActionButton type="submit">
-                            <FaRegTrashAlt aria-label="delete" />
-                          </SActionButton>
-                        </label>
-                      </SActionButtonContainer>
-                    </SDataRow>
-                  ))}
-                </tbody>
+                {columns.map((column) => (
+                  <STableHeader
+                    key={column.name}
+                    name={column.name}
+                    sortName={column.sortName}
+                    onClick={
+                      column.sortName
+                        ? () => handleSort(column?.sortName)
+                        : undefined
+                    }
+                  >
+                    {capitalizeItem(column.name)}
+                    {!column.sortName ? null : column.name === sortColumn &&
+                      sortDir === "" ? (
+                      <FaSortUp />
+                    ) : (
+                      <FaSortDown />
+                    )}
+                  </STableHeader>
+                ))}
+
+                {projects?.docs?.map((project) => (
+                  <ProjectListItem
+                    key={`${project.date}${project.projectNr}`}
+                    project={project}
+                  />
+                ))}
               </STable>
             )}
           </STableContainer>

@@ -25,8 +25,11 @@ export const opaqueBlack = "rgba(0, 0, 0, 0.2)";
 export const disabled = "#858585";
 
 export const dashboardPageBg = "rgb(106 72 220)";
-export const projectsPageBg = "#3c8b5a";
 export const clientsPageBg = "#c17750";
 
-export const projectsModalBg = "rgb(77 181 117)";
 export const dashboardModalBg = "rgb(120 92 211)";
+
+export const greenLight1 = "#3c8b5a";
+export const greenLight2 = "#4db575";
+export const greenDark1 = "#3d6a4e";
+export const greenDark2 = "#49815e";

@@ -107,7 +107,7 @@ function Nav() {
 
 const getBgColor = (pathname: string) => {
   if (pathname.startsWith("/projects")) {
-    return colors.projectsPageBg;
+    return colors.greenLight1;
   }
   if (pathname.startsWith("/clients")) {
     return colors.clientsPageBg;

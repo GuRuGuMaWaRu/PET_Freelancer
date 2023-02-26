@@ -1,0 +1,77 @@
+import React from "react";
+import styled from "@emotion/styled";
+import { FaPen, FaRegTrashAlt } from "react-icons/fa";
+
+import { IProject } from "../../utils";
+import * as colors from "../../styles/colors";
+import * as mq from "../../styles/media-queries";
+
+const SDataCell = styled.div<{ name: string }>(({ name }) => ({
+  padding: ".9rem .5rem",
+  "&:nth-of-type(12n+7)": {
+    backgroundColor: colors.greenDark2,
+  },
+  "&:nth-of-type(12n+8)": {
+    backgroundColor: colors.greenDark2,
+  },
+  "&:nth-of-type(12n+9)": {
+    backgroundColor: colors.greenDark2,
+  },
+  "&:nth-of-type(12n+10)": {
+    backgroundColor: colors.greenDark2,
+  },
+  "&:nth-of-type(12n+11)": {
+    backgroundColor: colors.greenDark2,
+  },
+  "&:nth-of-type(12n+12)": {
+    backgroundColor: colors.greenDark2,
+  },
+  [mq.medium]: {
+    display: name === "comments" ? "none" : "block",
+  },
+  [mq.small]: {
+    display: name === "date" || name === "comments" ? "none" : "block",
+  },
+}));
+
+const SActionButton = styled.button({
+  backgroundColor: "transparent",
+  color: colors.white,
+  border: 0,
+});
+
+interface IProps {
+  project: IProject;
+}
+
+const ProjectListItem: React.FC<IProps> = ({ project }) => {
+  return (
+    <>
+      <SDataCell name="client">{project.client.name}</SDataCell>
+      <SDataCell name="date">
+        {new Date(project.date).toLocaleDateString("default")}
+      </SDataCell>
+      <SDataCell name="project nr">{project.projectNr}</SDataCell>
+      <SDataCell name="payment">{project.payment}</SDataCell>
+      <SDataCell name="comments">
+        {project.comments && project.comments?.length > 30
+          ? project.comments.slice(0, 30) + "..."
+          : project.comments}
+      </SDataCell>
+      <SDataCell name="actions">
+        <label htmlFor="edit">
+          <SActionButton type="submit">
+            <FaPen aria-label="edit" />
+          </SActionButton>
+        </label>
+        <label htmlFor="delete">
+          <SActionButton type="submit">
+            <FaRegTrashAlt aria-label="delete" />
+          </SActionButton>
+        </label>
+      </SDataCell>
+    </>
+  );
+};
+
+export { ProjectListItem };
