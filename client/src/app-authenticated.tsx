@@ -8,6 +8,7 @@ import {
   Projects,
   projectsLoader,
   projectsAddAction,
+  projectsDeleteAction,
   Clients,
   NotFoundScreen,
 } from "./routes";
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
           {
             path: "projects/add",
             action: projectsAddAction(queryClient),
+          },
+          {
+            path: "projects/:projectId/delete",
+            action: projectsDeleteAction(queryClient),
           },
           {
             path: "clients",

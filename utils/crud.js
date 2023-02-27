@@ -101,7 +101,7 @@ const deleteOne = (Model) =>
       return next(new AppError(404, "Nothing is found with the provided ID"));
     }
 
-    res.status(204).json({
+    res.status(200).json({
       status: "success",
       data: null,
     });

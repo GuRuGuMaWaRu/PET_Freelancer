@@ -2,7 +2,7 @@
 import React from "react";
 import { useQuery, QueryClient } from "@tanstack/react-query";
 import styled from "@emotion/styled";
-import { FaSortUp, FaSortDown } from "react-icons/fa";
+import { FaSortUp, FaSortDown, FaPen, FaRegTrashAlt } from "react-icons/fa";
 
 import {
   IProjectPaginatedData,
@@ -21,6 +21,7 @@ import {
 } from "../components";
 import { ProjectSearchInput } from "../features/projects/projects.search-input";
 import { ProjectListItem } from "../features/projects/projects.list-item";
+import { DeleteProjectForm } from "../features/projects/form.delete-project";
 import { PAGE_LIMIT } from "../config";
 import * as colors from "../styles/colors";
 import * as mq from "../styles/media-queries";
@@ -122,6 +123,12 @@ const STableHeader = styled.div<{ sortName?: string; name: string }>(
   }),
 );
 
+const SActionButton = styled.button({
+  backgroundColor: "transparent",
+  color: colors.white,
+  border: 0,
+});
+
 //** TODO: move this into a separate utilities file (projects.utils.tsx) when I'll have FEATURES */
 const capitalizeItem = (item: string): string =>
   item
@@ -213,10 +220,36 @@ function Projects() {
                 ))}
 
                 {projects?.docs?.map((project) => (
-                  <ProjectListItem
-                    key={`${project.date}${project.projectNr}`}
-                    project={project}
-                  />
+                  <ProjectListItem key={project._id} project={project}>
+                    <Modal>
+                      <ModalOpenButton>
+                        <SActionButton>
+                          <FaPen aria-label="edit" />
+                        </SActionButton>
+                      </ModalOpenButton>
+                      <ModalContents
+                        aria-label="Edit Project Form"
+                        title="Edit Project"
+                        bgColor={colors.greenLight2}
+                      >
+                        <AddProjectForm clients={clients} />
+                      </ModalContents>
+                    </Modal>
+                    <Modal>
+                      <ModalOpenButton>
+                        <SActionButton>
+                          <FaRegTrashAlt aria-label="delete" />
+                        </SActionButton>
+                      </ModalOpenButton>
+                      <ModalContents
+                        aria-label="Delete Project Form"
+                        title="Delete Project"
+                        bgColor={colors.greenLight2}
+                      >
+                        <DeleteProjectForm project={project} />
+                      </ModalContents>
+                    </Modal>
+                  </ProjectListItem>
                 ))}
               </STable>
             )}

@@ -29,4 +29,10 @@ const addProject = async (project: Partial<IProject>) => {
   return await client<IProject>("projects", { token: token ?? '', data: project });
 }
 
-export { getPageOfProjects, getProjectsForYear, getAllClients, addProject };
+const deleteProject = async (projectId: string) => {
+  const token = window.localStorage.getItem(localStorageKey);
+
+  return await client<null>(`projects/${projectId}`, { token: token ?? '', method: 'DELETE' });
+}
+
+export { getPageOfProjects, getProjectsForYear, getAllClients, addProject, deleteProject };

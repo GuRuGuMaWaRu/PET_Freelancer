@@ -34,17 +34,12 @@ const SDataCell = styled.div<{ name: string }>(({ name }) => ({
   },
 }));
 
-const SActionButton = styled.button({
-  backgroundColor: "transparent",
-  color: colors.white,
-  border: 0,
-});
-
 interface IProps {
   project: IProject;
+  children: React.ReactNode;
 }
 
-const ProjectListItem: React.FC<IProps> = ({ project }) => {
+const ProjectListItem: React.FC<IProps> = ({ project, children }) => {
   return (
     <>
       <SDataCell name="client">{project.client.name}</SDataCell>
@@ -58,18 +53,7 @@ const ProjectListItem: React.FC<IProps> = ({ project }) => {
           ? project.comments.slice(0, 30) + "..."
           : project.comments}
       </SDataCell>
-      <SDataCell name="actions">
-        <label htmlFor="edit">
-          <SActionButton type="submit">
-            <FaPen aria-label="edit" />
-          </SActionButton>
-        </label>
-        <label htmlFor="delete">
-          <SActionButton type="submit">
-            <FaRegTrashAlt aria-label="delete" />
-          </SActionButton>
-        </label>
-      </SDataCell>
+      <SDataCell name="actions">{children}</SDataCell>
     </>
   );
 };
