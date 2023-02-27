@@ -45,4 +45,5 @@ NEW TODOs
 30. [ ] FRONT: error handling as per (https://www.builder.io/blog/safe-data-fetching?ck_subscriber_id=478685813)
 31. [ ] FRONT: change all PX sizes to REMs, and set the root font-size to 62.5%, so that the user can zoom in and our, and we can work with 10px root font-size
 32. [ ] FRONT: move Pagination into a separate components, that accepts the required number of pages and a method to call for pagination
-33. [ ] FRONT: projects - can add a Rozetka-style "Load more" button to change PAGE_LIMIT
+33. [ ] FRONT: projects - maybe add a Rozetka-style "Load more" button to change PAGE_LIMIT
+34. [ ] FRONT: think on how I can organize my styles as per Schmedtmann CSS-tutorial
