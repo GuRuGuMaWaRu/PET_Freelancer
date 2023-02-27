@@ -54,8 +54,10 @@ const DeleteProjectForm: React.FC<IProps> = ({ project }) => {
   return (
     <SContent>
       <fetcher.Form method="delete" action={`/projects/${project._id}/delete`}>
-        Do you wish to delete project{" "}
-        <SHighlighted>{project.projectNr}</SHighlighted> from{" "}
+        Do you wish to delete project
+        <br />
+        <SHighlighted>{project.projectNr}</SHighlighted> from
+        <br />
         <SHighlighted>{project.client.name}</SHighlighted>?
         <SButtons>
           <Button type="submit" disabled={isLoading}>
