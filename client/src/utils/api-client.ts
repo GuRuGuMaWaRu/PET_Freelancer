@@ -2,7 +2,7 @@ interface IConfig {
   data?: object;
   token?: string;
   headers?: Record<string, string>;
-  method?: "PUT" | "DELETE";
+  method?: "PATCH" | "DELETE";
 }
 
 interface IResponse<T> {

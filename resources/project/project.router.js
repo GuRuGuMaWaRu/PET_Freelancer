@@ -225,7 +225,47 @@ router
    * @desc      Update a project
    * @access    Private
    */
-  .patch(projectControllers.updateOne)
+  .patch(
+    catchAsync(async (req, res, next) => {
+      const filter = { _id: req.params.id };
+      const body = { ...req.body };
+
+      //** Get a client Id or create a new client if necessary */
+      let client = await Client.findOne({
+        name: body.client,
+      })
+        .lean()
+        .exec();
+
+      if (!client) {
+        client = await Client.create({
+          name: body.client,
+          user: body.user,
+        });
+      }
+
+      console.log("client:", client);
+      body.client = client._id;
+
+      const doc = await Project.findOneAndUpdate(filter, body, {
+        new: true,
+        runValidators: true,
+        upsert: true,
+        setDefaultsOnInsert: true,
+      })
+        .lean()
+        .exec();
+
+      if (!doc) {
+        return next(new AppError(404, "No such project found"));
+      }
+
+      res.status(200).json({
+        status: "success",
+        data: doc,
+      });
+    }),
+  )
   /**
    * @route     DELETE projects/:id
    * @desc      Delete a project

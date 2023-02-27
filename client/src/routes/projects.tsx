@@ -19,9 +19,10 @@ import {
   MemoPagination,
   FullPageSpinner,
 } from "../components";
-import { ProjectSearchInput } from "../features/projects/projects.search-input";
-import { ProjectListItem } from "../features/projects/projects.list-item";
-import { DeleteProjectForm } from "../features/projects/form.delete-project";
+import { ProjectSearchInput } from "../features/projects/";
+import { ProjectListItem } from "../features/projects/";
+import { DeleteProjectForm } from "../features/projects/";
+import { EditProjectForm } from "../features/projects/";
 import { PAGE_LIMIT } from "../config";
 import * as colors from "../styles/colors";
 import * as mq from "../styles/media-queries";
@@ -232,7 +233,7 @@ function Projects() {
                         title="Edit Project"
                         bgColor={colors.greenLight2}
                       >
-                        <AddProjectForm clients={clients} />
+                        <EditProjectForm project={project} clients={clients} />
                       </ModalContents>
                     </Modal>
                     <Modal>

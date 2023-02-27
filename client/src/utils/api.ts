@@ -31,8 +31,14 @@ const addProject = async (project: Partial<IProject>) => {
 
 const deleteProject = async (projectId: string) => {
   const token = window.localStorage.getItem(localStorageKey);
-
+  
   return await client<null>(`projects/${projectId}`, { token: token ?? '', method: 'DELETE' });
 }
 
-export { getPageOfProjects, getProjectsForYear, getAllClients, addProject, deleteProject };
+const editProject = async (projectId: string, project: Partial<IProject>) => {
+  const token = window.localStorage.getItem(localStorageKey);
+  
+  return await client<IProject>(`projects/${projectId}`, { token: token ?? '', data: project, method: 'PATCH' });
+}
+
+export { getPageOfProjects, getProjectsForYear, getAllClients, addProject, deleteProject, editProject };
