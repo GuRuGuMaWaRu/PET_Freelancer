@@ -9,7 +9,8 @@ import {
   IRegisterFormInputs,
   NotificationType,
 } from "../utils";
-import { FullPageErrorFallback, FullPageSpinner } from "../components/lib";
+import { FullPageSpinner } from "../components/lib";
+import { FullPageError } from "../shared";
 import { useNotification } from "./";
 import { localStorageKey } from "../config";
 
@@ -102,7 +103,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (isError && error) {
-    return <FullPageErrorFallback error={error} />;
+    return <FullPageError error={error} />;
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

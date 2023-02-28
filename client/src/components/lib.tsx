@@ -189,26 +189,6 @@ function ErrorMessage({
   );
 }
 
-function FullPageErrorFallback({ error }: { error: Error }) {
-  return (
-    <div
-      role="alert"
-      css={{
-        color: colors.danger,
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: colors.base2,
-      }}
-    >
-      <p>Uh oh... There's a problem. Try refreshing the app.</p>
-      <pre>{error.message}</pre>
-    </div>
-  );
-}
-
 /* Spinner components */
 const spin = keyframes({
   "0%": { transform: "rotate(0deg)" },
@@ -313,7 +293,6 @@ export {
   ChartSelectionButton,
   Combobox,
   ErrorMessage,
-  FullPageErrorFallback,
   Spinner,
   FullPageSpinner,
   NotificationMessage,

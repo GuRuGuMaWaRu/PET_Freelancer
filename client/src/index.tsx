@@ -6,7 +6,7 @@ import "./bootstrap";
 import reportWebVitals from "./reportWebVitals";
 import { AppProviders } from "./context";
 import { App } from "./app";
-import { FullPageErrorFallback } from "./components";
+import { FullPageError } from "./shared";
 
 if (process.env.NODE_ENV === "development") {
   const { server } = require("./test/server/dev-server");
@@ -19,7 +19,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <ErrorBoundary FallbackComponent={FullPageErrorFallback}>
+    <ErrorBoundary FallbackComponent={FullPageError}>
       <AppProviders>
         <App />
       </AppProviders>
