@@ -4,8 +4,9 @@ import { useFetcher } from "react-router-dom";
 
 import { IProject } from "../../utils";
 import * as colors from "../../styles/colors";
-import { Button, Spinner } from "../../components/lib";
+import { Button } from "../../components/lib";
 import { useModal } from "../../components/modal";
+import { Spinner } from "../../shared";
 import { useNotification } from "../../context";
 import { NotificationType } from "../../utils/types";
 

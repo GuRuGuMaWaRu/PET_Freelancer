@@ -189,36 +189,6 @@ function ErrorMessage({
   );
 }
 
-/* Spinner components */
-const spin = keyframes({
-  "0%": { transform: "rotate(0deg)" },
-  "100%": { transform: "rotate(360deg)" },
-});
-
-const Spinner = styled(FaSpinner)({
-  animation: `${spin} 1s linear infinite`,
-});
-Spinner.defaultProps = {
-  "aria-label": "loading",
-};
-
-function FullPageSpinner() {
-  return (
-    <div
-      css={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        fontSize: "4rem",
-        color: colors.spinnerContrasting,
-      }}
-    >
-      <Spinner />
-    </div>
-  );
-}
-
 /* Notifications */
 const setNotificationColor = (type: NotificationType) => {
   switch (type) {
@@ -293,8 +263,6 @@ export {
   ChartSelectionButton,
   Combobox,
   ErrorMessage,
-  Spinner,
-  FullPageSpinner,
   NotificationMessage,
   WarningIcon,
   AccomplishedIcon,

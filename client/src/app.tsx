@@ -2,7 +2,7 @@
 import React from "react";
 
 import { useAuth } from "./context";
-import { FullPageSpinner } from "./components";
+import { FullPageSpinner } from "./shared";
 
 const AppUnauthenticated = React.lazy(() => import("./app-unauthenticated"));
 const AppAuthenticated = React.lazy(() =>

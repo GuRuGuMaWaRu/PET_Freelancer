@@ -9,7 +9,7 @@ import {
   IRegisterFormInputs,
   NotificationType,
 } from "../utils";
-import { FullPageSpinner } from "../components/lib";
+import { FullPageSpinner } from "../shared";
 import { FullPageError } from "../shared";
 import { useNotification } from "./";
 import { localStorageKey } from "../config";

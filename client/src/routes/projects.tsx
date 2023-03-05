@@ -17,8 +17,8 @@ import {
   ModalContents,
   AddProjectForm,
   MemoPagination,
-  FullPageSpinner,
 } from "../components";
+import { FullPageSpinner } from "../shared";
 import { ProjectSearchInput } from "../features/projects/";
 import { ProjectListItem } from "../features/projects/";
 import { DeleteProjectForm } from "../features/projects/";

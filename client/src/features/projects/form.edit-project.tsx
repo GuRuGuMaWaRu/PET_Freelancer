@@ -14,8 +14,8 @@ import {
   FormGroup,
   ErrorMessage,
   Button,
-  Spinner,
 } from "../../components/lib";
+import { Spinner } from "../../shared";
 import { useModal } from "../../components/modal";
 import { useNotification } from "../../context";
 import { IClient, IProject, NotificationType } from "../../utils/types";

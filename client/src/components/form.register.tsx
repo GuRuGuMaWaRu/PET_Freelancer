@@ -2,7 +2,8 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { Label, Input, FormGroup, ErrorMessage, Spinner } from "./lib";
+import { Label, Input, FormGroup, ErrorMessage } from "./lib";
+import { Spinner } from "../shared";
 import { useAuth, useNotification } from "../context";
 import { useAsync } from "../utils";
 import {
@@ -87,6 +88,7 @@ const RegisterForm = ({
           type="password"
           id="password1"
           autoComplete="current-password"
+          aria-describedby="password-requirements"
           aria-invalid={errors.password1 ? "true" : "false"}
           {...register("password1", {
             required: "You must specify a password",
@@ -96,6 +98,9 @@ const RegisterForm = ({
             },
           })}
         ></Input>
+        <p id="password-requirements">
+          Please create a new password. Must contain at least 6 characters
+        </p>
         {errors.password1 && (
           <ErrorMessage
             error={{ message: errors?.password1.message }}
