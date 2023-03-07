@@ -8,13 +8,7 @@ import {
   ComboboxOption as ReachComboboxOption,
 } from "@reach/combobox";
 import styled from "@emotion/styled";
-import { keyframes } from "@emotion/react";
-import {
-  FaSpinner,
-  FaTimes,
-  FaExclamationCircle,
-  FaCheck,
-} from "react-icons/fa";
+import { FaTimes, FaExclamationCircle, FaCheck } from "react-icons/fa";
 import { matchSorter } from "match-sorter";
 
 import * as colors from "../styles/colors";
