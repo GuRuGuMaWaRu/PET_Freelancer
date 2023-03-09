@@ -13,9 +13,8 @@ import {
   Textarea,
   FormGroup,
   ErrorMessage,
-  Button,
 } from "./lib";
-import { Spinner, useModal } from "../shared";
+import { Button, Spinner, useModal } from "../shared";
 import { useNotification } from "../context";
 import { IClient, NotificationType } from "../utils/types";
 

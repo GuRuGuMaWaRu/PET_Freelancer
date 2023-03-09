@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import * as colors from "./styles/colors";
-import { Button, LoginForm, RegisterForm } from "./components";
-import { Modal, ModalOpenButton, ModalContents } from "./shared";
+import { LoginForm, RegisterForm } from "./components";
+import { Button, Modal, ModalOpenButton, ModalContents } from "./shared";
 
 function AppUnauthenticated() {
   return (

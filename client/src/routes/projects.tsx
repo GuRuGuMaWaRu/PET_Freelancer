@@ -10,8 +10,9 @@ import {
   getPageOfProjects,
   getAllClients,
 } from "../utils";
-import { Button, AddProjectForm, MemoPagination } from "../components";
+import { AddProjectForm, MemoPagination } from "../components";
 import {
+  Button,
   FullPageSpinner,
   Modal,
   ModalOpenButton,

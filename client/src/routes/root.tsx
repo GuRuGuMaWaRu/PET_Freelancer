@@ -5,7 +5,7 @@ import { NavLink, Outlet, useLocation } from "react-router-dom";
 import * as colors from "../styles/colors";
 import * as mq from "../styles/media-queries";
 import { useAuth } from "../context";
-import { Button } from "../components";
+import { Button } from "../shared";
 
 function TopBar() {
   const { user, logout } = useAuth();

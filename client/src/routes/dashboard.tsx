@@ -18,11 +18,10 @@ import {
   MemoDashboardTotals,
   MemoEarningsChart,
   MemoClientsChart,
-  Button,
   ChartSelectionButton,
   AddProjectForm,
 } from "../components";
-import { Modal, ModalOpenButton, ModalContents } from "../shared";
+import { Button, Modal, ModalOpenButton, ModalContents } from "../shared";
 
 const projectOneYearQuery = () => ({
   queryKey: ["projects", "oneyear"],
