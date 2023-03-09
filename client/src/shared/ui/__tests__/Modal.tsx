@@ -6,7 +6,8 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { Modal, ModalOpenButton, ModalContents, Button } from "../";
+import { Modal, ModalOpenButton, ModalContents } from "../Modal/Modal";
+import { Button } from "../../../components";
 
 test("can be opened and closed", async () => {
   const label = "Modal label";

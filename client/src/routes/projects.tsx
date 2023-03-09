@@ -10,15 +10,13 @@ import {
   getPageOfProjects,
   getAllClients,
 } from "../utils";
+import { Button, AddProjectForm, MemoPagination } from "../components";
 import {
-  Button,
+  FullPageSpinner,
   Modal,
   ModalOpenButton,
   ModalContents,
-  AddProjectForm,
-  MemoPagination,
-} from "../components";
-import { FullPageSpinner } from "../shared";
+} from "../shared";
 import { ProjectSearchInput } from "../features/projects/";
 import { ProjectListItem } from "../features/projects/";
 import { DeleteProjectForm } from "../features/projects/";

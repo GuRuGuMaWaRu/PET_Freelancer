@@ -15,8 +15,7 @@ import {
   ErrorMessage,
   Button,
 } from "../../components/lib";
-import { Spinner } from "../../shared";
-import { useModal } from "../../components/modal";
+import { Spinner, useModal } from "../../shared";
 import { useNotification } from "../../context";
 import { IClient, IProject, NotificationType } from "../../utils/types";
 

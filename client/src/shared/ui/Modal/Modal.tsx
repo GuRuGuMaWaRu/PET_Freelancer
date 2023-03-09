@@ -7,8 +7,8 @@ import styled from "@emotion/styled";
 import { DialogOverlay } from "@reach/dialog";
 import { useTransition, animated } from "react-spring";
 
-import * as colors from "../styles/colors";
-import * as mq from "../styles/media-queries";
+import * as colors from "../../../styles/colors";
+import * as mq from "../../../styles/media-queries";
 
 const callAll = (...fns: Array<(...args: unknown[]) => void>) => (
   ...args: unknown[]

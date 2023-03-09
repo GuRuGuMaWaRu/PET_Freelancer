@@ -20,11 +20,9 @@ import {
   MemoClientsChart,
   Button,
   ChartSelectionButton,
-  Modal,
-  ModalOpenButton,
-  ModalContents,
   AddProjectForm,
 } from "../components";
+import { Modal, ModalOpenButton, ModalContents } from "../shared";
 
 const projectOneYearQuery = () => ({
   queryKey: ["projects", "oneyear"],

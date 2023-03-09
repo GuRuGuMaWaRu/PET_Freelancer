@@ -15,8 +15,7 @@ import {
   ErrorMessage,
   Button,
 } from "./lib";
-import { Spinner } from "../shared";
-import { useModal } from "./modal";
+import { Spinner, useModal } from "../shared";
 import { useNotification } from "../context";
 import { IClient, NotificationType } from "../utils/types";
 
