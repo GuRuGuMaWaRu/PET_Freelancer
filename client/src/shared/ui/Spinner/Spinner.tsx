@@ -1,11 +1,17 @@
-import { SSpinner, SFullPageSpinnerContainer } from "./Spinner.styles";
+import styled from "@emotion/styled";
+import { keyframes } from "@emotion/react";
+import { FaSpinner } from "react-icons/fa";
 
-function FullPageSpinner() {
-  return (
-    <SFullPageSpinnerContainer>
-      <SSpinner />
-    </SFullPageSpinnerContainer>
-  );
-}
+const spin = keyframes({
+  "0%": { transform: "rotate(0deg)" },
+  "100%": { transform: "rotate(360deg)" },
+});
 
-export { FullPageSpinner, SSpinner as Spinner };
+const Spinner = styled(FaSpinner)({
+  animation: `${spin} 1s linear infinite`,
+});
+Spinner.defaultProps = {
+  "aria-label": "loading",
+};
+
+export { Spinner };
