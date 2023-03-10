@@ -13,7 +13,7 @@ import {
 
 import { IEarningsByClient, formatUSD } from "../utils";
 import { STooltipContainer, STooltipContents } from "./dashboard.styles";
-import * as colors from "../styles/colors";
+import { colors } from "../shared";
 
 interface IProps {
   data: IEarningsByClient[];

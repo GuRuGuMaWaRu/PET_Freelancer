@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import * as colors from "../../../styles/colors";
+import { colors } from "../../";
 
 const buttonVariants = {
   primary: {

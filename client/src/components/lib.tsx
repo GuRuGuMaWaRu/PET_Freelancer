@@ -11,7 +11,7 @@ import styled from "@emotion/styled";
 import { FaTimes, FaExclamationCircle, FaCheck } from "react-icons/fa";
 import { matchSorter } from "match-sorter";
 
-import * as colors from "../styles/colors";
+import { colors } from "../shared";
 import { NotificationType, ChartType, useThrottle } from "../utils";
 
 /* Form components */

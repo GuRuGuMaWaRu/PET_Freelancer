@@ -17,14 +17,14 @@ import {
   Modal,
   ModalOpenButton,
   ModalContents,
+  colors,
+  mq,
 } from "../shared";
 import { ProjectSearchInput } from "../features/projects/";
 import { ProjectListItem } from "../features/projects/";
 import { DeleteProjectForm } from "../features/projects/";
 import { EditProjectForm } from "../features/projects/";
 import { PAGE_LIMIT } from "../config";
-import * as colors from "../styles/colors";
-import * as mq from "../styles/media-queries";
 
 const getProjectsPageQuery = (
   page: number,

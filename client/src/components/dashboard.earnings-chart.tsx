@@ -13,7 +13,7 @@ import {
 
 import { IEarningsByMonth, formatUSD } from "../utils";
 import { STooltipContainer, STooltipContents } from "./dashboard.styles";
-import * as colors from "../styles/colors";
+import { colors } from "../shared";
 
 const formatDate = (
   date: number,

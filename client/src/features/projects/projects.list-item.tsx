@@ -1,10 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
-import { FaPen, FaRegTrashAlt } from "react-icons/fa";
 
 import { IProject } from "../../utils";
-import * as colors from "../../styles/colors";
-import * as mq from "../../styles/media-queries";
+import { colors, mq } from "../../shared";
 
 const SDataCell = styled.div<{ name: string }>(({ name }) => ({
   padding: ".9rem .5rem",

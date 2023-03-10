@@ -12,8 +12,6 @@ import {
   getProjectsForYear,
   getAllClients,
 } from "../utils";
-import * as mq from "../styles/media-queries";
-import * as colors from "../styles/colors";
 import {
   MemoDashboardTotals,
   MemoEarningsChart,
@@ -21,7 +19,14 @@ import {
   ChartSelectionButton,
   AddProjectForm,
 } from "../components";
-import { Button, Modal, ModalOpenButton, ModalContents } from "../shared";
+import {
+  Button,
+  Modal,
+  ModalOpenButton,
+  ModalContents,
+  colors,
+  mq,
+} from "../shared";
 
 const projectOneYearQuery = () => ({
   queryKey: ["projects", "oneyear"],
