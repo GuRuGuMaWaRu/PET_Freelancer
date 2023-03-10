@@ -6,7 +6,7 @@ import "./bootstrap";
 import reportWebVitals from "./reportWebVitals";
 import { AppProviders } from "./context";
 import { App } from "./app";
-import { FullPageError } from "./shared";
+import { FullPageError } from "./shared/ui";
 
 if (process.env.NODE_ENV === "development") {
   const { server } = require("./test/server/dev-server");

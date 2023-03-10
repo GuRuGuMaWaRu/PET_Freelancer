@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import { IProject } from "../../utils";
-import { colors, mq } from "../../shared";
+import { colors, mq } from "../../shared/const";
 
 const SDataCell = styled.div<{ name: string }>(({ name }) => ({
   padding: ".9rem .5rem",

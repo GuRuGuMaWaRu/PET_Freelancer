@@ -5,7 +5,7 @@ import {
   MdOutlineArrowBackIos,
   MdOutlineArrowForwardIos,
 } from "react-icons/md";
-import { colors } from "../shared";
+import { colors } from "../shared/const";
 
 const SPaginationContainer = styled.div({
   display: "flex",

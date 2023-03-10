@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-import { colors } from "../../";
+import { colors } from "../../const";
 
 const SFullPageSpinnerContainer = styled.div({
   position: "absolute",

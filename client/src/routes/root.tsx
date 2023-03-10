@@ -3,7 +3,8 @@ import React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 
 import { useAuth } from "../context";
-import { Button, colors, mq } from "../shared";
+import { Button } from "../shared/ui";
+import { colors, mq } from "../shared/const";
 
 function TopBar() {
   const { user, logout } = useAuth();

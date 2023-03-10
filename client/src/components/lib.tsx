@@ -1,40 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
-import {
-  Combobox as ReachCombobox,
-  ComboboxInput as ReachComboboxInput,
-  ComboboxPopover as ReachComboboxPopover,
-  ComboboxList as ReachComboboxList,
-  ComboboxOption as ReachComboboxOption,
-} from "@reach/combobox";
 import styled from "@emotion/styled";
 import { FaTimes, FaExclamationCircle, FaCheck } from "react-icons/fa";
-import { matchSorter } from "match-sorter";
 
-import { colors } from "../shared";
-import { NotificationType, ChartType, useThrottle } from "../utils";
-
-/* Form components */
-const FormGroup = styled.div({
-  display: "flex",
-  flexDirection: "column",
-});
-
-const inputStyles = {
-  padding: "6px 10px",
-  border: `1px solid ${colors.white}`,
-  borderRadius: "3px",
-};
-
-const Input = styled.input(inputStyles);
-const Select = styled.select(inputStyles);
-const Textarea = styled.textarea(inputStyles);
-const StyledReachComboboxInput = styled(ReachComboboxInput)(
-  { width: "100%" },
-  inputStyles,
-);
-
-const Label = styled.label({ margin: "10px 0 5px" });
+import { colors } from "../shared/const";
+import { NotificationType, ChartType } from "../utils";
 
 interface ChartSelectionButtonProps {
   variant: "earnings" | "clients";
@@ -54,60 +23,6 @@ const ChartSelectionButton = styled.button<ChartSelectionButtonProps>(
         : "transparent",
     clipPath: "polygon(10% 0, 100% 0%, 90% 100%, 0% 100%)",
   }),
-);
-
-function useItemMatch<T>(items: T[], term: string) {
-  const throttledTerm = useThrottle(term, 100);
-  return React.useMemo(
-    () =>
-      throttledTerm.trim() === ""
-        ? null
-        : matchSorter(items, throttledTerm, {
-            keys: ["name"],
-          }),
-    [items, throttledTerm],
-  );
-}
-
-interface IComboboxItem {
-  _id: string;
-  name: string;
-}
-interface IComboboxProps {
-  label: string;
-  items: IComboboxItem[];
-  name: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
-}
-
-const Combobox = React.forwardRef<HTMLInputElement, IComboboxProps>(
-  ({ label = "choose an item", items, name, onChange, onBlur }, ref) => {
-    const [term, setTerm] = React.useState<string>("");
-    const results = useItemMatch(items, term);
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-      setTerm(event.target.value);
-      onChange(event);
-    };
-
-    return (
-      <ReachCombobox aria-label={label}>
-        <StyledReachComboboxInput
-          onChange={handleChange}
-          name={name}
-          onBlur={onBlur}
-          ref={ref}
-        />
-        <ReachComboboxPopover>
-          <ReachComboboxList>
-            {results?.map((item) => (
-              <ReachComboboxOption key={item._id} value={item.name} />
-            ))}
-          </ReachComboboxList>
-        </ReachComboboxPopover>
-      </ReachCombobox>
-    );
-  },
 );
 
 /* Error components */
@@ -217,13 +132,7 @@ const CloseIcon = styled(FaTimes)({
 });
 
 export {
-  FormGroup,
-  Input,
-  Select,
-  Textarea,
-  Label,
   ChartSelectionButton,
-  Combobox,
   ErrorMessage,
   NotificationMessage,
   WarningIcon,

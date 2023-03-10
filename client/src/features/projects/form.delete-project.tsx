@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 import { useFetcher } from "react-router-dom";
 
 import { IProject } from "../../utils";
-import { Button, Spinner, useModal, colors } from "../../shared";
+import { Button, Spinner, useModal } from "../../shared/ui";
+import { colors } from "../../shared/const";
 import { useNotification } from "../../context";
 import { NotificationType } from "../../utils/types";
 

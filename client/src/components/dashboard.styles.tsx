@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors } from "../shared";
+import { colors } from "../shared/const";
 
 const STooltipContainer = styled("div")({
   background: colors.white,

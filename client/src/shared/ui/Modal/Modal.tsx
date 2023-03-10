@@ -7,7 +7,7 @@ import styled from "@emotion/styled";
 import { DialogOverlay } from "@reach/dialog";
 import { useTransition, animated } from "react-spring";
 
-import { colors, mq } from "../../";
+import { colors, mq } from "../../const";
 
 const callAll = (...fns: Array<(...args: unknown[]) => void>) => (
   ...args: unknown[]

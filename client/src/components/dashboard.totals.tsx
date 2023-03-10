@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 
-import { colors } from "../shared";
+import { colors } from "../shared/const";
 import { IEarnings, formatUSD } from "../utils";
 
 const getEarningsForThisMonth = (data: IEarnings[]): string => {

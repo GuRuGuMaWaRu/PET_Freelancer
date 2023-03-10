@@ -1,4 +1,4 @@
-import { Spinner } from "../../";
+import { Spinner } from "../";
 import { SFullPageSpinnerContainer } from "./FullPageSpinner.styles";
 
 function FullPageSpinner() {

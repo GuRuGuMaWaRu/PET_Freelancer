@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors } from "../../";
+import { colors } from "../../const";
 
 const SFullPageErrorContainer = styled.div({
   color: colors.danger,

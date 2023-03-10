@@ -17,9 +17,8 @@ import {
   Modal,
   ModalOpenButton,
   ModalContents,
-  colors,
-  mq,
-} from "../shared";
+} from "../shared/ui";
+import { colors, mq } from "../shared/const";
 import { ProjectSearchInput } from "../features/projects/";
 import { ProjectListItem } from "../features/projects/";
 import { DeleteProjectForm } from "../features/projects/";
