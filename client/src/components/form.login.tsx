@@ -2,9 +2,8 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { ErrorMessage } from "./lib";
 import { useAuth, useNotification } from "../context";
-import { Label, Input, FormGroup, Spinner } from "../shared/ui";
+import { Label, Input, FormGroup, Spinner, ErrorMessage } from "../shared/ui";
 import { useAsync } from "../utils";
 import {
   IResponseUserData,

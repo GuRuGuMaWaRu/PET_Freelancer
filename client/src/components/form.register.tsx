@@ -2,8 +2,7 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { ErrorMessage } from "./lib";
-import { Label, Input, FormGroup, Spinner } from "../shared/ui";
+import { Label, Input, FormGroup, Spinner, ErrorMessage } from "../shared/ui";
 import { useAuth, useNotification } from "../context";
 import { useAsync } from "../utils";
 import {

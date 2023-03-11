@@ -25,48 +25,6 @@ const ChartSelectionButton = styled.button<ChartSelectionButtonProps>(
   }),
 );
 
-/* Error components */
-const errorMessageVariants = {
-  stacked: { display: "block" },
-  inline: { display: "inline-block" },
-};
-
-interface Error {
-  message: string | undefined;
-}
-
-type ErrorVariant = "stacked" | "inline";
-
-function ErrorMessage({
-  error,
-  variant = "stacked",
-  ...props
-}: {
-  error: Error;
-  variant?: ErrorVariant;
-}) {
-  return (
-    <div
-      role="alert"
-      css={[
-        { color: colors.danger, backgroundColor: colors.primary },
-        errorMessageVariants[variant],
-      ]}
-      {...props}
-    >
-      {variant === "stacked" && <span>There was an error: </span>}
-      <pre
-        css={[
-          { whiteSpace: "break-spaces", margin: "0", marginBottom: -5 },
-          errorMessageVariants[variant],
-        ]}
-      >
-        {error.message ?? "Something bad happened!"}
-      </pre>
-    </div>
-  );
-}
-
 /* Notifications */
 const setNotificationColor = (type: NotificationType) => {
   switch (type) {
@@ -133,7 +91,6 @@ const CloseIcon = styled(FaTimes)({
 
 export {
   ChartSelectionButton,
-  ErrorMessage,
   NotificationMessage,
   WarningIcon,
   AccomplishedIcon,

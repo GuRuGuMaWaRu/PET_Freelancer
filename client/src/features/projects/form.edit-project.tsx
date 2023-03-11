@@ -5,7 +5,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { ErrorMessage } from "../../components/lib";
 import {
   Label,
   Input,
@@ -15,6 +14,7 @@ import {
   FormGroup,
   Button,
   Spinner,
+  ErrorMessage,
   useModal,
 } from "../../shared/ui";
 import { useNotification } from "../../context";
