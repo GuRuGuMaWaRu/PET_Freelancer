@@ -22,9 +22,12 @@ function NotificationProvider({ children }: { children: React.ReactNode }) {
     }
   }, [notification]);
 
-  const showNotification = (type: NotificationType, message: string) => {
-    setNotification({ type, message });
-  };
+  const showNotification = React.useCallback(
+    (type: NotificationType, message: string) => {
+      setNotification({ type, message });
+    },
+    [],
+  );
 
   const value = {
     notification,
