@@ -1,15 +1,27 @@
 import React from "react";
 import { useTransition, animated } from "react-spring";
-
 import { NotificationType, useNotification, NOTIFICATION_DURATION } from "..";
 import {
-  SAccomplishedIcon,
-  SWarningIcon,
   SCloseIcon,
   SNotificationMessage,
+  SAccomplishedIcon,
+  SWarningIcon,
 } from "./Notification.styles";
 
 const AnimatedNotificationMessage = animated(SNotificationMessage);
+
+const getNotificationIcon = (type: NotificationType) => {
+  switch (type) {
+    case NotificationType.create:
+    case NotificationType.delete:
+      return <SAccomplishedIcon />;
+    case NotificationType.error:
+    case NotificationType.fail:
+      return <SWarningIcon />;
+    default:
+      return <SWarningIcon />;
+  }
+};
 
 const Notification = () => {
   const {
@@ -41,19 +53,6 @@ const Notification = () => {
     setNotificationIsOpen(false);
   };
 
-  const notificationIcon = (type: NotificationType) => {
-    switch (type) {
-      case NotificationType.create:
-      case NotificationType.delete:
-        return <SAccomplishedIcon />;
-      case NotificationType.error:
-      case NotificationType.fail:
-        return <SWarningIcon />;
-      default:
-        return <SWarningIcon />;
-    }
-  };
-
   return transitions(
     (styles, item) =>
       item && (
@@ -69,7 +68,7 @@ const Notification = () => {
           }}
         >
           <>
-            {notificationIcon(notification?.type ?? NotificationType.error)}
+            {getNotificationIcon(notification?.type ?? NotificationType.error)}
             {notification?.message || "Oops! Something unexpected happened!"}
             <SCloseIcon onClick={handleCloseNotification}></SCloseIcon>
           </>
