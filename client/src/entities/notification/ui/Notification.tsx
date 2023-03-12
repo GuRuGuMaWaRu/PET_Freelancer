@@ -69,7 +69,7 @@ const Notification = () => {
           }}
         >
           <>
-            {notificationIcon}
+            {notificationIcon(notification?.type ?? NotificationType.error)}
             {notification?.message || "Oops! Something unexpected happened!"}
             <SCloseIcon onClick={handleCloseNotification}></SCloseIcon>
           </>
