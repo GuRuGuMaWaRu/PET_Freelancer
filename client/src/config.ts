@@ -1,4 +1,3 @@
-export const NOTIFICATION_DURATION = 4000;
 export const API_URL =
   process.env.NODE_ENV === "test"
     ? "http://localhost/api/v1"

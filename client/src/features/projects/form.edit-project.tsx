@@ -17,8 +17,8 @@ import {
   ErrorMessage,
   useModal,
 } from "../../shared/ui";
-import { useNotification } from "../../context";
-import { IClient, IProject, NotificationType } from "../../utils/types";
+import { NotificationType, useNotification } from "../../entities/notification";
+import { IClient, IProject } from "../../utils/types";
 
 interface IEditProjectForm {
   date: string;
@@ -67,26 +67,25 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
   });
   const fetcher = useFetcher();
   const { setIsOpen } = useModal();
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   const isLoading = fetcher.state !== "idle";
 
   //** Show ERROR or SUCCESS message */
   React.useEffect(() => {
     if (fetcher.data && !isLoading) {
-      setNotification({
-        type:
-          fetcher.data.status === "success"
-            ? NotificationType.create
-            : NotificationType.error,
-        message: fetcher.data.message,
-      });
+      const type =
+        fetcher.data.status === "success"
+          ? NotificationType.create
+          : NotificationType.error;
+
+      showNotification(type, fetcher.data.message);
     }
 
     if (fetcher?.data?.status === "success") {
       setIsOpen(false);
     }
-  }, [fetcher.data, isLoading, setIsOpen, setNotification]);
+  }, [fetcher.data, isLoading, setIsOpen, showNotification]);
 
   const formSubmit: SubmitHandler<IEditProjectForm> = (data) => {
     let formData = new FormData();

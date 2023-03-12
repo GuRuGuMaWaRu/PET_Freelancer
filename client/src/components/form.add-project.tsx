@@ -17,8 +17,8 @@ import {
   useModal,
   ErrorMessage,
 } from "../shared/ui";
-import { useNotification } from "../context";
-import { IClient, NotificationType } from "../utils/types";
+import { NotificationType, useNotification } from "../entities/notification";
+import { IClient } from "../utils/types";
 
 interface IProps {
   clients: IClient[];
@@ -63,26 +63,25 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
   });
   const fetcher = useFetcher();
   const { setIsOpen } = useModal();
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   const isLoading = fetcher.state !== "idle";
 
   //** Show ERROR or SUCCESS message */
   React.useEffect(() => {
     if (fetcher.data && !isLoading) {
-      setNotification({
-        type:
-          fetcher.data.status === "success"
-            ? NotificationType.create
-            : NotificationType.error,
-        message: fetcher.data.message,
-      });
+      const type =
+        fetcher.data.status === "success"
+          ? NotificationType.create
+          : NotificationType.error;
+
+      showNotification(type, fetcher.data.message);
     }
 
     if (fetcher?.data?.status === "success") {
       setIsOpen(false);
     }
-  }, [fetcher.data, isLoading, setIsOpen, setNotification]);
+  }, [fetcher.data, isLoading, setIsOpen, showNotification]);
 
   const formSubmit: SubmitHandler<IAddProjectForm> = (data) => {
     let formData = new FormData();

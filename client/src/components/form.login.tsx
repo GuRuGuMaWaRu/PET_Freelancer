@@ -2,14 +2,10 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { useAuth, useNotification } from "../context";
+import { useAuth } from "../context";
 import { Label, Input, FormGroup, Spinner, ErrorMessage } from "../shared/ui";
-import { useAsync } from "../utils";
-import {
-  IResponseUserData,
-  ILoginFormInputs,
-  NotificationType,
-} from "../utils";
+import { IResponseUserData, ILoginFormInputs, useAsync } from "../utils";
+import { NotificationType, useNotification } from "../entities/notification";
 
 const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
   const {
@@ -21,7 +17,7 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
     IResponseUserData,
     Error
   >();
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
   const { login } = useAuth();
   const submit: SubmitHandler<ILoginFormInputs> = (data) => {
     run(login(data)).catch((error) => console.error(error));
@@ -29,12 +25,11 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
 
   React.useEffect(() => {
     if (isError) {
-      setNotification({
-        type: NotificationType.error,
-        message: error?.message ?? "There was an error",
-      });
+      const message = error?.message ?? "There was an error";
+
+      showNotification(NotificationType.error, message);
     }
-  }, [error, isError, setNotification]);
+  }, [error, isError, showNotification]);
 
   return (
     <form onSubmit={handleSubmit(submit)}>

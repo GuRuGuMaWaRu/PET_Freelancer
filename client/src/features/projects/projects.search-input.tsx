@@ -4,8 +4,7 @@ import styled from "@emotion/styled";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import Tooltip from "@reach/tooltip";
 
-import { useNotification } from "../../context";
-import { NotificationType } from "../../utils";
+import { NotificationType, useNotification } from "../../entities/notification";
 import { Input } from "../../shared/ui";
 import { colors } from "../../shared/const";
 
@@ -43,7 +42,7 @@ interface IProps {
 
 const ProjectSearchInput: React.FC<IProps> = ({ onSearch }) => {
   const [searchInput, setSearchInput] = React.useState<string>("");
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,10 +50,10 @@ const ProjectSearchInput: React.FC<IProps> = ({ onSearch }) => {
     if (searchInput.length >= 3 || searchInput.length === 0) {
       onSearch(searchInput);
     } else {
-      setNotification({
-        type: NotificationType.warning,
-        message: "Enter at least 3 characters into Search field",
-      });
+      showNotification(
+        NotificationType.warning,
+        "Enter at least 3 characters into Search field",
+      );
     }
   };
 

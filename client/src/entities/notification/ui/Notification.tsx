@@ -1,54 +1,58 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { useTransition, animated } from "react-spring";
 
-import { NOTIFICATION_DURATION } from "../config";
-import { useNotification } from "../context";
+import { NotificationType, useNotification, NOTIFICATION_DURATION } from "..";
 import {
-  NotificationMessage,
-  WarningIcon,
-  AccomplishedIcon,
-  CloseIcon,
-} from "./lib";
-import { NotificationType } from "../utils";
+  SAccomplishedIcon,
+  SWarningIcon,
+  SCloseIcon,
+  SNotificationMessage,
+} from "./Notification.styles";
 
-const AnimatedNotificationMessage = animated(NotificationMessage);
+const AnimatedNotificationMessage = animated(SNotificationMessage);
 
-const Notification: React.FC = () => {
+const Notification = () => {
   const {
     notification,
-    showNotification,
-    setShowNotification,
+    notificationIsOpen,
+    setNotificationIsOpen,
   } = useNotification();
-  const transitions = useTransition(showNotification, {
+  const transitions = useTransition(notificationIsOpen, {
     from: { opacity: 0, y: 20 },
     enter: { opacity: 1, y: 0 },
     leave: { opacity: 0, y: 20 },
-    reverse: showNotification,
+    reverse: notificationIsOpen,
     delay: 200,
   });
-  const timeoutId = useRef<number>();
+  const timeoutId = React.useRef<number>();
 
-  useEffect(() => {
-    if (showNotification) {
+  React.useEffect(() => {
+    if (notificationIsOpen) {
       timeoutId.current = window.setTimeout(
-        () => setShowNotification(false),
+        () => setNotificationIsOpen(false),
         NOTIFICATION_DURATION,
       );
     }
     return () => window.clearTimeout(timeoutId.current);
-  }, [showNotification, setShowNotification]);
+  }, [notificationIsOpen, setNotificationIsOpen]);
 
   const handleCloseNotification = () => {
     clearTimeout(timeoutId.current);
-    setShowNotification(false);
+    setNotificationIsOpen(false);
   };
 
-  const notificationIcon =
-    notification?.type === "create" || notification?.type === "delete" ? (
-      <AccomplishedIcon />
-    ) : (
-      <WarningIcon />
-    );
+  const notificationIcon = (type: NotificationType) => {
+    switch (type) {
+      case NotificationType.create:
+      case NotificationType.delete:
+        return <SAccomplishedIcon />;
+      case NotificationType.error:
+      case NotificationType.fail:
+        return <SWarningIcon />;
+      default:
+        return <SWarningIcon />;
+    }
+  };
 
   return transitions(
     (styles, item) =>
@@ -67,7 +71,7 @@ const Notification: React.FC = () => {
           <>
             {notificationIcon}
             {notification?.message || "Oops! Something unexpected happened!"}
-            <CloseIcon onClick={handleCloseNotification}></CloseIcon>
+            <SCloseIcon onClick={handleCloseNotification}></SCloseIcon>
           </>
         </AnimatedNotificationMessage>
       ),

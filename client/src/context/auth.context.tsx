@@ -7,10 +7,9 @@ import {
   IResponseUserData,
   ILoginFormInputs,
   IRegisterFormInputs,
-  NotificationType,
 } from "../utils";
 import { FullPageSpinner, FullPageError } from "../shared/ui";
-import { useNotification } from "./";
+import { NotificationType, useNotification } from "../entities/notification";
 import { localStorageKey } from "../config";
 
 interface IState {
@@ -28,7 +27,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     IResponseUserData,
     Error
   >();
-  const { setNotification } = useNotification();
+  const { showNotification } = useNotification();
 
   React.useEffect(() => {
     async function bootstrapUser() {
@@ -42,10 +41,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           console.log(e);
 
           if (e.code !== 406) {
-            setNotification({
-              type: NotificationType.error,
-              message: e.message,
-            });
+            showNotification(NotificationType.error, e.message);
           }
 
           return { data: null };
@@ -57,7 +53,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     run(bootstrapUser());
-  }, [run, setNotification]);
+  }, [run, showNotification]);
 
   const login = React.useCallback(
     async (data: ILoginFormInputs) => {
