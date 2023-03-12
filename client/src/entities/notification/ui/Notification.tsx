@@ -33,7 +33,6 @@ const Notification = () => {
     from: { opacity: 0, y: 20 },
     enter: { opacity: 1, y: 0 },
     leave: { opacity: 0, y: 20 },
-    reverse: notificationIsOpen,
     delay: 200,
   });
   const timeoutId = React.useRef<number>();
