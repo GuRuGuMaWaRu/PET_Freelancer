@@ -2,43 +2,37 @@ import React from "react";
 import {
   Notification,
   INotification,
-  INotificationState,
+  INotificationContext,
   NotificationType,
 } from "..";
 
-const NotificationContext = React.createContext<INotificationState>(
-  {} as INotificationState,
+const NotificationContext = React.createContext<INotificationContext>(
+  {} as INotificationContext,
 );
 
 function NotificationProvider({ children }: { children: React.ReactNode }) {
-  const [notificationIsOpen, setNotificationIsOpen] = React.useState(false);
   const [notification, setNotification] = React.useState<INotification | null>(
     null,
   );
-
-  React.useEffect(() => {
-    if (notification) {
-      setNotificationIsOpen(true);
-    }
-  }, [notification]);
+  const [isShown, setIsShown] = React.useState<boolean>(false);
 
   const showNotification = React.useCallback(
     (type: NotificationType, message: string) => {
       setNotification({ type, message });
+      setIsShown(true);
     },
     [],
   );
 
-  const value = {
-    notification,
-    showNotification,
-    notificationIsOpen,
-    setNotificationIsOpen,
-  };
+  const hideNotification = () => setIsShown(false);
 
   return (
-    <NotificationContext.Provider value={value}>
-      <Notification />
+    <NotificationContext.Provider value={{ showNotification }}>
+      <Notification
+        notification={notification}
+        hideNotification={hideNotification}
+        isShown={isShown}
+      />
       {children}
     </NotificationContext.Provider>
   );

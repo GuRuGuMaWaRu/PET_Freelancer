@@ -1,6 +1,10 @@
 import React from "react";
 import { useTransition, animated } from "react-spring";
-import { NotificationType, useNotification, NOTIFICATION_DURATION } from "..";
+import {
+  NotificationType,
+  INotificationProps,
+  NOTIFICATION_DURATION,
+} from "..";
 import {
   SCloseIcon,
   SNotificationMessage,
@@ -23,13 +27,12 @@ const getNotificationIcon = (type: NotificationType) => {
   }
 };
 
-const Notification = () => {
-  const {
-    notification,
-    notificationIsOpen,
-    setNotificationIsOpen,
-  } = useNotification();
-  const transitions = useTransition(notificationIsOpen, {
+function Notification({
+  notification,
+  hideNotification,
+  isShown,
+}: INotificationProps) {
+  const transitions = useTransition(isShown, {
     from: { opacity: 0, y: 20 },
     enter: { opacity: 1, y: 0 },
     leave: { opacity: 0, y: 20 },
@@ -38,18 +41,18 @@ const Notification = () => {
   const timeoutId = React.useRef<number>();
 
   React.useEffect(() => {
-    if (notificationIsOpen) {
+    if (notification) {
       timeoutId.current = window.setTimeout(
-        () => setNotificationIsOpen(false),
+        () => hideNotification(),
         NOTIFICATION_DURATION,
       );
     }
     return () => window.clearTimeout(timeoutId.current);
-  }, [notificationIsOpen, setNotificationIsOpen]);
+  }, [notification, hideNotification]);
 
   const handleCloseNotification = () => {
     clearTimeout(timeoutId.current);
-    setNotificationIsOpen(false);
+    hideNotification();
   };
 
   return transitions(
@@ -74,6 +77,6 @@ const Notification = () => {
         </AnimatedNotificationMessage>
       ),
   );
-};
+}
 
 export { Notification };

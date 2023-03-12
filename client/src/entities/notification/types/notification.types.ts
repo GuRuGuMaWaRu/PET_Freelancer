@@ -9,11 +9,14 @@ interface INotificationMessageProps {
   type: NotificationType;
 }
 
-interface INotificationState {
-  notification: INotification | null;
+interface INotificationContext {
   showNotification: (type: NotificationType, message: string) => void;
-  notificationIsOpen: boolean;
-  setNotificationIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export type { INotification, INotificationMessageProps, INotificationState }
+interface INotificationProps {
+  notification: INotification | null;
+  hideNotification: () => void;
+  isShown: boolean;
+}
+
+export type { INotification, INotificationMessageProps, INotificationContext, INotificationProps }
