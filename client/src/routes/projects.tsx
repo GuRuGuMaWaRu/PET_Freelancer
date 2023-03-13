@@ -10,13 +10,14 @@ import {
   getPageOfProjects,
   getAllClients,
 } from "../utils";
-import { AddProjectForm, MemoPagination } from "../components";
+import { AddProjectForm } from "../components";
 import {
   Button,
   FullPageSpinner,
   Modal,
   ModalOpenButton,
   ModalContents,
+  MemoPagination,
 } from "../shared/ui";
 import { colors, mq } from "../shared/const";
 import { ProjectSearchInput } from "../features/projects/";
