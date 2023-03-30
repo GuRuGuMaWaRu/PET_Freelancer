@@ -14,10 +14,12 @@ const getPages = (
       { page: 8, next_previous: true },
       { page: totalPages },
     ];
-  } else if (currentPage >= totalPages - 4) {
+  }
+
+  if (currentPage >= totalPages - 4) {
     return [
       { page: 1 },
-      { page: 2, next_previous: true },
+      { page: totalPages - 7, next_previous: true },
       ...Array.from({ length: 7 }, (_, index) => ({
         page: totalPages - index,
       })).reverse(),
