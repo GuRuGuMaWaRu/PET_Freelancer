@@ -12,6 +12,7 @@ function AppUnauthenticated() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        marginTop: "-5rem",
         backgroundColor: colors.dashboardPageBg,
       }}
     >

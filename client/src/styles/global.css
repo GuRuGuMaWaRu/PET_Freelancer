@@ -30,7 +30,7 @@ body {
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   /* line-height: 1.5; */
-  background-color: var(--color-main-bg);
+  background-color: rgb(106 72 220);
 }
 input,
 button,
@@ -85,3 +85,36 @@ h3 {
 button {
   cursor: pointer;
 }
+
+/* loading skeletons */
+/* $skeletonLoadingGradientWidth: 1200px;
+$skeletonLoadingGradient: linear-gradient(to right, rgba(#8c8c8c, 0.05) 0%, rgba(#8c8c8c, 0.1) 15%, rgba(#8c8c8c, 0.05) 30%);
+
+@keyframes loading {
+  0% {
+    background-position: -$skeletonLoadingGradientWidth 0;
+  }
+  100% {
+    background-position: $skeletonLoadingGradientWidth 0;
+  }
+}
+
+.loading {
+  animation: loading 3s linear;
+  animation-iteration-count: infinite;
+  background-image: $skeletonLoadingGradient;
+  background-size: $skeletonLoadingGradientWidth 100%;
+
+  &.issue-loading {
+    width: 100%;
+    height: 10rem;
+    border-radius: 3px;
+    margin: 0.25rem 0;
+  }
+  
+  &.sidebar-loading {
+    width: 100%;
+    height: 3rem;
+    margin: 0.25rem 0;
+  }
+} */
