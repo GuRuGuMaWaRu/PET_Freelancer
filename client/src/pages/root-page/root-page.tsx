@@ -1,27 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import { TopBar, NavBar } from "../../widgets";
 import { colors, mq } from "../../shared/const";
-
-const getBgColor = (pathname: string) => {
-  if (pathname.startsWith("/projects")) {
-    return colors.greenLight1;
-  }
-  if (pathname.startsWith("/clients")) {
-    return colors.clientsPageBg;
-  }
-
-  return colors.dashboardPageBg;
-};
+import { useChangeBGColor } from "../../shared/lib";
 
 function Root() {
-  const { pathname } = useLocation();
-
-  React.useEffect(() => {
-    document.body.style.backgroundColor = getBgColor(pathname);
-  }, [pathname]);
+  useChangeBGColor();
 
   return (
     <div
