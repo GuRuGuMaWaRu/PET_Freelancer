@@ -2,36 +2,8 @@
 import React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 
-import { useAuth } from "../../context";
-import { Button } from "../../shared/ui";
+import { TopBar } from "../../shared/ui";
 import { colors, mq } from "../../shared/const";
-
-function TopBar() {
-  const { user, logout } = useAuth();
-
-  return (
-    <div
-      css={{
-        gridColumn: "5 / 5",
-        display: "grid",
-        gridTemplateColumns: "repeat(2, 1fr)",
-        gridGap: "20px",
-        alignItems: "center",
-        marginRight: "10px",
-        [mq.medium]: {
-          gridColumn: "5",
-        },
-      }}
-    >
-      <div style={{ textAlign: "right", whiteSpace: "nowrap" }}>
-        Hi, {user?.name}
-      </div>
-      <Button variant="secondary" onClick={logout}>
-        Logout
-      </Button>
-    </div>
-  );
-}
 
 const navLinks = [
   { to: "/", name: "Main" },
