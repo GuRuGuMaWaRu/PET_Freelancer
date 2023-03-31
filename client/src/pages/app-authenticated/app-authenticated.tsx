@@ -2,8 +2,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { FullPageSpinner } from "../../shared/ui";
 import { ErrorPage } from "../error-page/error-page";
+import { Root } from "../root-page/root-page";
 import {
-  Root,
   Dashboard,
   dashboardLoader,
   Projects,
