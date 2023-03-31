@@ -1,10 +1,7 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useRouteError,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { FullPageSpinner } from "../../shared/ui";
+import { ErrorPage } from "../error-page/error-page";
 import {
   Root,
   Dashboard,
@@ -18,20 +15,6 @@ import {
   NotFoundScreen,
 } from "../../routes";
 import { queryClient } from "../../context";
-
-function ErrorPage() {
-  const error = useRouteError() as { statusText: string; message: string };
-
-  return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error.statusText || error.message}</i>
-      </p>
-    </div>
-  );
-}
 
 const router = createBrowserRouter([
   {
