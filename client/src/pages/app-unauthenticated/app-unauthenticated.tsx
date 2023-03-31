@@ -1,29 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { LoginForm, RegisterForm } from "./components";
-import { Button, Modal, ModalOpenButton, ModalContents } from "./shared/ui";
-import { colors } from "./shared/const";
+import { LoginForm, RegisterForm } from "../../components";
+import { Button, Modal, ModalOpenButton, ModalContents } from "../../shared/ui";
+import { SContainer, SAppTitle, SButtons } from "./app-unauthenticated.styles";
 
 function AppUnauthenticated() {
   return (
-    <div
-      css={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "-5rem",
-        backgroundColor: colors.dashboardPageBg,
-      }}
-    >
-      <h1 css={{ color: "#fff", fontSize: "3em" }}>Freelancer</h1>
-      <div
-        css={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          columnGap: "20px",
-        }}
-      >
+    <SContainer>
+      <SAppTitle>Freelancer</SAppTitle>
+      <SButtons>
         <Modal>
           <ModalOpenButton>
             <Button>Login</Button>
@@ -40,8 +24,8 @@ function AppUnauthenticated() {
             <RegisterForm submitButton={<Button>Register</Button>} />
           </ModalContents>
         </Modal>
-      </div>
-    </div>
+      </SButtons>
+    </SContainer>
   );
 }
 

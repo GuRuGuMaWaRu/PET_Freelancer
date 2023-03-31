@@ -4,7 +4,9 @@ import React from "react";
 import { useAuth } from "./context";
 import { FullPageSpinner } from "./shared/ui";
 
-const AppUnauthenticated = React.lazy(() => import("./app-unauthenticated"));
+const AppUnauthenticated = React.lazy(() =>
+  import("./pages/app-unauthenticated/app-unauthenticated"),
+);
 const AppAuthenticated = React.lazy(() =>
   /* webpackPrefetch: true */ import("./app-authenticated"),
 );

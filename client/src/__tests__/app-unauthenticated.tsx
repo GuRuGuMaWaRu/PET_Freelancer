@@ -8,7 +8,7 @@ import {
   within,
   waitForLoadingToFinish,
 } from "../test/test-helpers";
-import AppUnauthenticated from "../app-unauthenticated";
+import AppUnauthenticated from "../pages/app-unauthenticated/app-unauthenticated";
 
 async function renderAuthModal(modal = "login") {
   const user = userEvent.setup();
