@@ -8,7 +8,9 @@ const AppUnauthenticated = React.lazy(() =>
   import("./pages/app-unauthenticated/app-unauthenticated"),
 );
 const AppAuthenticated = React.lazy(() =>
-  /* webpackPrefetch: true */ import("./app-authenticated"),
+  /* webpackPrefetch: true */ import(
+    "./pages/app-authenticated/app-authenticated"
+  ),
 );
 
 function App() {

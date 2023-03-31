@@ -1,6 +1,10 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useRouteError,
+} from "react-router-dom";
 
-import { FullPageSpinner } from "./shared/ui";
+import { FullPageSpinner } from "../../shared/ui";
 import {
   Root,
   Dashboard,
@@ -12,10 +16,8 @@ import {
   projectsEditAction,
   Clients,
   NotFoundScreen,
-} from "./routes";
-import { queryClient } from "./context";
-
-import { useRouteError } from "react-router-dom";
+} from "../../routes";
+import { queryClient } from "../../context";
 
 function ErrorPage() {
   const error = useRouteError() as { statusText: string; message: string };
