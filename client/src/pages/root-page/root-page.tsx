@@ -2,7 +2,7 @@
 import React from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
 
-import { TopBar } from "../../shared/ui";
+import { TopBar } from "../../widgets";
 import { colors, mq } from "../../shared/const";
 
 const navLinks = [
