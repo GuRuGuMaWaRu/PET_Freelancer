@@ -29,7 +29,7 @@ export const clientsPageBg = "#c17750";
 
 export const dashboardModalBg = "rgb(120 92 211)";
 
-export const greenLight1 = "#3c8b5a";
+export const greenLight1 = "rgb(60, 139, 90)";
 export const greenLight2 = "#4db575";
 export const greenDark1 = "#3d6a4e";
 export const greenDark2 = "#49815e";

@@ -22,4 +22,4 @@ function useChangeBGColor() {
   }, [pathname]);
 }
 
-export { useChangeBGColor };
+export { getBgColor, useChangeBGColor };
