@@ -11,16 +11,16 @@ import {
   ChartType,
   getProjectsForYear,
   getAllClients,
-} from "../utils";
+} from "../../utils";
 import {
   MemoDashboardTotals,
   MemoEarningsChart,
   MemoClientsChart,
   ChartSelectionButton,
   AddProjectForm,
-} from "../components";
-import { Button, Modal, ModalOpenButton, ModalContents } from "../shared/ui";
-import { colors, mq } from "../shared/const";
+} from "../../components";
+import { Button, Modal, ModalOpenButton, ModalContents } from "../../shared/ui";
+import { colors, mq } from "../../shared/const";
 
 const projectOneYearQuery = () => ({
   queryKey: ["projects", "oneyear"],
