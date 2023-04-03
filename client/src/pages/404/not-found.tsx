@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
-function NotFoundScreen() {
+function NotFound() {
   return (
     <div
       css={{
@@ -14,4 +14,4 @@ function NotFoundScreen() {
   );
 }
 
-export { NotFoundScreen };
+export { NotFound };

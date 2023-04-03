@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { FullPageSpinner } from "../../shared/ui";
 import { ErrorPage } from "../error-page/error-page";
 import { Root } from "../root-page/root-page";
+import { NotFound } from "../404/not-found";
 import {
   Dashboard,
   dashboardLoader,
@@ -12,7 +13,6 @@ import {
   projectsDeleteAction,
   projectsEditAction,
   Clients,
-  NotFoundScreen,
 } from "../../routes";
 import { queryClient } from "../../context";
 
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
             path: "clients",
             element: <Clients />,
           },
-          { path: "*", element: <NotFoundScreen /> },
+          { path: "*", element: <NotFound /> },
         ],
       },
     ],
