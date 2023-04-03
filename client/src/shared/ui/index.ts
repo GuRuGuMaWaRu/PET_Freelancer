@@ -11,5 +11,5 @@ export {
 export { FullPageError } from "./FullPageError/FullPageError";
 export { FullPageSpinner } from "./FullPageSpinner/FullPageSpinner";
 export { Spinner } from "./Spinner/Spinner";
-export { useModal, Modal, ModalOpenButton, ModalContents } from "./Modal/Modal";
+export { useModal, Modal, ModalOpenButton, ModalContents } from "./Modal";
 export { MemoPagination } from "./Pagination/Pagination";
