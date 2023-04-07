@@ -1,10 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { FullPageSpinner } from "../../shared/ui";
-import { ErrorPage } from "../error-page/error-page";
-import { Root } from "../root-page/root-page";
-import { NotFound } from "../404/not-found";
-import { Dashboard, dashboardLoader } from "../dashboard/dashboard";
+import { Root, ErrorPage, NotFound, Dashboard, dashboardLoader } from "..";
 import {
   Projects,
   projectsLoader,
