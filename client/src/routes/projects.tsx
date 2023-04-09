@@ -4,12 +4,7 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import { FaSortUp, FaSortDown, FaPen, FaRegTrashAlt } from "react-icons/fa";
 
-import {
-  IProjectPaginatedData,
-  IClient,
-  getPageOfProjects,
-  getAllClients,
-} from "../utils";
+import { IProjectPaginatedData, getPageOfProjects } from "../utils";
 import { AddProjectForm } from "../components";
 import {
   Button,
@@ -19,12 +14,13 @@ import {
   ModalContents,
   MemoPagination,
 } from "../shared/ui";
-import { colors, mq } from "../shared/const";
+import { colors, mq, config } from "../shared/const";
+import type { IClient } from "../shared/types";
 import { ProjectSearchInput } from "../features/projects/";
 import { ProjectListItem } from "../features/projects/";
 import { DeleteProjectForm } from "../features/projects/";
 import { EditProjectForm } from "../features/projects/";
-import { PAGE_LIMIT } from "../config";
+import { getAllClients } from "../entities/clients/api";
 
 const getProjectsPageQuery = (
   page: number,
@@ -157,7 +153,7 @@ function Projects() {
   };
 
   //** Calculate total number of pages */
-  const pagesTotal = Math.ceil((projects?.allDocs ?? 0) / PAGE_LIMIT);
+  const pagesTotal = Math.ceil((projects?.allDocs ?? 0) / config.PAGE_LIMIT);
 
   return (
     <div>

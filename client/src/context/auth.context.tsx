@@ -3,14 +3,14 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import {
   useAsync,
-  client,
   IResponseUserData,
   ILoginFormInputs,
   IRegisterFormInputs,
 } from "../utils";
+import { config } from "../shared/const";
+import { client } from "../shared/api";
 import { FullPageSpinner, FullPageError } from "../shared/ui";
 import { NotificationType, useNotification } from "../entities/notification";
-import { localStorageKey } from "../config";
 
 interface IState {
   user: IResponseUserData | null | undefined;
@@ -31,13 +31,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   React.useEffect(() => {
     async function bootstrapUser() {
-      let user: IResponseUserData | null = null;
-
-      const token = window.localStorage.getItem(localStorageKey);
-      if (token) {
-        const res = await client<IResponseUserData>("users/getUser", {
-          token,
-        }).catch((e) => {
+      const res = await client<IResponseUserData>("users/getUser").catch(
+        (e) => {
           console.log(e);
 
           if (e.code !== 406) {
@@ -45,9 +40,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           }
 
           return { data: null };
-        });
-        user = res.data;
-      }
+        },
+      );
+
+      const user: IResponseUserData | null = res.data ?? null;
 
       return user;
     }
@@ -58,7 +54,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = React.useCallback(
     async (data: ILoginFormInputs) => {
       return client<IResponseUserData>("users/login", { data }).then((res) => {
-        window.localStorage.setItem(localStorageKey, res.data.token);
+        window.localStorage.setItem(config.localStorageKey, res.data.token);
         setData(res.data);
         return res.data;
       });
@@ -69,7 +65,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signup = React.useCallback(
     async (data: IRegisterFormInputs) => {
       return client<IResponseUserData>("users/signup", { data }).then((res) => {
-        window.localStorage.setItem(localStorageKey, res.data.token);
+        window.localStorage.setItem(config.localStorageKey, res.data.token);
         setData(res.data);
         return res.data;
       });
@@ -78,7 +74,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 
   const logout = React.useCallback(() => {
-    window.localStorage.removeItem(localStorageKey);
+    window.localStorage.removeItem(config.localStorageKey);
     queryClient.clear();
     setData(null);
   }, [queryClient, setData]);

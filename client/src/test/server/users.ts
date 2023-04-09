@@ -1,4 +1,4 @@
-import {usersKey} from '../../config'
+import { config } from '../../shared/const';
 
 interface IUser {
   name: string;
@@ -14,10 +14,10 @@ const users: Record<string, IUser> = {};
 load()
 
 function persist() {
-  window.localStorage.setItem(usersKey, JSON.stringify(users));
+  window.localStorage.setItem(config.usersKey, JSON.stringify(users));
 }
 function load() {
-  Object.assign(users, JSON.parse(window.localStorage.getItem(usersKey) || '{}'));
+  Object.assign(users, JSON.parse(window.localStorage.getItem(config.usersKey) || '{}'));
 }
 
 function addUser(newUser: IUser): void {

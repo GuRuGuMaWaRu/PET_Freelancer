@@ -1,6 +1,6 @@
-import { projectsKey } from "../../config";
+import { config } from "../../shared/const";
 import { buildProject } from '../generate';
-import type { IProject } from '../../utils';
+import type { IProject } from '../../shared/types';
 
 let projects: IProject[] = [];
 
@@ -8,12 +8,12 @@ let projects: IProject[] = [];
 // load();
 
 function persist() {
-  window.localStorage.setItem(projectsKey, JSON.stringify(projects));
+  window.localStorage.setItem(config.projectsKey, JSON.stringify(projects));
 }
 function load() {
   Object.assign(
     projects,
-    JSON.parse(window.localStorage.getItem(projectsKey) || "[]"),
+    JSON.parse(window.localStorage.getItem(config.projectsKey) || "[]"),
   );
 }
 

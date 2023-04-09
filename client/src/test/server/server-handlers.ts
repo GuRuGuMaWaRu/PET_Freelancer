@@ -1,12 +1,11 @@
 import { rest } from "msw";
 
-import { API_URL } from "../../config";
+import { config } from "../../shared/const";
 import { getUser, addUser, getUserByToken } from "./users";
 import { getProjects, getProjectsForYear } from "./projects";
-import { localStorageKey } from "../../config";
 
 export const handlers = [
-  rest.post(`${API_URL}/users/login`, async (req, res, ctx) => {
+  rest.post(`${config.API_URL}/users/login`, async (req, res, ctx) => {
     const {
       email,
       password,
@@ -26,7 +25,7 @@ export const handlers = [
       ctx.json({ status: "success", data: user }),
     );
   }),
-  rest.post(`${API_URL}/users/signup`, async (req, res, ctx) => {
+  rest.post(`${config.API_URL}/users/signup`, async (req, res, ctx) => {
     const {
       name,
       email,
@@ -56,9 +55,9 @@ export const handlers = [
     );
   }),
 
-  rest.get(`${API_URL}/users/getUser`, (req, res, ctx) => {
+  rest.get(`${config.API_URL}/users/getUser`, (req, res, ctx) => {
     // Check if the user is authenticated in this session
-    const token = localStorage.getItem(localStorageKey);
+    const token = localStorage.getItem(config.localStorageKey);
 
     if (!token) {
       // If not authenticated, respond with a 403 error
@@ -81,7 +80,7 @@ export const handlers = [
     );
   }),
 
-  rest.get(`${API_URL}/projects`, (req, res, ctx) => {
+  rest.get(`${config.API_URL}/projects`, (req, res, ctx) => {
     const projects = getProjects();
     return res(
       ctx.status(200),
@@ -93,7 +92,7 @@ export const handlers = [
     );
   }),
 
-  rest.get(`${API_URL}/projects/lastYear`, (req, res, ctx) => {
+  rest.get(`${config.API_URL}/projects/lastYear`, (req, res, ctx) => {
     const projects = getProjectsForYear();
     return res(
       ctx.status(200),

@@ -1,6 +1,8 @@
+import { config } from "../const";
+
 interface IConfig {
   data?: object;
-  token?: string;
+  useToken?: boolean;
   headers?: Record<string, string>;
   method?: "PATCH" | "DELETE";
 }
@@ -12,20 +14,27 @@ interface IResponse<T> {
 
 async function client<T>(
   endpoint: string,
-  { data, token, headers: customHeaders, ...customConfig }: IConfig = {},
+  {
+    data,
+    useToken = true,
+    headers: customHeaders,
+    ...customConfig
+  }: IConfig = {},
 ) {
-  const config = {
+  const options = {
     method: data ? "POST" : "GET",
     body: data ? JSON.stringify(data) : undefined,
     headers: {
-      Authorization: token ? `Bearer ${token}` : "",
+      Authorization: useToken
+        ? `Bearer ${window.localStorage.getItem(config.localStorageKey)}`
+        : "",
       "Content-Type": data ? "application/json" : "",
       ...customHeaders,
     },
     ...customConfig,
   };
 
-  return window.fetch(`/api/v1/${endpoint}`, config).then(async (response) => {
+  return window.fetch(`/api/v1/${endpoint}`, options).then(async (response) => {
     const data: IResponse<T> = await response.json();
 
     if (response.ok) {
