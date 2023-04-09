@@ -1,3 +1,5 @@
+import { IProject } from '../shared/types'
+
 interface IResponseUserData {
   name: string;
   email: string;
@@ -19,24 +21,6 @@ interface IRegisterFormInputs {
 interface IProjectPaginatedData {
   docs: IProject[];
   allDocs: number;
-}
-
-interface IProject {
-  _id: string;
-  user: string;
-  client: IClient;
-  projectNr: string;
-  payment: number;
-  currency: 'USD' | 'EUR' | 'GBP';
-  date: Date;
-  deleted: boolean;
-  paid: boolean;
-  comments?: string;
-}
-
-interface IClient {
-  _id: string;
-  name: string;
 }
 
 export enum ChartType {
@@ -68,8 +52,6 @@ export type {
   ILoginFormInputs,
   IRegisterFormInputs,
   IProjectPaginatedData,
-  IProject,
-  IClient,
   IEarnings,
   IEarningsByMonth,
   IEarningsByClient

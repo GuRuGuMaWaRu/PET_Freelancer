@@ -31,21 +31,25 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   React.useEffect(() => {
     async function bootstrapUser() {
-      const res = await client<IResponseUserData>("users/getUser").catch(
-        (e) => {
-          console.log(e);
+      const token = window.localStorage.getItem(config.localStorageKey);
 
-          if (e.code !== 406) {
-            showNotification(NotificationType.error, e.message);
-          }
+      if (token) {
+        const res = await client<IResponseUserData>("users/getUser").catch(
+          (e) => {
+            console.log(e);
 
-          return { data: null };
-        },
-      );
+            if (e.code !== 406) {
+              showNotification(NotificationType.error, e.message);
+            }
 
-      const user: IResponseUserData | null = res.data ?? null;
+            return { data: null };
+          },
+        );
 
-      return user;
+        return res.data;
+      }
+
+      return null;
     }
 
     run(bootstrapUser());
