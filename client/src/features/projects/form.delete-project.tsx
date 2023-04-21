@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { useFetcher } from "react-router-dom";
 
-import { IProject } from "../../utils";
+import { IProject } from "../../shared/types";
 import { Button, Spinner, useModal } from "../../shared/ui";
 import { colors } from "../../shared/const";
 import { NotificationType, useNotification } from "../../entities/notification";

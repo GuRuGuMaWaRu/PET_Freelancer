@@ -18,7 +18,7 @@ import {
   ErrorMessage,
 } from "../shared/ui";
 import { NotificationType, useNotification } from "../entities/notification";
-import { IClient } from "../utils/types";
+import { IClient } from "../shared/types";
 
 interface IProps {
   clients: IClient[];

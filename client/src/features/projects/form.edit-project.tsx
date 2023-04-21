@@ -18,7 +18,7 @@ import {
   useModal,
 } from "../../shared/ui";
 import { NotificationType, useNotification } from "../../entities/notification";
-import { IClient, IProject } from "../../utils/types";
+import { IClient, IProject } from "../../shared/types";
 
 interface IEditProjectForm {
   date: string;
