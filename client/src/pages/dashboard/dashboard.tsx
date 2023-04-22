@@ -8,10 +8,9 @@ import {
   MemoEarningsChart,
   MemoClientsChart,
   ChartSelectionButton,
-  AddProjectForm,
 } from "../../components";
-import { Button, Modal, ModalOpenButton, ModalContents } from "../../shared/ui";
-import { colors, mq } from "../../shared/const";
+import { mq } from "../../shared/const";
+import { AddProjectModal } from "widgets";
 
 function Dashboard() {
   const {
@@ -46,18 +45,7 @@ function Dashboard() {
             margin: "1rem 0",
           }}
         >
-          <Modal>
-            <ModalOpenButton>
-              <Button>Add Project</Button>
-            </ModalOpenButton>
-            <ModalContents
-              aria-label="Add Project Form"
-              title="Add Project"
-              bgColor={colors.dashboardModalBg}
-            >
-              <AddProjectForm clients={clients} />
-            </ModalContents>
-          </Modal>
+          <AddProjectModal clients={clients} />
           <div>
             <ChartSelectionButton
               variant="earnings"

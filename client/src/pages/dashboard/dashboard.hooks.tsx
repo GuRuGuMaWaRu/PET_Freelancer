@@ -1,10 +1,10 @@
 import React from "react";
 import { useQueries } from "@tanstack/react-query";
 
+import { getEarningsByMonths, getEarningsByClients } from './dashboard.helpers';
 import { projectsOneYearQuery } from "../../entities/projects/api";
 import { getAllClientsQuery } from "../../entities/clients/api";
 import type { IEarningsByMonth } from "../../utils";
-import { getEarningsByMonths, getEarningsByClients } from './dashboard.helpers';
 
 const useDashboardData = () => {
   const [{ data: projects = [] }, { data: clients = [] }] = useQueries({
