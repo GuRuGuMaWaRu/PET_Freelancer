@@ -1,5 +1,5 @@
+import { useGetColorFromPath } from './AddProjectModal.hooks';
 import { Button, Modal, ModalOpenButton, ModalContents } from "shared/ui";
-import { colors } from "shared/const";
 import type { IClient } from "shared/types";
 import { AddProjectForm } from "components";
 
@@ -8,6 +8,8 @@ interface IProps {
 }
 
 function AddProjectModal({ clients }: IProps) {
+  const color = useGetColorFromPath();
+
   return (
     <Modal>
       <ModalOpenButton>
@@ -16,7 +18,7 @@ function AddProjectModal({ clients }: IProps) {
       <ModalContents
         aria-label="Add Project Form"
         title="Add Project"
-        bgColor={colors.dashboardModalBg}
+        bgColor={color}
       >
         <AddProjectForm clients={clients} />
       </ModalContents>

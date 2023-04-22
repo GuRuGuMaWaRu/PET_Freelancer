@@ -5,9 +5,7 @@ import styled from "@emotion/styled";
 import { FaSortUp, FaSortDown, FaPen, FaRegTrashAlt } from "react-icons/fa";
 
 import { IProjectPaginatedData, getPageOfProjects } from "../utils";
-import { AddProjectForm } from "../components";
 import {
-  Button,
   FullPageSpinner,
   Modal,
   ModalOpenButton,
@@ -21,6 +19,7 @@ import { ProjectListItem } from "../features/projects/";
 import { DeleteProjectForm } from "../features/projects/";
 import { EditProjectForm } from "../features/projects/";
 import { getAllClients } from "../entities/clients/api";
+import { AddProjectModal } from 'widgets';
 
 const getProjectsPageQuery = (
   page: number,
@@ -159,18 +158,7 @@ function Projects() {
     <div>
       <SContainer>
         <ProjectSearchInput onSearch={handleSearch} />
-        <Modal>
-          <ModalOpenButton>
-            <Button>Add Project</Button>
-          </ModalOpenButton>
-          <ModalContents
-            aria-label="Add Project Form"
-            title="Add Project"
-            bgColor={colors.greenLight2}
-          >
-            <AddProjectForm clients={clients} />
-          </ModalContents>
-        </Modal>
+        <AddProjectModal clients={clients} />
       </SContainer>
       {isLoading ? (
         <FullPageSpinner />
