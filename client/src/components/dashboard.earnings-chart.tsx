@@ -60,51 +60,48 @@ interface IProps {
 
 function EarningsChart({ data }: IProps) {
   return (
-    <>
-      <h2>Earnings by Month</h2>
-      <ResponsiveContainer width={"100%"} height={500} min-width={300}>
-        <AreaChart
-          data={data}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 0,
-            bottom: 30,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="date"
-            stroke={colors.text2}
-            tickFormatter={(date) =>
-              formatDate(date, {
-                year: "numeric",
-                month: "numeric",
-              })
-            }
-            tickMargin={10}
-            tickLine={false}
-            axisLine={false}
-          />
-          <YAxis
-            dataKey="payment"
-            stroke={colors.text2}
-            tickMargin={10}
-            width={80}
-            tickLine={false}
-            axisLine={false}
-            tickFormatter={(value) => formatUSD(value)}
-          />
-          <Tooltip content={<CustomTooltip payload={data} />} />
-          <Area
-            type="monotone"
-            dataKey="payment"
-            stroke="#8884d8"
-            fill="#8884d8"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </>
+    <ResponsiveContainer width={"100%"} height={500} min-width={300}>
+      <AreaChart
+        data={data}
+        margin={{
+          top: 10,
+          right: 30,
+          left: 0,
+          bottom: 30,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis
+          dataKey="date"
+          stroke={colors.text2}
+          tickFormatter={(date) =>
+            formatDate(date, {
+              year: "numeric",
+              month: "numeric",
+            })
+          }
+          tickMargin={10}
+          tickLine={false}
+          axisLine={false}
+        />
+        <YAxis
+          dataKey="payment"
+          stroke={colors.text2}
+          tickMargin={10}
+          width={80}
+          tickLine={false}
+          axisLine={false}
+          tickFormatter={(value) => formatUSD(value)}
+        />
+        <Tooltip content={<CustomTooltip payload={data} />} />
+        <Area
+          type="monotone"
+          dataKey="payment"
+          stroke="#8884d8"
+          fill="#8884d8"
+        />
+      </AreaChart>
+    </ResponsiveContainer>
   );
 }
 

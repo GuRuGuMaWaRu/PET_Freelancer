@@ -78,6 +78,7 @@ function DashboardTotals({ data }: IDashboardTotalsProps) {
         display: "grid",
         gridTemplateColumns: "minmax(100px, 1fr) minmax(100px, 1fr)",
         gridGap: "1rem",
+        marginBottom: "2rem",
       }}
     >
       <Totals date={month} amount={earningsForThisMonth} />

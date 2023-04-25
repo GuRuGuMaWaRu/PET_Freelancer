@@ -1,16 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
-
 import { useDashboardData } from "./dashboard.hooks";
-import { SContainer } from "./dashboard.styles";
-import { ChartType } from "utils";
-import {
-  MemoDashboardTotals,
-  MemoEarningsChart,
-  MemoClientsChart,
-  ChartSelectionButton,
-} from "components";
-import { AddProjectModal } from "widgets";
+import { MemoDashboardTotals } from "components";
+import { AddProjectModal, ChartSection } from "widgets";
 
 function Dashboard() {
   const {
@@ -19,37 +10,17 @@ function Dashboard() {
     dataByMonth,
     clients,
   } = useDashboardData();
-  const [chartType, setChartType] = React.useState<ChartType>(
-    ChartType.earnings,
-  );
 
   return (
     <>
-      <MemoDashboardTotals data={earningsByMonth} />
-      <SContainer>
+      <div css={{ display: "flex", justifyContent: "flex-end" }}>
         <AddProjectModal clients={clients} />
-        <div>
-          <ChartSelectionButton
-            variant="earnings"
-            chartType={chartType}
-            onClick={() => setChartType(ChartType.earnings)}
-          >
-            Earnings
-          </ChartSelectionButton>
-          <ChartSelectionButton
-            variant="clients"
-            chartType={chartType}
-            onClick={() => setChartType(ChartType.clients)}
-          >
-            Clients
-          </ChartSelectionButton>
-        </div>
-      </SContainer>
-      {chartType === ChartType.earnings ? (
-        <MemoEarningsChart data={dataByMonth} />
-      ) : (
-        <MemoClientsChart data={dataByClient} />
-      )}
+      </div>
+      <MemoDashboardTotals data={earningsByMonth} />
+      <ChartSection
+        clientChartData={dataByClient}
+        monthsChartData={dataByMonth}
+      />
     </>
   );
 }

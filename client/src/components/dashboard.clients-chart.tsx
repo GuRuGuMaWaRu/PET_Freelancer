@@ -65,51 +65,48 @@ function ClientsChart({ data }: IProps) {
   ]);
 
   return (
-    <>
-      <h2>Earnings by Clients</h2>
-      <ResponsiveContainer width="100%" height={40 * data.length}>
-        <BarChart
-          data={data}
-          layout="vertical"
-          margin={{
-            top: 10,
-            right: 30,
-            left: 30,
-            bottom: 30,
-          }}
+    <ResponsiveContainer width="100%" height={40 * data.length}>
+      <BarChart
+        data={data}
+        layout="vertical"
+        margin={{
+          top: 10,
+          right: 30,
+          left: 30,
+          bottom: 30,
+        }}
+      >
+        <XAxis
+          dataKey="payment"
+          stroke={colors.text2}
+          type="number"
+          tickFormatter={(value) => formatUSD(value)}
+        />
+        <YAxis
+          dataKey="client"
+          type="category"
+          stroke={colors.text2}
+          width={longestClientName}
+          tickLine={false}
+          axisLine={false}
+        />
+        <Tooltip content={<CustomTooltip payload={data} />} />
+        <Bar
+          type="monotone"
+          dataKey="payment"
+          minPointSize={30}
+          stroke="#8884d8"
+          fill="#8884d8"
         >
-          <XAxis
+          <LabelList
             dataKey="payment"
-            stroke={colors.text2}
-            type="number"
-            tickFormatter={(value) => formatUSD(value)}
+            position="inside"
+            fill={colors.white}
+            formatter={(value: number) => formatUSD(value)}
           />
-          <YAxis
-            dataKey="client"
-            type="category"
-            stroke={colors.text2}
-            width={longestClientName}
-            tickLine={false}
-            axisLine={false}
-          />
-          <Tooltip content={<CustomTooltip payload={data} />} />
-          <Bar
-            type="monotone"
-            dataKey="payment"
-            minPointSize={30}
-            stroke="#8884d8"
-            fill="#8884d8"
-          >
-            <LabelList
-              dataKey="payment"
-              position="inside"
-              fill={colors.white}
-              formatter={(value: number) => formatUSD(value)}
-            />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </>
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
   );
 }
 

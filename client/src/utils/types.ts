@@ -23,11 +23,6 @@ interface IProjectPaginatedData {
   allDocs: number;
 }
 
-export enum ChartType {
-  earnings = "earnings",
-  clients = "clients",
-}
-
 interface IEarnings {
   id: string;
   date: Date;
