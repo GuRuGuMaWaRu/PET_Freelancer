@@ -34,4 +34,21 @@ const SChartDataContainer = styled.div({
   alignItems: "center",
 });
 
-export { SContainer, SChartSelectionButton, SChartDataContainer };
+const SChartTitle = styled.h2({
+  marginBlock: 0,
+  alignSelf: "center",
+});
+
+const SDateRange = styled.p({
+  marginBlockStart: 0,
+  opacity: 0.7,
+  fontSize: "0.9rem",
+});
+
+export {
+  SContainer,
+  SChartSelectionButton,
+  SChartDataContainer,
+  SChartTitle,
+  SDateRange,
+};

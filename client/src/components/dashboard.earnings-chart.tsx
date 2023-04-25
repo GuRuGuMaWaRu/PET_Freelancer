@@ -11,16 +11,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { IEarningsByMonth, formatUSD } from "../utils";
+import { IEarningsByMonth, formatUSD } from "utils";
 import { STooltipContainer, STooltipContents } from "./dashboard.styles";
-import { colors } from "../shared/const";
-
-const formatDate = (
-  date: number,
-  options: Intl.DateTimeFormatOptions,
-): string => {
-  return new Intl.DateTimeFormat("en-US", options).format(date);
-};
+import { colors } from "shared/const";
+import { formatDate } from "shared/lib";
 
 function CustomTooltip({
   active,

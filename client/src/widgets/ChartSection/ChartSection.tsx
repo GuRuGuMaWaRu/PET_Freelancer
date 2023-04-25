@@ -5,7 +5,10 @@ import {
   SContainer,
   SChartSelectionButton,
   SChartDataContainer,
+  SChartTitle,
+  SDateRange,
 } from "./ChartSection.styles";
+import { getDateRange } from "./ChartSection.helpers";
 import { MemoEarningsChart, MemoClientsChart } from "components";
 import { IEarningsByClient, IEarningsByMonth } from "utils";
 
@@ -19,6 +22,11 @@ function ChartSection({ clientChartData, monthsChartData }: IProps) {
     ChartType.earnings,
   );
 
+  const dateRange = getDateRange(
+    monthsChartData[0].date,
+    monthsChartData[monthsChartData.length - 1].date,
+  );
+
   const chartTitle =
     chartType === ChartType.earnings
       ? "Earnings by month"
@@ -27,7 +35,7 @@ function ChartSection({ clientChartData, monthsChartData }: IProps) {
   return (
     <SContainer>
       <SChartDataContainer>
-        <h2>{chartTitle}</h2>
+        <SChartTitle>{chartTitle}</SChartTitle>
         <div>
           <SChartSelectionButton
             variant={ChartType.earnings}
@@ -45,6 +53,7 @@ function ChartSection({ clientChartData, monthsChartData }: IProps) {
           </SChartSelectionButton>
         </div>
       </SChartDataContainer>
+      <SDateRange>{dateRange}</SDateRange>
       {chartType === ChartType.earnings ? (
         <MemoEarningsChart data={monthsChartData} />
       ) : (
