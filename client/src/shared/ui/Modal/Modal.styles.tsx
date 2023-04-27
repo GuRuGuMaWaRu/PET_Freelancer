@@ -1,9 +1,7 @@
-import * as React from "react";
-import VisuallyHidden from "@reach/visually-hidden";
 import { DialogContent as ReachDialogContent } from "@reach/dialog";
 import styled from "@emotion/styled";
 import { DialogOverlay } from "@reach/dialog";
-import { useTransition, animated } from "react-spring";
+import { animated } from "react-spring";
 
 import { colors, mq } from "../../const";
 
