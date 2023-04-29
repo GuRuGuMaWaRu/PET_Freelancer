@@ -9,8 +9,10 @@ import {
   SDateRange,
 } from "./ChartSection.styles";
 import { getDateRange } from "./ChartSection.helpers";
-import { MemoEarningsChart, MemoClientsChart } from "components";
-import { IEarningsByClient, IEarningsByMonth } from "utils";
+import type { IEarningsByClient } from "shared/types";
+import { MemoClientsChart } from "entities/charts";
+import { MemoEarningsChart } from "components";
+import type { IEarningsByMonth } from "utils";
 
 interface IProps {
   clientChartData: IEarningsByClient[];

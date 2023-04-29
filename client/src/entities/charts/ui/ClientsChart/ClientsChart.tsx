@@ -11,52 +11,14 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { IEarningsByClient, formatUSD } from "../utils";
-import { STooltipContainer, STooltipContents } from "./dashboard.styles";
-import { colors } from "../shared/const";
+import { STooltipContainer, STooltipContents } from "../../styles";
+import { getMaxLabelLength } from '../../helpers';
+import { colors } from "shared/const";
+import type { IEarningsByClient } from "shared/types";
+import { formatUSD } from "utils";
 
 interface IProps {
   data: IEarningsByClient[];
-}
-
-const getMaxLabelLength = (data: IEarningsByClient[]): number => {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d") as CanvasRenderingContext2D;
-  context.font = "16px outfit";
-
-  const clientNamesWidth = data.map((item) =>
-    Math.ceil(context.measureText(item.client).width),
-  );
-
-  return Math.max(...clientNamesWidth);
-};
-
-function CustomTooltip({
-  active,
-  payload,
-}: {
-  active?: boolean;
-  payload: any;
-}) {
-  if (active && payload && payload.length) {
-    return (
-      <STooltipContainer>
-        <STooltipContents>
-          <p>
-            <b>Client:</b> {payload[0].payload.client}
-          </p>
-          <p>
-            <b>Earnings:</b> ${payload[0].payload.payment}
-          </p>
-          <p>
-            <b># of projects:</b> {payload[0].payload.projects}
-          </p>
-        </STooltipContents>
-      </STooltipContainer>
-    );
-  }
-
-  return null;
 }
 
 function ClientsChart({ data }: IProps) {
@@ -90,7 +52,24 @@ function ClientsChart({ data }: IProps) {
           tickLine={false}
           axisLine={false}
         />
-        <Tooltip content={<CustomTooltip payload={data} />} />
+        <Tooltip content={({ active, payload }) => {
+          return active && payload && payload.length ? 
+            (
+              <STooltipContainer>
+                <STooltipContents>
+                  <p>
+                    <b>Client:</b> {payload[0].payload.client}
+                  </p>
+                  <p>
+                    <b>Earnings:</b> ${payload[0].payload.payment}
+                  </p>
+                  <p>
+                    <b># of projects:</b> {payload[0].payload.projects}
+                  </p>
+                </STooltipContents>
+              </STooltipContainer>
+            ) : null
+        }} />
         <Bar
           type="monotone"
           dataKey="payment"
@@ -107,7 +86,7 @@ function ClientsChart({ data }: IProps) {
         </Bar>
       </BarChart>
     </ResponsiveContainer>
-  );
+  )
 }
 
 export const MemoClientsChart = React.memo(ClientsChart);

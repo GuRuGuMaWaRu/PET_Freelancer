@@ -22,4 +22,10 @@ interface IClient {
   name: string;
 }
 
-export type { Error, ErrorVariant, IProject, IClient };
+interface IEarningsByClient {
+  client: string;
+  payment: number;
+  projects: number;
+}
+
+export type { Error, ErrorVariant, IProject, IClient, IEarningsByClient };
