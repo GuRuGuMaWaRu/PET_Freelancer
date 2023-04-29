@@ -1,8 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 
-import { colors } from "../shared/const";
-import { IEarnings, formatUSD } from "../utils";
+import { colors } from "shared/const";
+import { formatUSD } from "shared/lib";
+import type { IEarnings } from "utils";
 
 const getEarningsForThisMonth = (data: IEarnings[]): string => {
   const year = new Date().getFullYear();

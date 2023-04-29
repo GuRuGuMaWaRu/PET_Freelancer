@@ -11,10 +11,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { formatUSD } from "utils";
 import { STooltipContainer, STooltipContents } from "../../styles";
 import { colors } from "shared/const";
-import { formatDate } from "shared/lib";
+import { formatDate, formatUSD } from "shared/lib";
 import type { IEarningsByMonth } from "shared/types";
 
 interface IProps {

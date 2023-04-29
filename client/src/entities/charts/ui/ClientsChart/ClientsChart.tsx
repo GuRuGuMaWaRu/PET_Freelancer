@@ -14,8 +14,8 @@ import {
 import { STooltipContainer, STooltipContents } from "../../styles";
 import { getMaxLabelLength } from '../../helpers';
 import { colors } from "shared/const";
+import { formatUSD } from "shared/lib";
 import type { IEarningsByClient } from "shared/types";
-import { formatUSD } from "utils";
 
 interface IProps {
   data: IEarningsByClient[];
