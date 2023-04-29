@@ -12,42 +12,10 @@ import {
 } from "recharts";
 
 import { formatUSD } from "utils";
-import { STooltipContainer, STooltipContents } from "./dashboard.styles";
+import { STooltipContainer, STooltipContents } from "../../styles";
 import { colors } from "shared/const";
 import { formatDate } from "shared/lib";
 import type { IEarningsByMonth } from "shared/types";
-
-function CustomTooltip({
-  active,
-  payload,
-}: {
-  active?: boolean;
-  payload: any;
-}) {
-  if (active && payload && payload.length) {
-    return (
-      <STooltipContainer>
-        <STooltipContents>
-          <p>
-            <b>Date:</b>{" "}
-            {formatDate(payload[0].payload.date, {
-              month: "long",
-              year: "numeric",
-            })}
-          </p>
-          <p>
-            <b>Earnings:</b> ${payload[0].payload.payment}
-          </p>
-          <p>
-            <b># of projects:</b> {payload[0].payload.projects}
-          </p>
-        </STooltipContents>
-      </STooltipContainer>
-    );
-  }
-
-  return null;
-}
 
 interface IProps {
   data: IEarningsByMonth[];
@@ -88,7 +56,30 @@ function EarningsChart({ data }: IProps) {
           axisLine={false}
           tickFormatter={(value) => formatUSD(value)}
         />
-        <Tooltip content={<CustomTooltip payload={data} />} />
+        <Tooltip
+          content={({ active, payload }) => {
+            return active && payload && payload.length ? (
+              <STooltipContainer>
+                <STooltipContents>
+                  <p>
+                    <b>Date:</b>{" "}
+                    {formatDate(payload[0].payload.date, {
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
+                  <p>
+                    <b>Earnings:</b> ${payload[0].payload.payment}
+                  </p>
+                  <p>
+                    <b># of projects:</b> {payload[0].payload.projects}
+                  </p>
+                </STooltipContents>
+              </STooltipContainer>
+            ) : null;
+          }}
+        />
+
         <Area
           type="monotone"
           dataKey="payment"

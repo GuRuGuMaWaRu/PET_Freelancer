@@ -28,4 +28,10 @@ interface IEarningsByClient {
   projects: number;
 }
 
-export type { Error, ErrorVariant, IProject, IClient, IEarningsByClient };
+interface IEarningsByMonth {
+  date: number;
+  payment: number;
+  projects: number;
+}
+
+export type { Error, ErrorVariant, IProject, IClient, IEarningsByClient, IEarningsByMonth };

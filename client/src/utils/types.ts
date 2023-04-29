@@ -30,17 +30,10 @@ interface IEarnings {
   projects: number;
 }
 
-interface IEarningsByMonth {
-  date: number;
-  payment: number;
-  projects: number;
-}
-
 export type { 
   IResponseUserData,
   ILoginFormInputs,
   IRegisterFormInputs,
   IProjectPaginatedData,
   IEarnings,
-  IEarningsByMonth,
 };
