@@ -11,8 +11,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { STooltipContainer, STooltipContents } from "../../styles";
-import { getMaxLabelLength } from '../../helpers';
+import { STooltipContainer, STooltipContents } from "entities/charts/styles";
+import { getMaxLabelLength } from 'entities/charts/lib';
 import { colors } from "shared/const";
 import { formatUSD } from "shared/lib";
 import type { IEarningsByClient } from "shared/types";
