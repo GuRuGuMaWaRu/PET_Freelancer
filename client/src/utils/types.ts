@@ -23,17 +23,9 @@ interface IProjectPaginatedData {
   allDocs: number;
 }
 
-interface IEarnings {
-  id: string;
-  date: Date;
-  payment: number;
-  projects: number;
-}
-
 export type { 
   IResponseUserData,
   ILoginFormInputs,
   IRegisterFormInputs,
   IProjectPaginatedData,
-  IEarnings,
 };

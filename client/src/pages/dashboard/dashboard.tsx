@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useDashboardData } from "./dashboard.hooks";
-import { MemoDashboardTotals } from "components";
-import { AddProjectModal, ChartSection } from "widgets";
+import { AddProjectModal, MemoDashboardTotals, ChartSection } from "widgets";
 
 function Dashboard() {
   const {

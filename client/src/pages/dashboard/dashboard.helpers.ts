@@ -1,5 +1,4 @@
-import type { IProject, IEarningsByClient } from "shared/types";
-import type { IEarnings } from "utils";
+import type { IProject, IEarningsByClient, IEarnings } from "shared/types";
 
 const setFullYearOfDates = (): Record<string, IEarnings> => {
   const dates: Record<string, IEarnings> = {};
