@@ -57,4 +57,32 @@ describe("getEarningsForThisMonth", () => {
 
     expect(getEarningsForThisMonth(earnings)).toEqual("0");
   });
+
+  it("should handle sums with cents correctly", () => {
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+
+    const earnings = [
+      {
+        id: `${year}-${month}`,
+        date: new Date(),
+        payment: 200120,
+        projects: 10,
+      },
+      {
+        id: `${year}-02`,
+        date: new Date(),
+        payment: 200230,
+        projects: 20,
+      },
+      {
+        id: `${year}-03`,
+        date: new Date(),
+        payment: 200330,
+        projects: 30,
+      },
+    ];
+
+    expect(getEarningsForThisMonth(earnings)).toEqual("200.12");
+  });
 });

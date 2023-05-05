@@ -56,4 +56,30 @@ describe("getEarningsForThisYear", () => {
   it("should return 0 if earnings is empty", () => {
     expect(getEarningsForThisYear([])).toEqual("0");
   });
+
+  it("should handle sums with cents correctly", () => {
+    const year = new Date().getFullYear();
+
+    const earnings = [
+      {
+        id: `${year}-01`,
+        date: new Date(),
+        payment: 200120,
+        projects: 10,
+      },
+      {
+        id: `${year}-02`,
+        date: new Date(),
+        payment: 200230,
+        projects: 20,
+      },
+      {
+        id: `${year}-03`,
+        date: new Date(),
+        payment: 200330,
+        projects: 30,
+      },
+    ];
+    expect(getEarningsForThisYear(earnings)).toEqual("600.68");
+  });
 });
