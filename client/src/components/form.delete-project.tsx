@@ -2,10 +2,10 @@ import React from "react";
 import styled from "@emotion/styled";
 import { useFetcher } from "react-router-dom";
 
-import { IProject } from "../../shared/types";
-import { Button, Spinner, useModal } from "../../shared/ui";
-import { colors } from "../../shared/const";
-import { NotificationType, useNotification } from "../../entities/notification";
+import type { IProject } from "shared/types";
+import { Button, Spinner, useModal } from "shared/ui";
+import { colors } from "shared/const";
+import { NotificationType, useNotification } from "entities/notification";
 
 const SContent = styled.div({
   padding: "2rem 1rem",

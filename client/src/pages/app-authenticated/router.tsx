@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { Root, ErrorPage, NotFound, Dashboard, dashboardLoader } from "..";
+import { Root, ErrorPage, NotFound, Dashboard, dashboardLoader } from "pages";
 import {
   Projects,
   projectsLoader,
@@ -8,8 +8,8 @@ import {
   projectsDeleteAction,
   projectsEditAction,
   Clients,
-} from "../../routes";
-import { queryClient } from "../../context";
+} from "routes";
+import { queryClient } from "context";
 
 const router = createBrowserRouter([
   {

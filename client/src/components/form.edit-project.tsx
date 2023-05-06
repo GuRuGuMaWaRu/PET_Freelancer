@@ -16,9 +16,9 @@ import {
   Spinner,
   ErrorMessage,
   useModal,
-} from "../../shared/ui";
-import { NotificationType, useNotification } from "../../entities/notification";
-import { IClient, IProject } from "../../shared/types";
+} from "shared/ui";
+import type { IClient, IProject } from "shared/types";
+import { NotificationType, useNotification } from "entities/notification";
 
 interface IEditProjectForm {
   date: string;

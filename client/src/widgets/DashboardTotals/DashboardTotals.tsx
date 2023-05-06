@@ -7,7 +7,7 @@ import {
   getEarningsForThisYear,
 } from "./DashboardTotals.helpers";
 import { IEarnings } from "shared/types";
-import { EarningsByDate } from "entities/earningsByDate";
+import { EarningsByDate } from "features/earningsByDate";
 
 interface IProps {
   data: IEarnings[];

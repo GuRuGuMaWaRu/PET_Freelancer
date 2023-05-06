@@ -2,10 +2,10 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { useAuth } from "../context";
-import { Label, Input, FormGroup, Spinner, ErrorMessage } from "../shared/ui";
-import { IResponseUserData, ILoginFormInputs, useAsync } from "../utils";
-import { NotificationType, useNotification } from "../entities/notification";
+import { Label, Input, FormGroup, Spinner, ErrorMessage } from "shared/ui";
+import { NotificationType, useNotification } from "entities/notification";
+import { useAuth } from "context";
+import { IResponseUserData, ILoginFormInputs, useAsync } from "utils";
 
 const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
   const {

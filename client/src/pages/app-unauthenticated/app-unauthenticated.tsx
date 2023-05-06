@@ -1,6 +1,5 @@
-/** @jsxImportSource @emotion/react */
-import { LoginModal, RegistrationModal } from "../../widgets";
 import { SContainer, SAppTitle, SButtons } from "./app-unauthenticated.styles";
+import { LoginModal, RegistrationModal } from "widgets";
 
 function AppUnauthenticated() {
   return (

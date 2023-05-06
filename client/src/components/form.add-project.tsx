@@ -16,9 +16,9 @@ import {
   Spinner,
   useModal,
   ErrorMessage,
-} from "../shared/ui";
-import { NotificationType, useNotification } from "../entities/notification";
-import { IClient } from "../shared/types";
+} from "shared/ui";
+import type { IClient } from "shared/types";
+import { NotificationType, useNotification } from "entities/notification";
 
 interface IProps {
   clients: IClient[];

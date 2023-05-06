@@ -4,9 +4,9 @@ import styled from "@emotion/styled";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import Tooltip from "@reach/tooltip";
 
-import { NotificationType, useNotification } from "../../entities/notification";
-import { Input } from "../../shared/ui";
-import { colors } from "../../shared/const";
+import { Input } from "shared/ui";
+import { colors } from "shared/const";
+import { NotificationType, useNotification } from "entities/notification";
 
 const SCancelButton = styled("button")({
   color: colors.text2,

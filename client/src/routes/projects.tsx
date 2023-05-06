@@ -4,22 +4,19 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import { FaSortUp, FaSortDown, FaPen, FaRegTrashAlt } from "react-icons/fa";
 
-import { IProjectPaginatedData, getPageOfProjects } from "../utils";
 import {
   FullPageSpinner,
   Modal,
   ModalOpenButton,
   ModalContents,
   MemoPagination,
-} from "../shared/ui";
-import { colors, mq, config } from "../shared/const";
-import type { IClient } from "../shared/types";
-import { ProjectSearchInput } from "../features/projects/";
-import { ProjectListItem } from "../features/projects/";
-import { DeleteProjectForm } from "../features/projects/";
-import { EditProjectForm } from "../features/projects/";
-import { getAllClients } from "../entities/clients/api";
+} from "shared/ui";
+import type { IClient } from "shared/types";
+import { colors, mq, config } from "shared/const";
+import { getAllClients } from "entities/clients/api";
 import { AddProjectModal } from 'widgets';
+import { IProjectPaginatedData, getPageOfProjects } from "utils";
+import { ProjectSearchInput, ProjectListItem, DeleteProjectForm, EditProjectForm } from "components";
 
 const getProjectsPageQuery = (
   page: number,

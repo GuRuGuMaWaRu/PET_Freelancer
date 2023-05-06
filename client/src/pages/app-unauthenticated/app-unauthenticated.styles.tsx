@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors } from "../../shared/const";
+import { colors } from "shared/const";
 
 const SContainer = styled.div({
   height: "100vh",

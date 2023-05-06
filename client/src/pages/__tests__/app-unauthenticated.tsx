@@ -1,13 +1,13 @@
 import userEvent from "@testing-library/user-event";
 
-import { buildUser } from "../../test/generate";
-import { addUser } from "../../test/server/users";
+import { buildUser } from "test/generate";
+import { addUser } from "test/server/users";
 import {
   render,
   screen,
   within,
   waitForLoadingToFinish,
-} from "../../test/test-helpers";
+} from "test/test-helpers";
 import AppUnauthenticated from "../app-unauthenticated/app-unauthenticated";
 
 async function renderAuthModal(modal = "login") {

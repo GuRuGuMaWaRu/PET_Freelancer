@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-import { STooltipContainer, STooltipContents } from "entities/charts/styles";
+import { STooltipContainer, STooltipContents } from "features/charts/styles";
 import { colors } from "shared/const";
 import { formatDate, formatUSD } from "shared/lib";
 import type { IEarningsByMonth } from "shared/types";

@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
-import { MemoClientsChart } from "entities/charts";
-import { getMaxLabelLength } from "entities/charts/lib";
+import { MemoClientsChart } from "features/charts";
+import { getMaxLabelLength } from "features/charts/lib";
 
 global.ResizeObserver = require("resize-observer-polyfill");
 
-jest.mock("entities/charts/lib");
+jest.mock("features/charts/lib");
 
 describe("Clients chart", () => {
   const mockGetMaxLabelLength = getMaxLabelLength as jest.Mock;

@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashboardTotals should render 1`] = `
+<div>
+  <div
+    class="css-xabrvj"
+  >
+    <div>
+      <div
+        class="css-w0qwta"
+      >
+        ТРАВЕНЬ
+      </div>
+      <div
+        class="css-8idrzu"
+      >
+        <span
+          class="css-9w5ib6"
+        >
+          $
+        </span>
+         
+        <span
+          class="css-15qor2q"
+        >
+          100
+        </span>
+      </div>
+    </div>
+    <div>
+      <div
+        class="css-w0qwta"
+      >
+        2023
+      </div>
+      <div
+        class="css-8idrzu"
+      >
+        <span
+          class="css-9w5ib6"
+        >
+          $
+        </span>
+         
+        <span
+          class="css-15qor2q"
+        >
+          600
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
