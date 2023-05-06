@@ -3,7 +3,7 @@ import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Label, Input, FormGroup, Spinner, ErrorMessage } from "shared/ui";
-import { NotificationType, useNotification } from "entities/notification";
+import { useNotification } from "entities/notification";
 import { useAuth } from "context";
 import { IResponseUserData, IRegisterFormInputs, useAsync } from "utils";
 
@@ -23,7 +23,7 @@ const RegisterForm = ({
     IResponseUserData,
     Error
   >();
-  const { showNotification } = useNotification();
+  const notification = useNotification();
   const { signup } = useAuth();
   const submit: SubmitHandler<IRegisterFormInputs> = (data) => {
     run(signup(data)).catch((error) => console.error(error));
@@ -33,9 +33,9 @@ const RegisterForm = ({
     if (isError) {
       const message = error?.message ?? "There was an error";
 
-      showNotification(NotificationType.error, message);
+      notification.warning(message);
     }
-  }, [error, isError, showNotification]);
+  }, [error, isError, notification]);
 
   return (
     <form onSubmit={handleSubmit(submit)}>

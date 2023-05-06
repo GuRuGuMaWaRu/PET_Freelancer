@@ -16,8 +16,8 @@ export const danger = "#f0301b";
 export const modalBg2 = "#e25f5f";
 
 export const notificationBg = "#604e97";
-export const notificationError = text2;
-export const notificationDone = "greenyellow";
+export const notificationWarning = text2;
+export const notificationSuccess = "greenyellow";
 
 export const spinnerContrasting = text2;
 

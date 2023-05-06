@@ -6,7 +6,7 @@ import Tooltip from "@reach/tooltip";
 
 import { Input } from "shared/ui";
 import { colors } from "shared/const";
-import { NotificationType, useNotification } from "entities/notification";
+import { useNotification } from "entities/notification";
 
 const SCancelButton = styled("button")({
   color: colors.text2,
@@ -42,7 +42,7 @@ interface IProps {
 
 const ProjectSearchInput: React.FC<IProps> = ({ onSearch }) => {
   const [searchInput, setSearchInput] = React.useState<string>("");
-  const { showNotification } = useNotification();
+  const notification = useNotification();
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,10 +50,7 @@ const ProjectSearchInput: React.FC<IProps> = ({ onSearch }) => {
     if (searchInput.length >= 3 || searchInput.length === 0) {
       onSearch(searchInput);
     } else {
-      showNotification(
-        NotificationType.warning,
-        "Enter at least 3 characters into Search field",
-      );
+      notification.warning("Enter at least 3 characters into Search field");
     }
   };
 

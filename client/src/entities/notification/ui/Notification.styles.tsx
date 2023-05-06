@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 import { FaTimes, FaExclamationCircle, FaCheck } from "react-icons/fa";
 
-import { colors } from "../../../shared/const";
 import { INotificationMessageProps, setNotificationColor } from "..";
+import { colors } from "shared/const";
 
 const notificationIconStyles = {
   fontSize: "3.2rem",
@@ -10,11 +10,11 @@ const notificationIconStyles = {
 };
 
 const SWarningIcon = styled(FaExclamationCircle)(notificationIconStyles, {
-  color: colors.notificationError,
+  color: colors.notificationWarning,
 });
 
 const SAccomplishedIcon = styled(FaCheck)(notificationIconStyles, {
-  color: colors.notificationDone,
+  color: colors.notificationSuccess,
 });
 
 const SCloseIcon = styled(FaTimes)({

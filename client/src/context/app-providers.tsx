@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { AuthProvider } from "./auth.context";
-import { NotificationProvider } from "../entities/notification/lib/notification.context";
+import { NotificationProvider } from "entities/notification";
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -3,7 +3,7 @@ import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { Label, Input, FormGroup, Spinner, ErrorMessage } from "shared/ui";
-import { NotificationType, useNotification } from "entities/notification";
+import { useNotification } from "entities/notification";
 import { useAuth } from "context";
 import { IResponseUserData, ILoginFormInputs, useAsync } from "utils";
 
@@ -17,7 +17,7 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
     IResponseUserData,
     Error
   >();
-  const { showNotification } = useNotification();
+  const notification = useNotification();
   const { login } = useAuth();
   const submit: SubmitHandler<ILoginFormInputs> = (data) => {
     run(login(data)).catch((error) => console.error(error));
@@ -27,9 +27,9 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
     if (isError) {
       const message = error?.message ?? "There was an error";
 
-      showNotification(NotificationType.error, message);
+      notification.warning(message);
     }
-  }, [error, isError, showNotification]);
+  }, [error, isError, notification]);
 
   return (
     <form onSubmit={handleSubmit(submit)}>

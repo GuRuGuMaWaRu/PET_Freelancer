@@ -16,11 +16,9 @@ const AnimatedNotificationMessage = animated(SNotificationMessage);
 
 const getNotificationIcon = (type: NotificationType) => {
   switch (type) {
-    case NotificationType.create:
-    case NotificationType.delete:
+    case NotificationType.success:
       return <SAccomplishedIcon />;
-    case NotificationType.error:
-    case NotificationType.fail:
+    case NotificationType.warning:
       return <SWarningIcon />;
     default:
       return <SWarningIcon />;
@@ -61,7 +59,7 @@ function Notification({
         <AnimatedNotificationMessage
           role="alert"
           aria-label="notification"
-          type={notification?.type || NotificationType.error}
+          type={notification?.type || NotificationType.warning}
           style={{
             transform: styles.y.to(
               (value) => `translateY(${value}px) translateX(-50%)`,
@@ -70,7 +68,9 @@ function Notification({
           }}
         >
           <>
-            {getNotificationIcon(notification?.type ?? NotificationType.error)}
+            {getNotificationIcon(
+              notification?.type ?? NotificationType.warning,
+            )}
             {notification?.message || "Oops! Something unexpected happened!"}
             <SCloseIcon onClick={handleCloseNotification}></SCloseIcon>
           </>

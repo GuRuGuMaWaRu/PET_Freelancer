@@ -5,7 +5,7 @@ import { useFetcher } from "react-router-dom";
 import type { IProject } from "shared/types";
 import { Button, Spinner, useModal } from "shared/ui";
 import { colors } from "shared/const";
-import { NotificationType, useNotification } from "entities/notification";
+import { useNotification } from "entities/notification";
 
 const SContent = styled.div({
   padding: "2rem 1rem",
@@ -28,25 +28,24 @@ interface IProps {
 const DeleteProjectForm: React.FC<IProps> = ({ project }) => {
   const fetcher = useFetcher();
   const { setIsOpen } = useModal();
-  const { showNotification } = useNotification();
+  const notification = useNotification();
 
   const isLoading = fetcher.state !== "idle";
 
   //** Show ERROR or SUCCESS message */
   React.useEffect(() => {
     if (fetcher.data && !isLoading) {
-      const type =
-        fetcher.data.status === "success"
-          ? NotificationType.delete
-          : NotificationType.error;
-
-      showNotification(type, fetcher.data.message);
+      if (fetcher.data.status === "success") {
+        notification.success(fetcher.data.message);
+      } else {
+        notification.warning(fetcher.data.message);
+      }
     }
 
     if (fetcher?.data?.status === "success") {
       setIsOpen(false);
     }
-  }, [fetcher.data, isLoading, setIsOpen, showNotification]);
+  }, [fetcher.data, isLoading, setIsOpen, notification]);
 
   return (
     <SContent>

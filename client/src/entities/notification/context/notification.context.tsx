@@ -24,10 +24,18 @@ function NotificationProvider({ children }: { children: React.ReactNode }) {
     [],
   );
 
+  const success = (message: string) => {
+    showNotification(NotificationType.success, message);
+  };
+
+  const warning = (message: string) => {
+    showNotification(NotificationType.warning, message);
+  };
+
   const hideNotification = () => setIsShown(false);
 
   return (
-    <NotificationContext.Provider value={{ showNotification }}>
+    <NotificationContext.Provider value={{ success, warning }}>
       <Notification
         notification={notification}
         hideNotification={hideNotification}

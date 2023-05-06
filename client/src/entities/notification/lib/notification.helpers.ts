@@ -1,14 +1,12 @@
-import { NotificationType } from "..";
-import { colors } from "../../../shared/const";
+import { NotificationType } from "entities/notification";
+import { colors } from "shared/const";
 
 const setNotificationColor = (type: NotificationType) => {
   switch (type) {
-    case NotificationType.create:
-    case NotificationType.delete:
-      return colors.notificationDone;
-    case NotificationType.error:
-    case NotificationType.fail:
-      return colors.notificationError;
+    case NotificationType.success:
+      return colors.notificationSuccess;
+    case NotificationType.warning:
+      return colors.notificationWarning;
     default:
       return colors.white;
   }
