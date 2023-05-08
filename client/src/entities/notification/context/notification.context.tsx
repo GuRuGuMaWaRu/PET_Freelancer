@@ -24,18 +24,32 @@ function NotificationProvider({ children }: { children: React.ReactNode }) {
     [],
   );
 
-  const success = (message: string) => {
-    showNotification(NotificationType.success, message);
-  };
+  const success = React.useCallback(
+    (message: string) => {
+      showNotification(NotificationType.success, message);
+    },
+    [showNotification],
+  );
 
-  const warning = (message: string) => {
-    showNotification(NotificationType.warning, message);
-  };
+  const warning = React.useCallback(
+    (message: string) => {
+      showNotification(NotificationType.warning, message);
+    },
+    [showNotification],
+  );
 
   const hideNotification = () => setIsShown(false);
 
+  const value = React.useMemo(
+    () => ({
+      success,
+      warning,
+    }),
+    [success, warning],
+  );
+
   return (
-    <NotificationContext.Provider value={{ success, warning }}>
+    <NotificationContext.Provider value={value}>
       <Notification
         notification={notification}
         hideNotification={hideNotification}
