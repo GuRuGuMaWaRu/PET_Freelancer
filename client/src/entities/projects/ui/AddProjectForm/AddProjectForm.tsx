@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
-import { Form, useFetcher } from "react-router-dom";
+import { Form } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import type { IAddProjectForm } from '../../types';
+import { useModalForm } from '../../hooks/useModalForm';
 import {
   Label,
   Input,
@@ -14,24 +15,9 @@ import {
   FormGroup,
   Button,
   Spinner,
-  useModal,
   ErrorMessage,
 } from "shared/ui";
 import type { IClient } from "shared/types";
-import { useNotification } from "entities/notification";
-
-interface IProps {
-  clients: IClient[];
-}
-
-interface IAddProjectForm {
-  date: string;
-  client: string;
-  projectNr: string;
-  currency: "USD" | "EUR";
-  payment: number;
-  comments: string;
-}
 
 const formSchema = yup.object().shape({
   date: yup.string().required("You must specify a date"),
@@ -45,7 +31,11 @@ const formSchema = yup.object().shape({
   comments: yup.string().max(200, "Can't be longer than 200 characters"),
 });
 
-const AddProjectForm: React.FC<IProps> = ({ clients }) => {
+interface IProps {
+  clients: IClient[];
+}
+
+function AddProjectForm ({ clients }: IProps) {
   const {
     register,
     handleSubmit,
@@ -61,26 +51,7 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
       comments: "",
     },
   });
-  const fetcher = useFetcher();
-  const { setIsOpen } = useModal();
-  const notification = useNotification();
-
-  const isLoading = fetcher.state !== "idle";
-
-  //** Show ERROR or SUCCESS message */
-  React.useEffect(() => {
-    if (fetcher.data && !isLoading) {
-      if (fetcher.data.status === "success") {
-        notification.success(fetcher.data.message);
-      } else {
-        notification.warning(fetcher.data.message);
-      }
-    }
-
-    if (fetcher?.data?.status === "success") {
-      setIsOpen(false);
-    }
-  }, [fetcher.data, isLoading, setIsOpen, notification]);
+  const { submit, isLoading } = useModalForm();
 
   const formSubmit: SubmitHandler<IAddProjectForm> = (data) => {
     let formData = new FormData();
@@ -98,7 +69,7 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
       formData.append(key, value);
     }
 
-    fetcher.submit(formData, { action: "projects/add", method: "post" });
+    submit(formData, { action: "projects/add", method: "post" });
   };
 
   return (
@@ -179,7 +150,7 @@ const AddProjectForm: React.FC<IProps> = ({ clients }) => {
           aria-invalid={errors.comments ? "true" : "false"}
           {...register("comments")}
         ></Textarea>
-        {errors.payment && (
+        {errors.comments && (
           <ErrorMessage
             error={{ message: errors?.comments?.message }}
             variant="inline"

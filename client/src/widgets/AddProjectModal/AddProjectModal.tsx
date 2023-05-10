@@ -1,7 +1,7 @@
 import { useGetColorFromPath } from './AddProjectModal.hooks';
 import { Button, Modal, ModalOpenButton, ModalContents } from "shared/ui";
 import type { IClient } from "shared/types";
-import { AddProjectForm } from "components";
+import { AddProjectForm } from "entities/projects";
 
 interface IProps {
   clients: IClient[];
