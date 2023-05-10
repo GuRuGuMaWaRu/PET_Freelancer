@@ -71,7 +71,7 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
 
   const isLoading = fetcher.state !== "idle";
 
-  //** Show ERROR or SUCCESS message */
+  //** Show SUCCESS or WARNING message */
   React.useEffect(() => {
     if (fetcher.data && !isLoading) {
       if (fetcher.data.status === "success") {
@@ -80,11 +80,14 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
         notification.warning(fetcher.data.message);
       }
     }
+  }, [fetcher.data, isLoading, notification]);
 
+  //** Close Modal on success */
+  React.useEffect(() => {
     if (fetcher?.data?.status === "success") {
       setIsOpen(false);
     }
-  }, [fetcher.data, isLoading, setIsOpen, notification]);
+  }, [fetcher.data, setIsOpen]);
 
   const formSubmit: SubmitHandler<IEditProjectForm> = (data) => {
     let formData = new FormData();

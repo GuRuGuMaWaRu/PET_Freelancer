@@ -32,7 +32,7 @@ const DeleteProjectForm: React.FC<IProps> = ({ project }) => {
 
   const isLoading = fetcher.state !== "idle";
 
-  //** Show ERROR or SUCCESS message */
+  //** Show SUCCESS or WARNING message */
   React.useEffect(() => {
     if (fetcher.data && !isLoading) {
       if (fetcher.data.status === "success") {
@@ -41,11 +41,14 @@ const DeleteProjectForm: React.FC<IProps> = ({ project }) => {
         notification.warning(fetcher.data.message);
       }
     }
+  }, [fetcher.data, isLoading, notification]);
 
+  //** Close Modal on success */
+  React.useEffect(() => {
     if (fetcher?.data?.status === "success") {
       setIsOpen(false);
     }
-  }, [fetcher.data, isLoading, setIsOpen, notification]);
+  }, [fetcher.data, setIsOpen])
 
   return (
     <SContent>
