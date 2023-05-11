@@ -3,7 +3,7 @@ import { useFetcher } from "react-router-dom";
 import type { IProject } from "shared/types";
 import { Button, Spinner } from "shared/ui";
 import { SContent, SHighlighted, SButtons } from "./DeleteProjectForm.styles";
-import { useModalForm } from '../../hooks/useModalForm';
+import { useFormNotifications, useModalForm } from '../../hooks';
 
 interface IProps {
   project: IProject;
@@ -13,7 +13,8 @@ function DeleteProjectForm ({ project }: IProps ) {
   const fetcher = useFetcher();
   const isLoading = fetcher.state !== "idle";
 
-  useModalForm(fetcher.data, isLoading);
+  useModalForm(fetcher.data);
+  useFormNotifications(fetcher.data, isLoading);
 
   return (
     <SContent>

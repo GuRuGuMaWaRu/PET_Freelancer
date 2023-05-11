@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import type { IAddProjectForm } from '../../types';
-import { useModalForm } from '../../hooks/useModalForm';
+import { useFormNotifications, useModalForm } from '../../hooks';
 import {
   Field,
   Combobox,
@@ -48,7 +48,8 @@ function AddProjectForm ({ clients }: IProps) {
   const fetcher = useFetcher();
   const isLoading = fetcher.state !== "idle";
 
-  useModalForm(fetcher.data, isLoading);
+  useModalForm(fetcher.data);
+  useFormNotifications(fetcher.data, isLoading);
 
   const formSubmit: SubmitHandler<IAddProjectForm> = (data) => {
     let formData = new FormData();
