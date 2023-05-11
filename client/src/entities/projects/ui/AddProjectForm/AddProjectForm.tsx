@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Form } from "react-router-dom";
+import { Form, useFetcher } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -45,7 +45,10 @@ function AddProjectForm ({ clients }: IProps) {
       comments: "",
     },
   });
-  const { submit, isLoading } = useModalForm();
+  const fetcher = useFetcher();
+  const isLoading = fetcher.state !== "idle";
+
+  useModalForm(fetcher.data, isLoading);
 
   const formSubmit: SubmitHandler<IAddProjectForm> = (data) => {
     let formData = new FormData();
@@ -63,64 +66,64 @@ function AddProjectForm ({ clients }: IProps) {
       formData.append(key, value);
     }
 
-    submit(formData, { action: "projects/add", method: "post" });
+    fetcher.submit(formData, { action: "projects/add", method: "post" });
   };
 
   return (
-      <Form onSubmit={handleSubmit(formSubmit)}>
-        <Field label="Date" error={errors.date}>
-          <SInput
-            type="date"
-            id="date"
-            aria-invalid={errors.date ? "true" : "false"}
-            {...register("date")}
-          ></SInput>
+    <Form onSubmit={handleSubmit(formSubmit)}>
+      <Field label="Date" error={errors.date}>
+        <SInput
+          type="date"
+          id="date"
+          aria-invalid={errors.date ? "true" : "false"}
+          {...register("date")}
+        ></SInput>
+      </Field>
+      <Field label="Client" error={errors.client}>
+        <Combobox
+          label="Choose a client"
+          items={clients}
+          {...register("client")}
+        />
+      </Field>
+      <Field label="Project Nr" error={errors.projectNr}>
+        <SInput
+          type="text"
+          id="projectNr"
+          aria-invalid={errors.projectNr ? "true" : "false"}
+          {...register("projectNr")}
+        ></SInput>
         </Field>
-        <Field label="Client" error={errors.client}>
-          <Combobox
-            label="Choose a client"
-            items={clients}
-            {...register("client")}
-          />
-        </Field>
-        <Field label="Project Nr" error={errors.projectNr}>
-          <SInput
-            type="text"
-            id="projectNr"
-            aria-invalid={errors.projectNr ? "true" : "false"}
-            {...register("projectNr")}
-          ></SInput>
-          </Field>
-        <Field label="Currency" error={errors.currency}>
-          <SSelect id="currency" defaultValue={"USD"} {...register("currency")}>
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-          </SSelect>
-        </Field>
-        <Field label="Payment" error={errors.payment}>
-          <SInput
-            type="text"
-            id="payment"
-            inputMode="numeric"
-            pattern="([0-9]*).([0-9]*)"
-            step=".01"
-            aria-invalid={errors.projectNr ? "true" : "false"}
-            {...register("payment")}
-          ></SInput>
-        </Field>
-        <Field label="Comments" error={errors.comments}>
-          <STextarea
-            css={{ maxWidth: "100%" }}
-            aria-invalid={errors.comments ? "true" : "false"}
-            {...register("comments")}
-          ></STextarea>
-        </Field>
-        <div css={{ marginTop: "30px" }}>
-          <Button type="submit" disabled={isLoading}>
-            Add {isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null}
-          </Button>
-        </div>
-      </Form>
+      <Field label="Currency" error={errors.currency}>
+        <SSelect id="currency" defaultValue={"USD"} {...register("currency")}>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
+        </SSelect>
+      </Field>
+      <Field label="Payment" error={errors.payment}>
+        <SInput
+          type="text"
+          id="payment"
+          inputMode="numeric"
+          pattern="([0-9]*).([0-9]*)"
+          step=".01"
+          aria-invalid={errors.projectNr ? "true" : "false"}
+          {...register("payment")}
+        ></SInput>
+      </Field>
+      <Field label="Comments" error={errors.comments}>
+        <STextarea
+          css={{ maxWidth: "100%" }}
+          aria-invalid={errors.comments ? "true" : "false"}
+          {...register("comments")}
+        ></STextarea>
+      </Field>
+      <div css={{ marginTop: "30px" }}>
+        <Button type="submit" disabled={isLoading}>
+          Add {isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null}
+        </Button>
+      </div>
+    </Form>
   );
 };
 
