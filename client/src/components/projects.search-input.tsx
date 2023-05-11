@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import Tooltip from "@reach/tooltip";
 
-import { Input } from "shared/ui";
+import { SInput } from "shared/ui";
 import { colors } from "shared/const";
 import { useNotification } from "entities/notification";
 
@@ -67,7 +67,7 @@ const ProjectSearchInput: React.FC<IProps> = ({ onSearch }) => {
       }}
       onSubmit={(e) => handleSearch(e)}
     >
-      <Input
+      <SInput
         placeholder="Search projects..."
         id="search"
         type="search"

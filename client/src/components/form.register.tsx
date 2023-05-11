@@ -2,7 +2,7 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { Label, Input, FormGroup, Spinner, ErrorMessage } from "shared/ui";
+import { Field, SInput, Spinner, ErrorMessage } from "shared/ui";
 import { useNotification } from "entities/notification";
 import { useAuth } from "context";
 import { IResponseUserData, IRegisterFormInputs, useAsync } from "utils";
@@ -39,9 +39,8 @@ const RegisterForm = ({
 
   return (
     <form onSubmit={handleSubmit(submit)}>
-      <FormGroup>
-        <Label htmlFor="name">Name:</Label>
-        <Input
+      <Field label="Name" error={errors.name}>
+        <SInput
           type="text"
           id="name"
           autoComplete="name"
@@ -50,17 +49,10 @@ const RegisterForm = ({
           {...register("name", {
             required: "You must specify a name",
           })}
-        ></Input>
-        {errors.name && (
-          <ErrorMessage
-            error={{ message: errors?.name.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="email">Email:</Label>
-        <Input
+        ></SInput>
+      </Field>
+      <Field label="Email" error={errors.email}>
+        <SInput
           type="email"
           id="email"
           autoComplete="username"
@@ -68,17 +60,10 @@ const RegisterForm = ({
           {...register("email", {
             required: "You must specify an email address",
           })}
-        ></Input>
-        {errors.email && (
-          <ErrorMessage
-            error={{ message: errors?.email.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="password1">Password:</Label>
-        <Input
+        ></SInput>
+      </Field>
+      <Field label="Password" error={errors.password1}>
+        <SInput
           type="password"
           id="password1"
           autoComplete="current-password"
@@ -91,20 +76,10 @@ const RegisterForm = ({
               message: "Password must have at least 6 characters",
             },
           })}
-        ></Input>
-        <p id="password-requirements">
-          Please create a new password. Must contain at least 6 characters
-        </p>
-        {errors.password1 && (
-          <ErrorMessage
-            error={{ message: errors?.password1.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="password2">Repeat password:</Label>
-        <Input
+        ></SInput>
+      </Field>
+      <Field label="Repeat password" error={errors.password2}>
+        <SInput
           type="password"
           id="password2"
           autoComplete="current-password"
@@ -113,14 +88,8 @@ const RegisterForm = ({
             validate: (value) =>
               value === watchPassword || "The passwords do not match",
           })}
-        ></Input>
-        {errors.password2 && (
-          <ErrorMessage
-            error={{ message: errors?.password2.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
+        ></SInput>
+      </Field>
       <div css={{ marginTop: "30px" }}>
         {React.cloneElement(
           submitButton,

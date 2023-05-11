@@ -2,7 +2,7 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { Label, Input, FormGroup, Spinner, ErrorMessage } from "shared/ui";
+import { Field, SInput, Spinner } from "shared/ui";
 import { useNotification } from "entities/notification";
 import { useAuth } from "context";
 import { IResponseUserData, ILoginFormInputs, useAsync } from "utils";
@@ -33,9 +33,8 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
 
   return (
     <form onSubmit={handleSubmit(submit)}>
-      <FormGroup>
-        <Label htmlFor="email">Email:</Label>
-        <Input
+      <Field label="Email" error={errors.email}>
+        <SInput
           type="email"
           id="email"
           autoComplete="username"
@@ -44,30 +43,17 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
           {...register("email", {
             required: "You must specify an email address",
           })}
-        ></Input>
-        {errors.email && (
-          <ErrorMessage
-            error={{ message: errors?.email.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="password">Password:</Label>
-        <Input
+        ></SInput>
+      </Field>
+      <Field label="Password" error={errors.password}>
+        <SInput
           type="password"
           id="password"
           autoComplete="current-password"
           aria-invalid={errors.password ? "true" : "false"}
           {...register("password", { required: "You must specify a password" })}
-        ></Input>
-        {errors.password && (
-          <ErrorMessage
-            error={{ message: errors?.password.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
+        ></SInput>
+      </Field>
       <div css={{ marginTop: "30px" }}>
         {React.cloneElement(
           submitButton,

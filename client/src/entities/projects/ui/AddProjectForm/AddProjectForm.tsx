@@ -7,15 +7,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import type { IAddProjectForm } from '../../types';
 import { useModalForm } from '../../hooks/useModalForm';
 import {
-  Label,
-  Input,
+  Field,
   Combobox,
-  Select,
-  Textarea,
-  FormGroup,
+  SSelect,
+  STextarea,
   Button,
   Spinner,
-  ErrorMessage,
+  SInput
 } from "shared/ui";
 import type { IClient } from "shared/types";
 
@@ -36,11 +34,7 @@ interface IProps {
 }
 
 function AddProjectForm ({ clients }: IProps) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IAddProjectForm>({
+  const { register, handleSubmit, formState: { errors } } = useForm<IAddProjectForm>({
     resolver: yupResolver(formSchema),
     defaultValues: {
       date: new Date().toISOString().split("T")[0],
@@ -73,96 +67,60 @@ function AddProjectForm ({ clients }: IProps) {
   };
 
   return (
-    <Form onSubmit={handleSubmit(formSubmit)}>
-      <FormGroup>
-        <Label htmlFor="date">Date:</Label>
-        <Input
-          type="date"
-          id="date"
-          aria-invalid={errors.date ? "true" : "false"}
-          {...register("date")}
-        ></Input>
-        {errors.date && (
-          <ErrorMessage
-            error={{ message: errors?.date.message }}
-            variant="inline"
+      <Form onSubmit={handleSubmit(formSubmit)}>
+        <Field label="Date" error={errors.date}>
+          <SInput
+            type="date"
+            id="date"
+            aria-invalid={errors.date ? "true" : "false"}
+            {...register("date")}
+          ></SInput>
+        </Field>
+        <Field label="Client" error={errors.client}>
+          <Combobox
+            label="Choose a client"
+            items={clients}
+            {...register("client")}
           />
-        )}
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="client">Client:</Label>
-        <Combobox
-          label="Choose a client"
-          items={clients}
-          {...register("client")}
-        />
-        {errors.client && (
-          <ErrorMessage
-            error={{ message: errors?.client.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="projectNr">Project Nr:</Label>
-        <Input
-          type="text"
-          id="projectNr"
-          aria-invalid={errors.projectNr ? "true" : "false"}
-          {...register("projectNr")}
-        ></Input>
-        {errors.projectNr && (
-          <ErrorMessage
-            error={{ message: errors?.projectNr.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="currency">Currency:</Label>
-        <Select id="currency" defaultValue={"USD"} {...register("currency")}>
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-        </Select>
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="payment">Payment:</Label>
-        <Input
-          type="text"
-          inputMode="numeric"
-          pattern="([0-9]*).([0-9]*)"
-          step=".01"
-          id="payment"
-          aria-invalid={errors.projectNr ? "true" : "false"}
-          {...register("payment")}
-        ></Input>
-        {errors.payment && (
-          <ErrorMessage
-            error={{ message: errors?.payment.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="comments">Comments:</Label>
-        <Textarea
-          css={{ maxWidth: "100%" }}
-          aria-invalid={errors.comments ? "true" : "false"}
-          {...register("comments")}
-        ></Textarea>
-        {errors.comments && (
-          <ErrorMessage
-            error={{ message: errors?.comments?.message }}
-            variant="inline"
-          />
-        )}
-      </FormGroup>
-      <div css={{ marginTop: "30px" }}>
-        <Button type="submit" disabled={isLoading}>
-          Add {isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null}
-        </Button>
-      </div>
-    </Form>
+        </Field>
+        <Field label="Project Nr" error={errors.projectNr}>
+          <SInput
+            type="text"
+            id="projectNr"
+            aria-invalid={errors.projectNr ? "true" : "false"}
+            {...register("projectNr")}
+          ></SInput>
+          </Field>
+        <Field label="Currency" error={errors.currency}>
+          <SSelect id="currency" defaultValue={"USD"} {...register("currency")}>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+          </SSelect>
+        </Field>
+        <Field label="Payment" error={errors.payment}>
+          <SInput
+            type="text"
+            id="payment"
+            inputMode="numeric"
+            pattern="([0-9]*).([0-9]*)"
+            step=".01"
+            aria-invalid={errors.projectNr ? "true" : "false"}
+            {...register("payment")}
+          ></SInput>
+        </Field>
+        <Field label="Comments" error={errors.comments}>
+          <STextarea
+            css={{ maxWidth: "100%" }}
+            aria-invalid={errors.comments ? "true" : "false"}
+            {...register("comments")}
+          ></STextarea>
+        </Field>
+        <div css={{ marginTop: "30px" }}>
+          <Button type="submit" disabled={isLoading}>
+            Add {isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null}
+          </Button>
+        </div>
+      </Form>
   );
 };
 

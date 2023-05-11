@@ -1,36 +1,14 @@
 import React from "react";
 import {
   Combobox as ReachCombobox,
-  ComboboxInput as ReachComboboxInput,
   ComboboxPopover as ReachComboboxPopover,
   ComboboxList as ReachComboboxList,
   ComboboxOption as ReachComboboxOption,
 } from "@reach/combobox";
-import styled from "@emotion/styled";
 
-import { colors } from "../../const";
-import { IComboboxProps } from "./FormComponents.types";
-import { useItemMatch } from "./FormComponents.hooks";
-
-const inputStyles = {
-  padding: "6px 10px",
-  border: `1px solid ${colors.white}`,
-  borderRadius: "3px",
-};
-
-const Input = styled.input(inputStyles);
-const Select = styled.select(inputStyles);
-const Textarea = styled.textarea(inputStyles);
-const Label = styled.label({ margin: "10px 0 5px" });
-const FormGroup = styled.div({
-  display: "flex",
-  flexDirection: "column",
-});
-
-const StyledReachComboboxInput = styled(ReachComboboxInput)(
-  { width: "100%" },
-  inputStyles,
-);
+import { IComboboxProps } from "./Combobox.types";
+import { useItemMatch } from "./Combobox.hooks";
+import { SReachComboboxInput } from "../../styles";
 
 const Combobox = React.forwardRef<HTMLInputElement, IComboboxProps>(
   ({ label = "choose an item", items, name, onChange, onBlur }, ref) => {
@@ -43,7 +21,7 @@ const Combobox = React.forwardRef<HTMLInputElement, IComboboxProps>(
 
     return (
       <ReachCombobox aria-label={label}>
-        <StyledReachComboboxInput
+        <SReachComboboxInput
           onChange={handleChange}
           name={name}
           onBlur={onBlur}
@@ -61,4 +39,4 @@ const Combobox = React.forwardRef<HTMLInputElement, IComboboxProps>(
   },
 );
 
-export { FormGroup, Input, Select, Textarea, Label, Combobox };
+export { Combobox };
