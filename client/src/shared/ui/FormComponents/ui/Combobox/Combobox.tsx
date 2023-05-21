@@ -11,7 +11,7 @@ import { useItemMatch } from "./Combobox.hooks";
 import { SReachComboboxInput } from "../../styles";
 
 const Combobox = React.forwardRef<HTMLInputElement, IComboboxProps>(
-  ({ label = "choose an item", items, name, onChange, onBlur }, ref) => {
+  ({ label = "choose an item", items, name, onChange, onBlur, id }, ref) => {
     const [term, setTerm] = React.useState<string>("");
     const results = useItemMatch(items, term);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {

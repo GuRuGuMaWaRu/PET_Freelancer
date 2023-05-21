@@ -117,6 +117,7 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
       </Field>
       <Field label="Client" error={errors.client}>
         <Combobox
+          id="client"
           label="Choose a client"
           items={clients}
           {...register("client")}
@@ -149,6 +150,7 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
       </Field>
       <Field label="Comments" error={errors.comments}>
         <STextarea
+          id="comments"
           css={{ maxWidth: "100%" }}
           aria-invalid={errors.comments ? "true" : "false"}
           {...register("comments")}

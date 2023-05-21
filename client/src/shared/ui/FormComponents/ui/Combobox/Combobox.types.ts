@@ -4,6 +4,7 @@ interface IComboboxItem {
 }
 
 interface IComboboxProps {
+  id: string;
   label: string;
   items: IComboboxItem[];
   name: string;
