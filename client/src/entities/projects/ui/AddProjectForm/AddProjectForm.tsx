@@ -24,7 +24,8 @@ const formSchema = yup.object().shape({
   currency: yup.string(),
   payment: yup
     .number()
-    .positive("You must specify a 0 or a positive number")
+    .typeError("You must specify a number")
+    .min(0, "You must specify a 0 or a positive number")
     .required("You must specify a sum"),
   comments: yup.string().max(200, "Can't be longer than 200 characters"),
 });
@@ -104,7 +105,7 @@ function AddProjectForm ({ clients }: IProps) {
       </Field>
       <Field label="Payment" error={errors.payment}>
         <SInput
-          type="text"
+          type="number"
           id="payment"
           inputMode="numeric"
           pattern="([0-9]*).([0-9]*)"
