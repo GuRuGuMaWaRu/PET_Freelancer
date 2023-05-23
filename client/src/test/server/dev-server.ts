@@ -1,7 +1,8 @@
 import { setupWorker } from "msw";
-import { handlers } from "./server-handlers";
+import { userHandlers } from "./handlers.user";
+import { projectHandlers } from "./handlers.project";
 
-const server = setupWorker(...handlers);
+const server = setupWorker(...userHandlers, ...projectHandlers);
 
 export * from "msw";
 export { server };

@@ -2,9 +2,8 @@ import { rest } from "msw";
 
 import { config } from "../../shared/const";
 import { getUser, addUser, getUserByToken } from "./users";
-import { getProjects, getProjectsForYear } from "./projects";
 
-export const handlers = [
+export const userHandlers = [
   rest.post(`${config.API_URL}/users/login`, async (req, res, ctx) => {
     const {
       email,
@@ -76,30 +75,6 @@ export const handlers = [
       ctx.json({
         status: "success",
         data: user,
-      }),
-    );
-  }),
-
-  rest.get(`${config.API_URL}/projects`, (req, res, ctx) => {
-    const projects = getProjects();
-    return res(
-      ctx.status(200),
-      ctx.json({
-        status: "success",
-        results: projects.length,
-        data: projects,
-      }),
-    );
-  }),
-
-  rest.get(`${config.API_URL}/projects/lastYear`, (req, res, ctx) => {
-    const projects = getProjectsForYear();
-    return res(
-      ctx.status(200),
-      ctx.json({
-        status: "success",
-        results: projects.length,
-        data: projects,
       }),
     );
   }),
