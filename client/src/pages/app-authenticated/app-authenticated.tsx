@@ -1,7 +1,9 @@
-import { RouterProvider } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import { router } from "./router";
+import { routes } from "../routes";
 import { FullPageSpinner } from "shared/ui";
+
+const router = createBrowserRouter(routes);
 
 function AppAuthenticated() {
   return (

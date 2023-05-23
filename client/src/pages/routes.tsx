@@ -1,5 +1,3 @@
-import { createBrowserRouter } from "react-router-dom";
-
 import { Root, ErrorPage, NotFound, Dashboard, dashboardLoader } from "pages";
 import {
   Projects,
@@ -11,7 +9,7 @@ import {
 } from "routes";
 import { queryClient } from "context";
 
-const router = createBrowserRouter([
+const routes = [
   {
     path: "/",
     element: <Root />,
@@ -51,6 +49,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
 
-export { router };
+export { routes };
