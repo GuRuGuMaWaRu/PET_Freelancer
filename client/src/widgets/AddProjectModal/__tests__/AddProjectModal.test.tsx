@@ -68,7 +68,7 @@ describe("AddProjectModal", () => {
     expect(screen.getByRole("button", { name: /^add$/i })).toBeInTheDocument();
   });
 
-  it("should add a new client when it is entered", async () => {
+  it("should create a new project", async () => {
     const { user } = setup(<RouterProvider router={router} />);
 
     //** Open Add Project Modal */
@@ -86,6 +86,5 @@ describe("AddProjectModal", () => {
     expect(
       (await screen.findByLabelText(/notification/i)).textContent,
     ).toMatchInlineSnapshot(`"Project added successfully"`);
-    // expect(mockedClient).toHaveBeenCalledTimes(1);
   });
 });
