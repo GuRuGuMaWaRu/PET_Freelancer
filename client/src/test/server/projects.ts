@@ -36,9 +36,14 @@ function getProjectsForYear(): IProject[] {
   });
 }
 
+function addProject(project: IProject): void {
+  projects.push(project);
+  persist();
+}
+
 
 // bootstrap
 bootstrapFakeProjects();
 
 export type { IProject };
-export { getProjects, getProjectsForYear };
+export { getProjects, getProjectsForYear, addProject };
