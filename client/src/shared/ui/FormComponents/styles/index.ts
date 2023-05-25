@@ -15,6 +15,7 @@ const SInput = styled.input`
 const SSelect = styled.select`
   ${inputStyles}
 `;
+
 const STextarea = styled.textarea`
   ${inputStyles}
 `;
@@ -33,6 +34,10 @@ const SContainer = styled.div`
   flex-direction: column;
 `;
 
+const SButtonContainer = styled.div`
+  margin-top: 30px;
+`;
+
 export {
   inputStyles,
   SInput,
@@ -41,4 +46,5 @@ export {
   SReachComboboxInput,
   SLabel,
   SContainer,
+  SButtonContainer,
 };

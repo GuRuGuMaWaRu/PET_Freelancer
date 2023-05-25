@@ -2,16 +2,12 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { Field, SInput, Spinner, ErrorMessage } from "shared/ui";
+import { Field, SInput, SubmitButton } from "shared/ui";
 import { useNotification } from "entities/notification";
 import { useAuth } from "context";
 import { IResponseUserData, IRegisterFormInputs, useAsync } from "utils";
 
-const RegisterForm = ({
-  submitButton,
-}: {
-  submitButton: React.ReactElement;
-}) => {
+const RegisterForm = () => {
   const {
     register,
     handleSubmit,
@@ -86,20 +82,11 @@ const RegisterForm = ({
           aria-invalid={errors.password2 ? "true" : "false"}
           {...register("password2", {
             validate: (value) =>
-              value === watchPassword || "The passwords do not match",
+              value === watchPassword || "Passwords do not match",
           })}
         ></SInput>
       </Field>
-      <div css={{ marginTop: "30px" }}>
-        {React.cloneElement(
-          submitButton,
-          { type: "submit", disabled: isLoading ? true : false },
-          ...(Array.isArray(submitButton.props.children)
-            ? submitButton.props.children
-            : [submitButton.props.children]),
-          isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null,
-        )}
-      </div>
+      <SubmitButton isLoading={isLoading}>Register</SubmitButton>
     </form>
   );
 };

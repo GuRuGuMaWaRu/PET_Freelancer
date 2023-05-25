@@ -1,5 +1,5 @@
-import { RegisterForm } from "../../components";
-import { Button, Modal, ModalOpenButton, ModalContents } from "../../shared/ui";
+import { RegisterForm } from "entities/auth";
+import { Button, Modal, ModalOpenButton, ModalContents } from "shared/ui";
 
 function RegistrationModal() {
   return (
@@ -8,7 +8,7 @@ function RegistrationModal() {
         <Button variant="secondary">Register</Button>
       </ModalOpenButton>
       <ModalContents aria-label="Register Form" title="Register">
-        <RegisterForm submitButton={<Button>Register</Button>} />
+        <RegisterForm />
       </ModalContents>
     </Modal>
   );

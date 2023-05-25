@@ -2,12 +2,12 @@
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-import { Field, SInput, Spinner } from "shared/ui";
+import { Field, SInput, SubmitButton } from "shared/ui";
 import { useNotification } from "entities/notification";
 import { useAuth } from "context";
 import { IResponseUserData, ILoginFormInputs, useAsync } from "utils";
 
-const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
+const LoginForm = () => {
   const {
     register,
     handleSubmit,
@@ -54,16 +54,7 @@ const LoginForm = ({ submitButton }: { submitButton: React.ReactElement }) => {
           {...register("password", { required: "You must specify a password" })}
         ></SInput>
       </Field>
-      <div css={{ marginTop: "30px" }}>
-        {React.cloneElement(
-          submitButton,
-          { type: "submit", disabled: isLoading ? true : false },
-          ...(Array.isArray(submitButton.props.children)
-            ? submitButton.props.children
-            : [submitButton.props.children]),
-          isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null,
-        )}
-      </div>
+      <SubmitButton isLoading={isLoading}>Login</SubmitButton>
     </form>
   );
 };
