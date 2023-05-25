@@ -1,5 +1,5 @@
 import { getPages } from "../Pagination/Pagination.helpers";
-import { randomNumbers } from "../../test/generate";
+import { randomNumbers } from "test/generate";
 
 describe("getPages", () => {
   test("shows no more than 9 page buttons", () => {
