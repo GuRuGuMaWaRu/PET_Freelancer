@@ -11,8 +11,4 @@ const SHighlighted = styled.span`
   padding: 0 0.5rem;
 `;
 
-const SButtons = styled.div`
-  margin-top: 2rem;
-`;
-
-export { SContent, SHighlighted, SButtons };
+export { SContent, SHighlighted };

@@ -11,9 +11,8 @@ import {
   Combobox,
   SSelect,
   STextarea,
-  Button,
-  Spinner,
-  SInput
+  SInput,
+  SubmitButton
 } from "shared/ui";
 import type { IClient } from "shared/types";
 
@@ -122,11 +121,7 @@ function AddProjectForm ({ clients }: IProps) {
           {...register("comments")}
         ></STextarea>
       </Field>
-      <div css={{ marginTop: "30px" }}>
-        <Button type="submit" disabled={isLoading}>
-          Add {isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null}
-        </Button>
-      </div>
+      <SubmitButton isLoading={isLoading}>Add</SubmitButton>
     </Form>
   );
 };

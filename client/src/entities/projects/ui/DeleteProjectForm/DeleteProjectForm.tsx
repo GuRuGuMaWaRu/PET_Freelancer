@@ -1,8 +1,8 @@
 import { useFetcher } from "react-router-dom";
 
 import type { IProject } from "shared/types";
-import { Button, Spinner } from "shared/ui";
-import { SContent, SHighlighted, SButtons } from "./DeleteProjectForm.styles";
+import { SubmitButton } from "shared/ui";
+import { SContent, SHighlighted } from "./DeleteProjectForm.styles";
 import { useFormNotifications, useModalForm } from '../../hooks';
 
 interface IProps {
@@ -24,11 +24,7 @@ function DeleteProjectForm ({ project }: IProps ) {
         <SHighlighted>{project.projectNr}</SHighlighted> from
         <br />
         <SHighlighted>{project.client.name}</SHighlighted>?
-        <SButtons>
-          <Button type="submit" disabled={isLoading}>
-            Go ahead {isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null}
-          </Button>
-        </SButtons>
+        <SubmitButton isLoading={isLoading}>Go ahead</SubmitButton>
       </fetcher.Form>
     </SContent>
   );
