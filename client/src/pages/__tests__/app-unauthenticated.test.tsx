@@ -98,7 +98,7 @@ test("shows an error message when passwords are not identical in Register menu",
   await user.click(inModal.getByRole("button", { name: /^register$/i }));
   expect(await inModal.findAllByRole("alert")).toHaveLength(1);
   expect(inModal.getByRole("alert").textContent).toMatchInlineSnapshot(
-    `"The passwords do not match"`,
+    `"Passwords do not match"`,
   );
 });
 
