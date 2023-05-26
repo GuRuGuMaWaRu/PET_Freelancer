@@ -2,10 +2,11 @@
 import React from "react";
 import { Form, useFetcher } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import type { IEditProjectForm } from 'entities/projects/types';
 import { useFormNotifications, useModalForm } from 'entities/projects/hooks';
+import { formSchema } from "entities/projects/schemas";
 import {
   Field,
   SInput,
@@ -16,29 +17,6 @@ import {
   Spinner,
 } from "shared/ui";
 import type { IClient, IProject } from "shared/types";
-
-interface IEditProjectForm {
-  date: string;
-  client: string;
-  projectNr: string;
-  currency: "USD" | "EUR" | "GBP";
-  payment: number;
-  comments: string;
-  projectId: string;
-}
-
-const formSchema = yup.object().shape({
-  date: yup.date().required("You must specify a date"),
-  client: yup.string().required("You must specify a client"),
-  projectNr: yup.string().required("You must specify a project number"),
-  currency: yup.string(),
-  payment: yup
-    .number()
-    .positive("You must specify a 0 or a positive number")
-    .required("You must specify a sum"),
-  comments: yup.string().max(200, "Can't be longer than 200 characters"),
-  projectId: yup.string().required(),
-});
 
 interface IProps {
   project: IProject;
@@ -120,7 +98,7 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
       </Field>
       <Field label="Payment" error={errors.payment}>
         <SInput
-          type="text"
+          type="number"
           id="payment"
           inputMode="numeric"
           pattern="([0-9]*).([0-9]*)"

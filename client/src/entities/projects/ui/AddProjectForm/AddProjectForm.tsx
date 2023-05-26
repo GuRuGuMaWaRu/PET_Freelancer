@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { Form, useFetcher } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import type { IAddProjectForm } from 'entities/projects/types';
 import { useFormNotifications, useModalForm } from 'entities/projects/hooks';
+import { formSchema } from "entities/projects/schemas";
 import {
   Field,
   Combobox,
@@ -15,19 +15,6 @@ import {
   SubmitButton
 } from "shared/ui";
 import type { IClient } from "shared/types";
-
-const formSchema = yup.object().shape({
-  date: yup.string().required("You must specify a date"),
-  client: yup.string().required("You must specify a client"),
-  projectNr: yup.string().required("You must specify a project number"),
-  currency: yup.string(),
-  payment: yup
-    .number()
-    .typeError("You must specify a number")
-    .min(0, "You must specify a 0 or a positive number")
-    .required("You must specify a sum"),
-  comments: yup.string().max(200, "Can't be longer than 200 characters"),
-});
 
 interface IProps {
   clients: IClient[];
