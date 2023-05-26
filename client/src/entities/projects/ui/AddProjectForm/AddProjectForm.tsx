@@ -82,7 +82,7 @@ function AddProjectForm ({ clients }: IProps) {
           aria-invalid={errors.projectNr ? "true" : "false"}
           {...register("projectNr")}
         ></SInput>
-        </Field>
+      </Field>
       <Field label="Currency" error={errors.currency}>
         <SSelect id="currency" defaultValue={"USD"} {...register("currency")}>
           <option value="USD">USD</option>

@@ -9,12 +9,11 @@ import { useFormNotifications, useModalForm } from 'entities/projects/hooks';
 import { formSchema } from "entities/projects/schemas";
 import {
   Field,
-  SInput,
   Combobox,
   SSelect,
   STextarea,
-  Button,
-  Spinner,
+  SInput,
+  SubmitButton,
 } from "shared/ui";
 import type { IClient, IProject } from "shared/types";
 
@@ -115,11 +114,7 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
           {...register("comments")}
         ></STextarea>
       </Field>
-      <div css={{ marginTop: "30px" }}>
-        <Button type="submit" disabled={isLoading}>
-          Update {isLoading ? <Spinner css={{ marginLeft: 7 }} /> : null}
-        </Button>
-      </div>
+      <SubmitButton isLoading={isLoading}>Update</SubmitButton>
     </Form>
   );
 };
