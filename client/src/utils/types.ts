@@ -14,8 +14,8 @@ interface ILoginFormInputs {
 interface IRegisterFormInputs {
   name: string;
   email: string;
-  password1: string;
-  password2: string;
+  password: string;
+  confirmPassword: string;
 }
 
 interface IProjectPaginatedData {

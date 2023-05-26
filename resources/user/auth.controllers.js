@@ -94,9 +94,11 @@ const getUser = catchAsync(async (req, res, next) => {
 // @access    Public
 const signup = catchAsync(async (req, res, next) => {
   // Handle errors on Registration form
-  const { name, email, password1: password } = req.body;
+  const { name, email, password } = req.body;
 
-  const duplicate = await User.findOne({ email });
+  const duplicate = await User.findOne({ email })
+    .lean()
+    .exec();
 
   if (duplicate) {
     return next(new AppError(409, "User already exists"));

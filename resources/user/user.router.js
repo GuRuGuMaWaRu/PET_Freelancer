@@ -28,7 +28,7 @@ router.post(
       .isEmpty(),
     check("email", "Please add email").isEmail(),
     check(
-      "password1",
+      "password",
       "Please enter a password with 6 or more characters",
     ).isLength({ min: 6 }),
   ],

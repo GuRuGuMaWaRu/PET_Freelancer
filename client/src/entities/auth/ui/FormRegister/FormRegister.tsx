@@ -1,20 +1,42 @@
 /** @jsxImportSource @emotion/react */
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Field, SInput, SubmitButton } from "shared/ui";
 import { useNotification } from "entities/notification";
 import { useAuth } from "context";
 import { IResponseUserData, IRegisterFormInputs, useAsync } from "utils";
 
+const getCharacterValidationError = (str: string) => {
+  return `Your password must have at least 1 ${str} character`;
+};
+
+const formSchema = yup.object().shape({
+  name: yup.string().required("You must specify a name"),
+  email: yup.string().required("You must specify an email"),
+  password: yup
+    .string()
+    .required("You must specify a password")
+    .min(6, "Password must have at least 6 characters")
+    .matches(/[0-9]/, getCharacterValidationError("number"))
+    .matches(/[a-z]/, getCharacterValidationError("lowercase"))
+    .matches(/[A-Z]/, getCharacterValidationError("uppercase")),
+  confirmPassword: yup
+    .string()
+    .required("Please confirm your password")
+    .oneOf([yup.ref("password")], "Passwords do not match"),
+});
+
 const RegisterForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-  } = useForm<IRegisterFormInputs>();
-  const watchPassword = watch("password1");
+  } = useForm<IRegisterFormInputs>({
+    resolver: yupResolver(formSchema),
+  });
   const { run, isLoading, isError, error } = useAsync<
     IResponseUserData,
     Error
@@ -42,9 +64,7 @@ const RegisterForm = () => {
           autoComplete="name"
           autoFocus
           aria-invalid={errors.name ? "true" : "false"}
-          {...register("name", {
-            required: "You must specify a name",
-          })}
+          {...register("name")}
         ></SInput>
       </Field>
       <Field label="Email" error={errors.email}>
@@ -53,37 +73,26 @@ const RegisterForm = () => {
           id="email"
           autoComplete="username"
           aria-invalid={errors.email ? "true" : "false"}
-          {...register("email", {
-            required: "You must specify an email address",
-          })}
+          {...register("email")}
         ></SInput>
       </Field>
-      <Field label="Password" error={errors.password1}>
+      <Field label="Password" error={errors.password}>
         <SInput
           type="password"
-          id="password1"
+          id="password"
           autoComplete="current-password"
           aria-describedby="password-requirements"
-          aria-invalid={errors.password1 ? "true" : "false"}
-          {...register("password1", {
-            required: "You must specify a password",
-            minLength: {
-              value: 6,
-              message: "Password must have at least 6 characters",
-            },
-          })}
+          aria-invalid={errors.password ? "true" : "false"}
+          {...register("password")}
         ></SInput>
       </Field>
-      <Field label="Repeat password" error={errors.password2}>
+      <Field label="Repeat password" error={errors.confirmPassword}>
         <SInput
           type="password"
-          id="password2"
+          id="confirmPassword"
           autoComplete="current-password"
-          aria-invalid={errors.password2 ? "true" : "false"}
-          {...register("password2", {
-            validate: (value) =>
-              value === watchPassword || "Passwords do not match",
-          })}
+          aria-invalid={errors.confirmPassword ? "true" : "false"}
+          {...register("confirmPassword")}
         ></SInput>
       </Field>
       <SubmitButton isLoading={isLoading}>Register</SubmitButton>

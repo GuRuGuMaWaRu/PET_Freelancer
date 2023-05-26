@@ -28,14 +28,14 @@ export const userHandlers = [
     const {
       name,
       email,
-      password1,
+      password,
     }: {
       name: string;
       email: string;
-      password1: string;
-      password2: string;
+      password: string;
+      confirmPassword: string;
     } = await req.json();
-    const user = getUser(email, password1);
+    const user = getUser(email, password);
 
     if (user) {
       return res(
@@ -44,8 +44,8 @@ export const userHandlers = [
       );
     }
 
-    addUser({ name, email, password: password1 });
-    const newUser = getUser(email, password1);
+    addUser({ name, email, password: password });
+    const newUser = getUser(email, password);
 
     return res(
       // Respond with a 200 status code

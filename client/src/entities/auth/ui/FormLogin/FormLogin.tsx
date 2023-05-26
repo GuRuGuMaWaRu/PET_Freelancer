@@ -1,18 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import * as React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Field, SInput, SubmitButton } from "shared/ui";
 import { useNotification } from "entities/notification";
 import { useAuth } from "context";
 import { IResponseUserData, ILoginFormInputs, useAsync } from "utils";
 
+const formSchema = yup.object().shape({
+  email: yup.string().required("You must specify an email"),
+  password: yup.string().required("You must specify a password"),
+});
+
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ILoginFormInputs>();
+  } = useForm<ILoginFormInputs>({
+    resolver: yupResolver(formSchema),
+  });
   const { run, isLoading, isError, error } = useAsync<
     IResponseUserData,
     Error
@@ -40,9 +49,7 @@ const LoginForm = () => {
           autoComplete="username"
           autoFocus
           aria-invalid={errors.email ? "true" : "false"}
-          {...register("email", {
-            required: "You must specify an email address",
-          })}
+          {...register("email")}
         ></SInput>
       </Field>
       <Field label="Password" error={errors.password}>
@@ -51,7 +58,7 @@ const LoginForm = () => {
           id="password"
           autoComplete="current-password"
           aria-invalid={errors.password ? "true" : "false"}
-          {...register("password", { required: "You must specify a password" })}
+          {...register("password")}
         ></SInput>
       </Field>
       <SubmitButton isLoading={isLoading}>Login</SubmitButton>
