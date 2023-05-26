@@ -4,8 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import type { IAddProjectForm } from '../../types';
-import { useFormNotifications, useModalForm } from '../../hooks';
+import type { IAddProjectForm } from 'entities/projects/types';
+import { useFormNotifications, useModalForm } from 'entities/projects/hooks';
 import {
   Field,
   Combobox,

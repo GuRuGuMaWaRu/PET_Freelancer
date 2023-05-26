@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import { useFormNotifications, useModalForm } from 'entities/projects/hooks';
 import {
   Field,
   SInput,
@@ -13,10 +14,8 @@ import {
   STextarea,
   Button,
   Spinner,
-  useModal,
 } from "shared/ui";
 import type { IClient, IProject } from "shared/types";
-import { useNotification } from "entities/notification";
 
 interface IEditProjectForm {
   date: string;
@@ -60,28 +59,10 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
     },
   });
   const fetcher = useFetcher();
-  const { setIsOpen } = useModal();
-  const notification = useNotification();
-
   const isLoading = fetcher.state !== "idle";
 
-  //** Show SUCCESS or WARNING message */
-  React.useEffect(() => {
-    if (fetcher.data && !isLoading) {
-      if (fetcher.data.status === "success") {
-        notification.success(fetcher.data.message);
-      } else {
-        notification.warning(fetcher.data.message);
-      }
-    }
-  }, [fetcher.data, isLoading, notification]);
-
-  //** Close Modal on success */
-  React.useEffect(() => {
-    if (fetcher?.data?.status === "success") {
-      setIsOpen(false);
-    }
-  }, [fetcher.data, setIsOpen]);
+  useModalForm(fetcher.data);
+  useFormNotifications(fetcher.data, isLoading);
 
   const formSubmit: SubmitHandler<IEditProjectForm> = (data) => {
     let formData = new FormData();
