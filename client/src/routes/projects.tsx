@@ -14,10 +14,10 @@ import {
 import type { IClient } from "shared/types";
 import { colors, mq, config } from "shared/const";
 import { getAllClients } from "entities/clients/api";
-import { DeleteProjectForm } from 'entities/projects'
+import { DeleteProjectForm, EditProjectForm } from 'entities/projects'
 import { AddProjectModal } from 'widgets';
 import { IProjectPaginatedData, getPageOfProjects } from "utils";
-import { ProjectSearchInput, ProjectListItem, EditProjectForm } from "components";
+import { ProjectSearchInput, ProjectListItem } from "components";
 
 const getProjectsPageQuery = (
   page: number,
