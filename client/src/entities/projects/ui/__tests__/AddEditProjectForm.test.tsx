@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
-import { AddProjectForm } from "../AddProjectForm/AddProjectForm";
+import { AddEditProjectForm } from "../AddEditProjectForm/AddEditProjectForm";
 
 function setup(jsx: React.ReactElement) {
   return {
@@ -12,7 +12,7 @@ function setup(jsx: React.ReactElement) {
   };
 }
 
-describe("AddProjectForm", () => {
+describe("AddEditProjectForm", () => {
   const Wrapper = () => {
     const clients = [
       { _id: "1", name: "test client 1" },
@@ -20,7 +20,7 @@ describe("AddProjectForm", () => {
       { _id: "3", name: "test client 3" },
     ];
 
-    return <AddProjectForm clients={clients} />;
+    return <AddEditProjectForm clients={clients} />;
   };
 
   const routes = [

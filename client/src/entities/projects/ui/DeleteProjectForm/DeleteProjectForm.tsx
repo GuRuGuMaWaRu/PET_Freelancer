@@ -1,9 +1,9 @@
 import { useFetcher } from "react-router-dom";
 
+import { useFormNotifications, useModalForm } from 'entities/projects/lib';
+import { SContent, SHighlighted } from "./DeleteProjectForm.styles";
 import type { IProject } from "shared/types";
 import { SubmitButton } from "shared/ui";
-import { SContent, SHighlighted } from "./DeleteProjectForm.styles";
-import { useFormNotifications, useModalForm } from '../../hooks';
 
 interface IProps {
   project: IProject;

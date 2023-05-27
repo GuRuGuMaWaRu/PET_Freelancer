@@ -1,7 +1,7 @@
 import { useGetColorFromPath } from './AddProjectModal.hooks';
 import { Button, Modal, ModalOpenButton, ModalContents } from "shared/ui";
 import type { IClient } from "shared/types";
-import { AddProjectForm } from "entities/projects";
+import { AddEditProjectForm } from "entities/projects";
 
 interface IProps {
   clients: IClient[];
@@ -20,7 +20,7 @@ function AddProjectModal({ clients }: IProps) {
         title="Add Project"
         bgColor={color}
       >
-        <AddProjectForm clients={clients} />
+        <AddEditProjectForm clients={clients} />
       </ModalContents>
     </Modal>
   );

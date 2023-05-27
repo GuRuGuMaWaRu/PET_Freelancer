@@ -14,7 +14,7 @@ import {
 import type { IClient } from "shared/types";
 import { colors, mq, config } from "shared/const";
 import { getAllClients } from "entities/clients/api";
-import { DeleteProjectForm, EditProjectForm } from 'entities/projects'
+import { DeleteProjectForm, AddEditProjectForm } from 'entities/projects'
 import { AddProjectModal } from 'widgets';
 import { IProjectPaginatedData, getPageOfProjects } from "utils";
 import { ProjectSearchInput, ProjectListItem } from "components";
@@ -214,7 +214,7 @@ function Projects() {
                         title="Edit Project"
                         bgColor={colors.greenLight2}
                       >
-                        <EditProjectForm project={project} clients={clients} />
+                        <AddEditProjectForm project={project} clients={clients} />
                       </ModalContents>
                     </Modal>
                     <Modal>

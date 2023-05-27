@@ -89,10 +89,13 @@ test("shows an error message when passwords are not identical in Register menu",
     inModal.getByRole("textbox", { name: /^email$/i }),
     fakeUser.email,
   );
-  await user.type(screen.getByLabelText(/^password$/i), fakeUser.password);
+  await user.type(
+    screen.getByLabelText(/^password$/i),
+    fakeUser.password + "1",
+  );
   await user.type(
     screen.getByLabelText(/^repeat password$/i),
-    fakeUser.password + "a",
+    fakeUser.password + "1a",
   );
 
   await user.click(inModal.getByRole("button", { name: /^register$/i }));

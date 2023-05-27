@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
 import { Form, useFetcher } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import type { IEditProjectForm } from 'entities/projects/types';
-import { useFormNotifications, useModalForm } from 'entities/projects/hooks';
-import { formSchema } from "entities/projects/schemas";
+import { formSchema, useFormNotifications, useModalForm } from 'entities/projects/lib';
+import { formValsConstructor } from 'entities/projects/lib';
 import {
   Field,
   Combobox,
@@ -18,22 +17,14 @@ import {
 import type { IClient, IProject } from "shared/types";
 
 interface IProps {
-  project: IProject;
+  project?: IProject;
   clients: IClient[];
 }
 
-const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
+function AddEditProjectForm ({ project, clients }: IProps) {
   const { register, handleSubmit, formState: {errors} } = useForm<IEditProjectForm>({
     resolver: yupResolver(formSchema),
-    defaultValues: {
-      date: new Date(project.date).toISOString().split("T")[0],
-      client: project.client.name,
-      projectNr: project.projectNr,
-      currency: project.currency,
-      payment: project.payment,
-      comments: project.comments,
-      projectId: project._id,
-    },
+    defaultValues: formValsConstructor(project),
   });
   const fetcher = useFetcher();
   const isLoading = fetcher.state !== "idle";
@@ -57,8 +48,8 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
       formData.append(key, value);
     }
     fetcher.submit(formData, {
-      action: `projects/${data.projectId}/update`,
-      method: "patch",
+      action: project ? `projects/${data.projectId}/update` : "projects/add",
+      method: project ? "patch" : "post",
     });
   };
 
@@ -76,7 +67,7 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
       <Field label="Client" error={errors.client}>
         <Combobox
           id="client"
-          label="Choose a client"
+          label="Client"
           items={clients}
           {...register("client")}
         />
@@ -114,9 +105,9 @@ const EditProjectForm: React.FC<IProps> = ({ project, clients }) => {
           {...register("comments")}
         ></STextarea>
       </Field>
-      <SubmitButton isLoading={isLoading}>Update</SubmitButton>
+      <SubmitButton isLoading={isLoading}>{project ? "Update" : "Add"}</SubmitButton>
     </Form>
   );
 };
 
-export { EditProjectForm };
+export { AddEditProjectForm };
