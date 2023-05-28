@@ -4,13 +4,19 @@ interface Error {
 
 type ErrorVariant = "stacked" | "inline";
 
+export enum Currency {
+  USD = "USD",
+  EUR = "EUR",
+  GBP = "GBP"
+}
+
 interface IProject {
   _id: string;
   user: string;
   client: IClient;
   projectNr: string;
   payment: number;
-  currency: 'USD' | 'EUR' | 'GBP';
+  currency: Currency;
   date: Date;
   deleted: boolean;
   paid: boolean;

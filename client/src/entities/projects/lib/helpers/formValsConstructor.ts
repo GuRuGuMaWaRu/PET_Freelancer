@@ -1,3 +1,4 @@
+import { Currency } from "shared/types";
 import type { IProject } from "shared/types";
 import type { IProjectForm } from 'entities/projects/types'
 
@@ -7,7 +8,7 @@ const formValsConstructor = (project: IProject | undefined): IProjectForm & {pro
       : new Date().toISOString().split("T")[0],
     client: project?.client.name ?? "",
     projectNr: project?.projectNr ?? "",
-    currency: project?.currency ?? "USD",
+    currency: project?.currency ?? Currency.USD,
     payment: project?.payment ?? 0,
     comments: project?.comments ?? "",
     projectId: project?._id ?? "",

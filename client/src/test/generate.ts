@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 import type { IUser } from './server/users'
 import type { IProject } from './server/projects'
+import { Currency } from "shared/types";
 
 const RANDOM_CLIENTS = 20;
 const clients: string[] = [];
@@ -21,7 +22,7 @@ const buildProject = (overrides: Partial<IProject> = {}): IProject => ({
   client: { name: clients[Math.floor(Math.random() * RANDOM_CLIENTS)], _id: faker.datatype.uuid() },
   projectNr: faker.datatype.uuid(),
   payment: +faker.finance.amount(1, 200),
-  currency: 'USD',
+  currency: Currency.USD,
   date: faker.date.between(faker.date.past(2), Date.now()),
   deleted: false,
   paid: false,

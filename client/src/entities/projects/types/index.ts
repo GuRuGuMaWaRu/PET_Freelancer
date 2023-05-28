@@ -1,8 +1,10 @@
+import { Currency } from "shared/types";
+
 interface IProjectForm {
     date: string;
   client: string;
   projectNr: string;
-  currency: "USD" | "EUR" | "GBP";
+  currency: Currency;
   payment: number;
   comments: string;
 }

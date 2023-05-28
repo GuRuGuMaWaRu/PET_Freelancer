@@ -14,6 +14,7 @@ import {
   SInput,
   SubmitButton,
 } from "shared/ui";
+import { Currency } from 'shared/types'
 import type { IClient, IProject } from "shared/types";
 
 interface IProps {
@@ -81,9 +82,9 @@ function AddEditProjectForm ({ project, clients }: IProps) {
         ></SInput>
       </Field>
       <Field label="Currency" error={errors.currency}>
-        <SSelect id="currency" defaultValue={"USD"} {...register("currency")}>
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
+        <SSelect id="currency" defaultValue={Currency.USD} {...register("currency")}>
+          <option value={Currency.USD}>{Currency.USD}</option>
+          <option value={Currency.EUR}>{Currency.EUR}</option>
         </SSelect>
       </Field>
       <Field label="Payment" error={errors.payment}>

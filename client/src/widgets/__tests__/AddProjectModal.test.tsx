@@ -5,7 +5,7 @@ import "@testing-library/jest-dom";
 
 import { waitForLoadingToFinish } from "test/test-helpers";
 import { NotificationProvider } from "entities/notification";
-import { AddProjectModal } from "../ui/AddProjectModal/AddProjectModal";
+import { AddProjectModal } from "..";
 import { projectsAddAction } from "routes";
 import { queryClient } from "context";
 
