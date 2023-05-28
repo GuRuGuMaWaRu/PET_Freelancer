@@ -1,4 +1,4 @@
-import { getColorBasedOnPath } from "../AddProjectModal.helpers";
+import { getColorBasedOnPath } from "../lib/helpers";
 
 describe("getColorBasedOnPath", () => {
   it('should return "rgb(120 92 211)" for the "/" route', () => {

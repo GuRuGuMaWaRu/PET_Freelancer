@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 
-import { getColorBasedOnPath } from "./AddProjectModal.helpers";
+import { getColorBasedOnPath } from "./helpers";
 
 const useGetColorFromPath = () => {
   const { pathname } = useLocation();
