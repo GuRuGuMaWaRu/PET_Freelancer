@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { mq } from "../../shared/const";
+import { mq } from "../../../shared/const";
 
 const SBar = styled.div({
   gridColumn: "5 / 5",

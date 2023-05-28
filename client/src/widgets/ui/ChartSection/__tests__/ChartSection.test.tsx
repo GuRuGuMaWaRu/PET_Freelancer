@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { ChartSection } from "widgets/ChartSection/ChartSection";
+import { ChartSection } from "../ChartSection";
 import { getMaxLabelLength } from "features/charts/lib";
 
 global.ResizeObserver = require("resize-observer-polyfill");
