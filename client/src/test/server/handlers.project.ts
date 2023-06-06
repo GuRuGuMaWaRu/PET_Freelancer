@@ -5,6 +5,7 @@ import {
   getProjects,
   getProjectsForYear,
   addProject,
+  updateProject,
   IProject,
 } from "./projects";
 
@@ -41,6 +42,19 @@ export const projectHandlers = [
 
     return res(
       ctx.status(200),
+      ctx.json({
+        status: "success",
+        data: null,
+      }),
+    );
+  }),
+
+  rest.patch(`${config.API_URL}/projects/:id`, async (req, res, ctx) => {
+    const updatedProject = (await req.json()) as IProject;
+    updateProject(updatedProject);
+
+    return res(
+      ctx.status(201),
       ctx.json({
         status: "success",
         data: null,

@@ -41,9 +41,17 @@ function addProject(project: IProject): void {
   persist();
 }
 
+function updateProject(project: IProject): void {
+  const index = projects.findIndex(p => p._id === project._id);
+
+  if (index) {
+    projects[index] = project;
+    persist();
+  }
+}
 
 // bootstrap
 bootstrapFakeProjects();
 
 export type { IProject };
-export { getProjects, getProjectsForYear, addProject };
+export { getProjects, getProjectsForYear, addProject, updateProject };
