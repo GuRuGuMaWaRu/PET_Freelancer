@@ -1,4 +1,3 @@
-export * from "./clients";
 export * from "./projects";
 export * from "./projects.add";
 export * from "./projects.delete";

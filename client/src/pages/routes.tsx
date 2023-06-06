@@ -1,11 +1,17 @@
-import { Root, ErrorPage, NotFound, Dashboard, dashboardLoader } from "pages";
+import {
+  Root,
+  ErrorPage,
+  NotFound,
+  Dashboard,
+  dashboardLoader,
+  Clients,
+} from "pages";
 import {
   Projects,
   projectsLoader,
   projectsAddAction,
   projectsDeleteAction,
   projectsEditAction,
-  Clients,
 } from "routes";
 import { queryClient } from "context";
 
