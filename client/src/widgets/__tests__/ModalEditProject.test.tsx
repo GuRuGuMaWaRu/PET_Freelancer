@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 
 import { waitForLoadingToFinish } from "test/test-helpers";
 import { NotificationProvider } from "entities/notification";
-import { EditProjectModal } from "..";
+import { ModalEditProject } from "..";
 import { projectsEditAction } from "routes";
 import { queryClient } from "context";
 import { Currency } from "shared/types";
@@ -16,7 +16,7 @@ function setup(jsx: React.ReactElement) {
   };
 }
 
-describe("EditProjectModal", () => {
+describe("ModalEditProject", () => {
   const Wrapper = () => {
     const clients = [
       { _id: "1", name: "test client 1" },
@@ -36,7 +36,7 @@ describe("EditProjectModal", () => {
       paid: false,
     };
 
-    return <EditProjectModal project={project} clients={clients} />;
+    return <ModalEditProject project={project} clients={clients} />;
   };
 
   const routes = [

@@ -7,7 +7,7 @@ interface IProps {
   clients: IClient[];
 }
 
-function AddProjectModal({ clients }: IProps) {
+function ModalAddProject({ clients }: IProps) {
   const color = useGetColorFromPath();
 
   return (
@@ -26,4 +26,4 @@ function AddProjectModal({ clients }: IProps) {
   );
 }
 
-export { AddProjectModal };
+export { ModalAddProject };

@@ -5,7 +5,7 @@ import "@testing-library/jest-dom";
 
 import { waitForLoadingToFinish } from "test/test-helpers";
 import { NotificationProvider } from "entities/notification";
-import { AddProjectModal } from "..";
+import { ModalAddProject } from "..";
 import { projectsAddAction } from "routes";
 import { queryClient } from "context";
 
@@ -16,7 +16,7 @@ function setup(jsx: React.ReactElement) {
   };
 }
 
-describe("AddProjectModal", () => {
+describe("ModalAddProject", () => {
   const Wrapper = () => {
     const clients = [
       { _id: "1", name: "test client 1" },
@@ -24,7 +24,7 @@ describe("AddProjectModal", () => {
       { _id: "3", name: "test client 3" },
     ];
 
-    return <AddProjectModal clients={clients} />;
+    return <ModalAddProject clients={clients} />;
   };
 
   const routes = [

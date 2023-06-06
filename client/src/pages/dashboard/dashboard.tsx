@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useDashboardData } from "./dashboard.hooks";
-import { AddProjectModal, MemoDashboardTotals, ChartSection } from "widgets";
+import { ModalAddProject, MemoDashboardTotals, ChartSection } from "widgets";
 
 function Dashboard() {
   const {
@@ -13,7 +13,7 @@ function Dashboard() {
   return (
     <>
       <div css={{ display: "flex", justifyContent: "flex-end" }}>
-        <AddProjectModal clients={clients} />
+        <ModalAddProject clients={clients} />
       </div>
       <MemoDashboardTotals data={earningsByMonth} />
       <ChartSection

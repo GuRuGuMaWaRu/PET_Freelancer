@@ -11,7 +11,7 @@ interface IProps {
   clients: IClient[];
 }
 
-function EditProjectModal({ project, clients }: IProps) {
+function ModalEditProject({ project, clients }: IProps) {
   return (
     <Modal>
       <ModalOpenButton>
@@ -30,4 +30,4 @@ function EditProjectModal({ project, clients }: IProps) {
   );
 }
 
-export { EditProjectModal };
+export { ModalEditProject };

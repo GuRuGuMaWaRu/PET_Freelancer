@@ -1,7 +1,7 @@
 import { RegisterForm } from "entities/auth";
 import { Button, Modal, ModalOpenButton, ModalContents } from "shared/ui";
 
-function RegistrationModal() {
+function ModalRegistration() {
   return (
     <Modal>
       <ModalOpenButton>
@@ -14,4 +14,4 @@ function RegistrationModal() {
   );
 }
 
-export { RegistrationModal };
+export { ModalRegistration };

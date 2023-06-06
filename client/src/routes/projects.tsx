@@ -15,7 +15,7 @@ import type { IClient } from "shared/types";
 import { colors, mq, config } from "shared/const";
 import { getAllClients } from "entities/clients/api";
 import { DeleteProjectForm, AddEditProjectForm } from 'entities/projects'
-import { AddProjectModal } from 'widgets';
+import { ModalAddProject } from 'widgets';
 import { IProjectPaginatedData, getPageOfProjects } from "utils";
 import { ProjectSearchInput, ProjectListItem } from "components";
 
@@ -156,7 +156,7 @@ function Projects() {
     <div>
       <SContainer>
         <ProjectSearchInput onSearch={handleSearch} />
-        <AddProjectModal clients={clients} />
+        <ModalAddProject clients={clients} />
       </SContainer>
       {isLoading ? (
         <FullPageSpinner />

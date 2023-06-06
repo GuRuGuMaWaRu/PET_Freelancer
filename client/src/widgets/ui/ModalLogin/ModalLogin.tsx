@@ -1,7 +1,7 @@
 import { LoginForm } from "entities/auth";
 import { Button, Modal, ModalOpenButton, ModalContents } from "shared/ui";
 
-function LoginModal() {
+function ModalLogin() {
   return (
     <Modal>
       <ModalOpenButton>
@@ -14,4 +14,4 @@ function LoginModal() {
   );
 }
 
-export { LoginModal };
+export { ModalLogin };
