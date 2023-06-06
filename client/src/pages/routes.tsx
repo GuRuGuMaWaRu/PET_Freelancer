@@ -4,11 +4,11 @@ import {
   NotFound,
   Dashboard,
   dashboardLoader,
+  Projects,
+  projectsLoader,
   Clients,
 } from "pages";
 import {
-  Projects,
-  projectsLoader,
   projectsAddAction,
   projectsDeleteAction,
   projectsEditAction,
