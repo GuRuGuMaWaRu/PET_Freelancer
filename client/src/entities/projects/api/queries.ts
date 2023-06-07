@@ -1,4 +1,4 @@
-import { getProjectsForYear } from "./api";
+import { getProjectsForYear, getPageOfProjects } from "./api";
 
 const projectsOneYearQuery = () => ({
   queryKey: ["projects", "oneyear"],
@@ -9,4 +9,18 @@ const projectsOneYearQuery = () => ({
   },
 });
 
-export { projectsOneYearQuery };
+const getProjectsPageQuery = (
+  page: number,
+  sortColumn?: string,
+  searchQuery?: string,
+) => ({
+  queryKey: ["projects", { page, sortColumn, searchQuery }],
+  queryFn: async () => {
+    const res = await getPageOfProjects(page, sortColumn, searchQuery);
+
+    return res.data;
+  },
+  keepPreviousData: true,
+});
+
+export { projectsOneYearQuery, getProjectsPageQuery };

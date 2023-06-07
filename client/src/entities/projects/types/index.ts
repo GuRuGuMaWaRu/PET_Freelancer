@@ -1,4 +1,5 @@
 import { Currency } from "shared/types";
+import type { IProject } from "shared/types";
 
 interface IProjectForm {
     date: string;
@@ -13,4 +14,9 @@ interface IEditProjectForm extends IProjectForm {
   projectId: string;
 } 
 
-export type { IProjectForm, IEditProjectForm };
+interface IProjectPaginatedData {
+  docs: IProject[];
+  allDocs: number;
+}
+
+export type { IProjectForm, IEditProjectForm, IProjectPaginatedData };

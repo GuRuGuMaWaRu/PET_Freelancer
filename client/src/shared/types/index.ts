@@ -23,6 +23,11 @@ interface IProject {
   comments?: string;
 }
 
+interface IProjectPaginatedData {
+  docs: IProject[];
+  allDocs: number;
+}
+
 interface IClient {
   _id: string;
   name: string;
@@ -47,4 +52,4 @@ interface IEarnings {
   projects: number;
 }
 
-export type { Error, ErrorVariant, IProject, IClient, IEarningsByClient, IEarningsByMonth, IEarnings };
+export type { Error, ErrorVariant, IProject, IProjectPaginatedData, IClient, IEarningsByClient, IEarningsByMonth, IEarnings };

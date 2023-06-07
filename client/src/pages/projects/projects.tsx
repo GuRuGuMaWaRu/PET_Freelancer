@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { useQuery, QueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import styled from "@emotion/styled";
 import { FaSortUp, FaSortDown, FaPen, FaRegTrashAlt } from "react-icons/fa";
 
@@ -11,53 +11,12 @@ import {
   ModalContents,
   MemoPagination,
 } from "shared/ui";
-import type { IClient } from "shared/types";
 import { colors, mq, config } from "shared/const";
-import { getAllClients } from "entities/clients/api";
-import { DeleteProjectForm, AddEditProjectForm } from 'entities/projects'
-import { ModalAddProject } from 'widgets';
-import { IProjectPaginatedData, getPageOfProjects } from "utils";
+import { getAllClientsQuery } from "entities/clients/api";
+import { DeleteProjectForm, AddEditProjectForm } from "entities/projects";
+import { getProjectsPageQuery } from "entities/projects/api";
+import { ModalAddProject } from "widgets";
 import { ProjectSearchInput, ProjectListItem } from "components";
-
-const getProjectsPageQuery = (
-  page: number,
-  sortColumn?: string,
-  searchQuery?: string,
-) => ({
-  queryKey: ["projects", { page, sortColumn, searchQuery }],
-  queryFn: async () => {
-    const res = await getPageOfProjects(page, sortColumn, searchQuery);
-
-    return res.data;
-  },
-  keepPreviousData: true,
-});
-
-const getAllClientsQuery = () => ({
-  queryKey: ["clients"],
-  queryFn: async () => {
-    const res = await getAllClients();
-
-    return res.data;
-  },
-});
-
-const loader = (queryClient: QueryClient) => async (): Promise<{
-  projectsQuery: IProjectPaginatedData;
-  clientsQuery: IClient[];
-}> => {
-  const projectsQuery = getProjectsPageQuery(1);
-  const clientsQuery = getAllClientsQuery();
-
-  return {
-    projectsQuery:
-      queryClient.getQueryData(projectsQuery.queryKey) ??
-      (await queryClient.fetchQuery(projectsQuery)),
-    clientsQuery:
-      queryClient.getQueryData(clientsQuery.queryKey) ??
-      (await queryClient.fetchQuery(clientsQuery)),
-  };
-};
 
 //** TODO: move this into a separate constants file (projects.const.tsx) when I'll have FEATURES, or maybe construct columns some other way */
 const columns = [
@@ -214,7 +173,10 @@ function Projects() {
                         title="Edit Project"
                         bgColor={colors.greenLight2}
                       >
-                        <AddEditProjectForm project={project} clients={clients} />
+                        <AddEditProjectForm
+                          project={project}
+                          clients={clients}
+                        />
                       </ModalContents>
                     </Modal>
                     <Modal>
@@ -248,4 +210,4 @@ function Projects() {
   );
 }
 
-export { Projects, loader as projectsLoader };
+export { Projects };

@@ -7,4 +7,5 @@ export * from "./root-page/root-page";
 export * from "./dashboard/dashboard";
 export { loader as dashboardLoader } from "./dashboard/dashboard.loaders";
 export * from "./projects/projects";
+export { loader as projectsLoader } from "./projects/projects.loaders";
 export * from "./clients/clients";

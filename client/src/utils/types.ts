@@ -18,14 +18,8 @@ interface IRegisterFormInputs {
   confirmPassword: string;
 }
 
-interface IProjectPaginatedData {
-  docs: IProject[];
-  allDocs: number;
-}
-
 export type { 
   IResponseUserData,
   ILoginFormInputs,
   IRegisterFormInputs,
-  IProjectPaginatedData,
 };
