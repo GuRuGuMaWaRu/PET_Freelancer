@@ -1,9 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import styled from "@emotion/styled";
 import { FaSortUp, FaSortDown, FaPen, FaRegTrashAlt } from "react-icons/fa";
 
+import { columns } from "./projects.const";
+import {
+  SContainer,
+  STableContainer,
+  STableLoading,
+  STablePlaceholder,
+  STable,
+  STableHeader,
+  SActionButton,
+} from "./projects.styles";
 import {
   FullPageSpinner,
   Modal,
@@ -11,75 +20,12 @@ import {
   ModalContents,
   MemoPagination,
 } from "shared/ui";
-import { colors, mq, config } from "shared/const";
+import { colors, config } from "shared/const";
 import { getAllClientsQuery } from "entities/clients/api";
 import { DeleteProjectForm, AddEditProjectForm } from "entities/projects";
 import { getProjectsPageQuery } from "entities/projects/api";
 import { ModalAddProject } from "widgets";
 import { ProjectSearchInput, ProjectListItem } from "components";
-
-//** TODO: move this into a separate constants file (projects.const.tsx) when I'll have FEATURES, or maybe construct columns some other way */
-const columns = [
-  { name: "client", sortName: "client.name" },
-  { name: "date", sortName: "date" },
-  { name: "project nr" },
-  { name: "payment", sortName: "payment" },
-  { name: "comments", sortName: "comments" },
-  { name: "actions" },
-];
-
-//** TODO: move this into a separate styles file (projects.styles.tsx) when I'll have FEATURES */
-const SContainer = styled.div({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-});
-
-const STableContainer = styled.div({
-  position: "relative",
-  margin: "2em 0",
-  // height: "820px",
-});
-
-const STablePlaceholder = styled.p({
-  marginTop: "14rem",
-  textAlign: "center",
-  fontSize: "1.3rem",
-});
-
-const STable = styled.div({
-  width: "100%",
-  display: "grid",
-  gap: ".4em",
-  gridTemplateColumns: "repeat(2, 2fr) 3fr 1fr 2fr 90px",
-  [mq.medium]: {
-    gridTemplateColumns: "repeat(2, 1fr) 2fr 1fr 90px",
-  },
-  [mq.small]: {
-    gridTemplateColumns: "1fr 2fr 1fr 90px",
-  },
-});
-
-const STableHeader = styled.div<{ sortName?: string; name: string }>(
-  ({ sortName, name }) => ({
-    backgroundColor: colors.greenDark1,
-    textAlign: "left",
-    padding: "8px",
-    cursor: sortName ? "pointer" : "auto",
-    [mq.medium]: {
-      display: name === "comments" ? "none" : "block",
-    },
-    [mq.small]: {
-      display: name === "date" || name === "comments" ? "none" : "block",
-    },
-  }),
-);
-
-const SActionButton = styled.button({
-  backgroundColor: "transparent",
-  color: colors.white,
-  border: 0,
-});
 
 //** TODO: move this into a separate utilities file (projects.utils.tsx) when I'll have FEATURES */
 const capitalizeItem = (item: string): string =>
@@ -122,17 +68,7 @@ function Projects() {
       ) : (
         <>
           <STableContainer>
-            {isFetching && (
-              <div
-                css={{
-                  position: "absolute",
-                  height: "100%",
-                  width: "100%",
-                  backgroundColor: colors.greenLight1,
-                  opacity: "0.4",
-                }}
-              ></div>
-            )}
+            {isFetching && <STableLoading />}
             {pagesTotal < 1 ? (
               <STablePlaceholder>
                 There are no projects available. Please add some.
