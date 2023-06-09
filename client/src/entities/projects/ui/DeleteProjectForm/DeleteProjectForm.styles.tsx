@@ -3,7 +3,7 @@ import { colors } from "shared/const";
 
 const SContent = styled.div`
   padding: 2rem 1rem;
-  line-height:: 1.8rem;
+  line-height: 1.8rem;
 `;
 
 const SHighlighted = styled.span`
