@@ -24,8 +24,8 @@ import { colors, config } from "shared/const";
 import { getAllClientsQuery } from "entities/clients/api";
 import { DeleteProjectForm, AddEditProjectForm } from "entities/projects";
 import { getProjectsPageQuery } from "entities/projects/api";
-import { ModalAddProject } from "widgets";
-import { ProjectSearchInput, ProjectListItem } from "components";
+import { ModalAddProject, SearchInput } from "widgets";
+import { ProjectListItem } from "components";
 
 //** TODO: move this into a separate utilities file (projects.utils.tsx) when I'll have FEATURES */
 const capitalizeItem = (item: string): string =>
@@ -60,7 +60,7 @@ function Projects() {
   return (
     <div>
       <SContainer>
-        <ProjectSearchInput onSearch={handleSearch} />
+        <SearchInput onSearch={handleSearch} />
         <ModalAddProject clients={clients} />
       </SContainer>
       {isLoading ? (

@@ -40,7 +40,7 @@ interface IProps {
   onSearch: (input: string) => void;
 }
 
-const ProjectSearchInput: React.FC<IProps> = ({ onSearch }) => {
+const SearchInput: React.FC<IProps> = ({ onSearch }) => {
   const [searchInput, setSearchInput] = React.useState<string>("");
   const notification = useNotification();
 
@@ -65,7 +65,7 @@ const ProjectSearchInput: React.FC<IProps> = ({ onSearch }) => {
         display: "flex",
         alignItems: "center",
       }}
-      onSubmit={(e) => handleSearch(e)}
+      onSubmit={handleSearch}
     >
       <SInput
         placeholder="Search projects..."
@@ -94,4 +94,4 @@ const ProjectSearchInput: React.FC<IProps> = ({ onSearch }) => {
   );
 };
 
-export { ProjectSearchInput };
+export { SearchInput };

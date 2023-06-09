@@ -8,3 +8,4 @@ export { ModalEditProject } from "./ui/ModalEditProject/ModalEditProject";
 
 export { MemoDashboardTotals } from "./ui/DashboardTotals/DashboardTotals";
 export { ChartSection } from "./ui/ChartSection/ChartSection";
+export { SearchInput } from "./ui/SearchInput/SearchInput";
