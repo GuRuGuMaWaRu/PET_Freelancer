@@ -22,10 +22,13 @@ import {
 } from "shared/ui";
 import { colors, config } from "shared/const";
 import { getAllClientsQuery } from "entities/clients/api";
-import { DeleteProjectForm, AddEditProjectForm } from "entities/projects";
+import {
+  DeleteProjectForm,
+  AddEditProjectForm,
+  ProjectListItem,
+} from "entities/projects";
 import { getProjectsPageQuery } from "entities/projects/api";
 import { ModalAddProject, SearchInput } from "widgets";
-import { ProjectListItem } from "components";
 
 //** TODO: move this into a separate utilities file (projects.utils.tsx) when I'll have FEATURES */
 const capitalizeItem = (item: string): string =>
