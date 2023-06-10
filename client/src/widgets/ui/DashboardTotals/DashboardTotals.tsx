@@ -1,13 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 
-import { STotalsWrapper } from "./DashboardTotals.styles";
+import {
+  STotalsWrapper,
+  SDate,
+  SSumContainer,
+  SCurrencySymbol,
+  SSum,
+} from "./DashboardTotals.styles";
 import {
   getEarningsForThisMonth,
   getEarningsForThisYear,
 } from "./DashboardTotals.helpers";
 import { IEarnings } from "shared/types";
-import { EarningsByDate } from "features/earningsByDate";
 
 interface IProps {
   data: IEarnings[];
@@ -24,8 +29,20 @@ function DashboardTotals({ data }: IProps) {
 
   return (
     <STotalsWrapper>
-      <EarningsByDate date={month} amount={earningsForThisMonth} />
-      <EarningsByDate date={year} amount={earningsForThisYear} />
+      <div>
+        <SDate>{month}</SDate>
+        <SSumContainer>
+          <SCurrencySymbol>$</SCurrencySymbol>{" "}
+          <SSum>{earningsForThisMonth}</SSum>
+        </SSumContainer>
+      </div>
+      <div>
+        <SDate>{year}</SDate>
+        <SSumContainer>
+          <SCurrencySymbol>$</SCurrencySymbol>{" "}
+          <SSum>{earningsForThisYear}</SSum>
+        </SSumContainer>
+      </div>
     </STotalsWrapper>
   );
 }
