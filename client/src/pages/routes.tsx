@@ -6,13 +6,10 @@ import {
   dashboardLoader,
   Projects,
   projectsLoader,
+  projectsAddAction,
   Clients,
 } from "pages";
-import {
-  projectsAddAction,
-  projectsDeleteAction,
-  projectsEditAction,
-} from "routes";
+import { projectsDeleteAction, projectsEditAction } from "routes";
 import { queryClient } from "app";
 
 const routes = [
