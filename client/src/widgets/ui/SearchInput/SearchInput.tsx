@@ -6,7 +6,7 @@ import Tooltip from "@reach/tooltip";
 
 import { SInput } from "shared/ui";
 import { colors } from "shared/const";
-import { useNotification } from "entities/notification";
+import { useNotification } from "app";
 
 const SCancelButton = styled("button")({
   color: colors.text2,

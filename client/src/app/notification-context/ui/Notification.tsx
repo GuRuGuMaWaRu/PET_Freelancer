@@ -1,10 +1,8 @@
 import React from "react";
 import { useTransition, animated } from "react-spring";
-import {
-  NotificationType,
-  INotificationProps,
-  NOTIFICATION_DURATION,
-} from "..";
+
+import { NOTIFICATION_DURATION } from "../const/notification.const";
+import { NotificationType, INotificationProps } from "../types";
 import {
   SCloseIcon,
   SNotificationMessage,

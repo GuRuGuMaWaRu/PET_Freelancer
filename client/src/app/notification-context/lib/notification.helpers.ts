@@ -1,4 +1,4 @@
-import { NotificationType } from "entities/notification";
+import { NotificationType } from "../types";
 import { colors } from "shared/const";
 
 const setNotificationColor = (type: NotificationType) => {

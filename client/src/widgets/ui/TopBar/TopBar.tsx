@@ -1,6 +1,6 @@
 import { SBar, SUserWelcome } from "./TopBar.styles";
-import { Button } from "../../../shared/ui";
-import { useAuth } from "../../../context";
+import { Button } from "shared/ui";
+import { useAuth } from "app";
 
 function TopBar() {
   const { user, logout } = useAuth();

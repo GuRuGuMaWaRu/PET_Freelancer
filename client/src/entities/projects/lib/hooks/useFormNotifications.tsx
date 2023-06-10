@@ -1,5 +1,5 @@
 import React from "react";
-import { useNotification } from "entities/notification";
+import { useNotification } from "app";
 
 const useFormNotifications = (fetcherData: any, isLoading: boolean) => {
   const notification = useNotification();

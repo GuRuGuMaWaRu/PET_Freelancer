@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
 
-import { useAuth } from "./context";
-import { FullPageSpinner } from "./shared/ui";
+import { useAuth } from ".";
+import { FullPageSpinner } from "shared/ui";
 
 const AppUnauthenticated = React.lazy(() =>
-  import("./pages/app-unauthenticated/app-unauthenticated"),
+  import("pages/app-unauthenticated/app-unauthenticated"),
 );
 const AppAuthenticated = React.lazy(() =>
   /* webpackPrefetch: true */ import(
-    "./pages/app-authenticated/app-authenticated"
+    "pages/app-authenticated/app-authenticated"
   ),
 );
 

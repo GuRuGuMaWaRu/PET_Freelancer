@@ -1,10 +1,11 @@
 import React from "react";
+
 import {
-  Notification,
   INotification,
   INotificationContext,
   NotificationType,
-} from "..";
+} from "../types";
+import { Notification } from "../ui/Notification";
 
 const NotificationContext = React.createContext<INotificationContext>(
   {} as INotificationContext,

@@ -5,8 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Field, SInput, SubmitButton } from "shared/ui";
-import { useNotification } from "entities/notification";
-import { useAuth } from "context";
+import { useAuth, useNotification } from "app";
 import { IResponseUserData, IRegisterFormInputs, useAsync } from "utils";
 
 const getCharacterValidationError = (str: string) => {

@@ -5,7 +5,7 @@ import {
   RenderOptions,
 } from "@testing-library/react";
 import React from "react";
-import { AppProviders } from "../context";
+import { AppProviders } from "app";
 
 async function render(
   ui: React.ReactElement,

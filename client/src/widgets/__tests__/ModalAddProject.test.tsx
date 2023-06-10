@@ -4,10 +4,9 @@ import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 
 import { waitForLoadingToFinish } from "test/test-helpers";
-import { NotificationProvider } from "entities/notification";
+import { NotificationProvider, queryClient } from "app";
 import { ModalAddProject } from "..";
 import { projectsAddAction } from "routes";
-import { queryClient } from "context";
 
 function setup(jsx: React.ReactElement) {
   return {

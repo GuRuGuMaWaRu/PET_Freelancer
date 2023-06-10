@@ -10,7 +10,7 @@ import {
 import { config } from "shared/const";
 import { client } from "shared/api";
 import { FullPageSpinner, FullPageError } from "shared/ui";
-import { useNotification } from "entities/notification";
+import { useNotification } from "app";
 
 interface IState {
   user: IResponseUserData | null | undefined;

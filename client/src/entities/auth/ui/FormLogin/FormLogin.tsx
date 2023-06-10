@@ -5,8 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Field, SInput, SubmitButton } from "shared/ui";
-import { useNotification } from "entities/notification";
-import { useAuth } from "context";
+import { useNotification, useAuth } from "app";
 import { IResponseUserData, ILoginFormInputs, useAsync } from "utils";
 
 const formSchema = yup.object().shape({

@@ -3,10 +3,9 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { waitForLoadingToFinish } from "test/test-helpers";
-import { NotificationProvider } from "entities/notification";
+import { NotificationProvider, queryClient } from "app";
 import { ModalEditProject } from "..";
 import { projectsEditAction } from "routes";
-import { queryClient } from "context";
 import { Currency } from "shared/types";
 
 function setup(jsx: React.ReactElement) {

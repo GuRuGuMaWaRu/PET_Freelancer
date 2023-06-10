@@ -13,7 +13,7 @@ import {
   projectsDeleteAction,
   projectsEditAction,
 } from "routes";
-import { queryClient } from "context";
+import { queryClient } from "app";
 
 const routes = [
   {

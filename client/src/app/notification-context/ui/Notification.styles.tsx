@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { FaTimes, FaExclamationCircle, FaCheck } from "react-icons/fa";
 
-import { INotificationMessageProps, setNotificationColor } from "..";
+import type { INotificationMessageProps } from "../types";
+import { setNotificationColor } from '../lib/notification.helpers';
 import { colors } from "shared/const";
 
 const notificationIconStyles = {
