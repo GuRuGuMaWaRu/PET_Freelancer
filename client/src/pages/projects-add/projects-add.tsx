@@ -1,5 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
-import { addProject } from "../../utils";
+import { addProject } from "entities/projects/api";
 
 const action = (queryClient: QueryClient) => async ({
   request,

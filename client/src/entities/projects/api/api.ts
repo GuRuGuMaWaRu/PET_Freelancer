@@ -14,4 +14,16 @@ const getPageOfProjects = async (pageParam: number, sortParam?: string, searchQu
   return await client<IProjectPaginatedData>(`projects/?${page}${sort}${search}`);
 };
 
-export { getProjectsForYear, getPageOfProjects };
+const addProject = async (project: Partial<IProject>) => {
+  return await client<IProject>("projects", { data: project });
+}
+
+const deleteProject = async (projectId: string) => {
+  return await client<null>(`projects/${projectId}`, { method: 'DELETE' });
+}
+
+const editProject = async (projectId: string, project: Partial<IProject>) => {
+  return await client<IProject>(`projects/${projectId}`, { data: project, method: 'PATCH' });
+}
+
+export { getProjectsForYear, getPageOfProjects, addProject, deleteProject, editProject };
