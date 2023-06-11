@@ -52,4 +52,34 @@ interface IEarnings {
   projects: number;
 }
 
-export type { Error, ErrorVariant, IProject, IProjectPaginatedData, IClient, IEarningsByClient, IEarningsByMonth, IEarnings };
+interface IResponseUserData {
+  name: string;
+  email: string;
+  token: string;
+}
+
+interface ILoginFormInputs {
+  email: string;
+  password: string;
+}
+
+interface IRegisterFormInputs {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export type { 
+  Error,
+  ErrorVariant,
+  IProject,
+  IProjectPaginatedData,
+  IClient, 
+  IEarningsByClient, 
+  IEarningsByMonth, 
+  IEarnings, 
+  IResponseUserData,
+  ILoginFormInputs,
+  IRegisterFormInputs
+};

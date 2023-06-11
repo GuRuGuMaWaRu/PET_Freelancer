@@ -5,8 +5,9 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Field, SInput, SubmitButton } from "shared/ui";
+import type { IResponseUserData, IRegisterFormInputs } from 'shared/types';
 import { useAuth, useNotification } from "app";
-import { IResponseUserData, IRegisterFormInputs, useAsync } from "utils";
+import { useAsync } from "utils";
 
 const getCharacterValidationError = (str: string) => {
   return `Your password must have at least 1 ${str} character`;
