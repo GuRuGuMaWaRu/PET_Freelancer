@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { useAsync } from "utils";
 import {
   IResponseUserData,
   ILoginFormInputs,
@@ -10,6 +9,7 @@ import {
 import { config } from "shared/const";
 import { client } from "shared/api";
 import { FullPageSpinner, FullPageError } from "shared/ui";
+import { useAsync } from "shared/lib";
 import { useNotification } from "app";
 
 interface IState {

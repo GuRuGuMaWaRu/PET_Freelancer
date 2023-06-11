@@ -6,8 +6,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Field, SInput, SubmitButton } from "shared/ui";
 import { IResponseUserData, ILoginFormInputs } from "shared/types";
+import { useAsync } from "shared/lib";
 import { useNotification, useAuth } from "app";
-import { useAsync } from "utils";
 
 const formSchema = yup.object().shape({
   email: yup.string().required("You must specify an email"),

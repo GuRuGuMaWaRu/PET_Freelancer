@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react";
-import { useAsync, Status } from "../hooks";
+import { useAsync, Status } from "../hooks/useAsync";
 
 function deferred<T, U>() {
   let resolve!: (value: T) => void;
