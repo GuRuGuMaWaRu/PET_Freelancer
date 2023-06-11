@@ -2,11 +2,11 @@ import { RouterProvider, createMemoryRouter } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
+import { Currency } from "shared/types";
 import { waitForLoadingToFinish } from "test/test-helpers";
 import { NotificationProvider, queryClient } from "app";
 import { ModalEditProject } from "..";
-import { projectsEditAction } from "routes";
-import { Currency } from "shared/types";
+import { action as projectsEditAction } from "pages/projects-edit/projects-edit";
 
 function setup(jsx: React.ReactElement) {
   return {

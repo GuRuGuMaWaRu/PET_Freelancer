@@ -6,7 +6,7 @@ import "@testing-library/jest-dom";
 import { waitForLoadingToFinish } from "test/test-helpers";
 import { NotificationProvider, queryClient } from "app";
 import { ModalAddProject } from "..";
-import { projectsAddAction } from "routes";
+import { action as projectsAddAction } from "pages/projects-add/projects-add";
 
 function setup(jsx: React.ReactElement) {
   return {
@@ -38,8 +38,8 @@ describe("ModalAddProject", () => {
   ];
 
   const router = createMemoryRouter(routes, {
-    initialEntries: ["/", "/add-project-modal"],
-    initialIndex: 1,
+    initialEntries: ["/add-project-modal"],
+    initialIndex: 0,
   });
 
   it("should render Add Project Form when 'Add Project' button is clicked", async () => {
