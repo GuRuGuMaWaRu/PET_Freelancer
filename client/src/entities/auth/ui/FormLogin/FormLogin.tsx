@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { Field, SInput, SubmitButton } from "shared/ui";
-import type { IResponseUserData, ILoginFormInputs } from 'shared/types';
+import { IResponseUserData, ILoginFormInputs } from "shared/types";
 import { useNotification, useAuth } from "app";
 import { useAsync } from "utils";
 

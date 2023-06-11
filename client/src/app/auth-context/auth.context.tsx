@@ -2,7 +2,11 @@ import * as React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { useAsync } from "utils";
-import type { IResponseUserData, ILoginFormInputs, IRegisterFormInputs } from "shared/types";
+import {
+  IResponseUserData,
+  ILoginFormInputs,
+  IRegisterFormInputs,
+} from "shared/types";
 import { config } from "shared/const";
 import { client } from "shared/api";
 import { FullPageSpinner, FullPageError } from "shared/ui";
