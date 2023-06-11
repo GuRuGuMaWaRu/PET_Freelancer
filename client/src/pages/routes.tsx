@@ -8,9 +8,9 @@ import {
   projectsLoader,
   projectsAddAction,
   projectsDeleteAction,
+  projectsEditAction,
   Clients,
 } from "pages";
-import { projectsEditAction } from "routes";
 import { queryClient } from "app";
 
 const routes = [

@@ -1,5 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
-import { editProject } from "../utils";
+import { editProject } from "../../utils";
 
 const action = (queryClient: QueryClient) => async ({
   params,
@@ -33,4 +33,4 @@ const action = (queryClient: QueryClient) => async ({
   }
 };
 
-export { action as projectsEditAction };
+export { action };
