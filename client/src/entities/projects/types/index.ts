@@ -2,7 +2,7 @@ import { Currency } from "shared/types";
 import type { IProject } from "shared/types";
 
 interface IProjectForm {
-    date: string;
+  date: string;
   client: string;
   projectNr: string;
   currency: Currency;
@@ -12,7 +12,7 @@ interface IProjectForm {
 
 interface IEditProjectForm extends IProjectForm {
   projectId: string;
-} 
+}
 
 interface IProjectPaginatedData {
   docs: IProject[];

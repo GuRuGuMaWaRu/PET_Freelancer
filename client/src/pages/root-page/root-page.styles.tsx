@@ -4,7 +4,7 @@ import { colors, mq } from "shared/const";
 const SRootContainer = styled.div({
   display: "grid",
   gridTemplateColumns: "repeat(5, 1fr)",
-  gridTemplateRows: "80px 90%",
+  gridTemplateRows: "80px auto",
   gridGap: "10px",
   color: colors.white,
   maxWidth: "1200px",

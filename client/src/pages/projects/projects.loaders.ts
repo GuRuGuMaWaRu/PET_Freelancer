@@ -1,9 +1,9 @@
-import { QueryClient } from "@tanstack/react-query";
+import type { QueryClient } from "@tanstack/react-query";
 
 import type { IClient } from "shared/types";
 import { getAllClientsQuery } from "entities/clients/api";
 import { getProjectsPageQuery } from "entities/projects/api";
-import { IProjectPaginatedData } from 'entities/projects/types';
+import { IProjectPaginatedData } from "entities/projects/types";
 
 const loader = (queryClient: QueryClient) => async (): Promise<{
   projectsQuery: IProjectPaginatedData;
