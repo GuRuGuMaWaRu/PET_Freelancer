@@ -1,7 +1,8 @@
 const express = require("express");
 
-const { protect } = require("../../utils");
+const { protect, catchAsync } = require("../../utils");
 const clientControllers = require("./client.controllers");
+const Project = require("../project/project.model");
 
 const router = express.Router();
 
@@ -17,6 +18,109 @@ router
   // @desc      Create client
   // @access    Private
   .post(clientControllers.createOne);
+
+router
+  .route("/withprojectdata")
+  /**
+   * @route     GET projects/withprojectdata
+   * @desc      Get projects with project data
+   * @access    Private
+   */
+  .get(
+    catchAsync(async (req, res) => {
+      const pipeline = [
+        //* Match projects that are not deleted
+        {
+          $match: {
+            deleted: false,
+          },
+        },
+        //* Populate the client details
+        {
+          $lookup: {
+            from: "clients",
+            localField: "client",
+            foreignField: "_id",
+            as: "clientDetails",
+          },
+        },
+        //* Unwind the clientDetails array
+        {
+          $unwind: "$clientDetails",
+        },
+        //* Group projects by client and calculate aggregated data
+        {
+          $group: {
+            _id: "$client",
+            clientName: { $first: "$clientDetails.name" },
+            totalProjects: { $sum: 1 },
+            firstProjectDate: { $min: "$date" },
+            lastProjectDate: { $max: "$date" },
+            totalEarnings: { $sum: "$payment" },
+            projectsLast30Days: {
+              $sum: {
+                $cond: {
+                  if: {
+                    $gte: [
+                      "$date",
+                      {
+                        $subtract: [new Date(), 30 * 24 * 60 * 60 * 1000],
+                      },
+                    ],
+                  },
+                  then: 1,
+                  else: 0,
+                },
+              },
+            },
+            projectsLast90Days: {
+              $sum: {
+                $cond: {
+                  if: {
+                    $gte: [
+                      "$date",
+                      {
+                        $subtract: [new Date(), 90 * 24 * 60 * 60 * 1000],
+                      },
+                    ],
+                  },
+                  then: 1,
+                  else: 0,
+                },
+              },
+            },
+            projectsLast365Days: {
+              $sum: {
+                $cond: {
+                  if: {
+                    $gte: [
+                      "$date",
+                      {
+                        $subtract: [new Date(), 365 * 24 * 60 * 60 * 1000],
+                      },
+                    ],
+                  },
+                  then: 1,
+                  else: 0,
+                },
+              },
+            },
+          },
+        },
+      ];
+      const result = await Project.aggregate(pipeline);
+
+      // Output the result
+      console.log(result);
+
+      res.status(200).json({
+        status: "success",
+        results: result.length,
+        data: result,
+      });
+    }),
+  )
+  .get();
 
 router
   .route("/:id")

@@ -10,6 +10,7 @@ import {
   projectsDeleteAction,
   projectsEditAction,
   Clients,
+  clientsLoader,
 } from "pages";
 import { queryClient } from "app";
 
@@ -47,6 +48,7 @@ const routes = [
           {
             path: "clients",
             element: <Clients />,
+            loader: clientsLoader(queryClient),
           },
           { path: "*", element: <NotFound /> },
         ],

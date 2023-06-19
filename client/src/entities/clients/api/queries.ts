@@ -1,4 +1,4 @@
-import { getAllClients } from "./api";
+import { getAllClients, getAllClientsWithProjectData } from "./api";
 
 const getAllClientsQuery = () => ({
   queryKey: ["clients"],
@@ -9,4 +9,13 @@ const getAllClientsQuery = () => ({
   },
 });
 
-export { getAllClientsQuery };
+const getClientsWithProjectDataQuery = () => ({
+  queryKey: ["clients", "with-project-data"],
+  queryFn: async () => {
+    const res = await getAllClientsWithProjectData();
+
+    return res.data;
+  },
+});
+
+export { getAllClientsQuery, getClientsWithProjectDataQuery };

@@ -1,8 +1,13 @@
-import { client } from "../../../shared/api";
-import type { IClient } from "../../../shared/types";
+import { client } from "shared/api";
+import type { IClient } from "shared/types";
+import type { IClientWithProjectData } from "../types";
 
 const getAllClients = async () => {
   return await client<IClient[]>("clients");
 };
 
-export { getAllClients };
+const getAllClientsWithProjectData = async () => {
+  return await client<IClientWithProjectData[]>("clients/withprojectdata");
+};
+
+export { getAllClients, getAllClientsWithProjectData };
