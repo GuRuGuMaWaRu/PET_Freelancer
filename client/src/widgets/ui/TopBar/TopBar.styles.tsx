@@ -1,16 +1,12 @@
 import styled from "@emotion/styled";
-import { mq } from "../../../shared/const";
+import { mq } from "shared/const";
 
 const SBar = styled.div({
-  gridColumn: "5 / 5",
-  display: "grid",
-  gridTemplateColumns: "repeat(2, 1fr)",
-  gridGap: "20px",
+  gridColumn: "3 / 3",
+  display: "flex",
+  justifyContent: "flex-end",
+  gap: "2rem",
   alignItems: "center",
-  marginRight: "10px",
-  [mq.medium]: {
-    gridColumn: "5",
-  },
 });
 
 const SUserWelcome = styled.div({

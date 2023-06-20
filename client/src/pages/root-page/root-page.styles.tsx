@@ -3,22 +3,18 @@ import { colors, mq } from "shared/const";
 
 const SRootContainer = styled.div({
   display: "grid",
-  gridTemplateColumns: "repeat(5, 1fr)",
+  gridTemplateColumns: "auto 230px minmax(320px, 1200px) auto",
   gridTemplateRows: "80px auto",
   gridGap: "10px",
   color: colors.white,
-  maxWidth: "1200px",
   width: "100%",
   height: "100vh",
-  margin: "0 auto",
 });
 
 const SMain = styled.main({
-  position: "relative",
-  gridColumn: "2 / span 4",
-  margin: "1rem 20px",
+  gridColumn: "3 / 3",
   [mq.medium]: {
-    gridColumn: "1 / span 5",
+    gridColumn: "2 / 4",
   },
 });
 

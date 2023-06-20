@@ -4,10 +4,9 @@ import styled from "@emotion/styled";
 import { colors, mq } from "../../../shared/const";
 
 const SNav = styled.nav({
-  gridColumn: "1 / 1",
+  gridColumn: "2 / 2",
   gridRow: "2 / 2",
   [mq.medium]: {
-    gridColumn: "1 / span 4",
     gridRow: "1",
     marginLeft: "10px",
     alignSelf: "center",
@@ -18,6 +17,7 @@ const SNavList = styled.ul({
   position: "fixed",
   display: "flex",
   flexDirection: "column",
+  gap: "1rem",
   listStyle: "none",
   padding: 0,
   margin: 0,
@@ -42,7 +42,6 @@ const SNavItem = styled(NavLink)<INavItemProps>(({ pathname, to }) => ({
   display: "block",
   padding: "20px 15px",
   borderLeft: `5px solid ${pathname === to ? colors.white : "transparent"}`,
-  margin: "10px 0",
   [mq.medium]: {
     display: "inline",
     padding: "10px 15px",
