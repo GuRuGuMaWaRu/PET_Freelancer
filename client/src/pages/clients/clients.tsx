@@ -10,7 +10,7 @@ import { getClientsWithProjectDataQuery } from "entities/clients/api";
 import { FullPageSpinner } from "shared/ui";
 
 function Clients() {
-  const { data, isLoading } = useQuery(getClientsWithProjectDataQuery());
+  const { data = [], isLoading } = useQuery(getClientsWithProjectDataQuery());
 
   if (isLoading) {
     return <FullPageSpinner />;
