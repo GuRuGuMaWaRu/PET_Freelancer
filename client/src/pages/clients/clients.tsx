@@ -5,6 +5,10 @@ import {
   ClientCard,
   ClientName,
   ClientData,
+  ClientDataColumn,
+  ClientDataItem,
+  Separator,
+  HighlightData,
 } from "./clients.styles";
 import { getClientsWithProjectDataQuery } from "entities/clients/api";
 import { FullPageSpinner } from "shared/ui";
@@ -22,21 +26,49 @@ function Clients() {
         <ClientCard key={client._id}>
           <ClientName>{client.clientName}</ClientName>
           <ClientData>
-            <div>
-              <div>Total Project: {client.totalProjects}</div>
-              <div>Total Earnings: {client.totalEarnings}</div>
-            </div>
-            <div>
-              <div>
-                First Project Date: {client.firstProjectDate.split("T")[0]}
-              </div>
-              <div>
-                Last Project Date: {client.lastProjectDate.split("T")[0]}
-              </div>
-              <div># of project, 30 days: {client.projectsLast30Days}</div>
-              <div># of project, 90 days: {client.projectsLast90Days}</div>
-              <div># of project, 365 days: {client.projectsLast365Days}</div>
-            </div>
+            <ClientDataColumn>
+              <ClientDataItem>
+                <div>Projects</div>
+                <Separator />
+                <HighlightData>{client.totalProjects}</HighlightData>
+              </ClientDataItem>
+              <ClientDataItem>
+                <div>Money</div>
+                <Separator />
+                <HighlightData>{client.totalEarnings}</HighlightData>
+              </ClientDataItem>
+            </ClientDataColumn>
+            <ClientDataColumn>
+              <ClientDataItem>
+                <div>First Project</div>
+                <Separator />
+                <HighlightData>
+                  {client.firstProjectDate.split("T")[0]}
+                </HighlightData>
+              </ClientDataItem>
+              <ClientDataItem>
+                <div>Last Project</div>
+                <Separator />
+                <HighlightData>
+                  {client.lastProjectDate.split("T")[0]}
+                </HighlightData>
+              </ClientDataItem>
+              <ClientDataItem>
+                <div>Projects 30 days</div>
+                <Separator />
+                <HighlightData>{client.projectsLast30Days}</HighlightData>
+              </ClientDataItem>
+              <ClientDataItem>
+                <div>Projects 90 days</div>
+                <Separator />
+                <HighlightData>{client.projectsLast90Days}</HighlightData>
+              </ClientDataItem>
+              <ClientDataItem>
+                <div>Projects 365 days</div>
+                <Separator />
+                <HighlightData>{client.projectsLast365Days}</HighlightData>
+              </ClientDataItem>
+            </ClientDataColumn>
           </ClientData>
         </ClientCard>
       ))}
