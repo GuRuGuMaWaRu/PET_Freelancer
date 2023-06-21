@@ -12,12 +12,44 @@ const ClientList = styled.ul`
 const ClientCard = styled.div`
   padding: 1rem;
   background-color: #bb7535;
+  background-color: #5380b4;
   border-radius: 0.5rem;
+`;
+
+const ClientInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const OptionsButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  font-family: "Silkscreen", cursive;
+  font-size: 2rem;
+  color: ${colors.white};
+  transition: all 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+`;
+
+const OptionsItem = styled.button`
+  border: none;
+  background: none;
+  text-align: left;
 `;
 
 const ClientName = styled.h3`
   margin: 0;
-  padding-bottom: 1rem;
 `;
 
 const ClientData = styled.div`
@@ -55,6 +87,9 @@ const HighlightData = styled.div`
 export {
   ClientList,
   ClientCard,
+  ClientInfo,
+  OptionsButton,
+  OptionsItem,
   ClientName,
   ClientData,
   ClientDataColumn,

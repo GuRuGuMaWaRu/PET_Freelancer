@@ -26,7 +26,8 @@ export const disabled = "#858585";
 
 export const dashboardPageBg = "rgb(106 72 220)";
 // export const clientsPageBg = "#c17750";
-export const clientsPageBg = "#d68f4d";
+// export const clientsPageBg = "#d68f4d";
+export const clientsPageBg = "#446b9f";
 
 export const dashboardModalBg = "rgb(120 92 211)";
 
