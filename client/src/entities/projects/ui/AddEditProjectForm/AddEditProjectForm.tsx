@@ -57,7 +57,7 @@ function AddEditProjectForm({ project, clients }: IProps) {
       formData.append(key, value);
     }
     fetcher.submit(formData, {
-      action: project ? `projects/${data.projectId}/update` : "projects/add",
+      action: project ? `/projects/${data.projectId}/update` : "/projects/add",
       method: project ? "patch" : "post",
     });
   };
