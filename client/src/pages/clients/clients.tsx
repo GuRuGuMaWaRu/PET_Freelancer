@@ -10,7 +10,7 @@ import {
   Separator,
   HighlightData,
 } from "./clients.styles";
-import { getClientsWithProjectDataQuery } from "entities/clients/api";
+import { getClientsWithProjectDataQuery } from "entities/clients";
 import { FullPageSpinner } from "shared/ui";
 
 function Clients() {
