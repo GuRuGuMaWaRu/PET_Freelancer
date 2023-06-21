@@ -1,6 +1,6 @@
 import { client } from "shared/api";
 import type { IClient } from "shared/types";
-import type { IClientWithProjectData } from "../types";
+import type { IClientWithProjectData } from "../types/clients.types";
 
 const getAllClients = async () => {
   return await client<IClient[]>("clients");

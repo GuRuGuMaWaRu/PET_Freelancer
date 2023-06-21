@@ -3,9 +3,13 @@ import { Form, useFetcher } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import type { IEditProjectForm } from 'entities/projects/types';
-import { formSchema, useFormNotifications, useModalForm } from 'entities/projects/lib';
-import { formValsConstructor } from 'entities/projects/lib';
+import type { IEditProjectForm } from "entities/projects/types/projects.types";
+import {
+  formSchema,
+  useFormNotifications,
+  useModalForm,
+} from "entities/projects/lib";
+import { formValsConstructor } from "entities/projects/lib";
 import {
   Field,
   Combobox,
@@ -14,7 +18,7 @@ import {
   SInput,
   SubmitButton,
 } from "shared/ui";
-import { Currency } from 'shared/types'
+import { Currency } from "shared/types";
 import type { IClient, IProject } from "shared/types";
 
 interface IProps {
@@ -22,8 +26,12 @@ interface IProps {
   clients: IClient[];
 }
 
-function AddEditProjectForm ({ project, clients }: IProps) {
-  const { register, handleSubmit, formState: {errors} } = useForm<IEditProjectForm>({
+function AddEditProjectForm({ project, clients }: IProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IEditProjectForm>({
     resolver: yupResolver(formSchema),
     defaultValues: formValsConstructor(project),
   });
@@ -38,7 +46,7 @@ function AddEditProjectForm ({ project, clients }: IProps) {
 
     //** Check if there is a new client */
     const existingClient = clients.some(
-      (client) => client.name === data.client,
+      (client) => client.name === data.client
     );
     if (!existingClient) {
       formData.append("newClient", `${data.client}`);
@@ -82,7 +90,11 @@ function AddEditProjectForm ({ project, clients }: IProps) {
         ></SInput>
       </Field>
       <Field label="Currency" error={errors.currency}>
-        <SSelect id="currency" defaultValue={Currency.USD} {...register("currency")}>
+        <SSelect
+          id="currency"
+          defaultValue={Currency.USD}
+          {...register("currency")}
+        >
           <option value={Currency.USD}>{Currency.USD}</option>
           <option value={Currency.EUR}>{Currency.EUR}</option>
         </SSelect>
@@ -106,9 +118,11 @@ function AddEditProjectForm ({ project, clients }: IProps) {
           {...register("comments")}
         ></STextarea>
       </Field>
-      <SubmitButton isLoading={isLoading}>{project ? "Update" : "Add"}</SubmitButton>
+      <SubmitButton isLoading={isLoading}>
+        {project ? "Update" : "Add"}
+      </SubmitButton>
     </Form>
   );
-};
+}
 
 export { AddEditProjectForm };

@@ -1,24 +1,26 @@
 import { QueryClient } from "@tanstack/react-query";
 
 import type { IProject, IClient } from "shared/types";
-import { projectsOneYearQuery } from "entities/projects/api";
-import { getAllClientsQuery } from "entities/clients/api";
+import { projectsOneYearQuery } from "entities/projects";
+import { getAllClientsQuery } from "entities/clients";
 
-const loader = (queryClient: QueryClient) => async (): Promise<{
-  projectsQuery: IProject[];
-  clientsQuery: IClient[];
-}> => {
-  const projectsQuery = projectsOneYearQuery();
-  const clientsQuery = getAllClientsQuery();
+const loader =
+  (queryClient: QueryClient) =>
+  async (): Promise<{
+    projectsQuery: IProject[];
+    clientsQuery: IClient[];
+  }> => {
+    const projectsQuery = projectsOneYearQuery();
+    const clientsQuery = getAllClientsQuery();
 
-  return {
-    projectsQuery:
-      queryClient.getQueryData(projectsQuery.queryKey) ??
-      (await queryClient.fetchQuery(projectsQuery)),
-    clientsQuery:
-      queryClient.getQueryData(clientsQuery.queryKey) ??
-      (await queryClient.fetchQuery(clientsQuery)),
+    return {
+      projectsQuery:
+        queryClient.getQueryData(projectsQuery.queryKey) ??
+        (await queryClient.fetchQuery(projectsQuery)),
+      clientsQuery:
+        queryClient.getQueryData(clientsQuery.queryKey) ??
+        (await queryClient.fetchQuery(clientsQuery)),
+    };
   };
-};
 
 export { loader };

@@ -1,4 +1,4 @@
-import { useGetColorFromPath } from '../../lib/hooks';
+import { useGetColorFromPath } from "widgets/lib/hooks";
 import { Button, Modal, ModalOpenButton, ModalContents } from "shared/ui";
 import type { IClient } from "shared/types";
 import { AddEditProjectForm } from "entities/projects";

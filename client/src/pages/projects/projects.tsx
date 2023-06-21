@@ -21,13 +21,13 @@ import {
   MemoPagination,
 } from "shared/ui";
 import { colors, config } from "shared/const";
-import { getAllClientsQuery } from "entities/clients/api";
+import { getAllClientsQuery } from "entities/clients";
 import {
   DeleteProjectForm,
   AddEditProjectForm,
   ProjectListItem,
+  getProjectsPageQuery,
 } from "entities/projects";
-import { getProjectsPageQuery } from "entities/projects/api";
 import { ModalAddProject, SearchInput } from "widgets";
 
 //** TODO: move this into a separate utilities file (projects.utils.tsx) when I'll have FEATURES */
@@ -44,9 +44,11 @@ function Projects() {
   const [searchQuery, setSearchQuery] = React.useState<string>("");
 
   const { data: clients = [] } = useQuery(getAllClientsQuery());
-  const { isFetching, isLoading, data: projects } = useQuery(
-    getProjectsPageQuery(page, sortColumn, searchQuery),
-  );
+  const {
+    isFetching,
+    isLoading,
+    data: projects,
+  } = useQuery(getProjectsPageQuery(page, sortColumn, searchQuery));
 
   const handleSort = (columnName: string) => {
     setSortColumn(`${sortDir}${columnName}`); //** TODO: don't really like how it is done with two states (sortColumn and sortDir) */
