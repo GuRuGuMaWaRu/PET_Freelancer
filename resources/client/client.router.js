@@ -107,6 +107,29 @@ router
             },
           },
         },
+        {
+          $project: {
+            _id: 1,
+            clientName: 1,
+            totalProjects: 1,
+            firstProjectDate: 1,
+            lastProjectDate: 1,
+            totalEarnings: 1,
+            projectsLastMonth: 1,
+            projectsLastQuarter: 1,
+            projectsLastYear: 1,
+            daysSinceLastProject: {
+              $trunc: {
+                $divide: [
+                  {
+                    $subtract: [new Date(), "$lastProjectDate"],
+                  },
+                  24 * 60 * 60 * 1000, // Convert milliseconds to days
+                ],
+              },
+            },
+          },
+        },
       ];
       const result = await Project.aggregate(pipeline);
 
