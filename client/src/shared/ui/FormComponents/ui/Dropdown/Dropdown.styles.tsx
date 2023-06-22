@@ -10,6 +10,13 @@ const Menu = styled.ul`
   right: 0;
   list-style: none;
   padding: 0.5rem;
+  border-radius: 0.5rem;
+
+  z-index: 10;
 `;
 
-export { Menu };
+const MenuItem = styled.li`
+  width: 100%;
+`;
+
+export { Menu, MenuItem };

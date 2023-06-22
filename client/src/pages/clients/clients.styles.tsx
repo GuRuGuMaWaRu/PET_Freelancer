@@ -10,6 +10,10 @@ const ClientList = styled.ul`
 `;
 
 const ClientCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
   padding: 1rem;
   background-color: #bb7535;
   background-color: #5380b4;
@@ -45,7 +49,6 @@ const OptionsButton = styled.button`
 const OptionsItem = styled.button`
   border: none;
   background: none;
-  text-align: left;
 `;
 
 const ClientName = styled.h3`

@@ -2,16 +2,16 @@
 
 import React, { useState } from "react";
 
-import { Menu } from "./Dropdown.styles";
+import { Menu, MenuItem } from "./Dropdown.styles";
 import { useOutsideClick } from "shared/lib";
 
 interface IProps {
   trigger: React.ReactElement;
   menu: React.ReactElement[];
-  dropdownStyles: React.CSSProperties;
+  dropdownStyles?: React.CSSProperties;
 }
 
-function Dropdown({ trigger, menu, dropdownStyles }: IProps) {
+function Dropdown({ trigger, menu, dropdownStyles = {} }: IProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
@@ -37,7 +37,7 @@ function Dropdown({ trigger, menu, dropdownStyles }: IProps) {
           }}
         >
           {menu.map((menuItem, index) => (
-            <li key={index} className="menu-item">
+            <MenuItem key={index} className="menu-item">
               {React.cloneElement(menuItem, {
                 style: { width: "100%" },
                 onClick: () => {
@@ -45,7 +45,7 @@ function Dropdown({ trigger, menu, dropdownStyles }: IProps) {
                   setIsOpen(false);
                 },
               })}
-            </li>
+            </MenuItem>
           ))}
         </Menu>
       ) : null}
