@@ -1,18 +1,19 @@
 /** @jsxImportSource @emotion/react */
 
 import { useQuery } from "@tanstack/react-query";
-import { SlOptions } from "react-icons/sl";
+import { SlOptions, SlArrowDown } from "react-icons/sl";
 
 import {
   ClientList,
   ClientCard,
+  ClientHeader,
+  ClientInfo,
   ClientName,
   ClientData,
   ClientDataColumn,
   ClientDataItem,
   Separator,
   HighlightData,
-  ClientInfo,
   OptionsButton,
   OptionsItem,
 } from "./clients.styles";
@@ -21,6 +22,7 @@ import {
   getClientsWithProjectDataQuery,
 } from "entities/clients";
 import { FullPageSpinner, Dropdown } from "shared/ui";
+import { colors } from "shared/const";
 
 function Clients() {
   const { data = [], isLoading } = useQuery(getClientsWithProjectDataQuery());
@@ -77,7 +79,7 @@ function Clients() {
     <ClientList>
       {data.map((client) => (
         <ClientCard key={client._id}>
-          <ClientInfo>
+          <ClientHeader>
             <ClientName>{client.clientName}</ClientName>
             <Dropdown
               trigger={
@@ -94,13 +96,22 @@ function Clients() {
                 backgroundColor: "#739dd7",
               }}
             />
-          </ClientInfo>
+          </ClientHeader>
           <ClientInfo>
             <div>Days since last project:</div>
-            <div css={{ color: "tomato", fontWeight: "700" }}>
+            <div
+              css={{
+                color:
+                  client.daysSinceLastProject > 90
+                    ? colors.textImportant
+                    : colors.textSecondary,
+                fontWeight: "400",
+              }}
+            >
               {client.daysSinceLastProject}
             </div>
           </ClientInfo>
+          <SlArrowDown />
         </ClientCard>
       ))}
     </ClientList>

@@ -2,8 +2,10 @@ import styled from "@emotion/styled";
 import { colors, mq } from "shared/const";
 
 const ClientList = styled.ul`
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
   padding: 0;
   margin: 0;
@@ -17,13 +19,22 @@ const ClientCard = styled.div`
   padding: 1rem;
   background-color: #bb7535;
   background-color: #5380b4;
+  background-color: #087e7f;
+
   border-radius: 0.5rem;
+`;
+
+const ClientHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const ClientInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  color: ${colors.textSecondary};
 `;
 
 const OptionsButton = styled.button`
@@ -49,6 +60,7 @@ const OptionsButton = styled.button`
 const OptionsItem = styled.button`
   border: none;
   background: none;
+  color: ${colors.white};
 `;
 
 const ClientName = styled.h3`
@@ -90,6 +102,7 @@ const HighlightData = styled.div`
 export {
   ClientList,
   ClientCard,
+  ClientHeader,
   ClientInfo,
   OptionsButton,
   OptionsItem,
