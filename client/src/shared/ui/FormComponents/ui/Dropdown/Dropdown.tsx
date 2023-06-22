@@ -49,7 +49,9 @@ function Dropdown({ trigger, menu, dropdownStyles = {} }: IProps) {
                   {React.cloneElement(menuItem, {
                     style: { width: "100%" },
                     onClick: () => {
-                      menuItem.props.onClick();
+                      if (menuItem.props?.onClick) {
+                        menuItem.props?.onClick();
+                      }
                       setIsOpen(false);
                     },
                   })}
