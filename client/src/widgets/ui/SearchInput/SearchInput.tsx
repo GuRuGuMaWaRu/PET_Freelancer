@@ -9,7 +9,7 @@ import { colors } from "shared/const";
 import { useNotification } from "app";
 
 const SCancelButton = styled("button")({
-  color: colors.text2,
+  color: colors.textImportant,
   border: "0",
   position: "relative",
   marginLeft: "-30px",

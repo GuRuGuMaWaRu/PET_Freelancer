@@ -22,7 +22,8 @@ const SButton = styled.button<SButtonProps>(
   ({ disabled, currentPage, itemPage }) => ({
     width: "3rem",
     padding: ".7rem",
-    backgroundColor: currentPage === itemPage ? colors.text2 : "transparent",
+    backgroundColor:
+      currentPage === itemPage ? colors.textImportant : "transparent",
     border: `2px solid ${disabled ? colors.disabled : colors.white}`,
     color: colors.white,
     transition: "all 0.2s",
@@ -35,7 +36,7 @@ const SButton = styled.button<SButtonProps>(
       fill: disabled ? colors.disabled : colors.white,
       verticalAlign: "middle",
     },
-  }),
+  })
 );
 
 export { SPaginationContainer, SPaginationButtons, SButton };

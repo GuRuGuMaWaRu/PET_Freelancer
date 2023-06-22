@@ -19,12 +19,12 @@ const SChartSelectionButton = styled.button<ChartSelectionButtonProps>(
     color: colors.white,
     backgroundColor:
       variant === ChartType.earnings && chartType === ChartType.earnings
-        ? colors.text2
+        ? colors.textImportant
         : variant === ChartType.clients && chartType === ChartType.clients
-        ? colors.text2
+        ? colors.textImportant
         : "transparent",
     clipPath: "polygon(10% 0, 100% 0%, 90% 100%, 0% 100%)",
-  }),
+  })
 );
 
 const SChartDataContainer = styled.div({

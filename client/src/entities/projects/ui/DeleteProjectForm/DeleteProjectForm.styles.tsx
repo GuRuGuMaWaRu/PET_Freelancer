@@ -7,7 +7,7 @@ const SContent = styled.div`
 `;
 
 const SHighlighted = styled.span`
-  background-color: ${colors.text2};
+  background-color: ${colors.textImportant};
   padding: 0 0.5rem;
 `;
 

@@ -35,7 +35,7 @@ function EarningsChart({ data }: IProps) {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
           dataKey="date"
-          stroke={colors.text2}
+          stroke={colors.textImportant}
           tickFormatter={(date) =>
             formatDate(date, {
               year: "numeric",
@@ -48,7 +48,7 @@ function EarningsChart({ data }: IProps) {
         />
         <YAxis
           dataKey="payment"
-          stroke={colors.text2}
+          stroke={colors.textImportant}
           tickMargin={10}
           width={80}
           tickLine={false}

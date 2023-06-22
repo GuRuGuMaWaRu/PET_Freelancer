@@ -12,7 +12,7 @@ import {
 } from "recharts";
 
 import { STooltipContainer, STooltipContents } from "features/charts/styles";
-import { getMaxLabelLength } from 'features/charts/lib';
+import { getMaxLabelLength } from "features/charts/lib";
 import { colors } from "shared/const";
 import { formatUSD } from "shared/lib";
 import type { IEarningsByClient } from "shared/types";
@@ -22,9 +22,10 @@ interface IProps {
 }
 
 function ClientsChart({ data }: IProps) {
-  const longestClientName = React.useMemo(() => getMaxLabelLength(data), [
-    data,
-  ]);
+  const longestClientName = React.useMemo(
+    () => getMaxLabelLength(data),
+    [data]
+  );
 
   return (
     <ResponsiveContainer width="100%" height={40 * data.length}>
@@ -40,21 +41,21 @@ function ClientsChart({ data }: IProps) {
       >
         <XAxis
           dataKey="payment"
-          stroke={colors.text2}
+          stroke={colors.textImportant}
           type="number"
           tickFormatter={(value) => formatUSD(value)}
         />
         <YAxis
           dataKey="client"
           type="category"
-          stroke={colors.text2}
+          stroke={colors.textImportant}
           width={longestClientName}
           tickLine={false}
           axisLine={false}
         />
-        <Tooltip content={({ active, payload }) => {
-          return active && payload && payload.length ? 
-            (
+        <Tooltip
+          content={({ active, payload }) => {
+            return active && payload && payload.length ? (
               <STooltipContainer>
                 <STooltipContents>
                   <p>
@@ -68,8 +69,9 @@ function ClientsChart({ data }: IProps) {
                   </p>
                 </STooltipContents>
               </STooltipContainer>
-            ) : null
-        }} />
+            ) : null;
+          }}
+        />
         <Bar
           type="monotone"
           dataKey="payment"
@@ -86,7 +88,7 @@ function ClientsChart({ data }: IProps) {
         </Bar>
       </BarChart>
     </ResponsiveContainer>
-  )
+  );
 }
 
 export const MemoClientsChart = React.memo(ClientsChart);
