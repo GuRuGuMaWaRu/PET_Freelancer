@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { colors } from "shared/const";
+import { colors, mq } from "shared/const";
 
 const ClientList = styled.ul`
   display: grid;
@@ -7,6 +7,9 @@ const ClientList = styled.ul`
   gap: 1rem;
   padding: 0;
   margin: 0;
+  ${mq.small} {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const ClientCard = styled.div`
