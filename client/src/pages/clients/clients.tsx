@@ -102,6 +102,7 @@ function Clients() {
             <ShowMoreButton onClick={() => displayClientData(client._id)}>
               <SlArrowDown
                 css={{
+                  fontSize: "1.5rem",
                   transition: "transform 0.2s",
                   transform: displayedClient.includes(client._id)
                     ? "rotate(180deg)"
