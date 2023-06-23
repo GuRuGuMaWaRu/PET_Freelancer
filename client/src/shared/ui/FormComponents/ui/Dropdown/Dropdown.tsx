@@ -52,6 +52,7 @@ function Dropdown({ trigger, menu, dropdownStyles = {} }: IProps) {
                 }
                 setIsOpen(false);
               },
+              tabIndex: isOpen ? 0 : -1,
             })}
           </MenuItem>
         ))}
