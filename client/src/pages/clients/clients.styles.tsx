@@ -1,9 +1,7 @@
 import styled from "@emotion/styled";
-import { colors, mq } from "shared/const";
+import { colors } from "shared/const";
 
 const ClientList = styled.ul`
-  /* display: flex;
-  flex-direction: column; */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
@@ -16,18 +14,22 @@ const ClientCard = styled.div`
   flex-direction: column;
   gap: 0.5rem;
 
-  padding: 1rem;
-  background-color: #bb7535;
-  background-color: #5380b4;
-  background-color: #087e7f;
+  align-self: start;
 
+  padding: 1rem;
+
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 0.5rem;
+
+  transition: all 0.2s;
 `;
 
 const ClientHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.5rem;
 `;
 
 const ClientInfo = styled.div`
@@ -67,36 +69,30 @@ const ClientName = styled.h3`
   margin: 0;
 `;
 
-const ClientData = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  ${mq.medium} {
-    flex-direction: column;
-  }
-`;
-
-const ClientDataColumn = styled.div`
+const ClientData = styled.div<{ isExpanded: boolean }>`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 0.5rem;
-  width: 100%;
+  color: ${colors.textSecondary};
+  max-height: ${({ isExpanded }) => (isExpanded ? "40rem" : ".5rem")};
+  opacity: ${({ isExpanded }) => (isExpanded ? 1 : 0)};
+  transition: all 0.4s ease-in-out;
+  overflow: hidden;
 `;
 
 const ClientDataItem = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
 `;
 
-const Separator = styled.div`
-  flex-grow: 1;
-  border-bottom: 2px dotted rgba(255, 255, 255, 0.4);
-`;
-
-const HighlightData = styled.div`
-  color: #f1ff02;
-  font-weight: 700;
+const ShowMoreButton = styled.button`
+  border: none;
+  background: none;
+  color: ${colors.white};
+  padding: 0 1rem;
 `;
 
 export {
@@ -108,8 +104,6 @@ export {
   OptionsItem,
   ClientName,
   ClientData,
-  ClientDataColumn,
   ClientDataItem,
-  Separator,
-  HighlightData,
+  ShowMoreButton,
 };

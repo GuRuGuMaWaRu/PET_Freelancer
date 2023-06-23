@@ -26,13 +26,6 @@ export const opaqueBlack = "rgba(0, 0, 0, 0.2)";
 export const disabled = "#858585";
 
 export const dashboardPageBg = "rgb(106 72 220)";
-// export const clientsPageBg = "#c17750";
-// export const clientsPageBg = "#d68f4d";
-// export const clientsPageBg = "#446b9f";
-// export const clientsPageBg = "#b3a027";
-// export const clientsPageBg = "#c79b2d";
-// export const clientsPageBg = "#ca9921";
-// export const clientsPageBg = "#7A3E3E";
 export const clientsPageBg = "#116D6E";
 
 export const dashboardModalBg = "rgb(120 92 211)";

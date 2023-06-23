@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SlOptions, SlArrowDown } from "react-icons/sl";
 
@@ -7,73 +8,34 @@ import {
   ClientList,
   ClientCard,
   ClientHeader,
-  ClientInfo,
-  ClientName,
-  ClientData,
-  ClientDataColumn,
-  ClientDataItem,
-  Separator,
-  HighlightData,
   OptionsButton,
   OptionsItem,
+  ClientName,
+  ClientData,
+  ClientDataItem,
+  ShowMoreButton,
 } from "./clients.styles";
-import {
-  IClientWithProjectData,
-  getClientsWithProjectDataQuery,
-} from "entities/clients";
+import { getClientsWithProjectDataQuery } from "entities/clients";
 import { FullPageSpinner, Dropdown } from "shared/ui";
 import { colors } from "shared/const";
 
 function Clients() {
+  const [displayedClient, setDisplayedClient] = React.useState<string | null>(
+    null
+  );
   const { data = [], isLoading } = useQuery(getClientsWithProjectDataQuery());
 
   if (isLoading) {
     return <FullPageSpinner />;
   }
 
-  const getClientData = (client: IClientWithProjectData) => (
-    <ClientData>
-      <ClientDataColumn>
-        <ClientDataItem>
-          <div>Projects</div>
-          <Separator />
-          <HighlightData>{client.totalProjects}</HighlightData>
-        </ClientDataItem>
-        <ClientDataItem>
-          <div>Money</div>
-          <Separator />
-          <HighlightData>{client.totalEarnings}</HighlightData>
-        </ClientDataItem>
-      </ClientDataColumn>
-      <ClientDataColumn>
-        <ClientDataItem>
-          <div>First Project</div>
-          <Separator />
-          <HighlightData>{client.firstProjectDate.split("T")[0]}</HighlightData>
-        </ClientDataItem>
-        <ClientDataItem>
-          <div>Last Project</div>
-          <Separator />
-          <HighlightData>{client.lastProjectDate.split("T")[0]}</HighlightData>
-        </ClientDataItem>
-        <ClientDataItem>
-          <div>Projects 30 days</div>
-          <Separator />
-          <HighlightData>{client.projectsLast30Days}</HighlightData>
-        </ClientDataItem>
-        <ClientDataItem>
-          <div>Projects 90 days</div>
-          <Separator />
-          <HighlightData>{client.projectsLast90Days}</HighlightData>
-        </ClientDataItem>
-        <ClientDataItem>
-          <div>Projects 365 days</div>
-          <Separator />
-          <HighlightData>{client.projectsLast365Days}</HighlightData>
-        </ClientDataItem>
-      </ClientDataColumn>
-    </ClientData>
-  );
+  const displayClientData = (id: string) => {
+    if (id === displayedClient) {
+      setDisplayedClient(null);
+    } else {
+      setDisplayedClient(id);
+    }
+  };
 
   return (
     <ClientList>
@@ -93,11 +55,14 @@ function Clients() {
               ]}
               dropdownStyles={{
                 width: "100px",
-                backgroundColor: "#739dd7",
+                borderRadius: "5px",
+                background: "#529596",
+                border: "1px solid rgba(255, 255, 255, 0.18)",
+                boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
               }}
             />
           </ClientHeader>
-          <ClientInfo>
+          <ClientDataItem>
             <div>Days since last project:</div>
             <div
               css={{
@@ -110,8 +75,41 @@ function Clients() {
             >
               {client.daysSinceLastProject}
             </div>
-          </ClientInfo>
-          <SlArrowDown />
+          </ClientDataItem>
+          <ClientData isExpanded={displayedClient === client._id}>
+            <ClientDataItem>
+              <div>Projects:</div>
+              <div>{client.totalProjects}</div>
+            </ClientDataItem>
+            <ClientDataItem>
+              <div>Earnings:</div>
+              <div css={{ color: "#3cff3c" }}>{client.totalEarnings}</div>
+            </ClientDataItem>
+            <ClientDataItem>
+              <div>Projects / 30 days:</div>
+              <div>{client.projectsLast30Days}</div>
+            </ClientDataItem>
+            <ClientDataItem>
+              <div>Projects / 90 days:</div>
+              <div>{client.projectsLast90Days}</div>
+            </ClientDataItem>
+            <ClientDataItem>
+              <div>Projects / 365 days:</div>
+              <div>{client.projectsLast365Days}</div>
+            </ClientDataItem>
+          </ClientData>
+          <div css={{ textAlign: "center" }}>
+            <ShowMoreButton onClick={() => displayClientData(client._id)}>
+              <SlArrowDown
+                css={{
+                  transition: "transform 0.2s",
+
+                  transform:
+                    displayedClient === client._id ? "rotate(180deg)" : "",
+                }}
+              />
+            </ShowMoreButton>
+          </div>
         </ClientCard>
       ))}
     </ClientList>
