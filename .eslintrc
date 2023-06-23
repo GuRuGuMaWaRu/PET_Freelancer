@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 2019,
+    "ecmaVersion": 11,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -40,7 +40,9 @@
   },
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true,
+    "es6": true
   },
   "overrides": [
     {
