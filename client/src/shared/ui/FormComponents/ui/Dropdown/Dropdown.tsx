@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import React, { useState } from "react";
-import { useTransition, animated } from "react-spring";
+import { useSpring, animated } from "react-spring";
 
 import { Menu, MenuItem } from "./Dropdown.styles";
 import { useOutsideClick } from "shared/lib";
@@ -17,11 +17,12 @@ interface IProps {
 function Dropdown({ trigger, menu, dropdownStyles = {} }: IProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const transitions = useTransition(isOpen, {
+  const optionsMenuStyles = useSpring({
     from: { opacity: 0, y: 5 },
-    enter: { opacity: 1, y: 0 },
-    leave: { opacity: 0, y: 5 },
-    delay: 150,
+    to: { opacity: isOpen ? 1 : 0, y: isOpen ? 0 : 5 },
+    config: {
+      duration: 150,
+    },
   });
 
   const handleOpen = () => {
@@ -40,26 +41,21 @@ function Dropdown({ trigger, menu, dropdownStyles = {} }: IProps) {
         ref,
         onClick: handleOpen,
       })}
-      {transitions(
-        (styles, item) =>
-          item && (
-            <AnimatedMenu style={{ ...dropdownStyles, ...styles }}>
-              {menu.map((menuItem, index) => (
-                <MenuItem key={index} className="menu-item">
-                  {React.cloneElement(menuItem, {
-                    style: { width: "100%" },
-                    onClick: () => {
-                      if (menuItem.props?.onClick) {
-                        menuItem.props?.onClick();
-                      }
-                      setIsOpen(false);
-                    },
-                  })}
-                </MenuItem>
-              ))}
-            </AnimatedMenu>
-          )
-      )}
+      <AnimatedMenu style={{ ...dropdownStyles, ...optionsMenuStyles }}>
+        {menu.map((menuItem, index) => (
+          <MenuItem key={index} className="menu-item">
+            {React.cloneElement(menuItem, {
+              style: { width: "100%" },
+              onClick: () => {
+                if (menuItem.props?.onClick) {
+                  menuItem.props?.onClick();
+                }
+                setIsOpen(false);
+              },
+            })}
+          </MenuItem>
+        ))}
+      </AnimatedMenu>
     </div>
   );
 }
