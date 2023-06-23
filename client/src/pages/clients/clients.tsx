@@ -20,9 +20,7 @@ import { FullPageSpinner, Dropdown } from "shared/ui";
 import { colors } from "shared/const";
 
 function Clients() {
-  const [displayedClient, setDisplayedClient] = React.useState<string | null>(
-    null
-  );
+  const [displayedClient, setDisplayedClient] = React.useState<string[]>([]);
   const { data = [], isLoading } = useQuery(getClientsWithProjectDataQuery());
 
   if (isLoading) {
@@ -30,10 +28,12 @@ function Clients() {
   }
 
   const displayClientData = (id: string) => {
-    if (id === displayedClient) {
-      setDisplayedClient(null);
+    const alreadyOpened = displayedClient.includes(id);
+
+    if (alreadyOpened) {
+      setDisplayedClient(displayedClient.filter((client) => client !== id));
     } else {
-      setDisplayedClient(id);
+      setDisplayedClient([...displayedClient, id]);
     }
   };
 
@@ -76,7 +76,7 @@ function Clients() {
               {client.daysSinceLastProject}
             </div>
           </ClientDataItem>
-          <ClientData isExpanded={displayedClient === client._id}>
+          <ClientData isExpanded={displayedClient.includes(client._id)}>
             <ClientDataItem>
               <div>Projects:</div>
               <div>{client.totalProjects}</div>
@@ -103,9 +103,9 @@ function Clients() {
               <SlArrowDown
                 css={{
                   transition: "transform 0.2s",
-
-                  transform:
-                    displayedClient === client._id ? "rotate(180deg)" : "",
+                  transform: displayedClient.includes(client._id)
+                    ? "rotate(180deg)"
+                    : "",
                 }}
               />
             </ShowMoreButton>
