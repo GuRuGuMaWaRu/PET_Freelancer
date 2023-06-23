@@ -115,9 +115,9 @@ router
             firstProjectDate: 1,
             lastProjectDate: 1,
             totalEarnings: 1,
-            projectsLastMonth: 1,
-            projectsLastQuarter: 1,
-            projectsLastYear: 1,
+            projectsLast30Days: 1,
+            projectsLast90Days: 1,
+            projectsLast365Days: 1,
             daysSinceLastProject: {
               $trunc: {
                 $divide: [
@@ -132,9 +132,6 @@ router
         },
       ];
       const result = await Project.aggregate(pipeline);
-
-      // Output the result
-      console.log(result);
 
       res.status(200).json({
         status: "success",
