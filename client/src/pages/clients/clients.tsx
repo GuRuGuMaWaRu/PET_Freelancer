@@ -23,16 +23,6 @@ import {
 import { FullPageSpinner, Dropdown } from "shared/ui";
 import { colors } from "shared/const";
 
-enum sortByItem {
-  clientName = "clientName",
-  daysSinceLastProject = "daysSinceLastProject",
-  totalProjects = "totalProjects",
-  totalEarnings = "totalEarnings",
-  projectsLast30Days = "projectsLast30Days",
-  projectsLast90Days = "projectsLast90Days",
-  projectsLast365Days = "projectsLast365Days",
-}
-
 enum sortDirItem {
   desc = "desc",
   asc = "asc",
@@ -96,7 +86,7 @@ function Clients() {
         <h3>SORT BY</h3>
 
         <select
-          onChange={(e) => setSortBy(e.target.value as sortByItem)}
+          onChange={(e) => setSortBy(e.target.value as SortItemType)}
           value={sortBy}
         >
           {Object.entries(clientDataItems).map(([key, value]) => (
@@ -163,14 +153,21 @@ function Clients() {
               <div
                 css={{
                   color:
-                    sortBy === "daysSinceLastProject" &&
-                    client.daysSinceLastProject > 90
+                    sortBy === "totalEarnings"
+                      ? colors.money
+                      : sortBy === "daysSinceLastProject" &&
+                        client.daysSinceLastProject > 90
                       ? colors.textImportant
                       : colors.white,
                 }}
               >
                 {sortBy === "clientName"
                   ? client.daysSinceLastProject
+                  : sortBy === "totalEarnings"
+                  ? client.totalEarnings.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    })
                   : client[sortBy]}
               </div>
             </ClientDataItem>
@@ -194,7 +191,8 @@ function Clients() {
                     <div>{value}</div>
                     <div
                       css={{
-                        color: value === "Earnings" ? "#3cff3c" : colors.white,
+                        color:
+                          value === "Earnings" ? colors.money : colors.white,
                       }}
                     >
                       {key === "totalEarnings"

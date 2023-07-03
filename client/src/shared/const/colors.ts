@@ -34,3 +34,5 @@ export const greenLight1 = "rgb(60, 139, 90)";
 export const greenLight2 = "#4db575";
 export const greenDark1 = "#3d6a4e";
 export const greenDark2 = "#49815e";
+
+export const money = "#3cff3c";
