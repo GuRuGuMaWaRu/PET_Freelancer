@@ -38,11 +38,13 @@ const SChartTitle = styled.h2({
   alignSelf: "center",
 });
 
-const SDateRange = styled.p({
-  marginBlockStart: 0,
-  opacity: 0.7,
-  fontSize: "0.9rem",
-});
+const SDateRange = styled.time`
+  display: inline-block;
+  margin-block-start: 0;
+  margin-block-end: 1rem;
+  opacity: 0.7;
+  font-size: 0.9rem;
+`;
 
 export {
   SContainer,

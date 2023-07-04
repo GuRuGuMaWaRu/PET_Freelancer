@@ -62,10 +62,12 @@ function EarningsChart({ data }: IProps) {
                 <STooltipContents>
                   <p>
                     <b>Date:</b>{" "}
-                    {formatDate(payload[0].payload.date, {
-                      month: "long",
-                      year: "numeric",
-                    })}
+                    <time>
+                      {formatDate(payload[0].payload.date, {
+                        month: "long",
+                        year: "numeric",
+                      })}
+                    </time>
                   </p>
                   <p>
                     <b>Earnings:</b> ${payload[0].payload.payment}

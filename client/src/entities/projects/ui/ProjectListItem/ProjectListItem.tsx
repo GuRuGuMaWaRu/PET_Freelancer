@@ -1,7 +1,7 @@
 import React from "react";
 
 import type { IProject } from "shared/types";
-import { SDataCell } from './ProjectListItem.styles';
+import { SDataCell } from "./ProjectListItem.styles";
 
 interface IProps {
   project: IProject;
@@ -13,7 +13,7 @@ const ProjectListItem: React.FC<IProps> = ({ project, children }) => {
     <>
       <SDataCell name="client">{project.client.name}</SDataCell>
       <SDataCell name="date">
-        {new Date(project.date).toLocaleDateString("default")}
+        <time>{new Date(project.date).toLocaleDateString("default")}</time>
       </SDataCell>
       <SDataCell name="project nr">{project.projectNr}</SDataCell>
       <SDataCell name="payment">{project.payment}</SDataCell>

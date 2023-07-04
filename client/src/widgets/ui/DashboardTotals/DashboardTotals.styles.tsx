@@ -8,7 +8,7 @@ const STotalsWrapper = styled.div({
   marginBottom: "2rem",
 });
 
-const SDate = styled.div({
+const SDate = styled.time({
   fontSize: "clamp(1.5rem, 3.5vw, 2.8rem)",
   fontWeight: "bold",
   opacity: 0.7,
