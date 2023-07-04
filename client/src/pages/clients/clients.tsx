@@ -6,15 +6,15 @@ import { SlOptions, SlArrowDown } from "react-icons/sl";
 import { FcGenericSortingAsc, FcGenericSortingDesc } from "react-icons/fc";
 
 import {
-  ClientList,
-  ClientCard,
-  ClientHeader,
-  OptionsButton,
-  OptionsItem,
-  ClientName,
-  ClientData,
-  ClientDataItem,
-  ShowMoreButton,
+  SClientList,
+  SClientCard,
+  SClientHeader,
+  SOptionsButton,
+  SOptionsItem,
+  SClientName,
+  SClientData,
+  SClientDataItem,
+  SShowMoreButton,
 } from "./clients.styles";
 import {
   IClientWithProjectData,
@@ -33,9 +33,9 @@ const clientDataItems = {
   daysSinceLastProject: "Days since last project",
   totalProjects: "Projects",
   totalEarnings: "Earnings",
-  projectsLast30Days: "Projects / 30 days",
-  projectsLast90Days: "Projects / 90 days",
-  projectsLast365Days: "Projects / 365 days",
+  projectsLast30Days: "Projects, 30 days",
+  projectsLast90Days: "Projects, 90 days",
+  projectsLast365Days: "Projects, 365 days",
 };
 
 type SortItemType = keyof typeof clientDataItems;
@@ -82,9 +82,15 @@ function Clients() {
 
   return (
     <>
-      <div css={{ display: "flex", justifyContent: "flex-start", gap: "10px" }}>
+      <div
+        css={{
+          display: "flex",
+          justifyContent: "flex-start",
+          gap: "10px",
+          marginBlockEnd: "10px",
+        }}
+      >
         <h3>SORT BY</h3>
-
         <select
           onChange={(e) => setSortBy(e.target.value as SortItemType)}
           value={sortBy}
@@ -120,20 +126,20 @@ function Clients() {
           Hide or show all clients data
         </button>
       </div>
-      <ClientList>
+      <SClientList>
         {sortedClients.map((client) => (
-          <ClientCard key={client._id}>
-            <ClientHeader>
-              <ClientName>{client.clientName}</ClientName>
+          <SClientCard key={client._id}>
+            <SClientHeader>
+              <SClientName>{client.clientName}</SClientName>
               <Dropdown
                 trigger={
-                  <OptionsButton>
+                  <SOptionsButton>
                     <SlOptions />
-                  </OptionsButton>
+                  </SOptionsButton>
                 }
                 menu={[
-                  <OptionsItem>Edit</OptionsItem>,
-                  <OptionsItem>Delete</OptionsItem>,
+                  <SOptionsItem>Edit</SOptionsItem>,
+                  <SOptionsItem>Delete</SOptionsItem>,
                 ]}
                 dropdownStyles={{
                   width: "100px",
@@ -143,8 +149,8 @@ function Clients() {
                   boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
                 }}
               />
-            </ClientHeader>
-            <ClientDataItem css={{ marginBlockEnd: "1rem" }}>
+            </SClientHeader>
+            <SClientDataItem>
               <div>
                 {sortBy === "clientName"
                   ? clientDataItems.daysSinceLastProject
@@ -170,8 +176,8 @@ function Clients() {
                     })
                   : client[sortBy]}
               </div>
-            </ClientDataItem>
-            <ClientData isExpanded={displayedClients.includes(client._id)}>
+            </SClientDataItem>
+            <SClientData isExpanded={displayedClients.includes(client._id)}>
               {Object.entries(clientDataItems)
                 .filter(([key, value]) => {
                   if (key === "clientName") {
@@ -187,7 +193,7 @@ function Clients() {
                   }
                 })
                 .map(([key, value]) => (
-                  <ClientDataItem key={key}>
+                  <SClientDataItem key={key}>
                     <div>{value}</div>
                     <div
                       css={{
@@ -202,11 +208,11 @@ function Clients() {
                           })
                         : client[key as SortItemType]}
                     </div>
-                  </ClientDataItem>
+                  </SClientDataItem>
                 ))}
-            </ClientData>
+            </SClientData>
             <div css={{ textAlign: "center" }}>
-              <ShowMoreButton
+              <SShowMoreButton
                 onClick={() => displayClientData(client._id)}
                 aria-label="Show more"
               >
@@ -219,11 +225,11 @@ function Clients() {
                       : "",
                   }}
                 />
-              </ShowMoreButton>
+              </SShowMoreButton>
             </div>
-          </ClientCard>
+          </SClientCard>
         ))}
-      </ClientList>
+      </SClientList>
     </>
   );
 }

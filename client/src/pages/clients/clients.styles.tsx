@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { colors, mq } from "shared/const";
 
-const ClientList = styled.ul`
+const SClientList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
@@ -12,7 +12,7 @@ const ClientList = styled.ul`
   }
 `;
 
-const ClientCard = styled.div`
+const SClientCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -28,21 +28,21 @@ const ClientCard = styled.div`
   transition: all 0.2s;
 `;
 
-const ClientHeader = styled.div`
+const SClientHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5rem;
 `;
 
-const ClientInfo = styled.div`
+const SClientInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: ${colors.textSecondary};
 `;
 
-const OptionsButton = styled.button`
+const SOptionsButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,17 +62,17 @@ const OptionsButton = styled.button`
   }
 `;
 
-const OptionsItem = styled.button`
+const SOptionsItem = styled.button`
   border: none;
   background: none;
   color: ${colors.white};
 `;
 
-const ClientName = styled.h3`
+const SClientName = styled.h3`
   margin: 0;
 `;
 
-const ClientData = styled.div<{ isExpanded: boolean }>`
+const SClientData = styled.div<{ isExpanded: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -82,31 +82,36 @@ const ClientData = styled.div<{ isExpanded: boolean }>`
   opacity: ${({ isExpanded }) => (isExpanded ? 1 : 0)};
   transition: all 0.4s ease-in-out;
   overflow: hidden;
+  margin-block-start: 1rem;
 `;
 
-const ClientDataItem = styled.div`
+const SClientDataItem = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
 `;
 
-const ShowMoreButton = styled.button`
+const SShowMoreButton = styled.button`
   border: none;
   background: none;
   color: ${colors.white};
   padding: 0 1rem;
+  transition: transform 0.2s;
+  &:hover {
+    transform: translateY(-2px);
+  }
 `;
 
 export {
-  ClientList,
-  ClientCard,
-  ClientHeader,
-  ClientInfo,
-  OptionsButton,
-  OptionsItem,
-  ClientName,
-  ClientData,
-  ClientDataItem,
-  ShowMoreButton,
+  SClientList,
+  SClientCard,
+  SClientHeader,
+  SClientInfo,
+  SOptionsButton,
+  SOptionsItem,
+  SClientName,
+  SClientData,
+  SClientDataItem,
+  SShowMoreButton,
 };
