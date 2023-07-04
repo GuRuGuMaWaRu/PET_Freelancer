@@ -3,7 +3,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SlOptions, SlArrowDown } from "react-icons/sl";
-import { FcGenericSortingAsc, FcGenericSortingDesc } from "react-icons/fc";
+import { HiSortAscending, HiSortDescending } from "react-icons/hi";
 
 import {
   SClientList,
@@ -26,6 +26,16 @@ import { colors } from "shared/const";
 enum sortDirItem {
   desc = "desc",
   asc = "asc",
+}
+
+enum sortByItem {
+  clientName = "clientName",
+  daysSinceLastProject = "daysSinceLastProject",
+  totalProjects = "totalProjects",
+  totalEarnings = "totalEarnings",
+  projectsLast30Days = "projectsLast30Days",
+  projectsLast90Days = "projectsLast90Days",
+  projectsLast365Days = "projectsLast365Days",
 }
 
 const clientDataItems = {
@@ -56,9 +66,9 @@ const sortClients = (
 };
 
 function Clients() {
-  const [displayedClients, setDisplayedClients] = React.useState<string[]>([]);
+  const [openClients, setOpenClients] = React.useState<string[]>([]);
   const [sortBy, setSortBy] = React.useState<SortItemType>(
-    "daysSinceLastProject"
+    sortByItem.daysSinceLastProject
   );
   const [sortDir, setSortDir] = React.useState(sortDirItem.desc);
 
@@ -70,18 +80,33 @@ function Clients() {
 
   const sortedClients = sortClients(data, sortBy, sortDir);
 
-  const displayClientData = (id: string) => {
-    const alreadyOpened = displayedClients.includes(id);
+  const openClientData = (id: string) => {
+    const alreadyOpened = openClients.includes(id);
 
     if (alreadyOpened) {
-      setDisplayedClients(displayedClients.filter((client) => client !== id));
+      setOpenClients(openClients.filter((client) => client !== id));
     } else {
-      setDisplayedClients([...displayedClients, id]);
+      setOpenClients([...openClients, id]);
+    }
+  };
+
+  const changeSortDirection = () => {
+    setSortDir(
+      sortDir === sortDirItem.desc ? sortDirItem.asc : sortDirItem.desc
+    );
+  };
+
+  const toggleAllClientData = () => {
+    if (openClients.length > 0) {
+      setOpenClients([]);
+    } else {
+      setOpenClients(data.map((client) => client._id));
     }
   };
 
   return (
     <>
+      {/** CONTROLS --> start */}
       <div
         css={{
           display: "flex",
@@ -101,31 +126,18 @@ function Clients() {
             </option>
           ))}
         </select>
-        <button
-          onClick={() =>
-            setSortDir(
-              sortDir === sortDirItem.desc ? sortDirItem.asc : sortDirItem.desc
-            )
-          }
-        >
+        <button onClick={changeSortDirection}>
           {sortDir === sortDirItem.desc ? (
-            <FcGenericSortingDesc />
+            <HiSortDescending />
           ) : (
-            <FcGenericSortingAsc />
+            <HiSortAscending />
           )}
         </button>
-        <button
-          onClick={() => {
-            if (displayedClients.length > 0) {
-              setDisplayedClients([]);
-            } else {
-              setDisplayedClients(data.map((client) => client._id));
-            }
-          }}
-        >
+        <button onClick={toggleAllClientData}>
           Hide or show all clients data
         </button>
       </div>
+      {/** CONTROLS --> end */}
       <SClientList>
         {sortedClients.map((client) => (
           <SClientCard key={client._id}>
@@ -152,24 +164,24 @@ function Clients() {
             </SClientHeader>
             <SClientDataItem>
               <div>
-                {sortBy === "clientName"
+                {sortBy === sortByItem.clientName
                   ? clientDataItems.daysSinceLastProject
                   : clientDataItems[sortBy]}
               </div>
               <div
                 css={{
                   color:
-                    sortBy === "totalEarnings"
+                    sortBy === sortByItem.totalEarnings
                       ? colors.money
-                      : sortBy === "daysSinceLastProject" &&
+                      : sortBy === sortByItem.daysSinceLastProject &&
                         client.daysSinceLastProject > 90
                       ? colors.textImportant
                       : colors.white,
                 }}
               >
-                {sortBy === "clientName"
+                {sortBy === sortByItem.clientName
                   ? client.daysSinceLastProject
-                  : sortBy === "totalEarnings"
+                  : sortBy === sortByItem.totalEarnings
                   ? client.totalEarnings.toLocaleString("en-US", {
                       style: "currency",
                       currency: "USD",
@@ -177,15 +189,15 @@ function Clients() {
                   : client[sortBy]}
               </div>
             </SClientDataItem>
-            <SClientData isExpanded={displayedClients.includes(client._id)}>
+            <SClientData isExpanded={openClients.includes(client._id)}>
               {Object.entries(clientDataItems)
                 .filter(([key, value]) => {
-                  if (key === "clientName") {
+                  if (key === sortByItem.clientName) {
                     return false;
                   }
                   if (
-                    sortBy === "clientName" &&
-                    key === "daysSinceLastProject"
+                    sortBy === sortByItem.clientName &&
+                    key === sortByItem.daysSinceLastProject
                   ) {
                     return false;
                   } else {
@@ -201,7 +213,7 @@ function Clients() {
                           value === "Earnings" ? colors.money : colors.white,
                       }}
                     >
-                      {key === "totalEarnings"
+                      {key === sortByItem.totalEarnings
                         ? client.totalEarnings.toLocaleString("en-US", {
                             style: "currency",
                             currency: "USD",
@@ -213,14 +225,14 @@ function Clients() {
             </SClientData>
             <div css={{ textAlign: "center" }}>
               <SShowMoreButton
-                onClick={() => displayClientData(client._id)}
+                onClick={() => openClientData(client._id)}
                 aria-label="Show more"
               >
                 <SlArrowDown
                   css={{
                     fontSize: "1.5rem",
                     transition: "transform 0.2s",
-                    transform: displayedClients.includes(client._id)
+                    transform: openClients.includes(client._id)
                       ? "rotate(180deg)"
                       : "",
                   }}
