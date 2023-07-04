@@ -144,7 +144,7 @@ function Clients() {
                 }}
               />
             </ClientHeader>
-            <ClientDataItem>
+            <ClientDataItem css={{ marginBlockEnd: "1rem" }}>
               <div>
                 {sortBy === "clientName"
                   ? clientDataItems.daysSinceLastProject
