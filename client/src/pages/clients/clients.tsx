@@ -7,7 +7,9 @@ import { HiSortAscending, HiSortDescending } from "react-icons/hi";
 import { SClientList } from "./clients.styles";
 import {
   IClientWithProjectData,
+  TClientDataItem,
   getClientsWithProjectDataQuery,
+  clientDataItems,
   ClientCard,
 } from "entities/clients";
 import { FullPageSpinner } from "shared/ui";
@@ -17,31 +19,9 @@ enum sortDirItem {
   asc = "asc",
 }
 
-enum sortByItem {
-  clientName = "clientName",
-  daysSinceLastProject = "daysSinceLastProject",
-  totalProjects = "totalProjects",
-  totalEarnings = "totalEarnings",
-  projectsLast30Days = "projectsLast30Days",
-  projectsLast90Days = "projectsLast90Days",
-  projectsLast365Days = "projectsLast365Days",
-}
-
-const clientDataItems = {
-  clientName: "Client name",
-  daysSinceLastProject: "Days since last project",
-  totalProjects: "Projects",
-  totalEarnings: "Earnings",
-  projectsLast30Days: "Projects, 30 days",
-  projectsLast90Days: "Projects, 90 days",
-  projectsLast365Days: "Projects, 365 days",
-};
-
-type SortItemType = keyof typeof clientDataItems;
-
 const sortClients = (
   clients: IClientWithProjectData[],
-  sortBy: SortItemType,
+  sortBy: TClientDataItem,
   sortDir: sortDirItem
 ) => {
   return clients.sort((a, b) => {
@@ -56,8 +36,8 @@ const sortClients = (
 
 function Clients() {
   const [isExpandedAll, setIsExpandedAll] = React.useState(false);
-  const [sortBy, setSortBy] = React.useState<SortItemType>(
-    sortByItem.daysSinceLastProject
+  const [sortBy, setSortBy] = React.useState<TClientDataItem>(
+    "daysSinceLastProject"
   );
   const [sortDir, setSortDir] = React.useState(sortDirItem.desc);
 
@@ -92,14 +72,16 @@ function Clients() {
       >
         <h3>SORT BY</h3>
         <select
-          onChange={(e) => setSortBy(e.target.value as SortItemType)}
+          onChange={(e) => setSortBy(e.target.value as TClientDataItem)}
           value={sortBy}
         >
-          {Object.entries(clientDataItems).map(([key, value]) => (
-            <option key={key} value={key}>
-              {value}
-            </option>
-          ))}
+          {Object.entries(clientDataItems).map(
+            ([sortName, { displayName }]) => (
+              <option key={sortName} value={sortName}>
+                {displayName}
+              </option>
+            )
+          )}
         </select>
         <button onClick={changeSortDirection}>
           {sortDir === sortDirItem.desc ? (
