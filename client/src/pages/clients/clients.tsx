@@ -2,26 +2,15 @@
 
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { SlOptions, SlArrowDown } from "react-icons/sl";
 import { HiSortAscending, HiSortDescending } from "react-icons/hi";
 
-import {
-  SClientList,
-  SClientCard,
-  SClientHeader,
-  SOptionsButton,
-  SOptionsItem,
-  SClientName,
-  SClientData,
-  SClientDataItem,
-  SShowMoreButton,
-} from "./clients.styles";
+import { SClientList } from "./clients.styles";
 import {
   IClientWithProjectData,
   getClientsWithProjectDataQuery,
+  ClientCard,
 } from "entities/clients";
-import { FullPageSpinner, Dropdown } from "shared/ui";
-import { colors } from "shared/const";
+import { FullPageSpinner } from "shared/ui";
 
 enum sortDirItem {
   desc = "desc",
@@ -66,7 +55,7 @@ const sortClients = (
 };
 
 function Clients() {
-  const [openClients, setOpenClients] = React.useState<string[]>([]);
+  const [isExpandedAll, setIsExpandedAll] = React.useState(false);
   const [sortBy, setSortBy] = React.useState<SortItemType>(
     sortByItem.daysSinceLastProject
   );
@@ -80,28 +69,14 @@ function Clients() {
 
   const sortedClients = sortClients(data, sortBy, sortDir);
 
-  const openClientData = (id: string) => {
-    const alreadyOpened = openClients.includes(id);
-
-    if (alreadyOpened) {
-      setOpenClients(openClients.filter((client) => client !== id));
-    } else {
-      setOpenClients([...openClients, id]);
-    }
-  };
-
   const changeSortDirection = () => {
     setSortDir(
       sortDir === sortDirItem.desc ? sortDirItem.asc : sortDirItem.desc
     );
   };
 
-  const toggleAllClientData = () => {
-    if (openClients.length > 0) {
-      setOpenClients([]);
-    } else {
-      setOpenClients(data.map((client) => client._id));
-    }
+  const toggleExpandAll = () => {
+    setIsExpandedAll((prevState) => !prevState);
   };
 
   return (
@@ -133,113 +108,19 @@ function Clients() {
             <HiSortAscending />
           )}
         </button>
-        <button onClick={toggleAllClientData}>
-          Hide or show all clients data
+        <button onClick={toggleExpandAll}>
+          {isExpandedAll ? "Collapse all" : "Expand all"}
         </button>
       </div>
       {/** CONTROLS --> end */}
       <SClientList>
         {sortedClients.map((client) => (
-          <SClientCard key={client._id}>
-            <SClientHeader>
-              <SClientName>{client.clientName}</SClientName>
-              <Dropdown
-                trigger={
-                  <SOptionsButton>
-                    <SlOptions />
-                  </SOptionsButton>
-                }
-                menu={[
-                  <SOptionsItem>Edit</SOptionsItem>,
-                  <SOptionsItem>Delete</SOptionsItem>,
-                ]}
-                dropdownStyles={{
-                  width: "100px",
-                  borderRadius: "5px",
-                  background: "#529596",
-                  border: "1px solid rgba(255, 255, 255, 0.18)",
-                  boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
-                }}
-              />
-            </SClientHeader>
-            <SClientDataItem>
-              <div>
-                {sortBy === sortByItem.clientName
-                  ? clientDataItems.daysSinceLastProject
-                  : clientDataItems[sortBy]}
-              </div>
-              <div
-                css={{
-                  color:
-                    sortBy === sortByItem.totalEarnings
-                      ? colors.money
-                      : sortBy === sortByItem.daysSinceLastProject &&
-                        client.daysSinceLastProject > 90
-                      ? colors.textImportant
-                      : colors.white,
-                }}
-              >
-                {sortBy === sortByItem.clientName
-                  ? client.daysSinceLastProject
-                  : sortBy === sortByItem.totalEarnings
-                  ? client.totalEarnings.toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })
-                  : client[sortBy]}
-              </div>
-            </SClientDataItem>
-            <SClientData isExpanded={openClients.includes(client._id)}>
-              {Object.entries(clientDataItems)
-                .filter(([key, value]) => {
-                  if (key === sortByItem.clientName) {
-                    return false;
-                  }
-                  if (
-                    sortBy === sortByItem.clientName &&
-                    key === sortByItem.daysSinceLastProject
-                  ) {
-                    return false;
-                  } else {
-                    return key !== sortBy;
-                  }
-                })
-                .map(([key, value]) => (
-                  <SClientDataItem key={key}>
-                    <div>{value}</div>
-                    <div
-                      css={{
-                        color:
-                          value === "Earnings" ? colors.money : colors.white,
-                      }}
-                    >
-                      {key === sortByItem.totalEarnings
-                        ? client.totalEarnings.toLocaleString("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                          })
-                        : client[key as SortItemType]}
-                    </div>
-                  </SClientDataItem>
-                ))}
-            </SClientData>
-            <div css={{ textAlign: "center" }}>
-              <SShowMoreButton
-                onClick={() => openClientData(client._id)}
-                aria-label="Show more"
-              >
-                <SlArrowDown
-                  css={{
-                    fontSize: "1.5rem",
-                    transition: "transform 0.2s",
-                    transform: openClients.includes(client._id)
-                      ? "rotate(180deg)"
-                      : "",
-                  }}
-                />
-              </SShowMoreButton>
-            </div>
-          </SClientCard>
+          <ClientCard
+            key={client._id}
+            client={client}
+            isExpandedAll={isExpandedAll}
+            sortBy={sortBy}
+          />
         ))}
       </SClientList>
     </>

@@ -1,3 +1,5 @@
+import { clientDataItems } from "..";
+
 interface IClientWithProjectData {
   _id: string;
   clientName: string;
@@ -11,4 +13,6 @@ interface IClientWithProjectData {
   daysSinceLastProject: number;
 }
 
-export type { IClientWithProjectData };
+type TClientDataItem = keyof typeof clientDataItems;
+
+export type { IClientWithProjectData, TClientDataItem };
