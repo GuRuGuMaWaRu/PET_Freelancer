@@ -32,6 +32,22 @@ const SSortItem = styled.div`
   }
 `;
 
+const SControlsButton = styled.button`
+  display: flex;
+  align-items: center;
+
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 5px;
+  background-color: #00979a;
+  color: ${colors.white};
+  transition: all 0.2s;
+
+  &:active {
+    transform: translateY(2px);
+  }
+`;
+
 const SClientList = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -43,4 +59,10 @@ const SClientList = styled.ul`
   }
 `;
 
-export { SClientControlsPanel, SClientList, SSortByButton, SSortItem };
+export {
+  SClientControlsPanel,
+  SClientList,
+  SSortByButton,
+  SSortItem,
+  SControlsButton,
+};

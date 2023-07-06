@@ -10,6 +10,7 @@ import {
   SClientList,
   SSortByButton,
   SSortItem,
+  SControlsButton,
 } from "./clients.styles";
 import {
   IClientWithProjectData,
@@ -102,16 +103,24 @@ function Clients() {
             overflow: "hidden",
           }}
         />
-        <button onClick={changeSortDirection}>
+        <SControlsButton onClick={changeSortDirection}>
           {sortDir === sortDirItem.desc ? (
-            <HiSortDescending />
+            <HiSortDescending
+              css={{
+                fontSize: "20px",
+              }}
+            />
           ) : (
-            <HiSortAscending />
+            <HiSortAscending
+              css={{
+                fontSize: "20px",
+              }}
+            />
           )}
-        </button>
-        <button onClick={toggleExpandAll}>
+        </SControlsButton>
+        <SControlsButton onClick={toggleExpandAll}>
           {isExpandedAll ? "Collapse all" : "Expand all"}
-        </button>
+        </SControlsButton>
       </SClientControlsPanel>
       {/** CONTROLS --> end */}
       <SClientList>
