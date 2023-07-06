@@ -1,5 +1,36 @@
 import styled from "@emotion/styled";
-import { mq } from "shared/const";
+import { colors, mq } from "shared/const";
+
+const SClientControlsPanel = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  margin-block-end: 10px;
+`;
+
+const SSortByButton = styled.button`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 205px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.15);
+  color: ${colors.white};
+`;
+
+const SSortItem = styled.div`
+  padding: 9px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+`;
 
 const SClientList = styled.ul`
   display: grid;
@@ -12,4 +43,4 @@ const SClientList = styled.ul`
   }
 `;
 
-export { SClientList };
+export { SClientControlsPanel, SClientList, SSortByButton, SSortItem };

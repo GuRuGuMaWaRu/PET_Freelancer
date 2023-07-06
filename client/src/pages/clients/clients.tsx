@@ -3,8 +3,14 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { HiSortAscending, HiSortDescending } from "react-icons/hi";
+import { SlArrowDown } from "react-icons/sl";
 
-import { SClientList } from "./clients.styles";
+import {
+  SClientControlsPanel,
+  SClientList,
+  SSortByButton,
+  SSortItem,
+} from "./clients.styles";
 import {
   IClientWithProjectData,
   TClientDataItem,
@@ -12,7 +18,7 @@ import {
   clientDataItems,
   ClientCard,
 } from "entities/clients";
-import { FullPageSpinner } from "shared/ui";
+import { Dropdown, FullPageSpinner } from "shared/ui";
 
 enum sortDirItem {
   desc = "desc",
@@ -62,27 +68,40 @@ function Clients() {
   return (
     <>
       {/** CONTROLS --> start */}
-      <div
-        css={{
-          display: "flex",
-          justifyContent: "flex-start",
-          gap: "10px",
-          marginBlockEnd: "10px",
-        }}
-      >
+      <SClientControlsPanel>
         <h3>SORT BY</h3>
-        <select
-          onChange={(e) => setSortBy(e.target.value as TClientDataItem)}
-          value={sortBy}
-        >
-          {Object.entries(clientDataItems).map(
+        <Dropdown
+          trigger={
+            <SSortByButton>
+              <span>{clientDataItems[sortBy].displayName}</span>{" "}
+              <SlArrowDown
+                css={{
+                  fontSize: "12px",
+                }}
+              />
+            </SSortByButton>
+          }
+          menu={Object.entries(clientDataItems).map(
             ([sortName, { displayName }]) => (
-              <option key={sortName} value={sortName}>
+              <SSortItem
+                key={sortName}
+                onClick={() => setSortBy(sortName as TClientDataItem)}
+              >
                 {displayName}
-              </option>
+              </SSortItem>
             )
           )}
-        </select>
+          dropdownStyles={{
+            top: "38px",
+            width: "205px",
+            padding: 0,
+            border: "1px solid rgba(255, 255, 255, 0.18)",
+            borderRadius: "5px",
+            background: "#529596",
+            boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+            overflow: "hidden",
+          }}
+        />
         <button onClick={changeSortDirection}>
           {sortDir === sortDirItem.desc ? (
             <HiSortDescending />
@@ -93,7 +112,7 @@ function Clients() {
         <button onClick={toggleExpandAll}>
           {isExpandedAll ? "Collapse all" : "Expand all"}
         </button>
-      </div>
+      </SClientControlsPanel>
       {/** CONTROLS --> end */}
       <SClientList>
         {sortedClients.map((client) => (
