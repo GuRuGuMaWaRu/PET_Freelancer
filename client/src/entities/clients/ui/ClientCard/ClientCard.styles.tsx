@@ -12,7 +12,7 @@ const SClientCard = styled.div`
 
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 0.5rem;
+  border-radius: 5px;
 
   transition: all 0.2s;
 `;

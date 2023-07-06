@@ -10,7 +10,7 @@ const Menu = styled.ul`
   right: 0;
   list-style: none;
   padding: 0.5rem;
-  border-radius: 0.5rem;
+  border-radius: 5px;
 
   z-index: 10;
 `;

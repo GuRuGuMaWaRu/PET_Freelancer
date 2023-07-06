@@ -3,9 +3,9 @@ import { colors } from "shared/const";
 import { ComboboxInput as ReachComboboxInput } from "@reach/combobox";
 
 const inputStyles = `
-  padding: 6px 10px;
+  padding: 5px 10px;
   border: 1px solid ${colors.white};
-  border-radius: 3px;
+  border-radius: 5px;
 `;
 
 const SInput = styled.input`
@@ -22,7 +22,7 @@ const STextarea = styled.textarea`
 
 const SReachComboboxInput = styled(ReachComboboxInput)`
   width: 100%;
-  ${inputStyles},
+  ${inputStyles}
 `;
 
 const SLabel = styled.label`

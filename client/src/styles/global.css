@@ -7,14 +7,27 @@
 
   --color-white: #fff;
   --color-warning: tomato;
+
+  --border-radius: 0.5rem;
 }
 
 /* some global reset */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
 }
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  /* font-size: 62.5%; * 1rem = 10px; 10px/16px = 62.5% */
+}
+
 body {
   margin: 0;
   font-family: "Open Sans", sans-serif;
