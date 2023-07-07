@@ -6,7 +6,7 @@ import { HiSortAscending, HiSortDescending } from "react-icons/hi";
 import { SlArrowDown } from "react-icons/sl";
 
 import {
-  SClientControlsPanel,
+  SControlsPanel,
   SClientList,
   SSortByButton,
   SSortItem,
@@ -20,6 +20,7 @@ import {
   ClientCard,
 } from "entities/clients";
 import { Dropdown, FullPageSpinner } from "shared/ui";
+import { ModalAddProject } from "widgets";
 
 enum sortDirItem {
   desc = "desc",
@@ -69,7 +70,7 @@ function Clients() {
   return (
     <>
       {/** CONTROLS --> start */}
-      <SClientControlsPanel>
+      <SControlsPanel>
         <h3>SORT BY</h3>
         <Dropdown
           trigger={
@@ -121,7 +122,11 @@ function Clients() {
         <SControlsButton onClick={toggleExpandAll}>
           {isExpandedAll ? "Collapse all" : "Expand all"}
         </SControlsButton>
-      </SClientControlsPanel>
+        <ModalAddProject
+          clients={data}
+          customStyles={`margin-inline-start: auto;`}
+        />
+      </SControlsPanel>
       {/** CONTROLS --> end */}
       <SClientList>
         {sortedClients.map((client) => (

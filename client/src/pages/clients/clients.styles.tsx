@@ -1,13 +1,15 @@
 import styled from "@emotion/styled";
 import { colors, mq } from "shared/const";
 
-const SClientControlsPanel = styled.div`
+const SControlsPanel = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
   margin-block-end: 10px;
 `;
+
+const SControls = styled.div``;
 
 const SSortByButton = styled.button`
   display: flex;
@@ -60,7 +62,8 @@ const SClientList = styled.ul`
 `;
 
 export {
-  SClientControlsPanel,
+  SControlsPanel,
+  SControls,
   SClientList,
   SSortByButton,
   SSortItem,
