@@ -1,5 +1,5 @@
 const clientDataItems = {
-  clientName: {
+  name: {
     sortName: "clientName",
     displayName: "Client name",
   },

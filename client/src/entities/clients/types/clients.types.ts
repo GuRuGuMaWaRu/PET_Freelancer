@@ -2,7 +2,7 @@ import { clientDataItems } from "..";
 
 interface IClientWithProjectData {
   _id: string;
-  clientName: string;
+  name: string;
   totalProjects: number;
   firstProjectDate: string;
   lastProjectDate: string;

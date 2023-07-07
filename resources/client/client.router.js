@@ -52,7 +52,7 @@ router
         {
           $group: {
             _id: "$client",
-            clientName: { $first: "$clientDetails.name" },
+            name: { $first: "$clientDetails.name" },
             totalProjects: { $sum: 1 },
             firstProjectDate: { $min: "$date" },
             lastProjectDate: { $max: "$date" },
@@ -110,7 +110,7 @@ router
         {
           $project: {
             _id: 1,
-            clientName: 1,
+            name: 1,
             totalProjects: 1,
             firstProjectDate: 1,
             lastProjectDate: 1,

@@ -41,7 +41,7 @@ function ClientCard({ client, isExpandedAll, sortBy }: IProps) {
   return (
     <SClientCard key={client._id}>
       <SClientHeader>
-        <SClientName>{client.clientName}</SClientName>
+        <SClientName>{client.name}</SClientName>
         <Dropdown
           trigger={
             <SOptionsButton>
@@ -63,7 +63,7 @@ function ClientCard({ client, isExpandedAll, sortBy }: IProps) {
       </SClientHeader>
       <SClientDataItem>
         <div>
-          {sortBy === clientDataItems.clientName.sortName
+          {sortBy === clientDataItems.name.sortName
             ? clientDataItems.daysSinceLastProject.displayName
             : clientDataItems[sortBy].displayName}
         </div>
@@ -78,7 +78,7 @@ function ClientCard({ client, isExpandedAll, sortBy }: IProps) {
                 : colors.white,
           }}
         >
-          {sortBy === clientDataItems.clientName.sortName
+          {sortBy === clientDataItems.name.sortName
             ? client.daysSinceLastProject
             : sortBy === clientDataItems.totalEarnings.sortName
             ? client.totalEarnings.toLocaleString("en-US", {
@@ -91,11 +91,11 @@ function ClientCard({ client, isExpandedAll, sortBy }: IProps) {
       <SClientData isExpanded={isExpanded}>
         {Object.entries(clientDataItems)
           .filter(([sortName]) => {
-            if (sortName === clientDataItems.clientName.sortName) {
+            if (sortName === clientDataItems.name.sortName) {
               return false;
             }
             if (
-              sortBy === clientDataItems.clientName.sortName &&
+              sortBy === clientDataItems.name.sortName &&
               sortName === clientDataItems.daysSinceLastProject.sortName
             ) {
               return false;
