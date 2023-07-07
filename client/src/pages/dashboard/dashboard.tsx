@@ -1,6 +1,7 @@
 import { useDashboardData } from "./dashboard.hooks";
 import { SControlsSection } from "./dashboard.styles";
-import { ModalAddProject, MemoDashboardTotals, ChartSection } from "widgets";
+import { MemoDashboardTotals, ChartSection } from "widgets";
+import { ModalAddProject } from "entities/projects";
 
 function Dashboard() {
   const { earningsByMonth, dataByClient, dataByMonth, clients } =

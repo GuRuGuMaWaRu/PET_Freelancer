@@ -13,22 +13,17 @@ import {
   STableHeader,
   SActionButton,
 } from "./projects.styles";
-import {
-  FullPageSpinner,
-  Modal,
-  ModalOpenButton,
-  ModalContents,
-  MemoPagination,
-} from "shared/ui";
-import { colors, config } from "shared/const";
+import { FullPageSpinner, Modal, MemoPagination } from "shared/ui";
+import { config } from "shared/const";
 import { getAllClientsQuery } from "entities/clients";
 import {
   DeleteProjectForm,
   AddEditProjectForm,
   ProjectListItem,
+  ModalAddProject,
   getProjectsPageQuery,
 } from "entities/projects";
-import { ModalAddProject, SearchInput } from "widgets";
+import { SearchInput } from "widgets";
 
 //** TODO: move this into a separate utilities file (projects.utils.tsx) when I'll have FEATURES */
 const capitalizeItem = (item: string): string =>
@@ -103,36 +98,25 @@ function Projects() {
 
                 {projects?.docs?.map((project) => (
                   <ProjectListItem key={project._id} project={project}>
-                    <Modal>
-                      <ModalOpenButton>
+                    <Modal
+                      title="Edit Project"
+                      button={
                         <SActionButton>
                           <FaPen aria-label="edit" />
                         </SActionButton>
-                      </ModalOpenButton>
-                      <ModalContents
-                        aria-label="Edit Project Form"
-                        title="Edit Project"
-                        bgColor={colors.projectsPageBg}
-                      >
-                        <AddEditProjectForm
-                          project={project}
-                          clients={clients}
-                        />
-                      </ModalContents>
+                      }
+                    >
+                      <AddEditProjectForm project={project} clients={clients} />
                     </Modal>
-                    <Modal>
-                      <ModalOpenButton>
+                    <Modal
+                      title="Delete Project"
+                      button={
                         <SActionButton>
                           <FaRegTrashAlt aria-label="delete" />
                         </SActionButton>
-                      </ModalOpenButton>
-                      <ModalContents
-                        aria-label="Delete Project Form"
-                        title="Delete Project"
-                        bgColor={colors.projectsPageBg}
-                      >
-                        <DeleteProjectForm project={project} />
-                      </ModalContents>
+                      }
+                    >
+                      <DeleteProjectForm project={project} />
                     </Modal>
                   </ProjectListItem>
                 ))}

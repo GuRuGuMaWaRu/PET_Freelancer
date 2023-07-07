@@ -11,11 +11,13 @@ import {
   AnimatedDialogOverlay,
   AnimatedDialogContent,
 } from "./Modal.styles";
-import { useModal } from "./Modal.context";
+import { useModal, ModalProvider } from "./Modal.context";
+import { useGetColorFromPath } from "widgets/lib/hooks";
 
-const callAll = (...fns: Array<(...args: unknown[]) => void>) => (
-  ...args: unknown[]
-): void => fns.forEach((fn) => fn && fn(...args));
+const callAll =
+  (...fns: Array<(...args: unknown[]) => void>) =>
+  (...args: unknown[]): void =>
+    fns.forEach((fn) => fn && fn(...args));
 
 function ModalOpenButton({ children }: { children: React.ReactElement }) {
   const { setIsOpen } = useModal();
@@ -54,7 +56,7 @@ function ModalContents({
           <AnimatedDialogContent
             style={{
               transform: styles.y.to(
-                (value) => `translate3d(0px, ${value}px, 0px)`,
+                (value) => `translate3d(0px, ${value}px, 0px)`
               ),
               backgroundColor: bgColor,
             }}
@@ -77,8 +79,27 @@ function ModalContents({
             {children}
           </AnimatedDialogContent>
         </AnimatedDialogOverlay>
-      ),
+      )
   );
 }
 
-export { ModalOpenButton, ModalContents };
+interface ModalProps {
+  title: string;
+  button: React.ReactElement;
+  children: React.ReactElement;
+}
+
+function Modal({ title, button, children }: ModalProps) {
+  const color = useGetColorFromPath();
+
+  return (
+    <ModalProvider>
+      <ModalOpenButton>{button}</ModalOpenButton>
+      <ModalContents aria-label={`${title} Form`} title={title} bgColor={color}>
+        {children}
+      </ModalContents>
+    </ModalProvider>
+  );
+}
+
+export { ModalOpenButton, ModalContents, Modal };

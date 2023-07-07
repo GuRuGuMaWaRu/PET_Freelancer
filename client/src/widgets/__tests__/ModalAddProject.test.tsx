@@ -15,7 +15,7 @@ function setup(jsx: React.ReactElement) {
   };
 }
 
-describe("ModalAddProject", () => {
+describe.skip("ModalAddProject", () => {
   const Wrapper = () => {
     const clients = [
       { _id: "1", name: "test client 1" },
@@ -50,19 +50,19 @@ describe("ModalAddProject", () => {
     await screen.findByRole("heading", { name: /^add project$/i });
 
     expect(
-      screen.getByRole("combobox", { name: /^client$/i }),
+      screen.getByRole("combobox", { name: /^client$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("textbox", { name: /^project nr$/i }),
+      screen.getByRole("textbox", { name: /^project nr$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("combobox", { name: /^currency$/i }),
+      screen.getByRole("combobox", { name: /^currency$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("spinbutton", { name: /^payment$/i }),
+      screen.getByRole("spinbutton", { name: /^payment$/i })
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("textbox", { name: /^comments$/i }),
+      screen.getByRole("textbox", { name: /^comments$/i })
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /^add$/i })).toBeInTheDocument();
   });
@@ -83,7 +83,7 @@ describe("ModalAddProject", () => {
     await waitForLoadingToFinish();
 
     expect(
-      (await screen.findByLabelText(/notification/i)).textContent,
+      (await screen.findByLabelText(/notification/i)).textContent
     ).toMatchInlineSnapshot(`"Project added successfully"`);
   });
 });

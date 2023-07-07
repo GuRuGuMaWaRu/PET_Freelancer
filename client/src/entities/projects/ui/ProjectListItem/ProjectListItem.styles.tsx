@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { colors, mq } from "shared/const";
 
 const SDataCell = styled.div<{ name: string }>(({ name }) => ({
+  display: "flex",
+  gap: ".5rem",
   padding: ".9rem .5rem",
   "&:nth-of-type(12n+7)": {
     backgroundColor: colors.greenDark2,

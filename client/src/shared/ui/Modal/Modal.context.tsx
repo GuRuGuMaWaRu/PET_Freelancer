@@ -17,10 +17,10 @@ const useModal = () => {
   return context;
 };
 
-function Modal(props: { children: React.ReactNode }) {
+function ModalProvider(props: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return <ModalContext.Provider value={{ isOpen, setIsOpen }} {...props} />;
 }
 
-export { Modal, useModal };
+export { ModalProvider, useModal };

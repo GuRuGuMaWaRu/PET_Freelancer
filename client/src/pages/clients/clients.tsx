@@ -20,7 +20,7 @@ import {
   ClientCard,
 } from "entities/clients";
 import { Dropdown, FullPageSpinner } from "shared/ui";
-import { ModalAddProject } from "widgets";
+import { ModalAddProject } from "entities/projects";
 
 enum sortDirItem {
   desc = "desc",

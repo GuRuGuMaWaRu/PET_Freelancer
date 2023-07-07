@@ -1,2 +1,2 @@
-export { Modal, useModal } from "./Modal.context";
-export { ModalOpenButton, ModalContents } from "./Modal";
+export { useModal } from "./Modal.context";
+export { Modal } from "./Modal";
