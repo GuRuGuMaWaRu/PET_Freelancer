@@ -3,8 +3,8 @@ import { getBgColor } from "../hooks/useChangeBGColor";
 
 describe("getBgColor", () => {
   it("returns greenLight1 when the pathname starts with /projects", () => {
-    expect(getBgColor("/projects")).toEqual(colors.greenLight1);
-    expect(getBgColor("/projects/123")).toEqual(colors.greenLight1);
+    expect(getBgColor("/projects")).toEqual(colors.projectsPageBg);
+    expect(getBgColor("/projects/123")).toEqual(colors.projectsPageBg);
   });
 
   it("returns clientsPageBg when the pathname starts with /clients", () => {
