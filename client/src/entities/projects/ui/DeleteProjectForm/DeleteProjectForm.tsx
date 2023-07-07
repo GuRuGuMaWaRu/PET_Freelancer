@@ -1,6 +1,6 @@
 import { useFetcher } from "react-router-dom";
 
-import { useFormNotifications, useModalForm } from 'entities/projects/lib';
+import { useFormNotifications, useModalForm } from "shared/lib";
 import { SContent, SHighlighted } from "./DeleteProjectForm.styles";
 import type { IProject } from "shared/types";
 import { SubmitButton } from "shared/ui";
@@ -9,7 +9,7 @@ interface IProps {
   project: IProject;
 }
 
-function DeleteProjectForm ({ project }: IProps ) {
+function DeleteProjectForm({ project }: IProps) {
   const fetcher = useFetcher();
   const isLoading = fetcher.state !== "idle";
 
@@ -28,6 +28,6 @@ function DeleteProjectForm ({ project }: IProps ) {
       </fetcher.Form>
     </SContent>
   );
-};
+}
 
 export { DeleteProjectForm };
