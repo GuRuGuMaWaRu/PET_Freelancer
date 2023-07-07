@@ -1,20 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { useDashboardData } from "./dashboard.hooks";
+import { SControlsSection } from "./dashboard.styles";
 import { ModalAddProject, MemoDashboardTotals, ChartSection } from "widgets";
 
 function Dashboard() {
-  const {
-    earningsByMonth,
-    dataByClient,
-    dataByMonth,
-    clients,
-  } = useDashboardData();
+  const { earningsByMonth, dataByClient, dataByMonth, clients } =
+    useDashboardData();
 
   return (
     <>
-      <div css={{ display: "flex", justifyContent: "flex-end" }}>
+      <SControlsSection>
         <ModalAddProject clients={clients} />
-      </div>
+      </SControlsSection>
       <MemoDashboardTotals data={earningsByMonth} />
       <ChartSection
         clientChartData={dataByClient}
