@@ -112,7 +112,7 @@ function Projects() {
                       <ModalContents
                         aria-label="Edit Project Form"
                         title="Edit Project"
-                        bgColor={colors.greenLight2}
+                        bgColor={colors.projectsPageBg}
                       >
                         <AddEditProjectForm
                           project={project}
@@ -129,7 +129,7 @@ function Projects() {
                       <ModalContents
                         aria-label="Delete Project Form"
                         title="Delete Project"
-                        bgColor={colors.greenLight2}
+                        bgColor={colors.projectsPageBg}
                       >
                         <DeleteProjectForm project={project} />
                       </ModalContents>

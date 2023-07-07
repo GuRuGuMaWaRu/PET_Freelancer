@@ -29,7 +29,6 @@ export const dashboardPageBg = "rgb(106 72 220)";
 export const projectsPageBg = "#3C8B5A";
 export const clientsPageBg = "#116D6E";
 
-export const greenLight2 = "#4db575";
 export const greenDark1 = "#3d6a4e";
 export const greenDark2 = "#49815e";
 

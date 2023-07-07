@@ -2,9 +2,9 @@ import { FaPen } from "react-icons/fa";
 
 import { SActionButton } from "../../styles";
 import { Modal, ModalOpenButton, ModalContents } from "shared/ui";
-import { colors } from "shared/const";
 import { IProject, IClient } from "shared/types";
 import { AddEditProjectForm } from "entities/projects";
+import { useGetColorFromPath } from "widgets/lib/hooks";
 
 interface IProps {
   project: IProject;
@@ -12,6 +12,8 @@ interface IProps {
 }
 
 function ModalEditProject({ project, clients }: IProps) {
+  const color = useGetColorFromPath();
+
   return (
     <Modal>
       <ModalOpenButton>
@@ -22,7 +24,7 @@ function ModalEditProject({ project, clients }: IProps) {
       <ModalContents
         aria-label="Edit Project Form"
         title="Edit Project"
-        bgColor={colors.greenLight2}
+        bgColor={color}
       >
         <AddEditProjectForm project={project} clients={clients} />
       </ModalContents>
