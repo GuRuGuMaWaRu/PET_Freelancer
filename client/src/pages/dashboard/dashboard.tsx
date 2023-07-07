@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { useDashboardData } from "./dashboard.hooks";
 import { SControlsSection } from "./dashboard.styles";
 import { ModalAddProject, MemoDashboardTotals, ChartSection } from "widgets";

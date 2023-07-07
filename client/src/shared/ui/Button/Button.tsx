@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
 import { colors } from "../../const";
 
@@ -28,9 +27,13 @@ const Button = styled.button<ButtonProps>(
       filter: "brightness(0.80)",
       cursor: "not-allowed",
     },
+    transition: "transform 0.2s",
+    "&:active": {
+      transform: "translateY(2px)",
+    },
   },
   ({ variant = "primary" }) =>
-    buttonVariants[variant as keyof typeof buttonVariants],
+    buttonVariants[variant as keyof typeof buttonVariants]
 );
 
 export { Button };

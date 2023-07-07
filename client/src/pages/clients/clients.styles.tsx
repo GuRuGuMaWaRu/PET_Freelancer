@@ -41,7 +41,7 @@ const SControlsButton = styled.button`
   border-radius: 5px;
   background-color: #00979a;
   color: ${colors.white};
-  transition: all 0.2s;
+  transition: transform 0.2s;
 
   &:active {
     transform: translateY(2px);
