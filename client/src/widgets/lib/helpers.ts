@@ -3,11 +3,13 @@ import { colors } from "shared/const";
 const getColorBasedOnPath = (path: string) => {
   switch (path) {
     case "/":
-      return colors.dashboardModalBg;
+      return colors.dashboardPageBg;
     case "/projects":
-      return colors.greenLight2;
+      return colors.projectsPageBg;
+    case "/clients":
+      return colors.clientsPageBg;
     default:
-      return colors.dashboardModalBg;
+      return colors.dashboardPageBg;
   }
 };
 

@@ -10,7 +10,6 @@ const SContainer = styled.div({
 const STableContainer = styled.div({
   position: "relative",
   margin: "2em 0",
-  // height: "820px",
 });
 
 const STablePlaceholder = styled.p({
@@ -44,7 +43,7 @@ const STableHeader = styled.div<{ sortName?: string; name: string }>(
     [mq.small]: {
       display: name === "date" || name === "comments" ? "none" : "block",
     },
-  }),
+  })
 );
 
 const SActionButton = styled.button({
@@ -57,7 +56,7 @@ const STableLoading = styled.div({
   position: "absolute",
   height: "100%",
   width: "100%",
-  backgroundColor: colors.greenLight1,
+  backgroundColor: colors.projectsPageBg,
   opacity: "0.4",
 });
 

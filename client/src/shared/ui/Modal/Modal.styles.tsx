@@ -23,7 +23,7 @@ const SDialogContent = styled(ReachDialogContent)({
   borderRadius: "3px",
   margin: "20vh auto",
   boxShadow: `0 10px 30px -5px ${colors.opaqueBlack}`,
-  backgroundColor: colors.dashboardModalBg,
+  backgroundColor: colors.dashboardPageBg,
   color: colors.white,
   [mq.small]: {
     width: "100%",

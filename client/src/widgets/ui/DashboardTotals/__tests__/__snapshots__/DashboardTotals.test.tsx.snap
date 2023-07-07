@@ -6,11 +6,11 @@ exports[`DashboardTotals should render 1`] = `
     class="css-xabrvj"
   >
     <div>
-      <div
+      <time
         class="css-w0qwta"
       >
-        ЧЕРВЕНЬ
-      </div>
+        ЛИПЕНЬ
+      </time>
       <div
         class="css-8idrzu"
       >
@@ -28,11 +28,11 @@ exports[`DashboardTotals should render 1`] = `
       </div>
     </div>
     <div>
-      <div
+      <time
         class="css-w0qwta"
       >
         2023
-      </div>
+      </time>
       <div
         class="css-8idrzu"
       >
