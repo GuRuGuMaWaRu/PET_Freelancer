@@ -23,7 +23,7 @@ describe("useChangeBGColor", () => {
   it("should update the body background color when the pathname changes", () => {
     render(<TestComponent />);
 
-    expect(document.body.style.backgroundColor).toBe(colors.greenLight1);
+    expect(document.body.style.backgroundColor).toBe(colors.projectsPageBg);
   });
 });
 
