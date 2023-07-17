@@ -90,7 +90,8 @@ interface ModalProps {
 }
 
 function Modal({ title, button, children }: ModalProps) {
-  const color = useGetColorFromPath();
+  // const color = useGetColorFromPath();
+  const color = colors.dashboardPageBg;
 
   return (
     <ModalProvider>
@@ -102,4 +103,4 @@ function Modal({ title, button, children }: ModalProps) {
   );
 }
 
-export { ModalOpenButton, ModalContents, Modal };
+export { Modal };
