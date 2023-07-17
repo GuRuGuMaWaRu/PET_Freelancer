@@ -14,6 +14,7 @@ const SContainer = styled.div({
 const SAppTitle = styled.h1({
   color: colors.white,
   fontSize: "3rem",
+  marginBlockEnd: "1rem",
 });
 
 const SButtons = styled.div({
